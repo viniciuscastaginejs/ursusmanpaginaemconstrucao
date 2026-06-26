@@ -1,0 +1,1413 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Charada do Ursus - Adivinhe as Palavras</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue-dark: #060f1e;
+      --blue-mid: #0d1f3c;
+      --blue-light: #1a3a6e;
+      --blue-accent: #2d6bc4;
+      --blue-bright: #4a90e2;
+      --gold: #f5c842;
+      --gold-dark: #c9991a;
+      --white: #ffffff;
+      --gray-light: #e8edf5;
+      --gray-mid: #9baac4;
+      --gray-dark: #3d5070;
+      --green: #4caf82;
+      --green-dark: #2e7d5a;
+      --yellow: #d4aa00;
+      --yellow-dark: #a07b00;
+      --absent: #1e3050;
+      --absent-border: #2a4060;
+      --cell-empty: rgba(255,255,255,0.04);
+      --cell-border: rgba(255,255,255,0.15);
+      --font: 'Poppins', sans-serif;
+      --radius: 10px;
+      --shadow: 0 8px 32px rgba(0,0,0,0.4);
+    }
+
+    html, body {
+      height: 100%;
+      font-family: var(--font);
+      background: linear-gradient(160deg, var(--blue-dark) 0%, var(--blue-mid) 40%, var(--blue-light) 100%);
+      background-attachment: fixed;
+      color: var(--white);
+      min-height: 100vh;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      background: rgba(6,15,30,0.6);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .header-logo img {
+      height: 44px;
+      object-fit: contain;
+      filter: drop-shadow(0 2px 8px rgba(74,144,226,0.5));
+    }
+
+    .header-title {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #ffffff 0%, #a8c8ff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .icon-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.06);
+      color: var(--white);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s, transform 0.1s;
+    }
+    .icon-btn:hover { background: rgba(255,255,255,0.12); transform: scale(1.05); }
+    .icon-btn:active { transform: scale(0.95); }
+    .icon-btn svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+    main {
+      max-width: 540px;
+      margin: 0 auto;
+      padding: 24px 16px 150px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    #toast-container {
+      position: fixed;
+      top: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 999;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      align-items: center;
+      pointer-events: none;
+    }
+    .toast {
+      background: rgba(255,255,255,0.95);
+      color: #0d1f3c;
+      padding: 10px 20px;
+      border-radius: 100px;
+      font-size: 14px;
+      font-weight: 600;
+      animation: toastIn 0.3s ease, toastOut 0.4s 2.5s ease forwards;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+    @keyframes toastIn { from { opacity:0; transform:translateY(-8px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes toastOut { from { opacity:1; } to { opacity:0; } }
+
+    .stats-bar {
+      display: flex;
+      gap: 16px;
+      width: 100%;
+    }
+    .stat-chip {
+      flex: 1;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--radius);
+      padding: 10px 8px;
+      text-align: center;
+    }
+    .stat-chip .value { font-size: 22px; font-weight: 800; color: var(--gold); line-height: 1; }
+    .stat-chip .label { font-size: 10px; font-weight: 500; color: var(--gray-mid); margin-top: 3px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+    .board {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      width: 100%;
+      max-width: 360px;
+    }
+
+    .board-row {
+      display: flex;
+      gap: 6px;
+    }
+
+    .cell {
+      flex: 1;
+      aspect-ratio: 1;
+      border: 2px solid var(--cell-border);
+      border-radius: 8px;
+      background: var(--cell-empty);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: var(--white);
+      position: relative;
+      transition: border-color 0.1s;
+      user-select: none;
+      letter-spacing: 0;
+    }
+
+    .cell.filled {
+      border-color: rgba(255,255,255,0.35);
+      animation: pop 0.1s ease;
+    }
+    .cell.active-row { border-color: rgba(255,255,255,0.4); }
+
+    @keyframes pop {
+      0%  { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100%{ transform: scale(1); }
+    }
+
+    .cell.flip { animation: flip 0.5s ease forwards; }
+    @keyframes flip {
+      0%   { transform: rotateX(0deg); }
+      50%  { transform: rotateX(-90deg); }
+      100% { transform: rotateX(0deg); }
+    }
+
+    .cell.correct { background: var(--green); border-color: var(--green-dark); color: #fff; }
+    .cell.present { background: var(--yellow); border-color: var(--yellow-dark); color: #fff; }
+    .cell.absent  { background: var(--absent); border-color: var(--absent-border); color: var(--gray-mid); }
+
+    .cell.shake { animation: shake 0.4s ease; }
+    @keyframes shake {
+      0%,100%{ transform: translateX(0); }
+      20%    { transform: translateX(-6px); }
+      40%    { transform: translateX(6px); }
+      60%    { transform: translateX(-4px); }
+      80%    { transform: translateX(4px); }
+    }
+
+    .cell.bounce { animation: bounce 0.6s ease; }
+    @keyframes bounce {
+      0%,100%{ transform: translateY(0); }
+      40%    { transform: translateY(-12px); }
+      70%    { transform: translateY(-6px); }
+    }
+
+    /* ── KEYBOARD ── */
+    #keyboard {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(to top, rgba(6,15,30,0.98) 80%, transparent);
+      padding: 10px 10px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      align-items: center;
+    }
+
+    .kb-row {
+      display: flex;
+      gap: 5px;
+    }
+
+    .key {
+      height: 52px;
+      min-width: 36px;
+      padding: 0 6px;
+      border-radius: 7px;
+      border: none;
+      background: rgba(255,255,255,0.1);
+      color: var(--white);
+      font-family: var(--font);
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      user-select: none;
+    }
+    .key:hover { background: rgba(255,255,255,0.18); }
+    .key:active { transform: scale(0.94); }
+    .key.wide { min-width: 56px; font-size: 11px; }
+    .key.correct { background: var(--green); }
+    .key.present { background: var(--yellow); }
+    .key.absent  { background: var(--absent); color: var(--gray-mid); }
+
+    /* ── SOCIAL BAR ── */
+    .social-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      padding: 10px 0 18px;
+      width: 100%;
+    }
+
+    .social-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(74, 144, 226, 0.4);
+      background: rgba(74, 144, 226, 0.08);
+      color: #4a90e2;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s, background 0.2s;
+      box-shadow: 0 0 8px rgba(74, 144, 226, 0.2), inset 0 0 8px rgba(74, 144, 226, 0.05);
+    }
+    .social-link:hover {
+      transform: scale(1.12);
+      border-color: rgba(74, 144, 226, 0.9);
+      background: rgba(74, 144, 226, 0.18);
+      box-shadow: 0 0 16px rgba(74, 144, 226, 0.6), 0 0 32px rgba(74, 144, 226, 0.25), inset 0 0 10px rgba(74, 144, 226, 0.1);
+      color: #7ab8ff;
+    }
+    .social-link svg {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
+    }
+
+    /* ── MODALS ── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(6,15,30,0.85);
+      backdrop-filter: blur(8px);
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s;
+    }
+    .modal-overlay.open { opacity: 1; pointer-events: all; }
+
+    .modal {
+      background: linear-gradient(135deg, #0f2040 0%, #1a3060 100%);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 20px;
+      padding: 28px 24px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: var(--shadow);
+      transform: translateY(20px);
+      transition: transform 0.25s;
+    }
+    .modal-overlay.open .modal { transform: translateY(0); }
+
+    .modal h2 {
+      font-size: 20px;
+      font-weight: 800;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: none;
+      border: none;
+      color: var(--gray-mid);
+      cursor: pointer;
+      font-size: 22px;
+      line-height: 1;
+    }
+    .modal { position: relative; }
+
+    .how-step {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      margin-bottom: 16px;
+    }
+    .how-example {
+      display: flex;
+      gap: 5px;
+      margin: 12px 0;
+    }
+    .how-cell {
+      width: 38px;
+      height: 38px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 18px;
+      border: 2px solid rgba(255,255,255,0.2);
+      background: var(--cell-empty);
+    }
+    .how-cell.correct { background: var(--green); border-color: var(--green-dark); }
+    .how-cell.present { background: var(--yellow); border-color: var(--yellow-dark); }
+    .how-cell.absent  { background: var(--absent); border-color: var(--absent-border); }
+    .how-step p { font-size: 14px; color: var(--gray-light); line-height: 1.5; }
+    .how-step strong { color: var(--white); }
+
+    .result-word {
+      text-align: center;
+      font-size: 15px;
+      color: var(--gray-mid);
+      margin-bottom: 6px;
+    }
+    .result-answer {
+      text-align: center;
+      font-size: 28px;
+      font-weight: 900;
+      letter-spacing: 4px;
+      color: var(--gold);
+      margin-bottom: 20px;
+      text-transform: uppercase;
+    }
+
+    .result-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+    .rs-item { text-align: center; }
+    .rs-value { font-size: 24px; font-weight: 800; color: var(--gold); }
+    .rs-label { font-size: 10px; color: var(--gray-mid); text-transform: uppercase; letter-spacing: 0.5px; }
+
+    .result-share {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .btn {
+      padding: 13px 16px;
+      border-radius: var(--radius);
+      border: none;
+      font-family: var(--font);
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.1s, opacity 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .btn:active { transform: scale(0.97); }
+    .btn-primary { background: var(--blue-accent); color: #fff; }
+    .btn-primary:hover { background: var(--blue-bright); }
+    .btn-gold { background: var(--gold); color: #0d1f3c; }
+    .btn-gold:hover { background: #f7d454; }
+    .btn svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .btn-full { grid-column: 1 / -1; }
+
+    .dist-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    .dist-num { font-size: 13px; font-weight: 600; width: 16px; text-align: center; color: var(--gray-mid); }
+    .dist-bar-wrap { flex: 1; height: 22px; background: rgba(255,255,255,0.06); border-radius: 4px; overflow: hidden; }
+    .dist-bar { height: 100%; background: var(--blue-accent); border-radius: 4px; display: flex; align-items: center; padding: 0 8px; font-size: 12px; font-weight: 700; min-width: 28px; transition: width 0.5s ease; }
+    .dist-bar.highlight { background: var(--green); }
+
+    .setting-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    .setting-row:last-child { border-bottom: none; }
+    .setting-label { font-size: 15px; font-weight: 500; }
+    .setting-sub { font-size: 12px; color: var(--gray-mid); margin-top: 2px; }
+    .toggle {
+      width: 48px; height: 26px;
+      background: var(--gray-dark);
+      border-radius: 100px;
+      border: none;
+      cursor: pointer;
+      position: relative;
+      transition: background 0.25s;
+    }
+    .toggle.on { background: var(--blue-accent); }
+    .toggle::after {
+      content: '';
+      position: absolute;
+      top: 3px; left: 3px;
+      width: 20px; height: 20px;
+      background: #fff;
+      border-radius: 50%;
+      transition: transform 0.25s;
+    }
+    .toggle.on::after { transform: translateX(22px); }
+
+    .mode-tabs { display: flex; gap: 6px; }
+    .mode-tab {
+      padding: 6px 12px;
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.05);
+      color: var(--gray-mid);
+      font-family: var(--font);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .mode-tab.active { background: var(--blue-accent); border-color: var(--blue-accent); color: #fff; }
+
+    .divider { width: 100%; height: 1px; background: rgba(255,255,255,0.08); }
+
+    .game-title {
+      font-size: 28px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      text-align: center;
+      width: 100%;
+      background: linear-gradient(135deg, #ffffff 0%, #a8c8ff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: -4px;
+    }
+
+    @media (max-width: 480px) {
+      .game-title { font-size: 22px; }
+      .stats-bar { gap: 8px; }
+      .stat-chip { padding: 8px 4px; }
+      .stat-chip .value { font-size: 18px; }
+      .stat-chip .label { font-size: 9px; }
+      main { padding: 16px 10px 150px; gap: 14px; }
+    }
+
+    @media (max-width: 380px) {
+      .cell { font-size: 18px; }
+      .key { height: 44px; min-width: 28px; font-size: 11px; padding: 0 3px; }
+      .key.wide { min-width: 44px; font-size: 10px; }
+      .social-link { width: 34px; height: 34px; }
+      .social-link svg { width: 15px; height: 15px; }
+      .social-bar { gap: 14px; }
+      .game-title { font-size: 20px; }
+    }
+
+    @media (max-width: 320px) {
+      .key { height: 40px; min-width: 24px; font-size: 10px; }
+      .key.wide { min-width: 38px; }
+      .kb-row { gap: 3px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-logo">
+    <img src="https://res.cloudinary.com/dtdomrtyp/image/upload/v1781116238/UrsusMan_transparente_jnsn6c.png" alt="Ursusman" />
+  </div>
+  <div class="header-actions">
+    <button class="icon-btn" id="btn-stats" title="Estatísticas" aria-label="Ver estatísticas">
+      <svg viewBox="0 0 24 24"><rect x="3" y="14" width="4" height="7" rx="1"/><rect x="10" y="9" width="4" height="12" rx="1"/><rect x="17" y="4" width="4" height="17" rx="1"/></svg>
+    </button>
+    <button class="icon-btn" id="btn-how" title="Como jogar" aria-label="Como jogar">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.82 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+    </button>
+    <button class="icon-btn" id="btn-settings" title="Configurações" aria-label="Configurações">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+    </button>
+  </div>
+</header>
+
+<div id="toast-container"></div>
+
+<main>
+  <div class="game-title">Charada do Ursus</div>
+  <div class="stats-bar" id="stats-bar">
+    <div class="stat-chip"><div class="value" id="bar-wins">0</div><div class="label">Vitórias</div></div>
+    <div class="stat-chip"><div class="value" id="bar-streak">0</div><div class="label">Sequência</div></div>
+    <div class="stat-chip"><div class="value" id="bar-record">0</div><div class="label">Recorde</div></div>
+    <div class="stat-chip"><div class="value" id="bar-winpct">0%</div><div class="label">% Vitória</div></div>
+  </div>
+
+  <div class="board" id="board"></div>
+</main>
+
+<div id="keyboard">
+  <div class="kb-row" id="kb-row-1"></div>
+  <div class="kb-row" id="kb-row-2"></div>
+  <div class="kb-row" id="kb-row-3"></div>
+
+  <div class="social-bar">
+    <a class="social-link" href="https://www.twitch.tv/ursusmanoficial" target="_blank" rel="noopener" aria-label="Twitch">
+      <svg viewBox="0 0 24 24"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z"/></svg>
+    </a>
+    <a class="social-link" href="https://www.instagram.com/ursusmanoficial/" target="_blank" rel="noopener" aria-label="Instagram">
+      <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+    </a>
+    <a class="social-link" href="https://www.youtube.com/@ursusmanoficial" target="_blank" rel="noopener" aria-label="YouTube">
+      <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+    </a>
+    <a class="social-link" href="https://tiktok.com/@ursusmanoficial" target="_blank" rel="noopener" aria-label="TikTok">
+      <svg viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
+    </a>
+  </div>
+</div>
+
+<!-- STATS MODAL -->
+<div class="modal-overlay" id="modal-stats">
+  <div class="modal">
+    <button class="modal-close" data-close="modal-stats" aria-label="Fechar">&times;</button>
+    <h2>Estatisticas</h2>
+    <div class="result-stats" id="stats-modal-grid"></div>
+    <div id="stats-modal-dist"></div>
+  </div>
+</div>
+
+<!-- HOW TO PLAY MODAL -->
+<div class="modal-overlay" id="modal-how">
+  <div class="modal">
+    <button class="modal-close" data-close="modal-how" aria-label="Fechar">&times;</button>
+    <h2>Como Jogar</h2>
+    <p style="font-size:14px;color:var(--gray-mid);margin-bottom:16px;">Adivinhe a palavra em 6 tentativas. Cada tentativa deve ser uma palavra valida de 5 letras.</p>
+    <div class="divider" style="margin-bottom:16px;"></div>
+    <div class="how-step">
+      <div>
+        <div class="how-example">
+          <div class="how-cell correct">G</div>
+          <div class="how-cell">A</div>
+          <div class="how-cell">T</div>
+          <div class="how-cell">O</div>
+          <div class="how-cell">S</div>
+        </div>
+        <p><strong>Verde</strong> — letra certa no lugar certo.</p>
+      </div>
+    </div>
+    <div class="how-step">
+      <div>
+        <div class="how-example">
+          <div class="how-cell">C</div>
+          <div class="how-cell present">A</div>
+          <div class="how-cell">S</div>
+          <div class="how-cell">A</div>
+          <div class="how-cell">S</div>
+        </div>
+        <p><strong>Amarelo</strong> — letra certa no lugar errado.</p>
+      </div>
+    </div>
+    <div class="how-step">
+      <div>
+        <div class="how-example">
+          <div class="how-cell">P</div>
+          <div class="how-cell">E</div>
+          <div class="how-cell absent">D</div>
+          <div class="how-cell">R</div>
+          <div class="how-cell">A</div>
+        </div>
+        <p><strong>Cinza</strong> — letra nao esta na palavra.</p>
+      </div>
+    </div>
+    <div class="divider" style="margin-top:4px;margin-bottom:16px;"></div>
+    <p style="font-size:13px;color:var(--gray-mid);text-align:center;">Uma nova palavra todos os dias!</p>
+  </div>
+</div>
+
+<!-- SETTINGS MODAL -->
+<div class="modal-overlay" id="modal-settings">
+  <div class="modal">
+    <button class="modal-close" data-close="modal-settings" aria-label="Fechar">&times;</button>
+    <h2>Configuracoes</h2>
+    <div class="setting-row">
+      <div>
+        <div class="setting-label">Modo Dificil</div>
+        <div class="setting-sub">Letras reveladas devem ser usadas</div>
+      </div>
+      <button class="toggle" id="toggle-hard" role="switch" aria-checked="false"></button>
+    </div>
+    <div class="setting-row">
+      <div>
+        <div class="setting-label">Modo Daltonico</div>
+        <div class="setting-sub">Alto contraste para cores</div>
+      </div>
+      <button class="toggle" id="toggle-color" role="switch" aria-checked="false"></button>
+    </div>
+    <div class="setting-row">
+      <div>
+        <div class="setting-label">Animacoes Reduzidas</div>
+        <div class="setting-sub">Desabilita animacoes de flip</div>
+      </div>
+      <button class="toggle" id="toggle-anim" role="switch" aria-checked="false"></button>
+    </div>
+    <div class="setting-row">
+      <div>
+        <div class="setting-label">Dificuldade</div>
+      </div>
+      <div class="mode-tabs">
+        <button class="mode-tab active" data-diff="normal">Normal</button>
+        <button class="mode-tab" data-diff="hard">Dificil</button>
+      </div>
+    </div>
+    <div class="divider" style="margin:16px 0;"></div>
+    <button class="btn btn-primary btn-full" id="btn-reset-stats">Resetar Estatisticas</button>
+  </div>
+</div>
+
+<!-- RESULT MODAL -->
+<div class="modal-overlay" id="modal-result">
+  <div class="modal">
+    <h2 id="result-title">Resultado</h2>
+    <div class="result-word">A palavra era</div>
+    <div class="result-answer" id="result-answer"></div>
+    <div class="result-stats" id="result-stats-grid"></div>
+    <div id="result-dist" style="margin-bottom:20px;"></div>
+    <div class="result-share">
+      <button class="btn btn-gold" id="btn-share">
+        <svg viewBox="0 0 24 24"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+        Compartilhar
+      </button>
+      <button class="btn btn-primary" id="btn-new-game">
+        <svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+        Novo Jogo
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+const WORDS = [
+  'ABRIR','ABUSO','ACASO','ACENO','ACIMA','ACRES','ADEUS','ADIAR','ADOTE','AFETO',
+  'AGORA','AGOSTO','AGUDA','AGUDO','AINDA','AJUDA','ALADO','ALAMO','ALEGA','ALETA',
+  'ALEVO','ALGAR','ALGAS','ALGUM','ALIAR','ALMAS','ALOJA','ALTOS','ALUNO','AMADO',
+  'AMAGO','AMARA','AMARO','AMENO','AMIGO','AMORA','AMPLO','ANDAR','ANEIS','ANGEL',
+  'ANGRA','ANIMA','ANISE','ANJOS','ANTES','ANZOL','AONDE','APITO','APOIA','ARARA',
+  'ARCAR','ARCOS','ARDOR','AREIA','ARFAR','ARMAR','AROAR','AROSA','ARQUE','ARRAZ',
+  'ARROS','ARTES','ARTEZ','ARVORE','ASSAR','ASSIM','ASSOR','ATADO','ATEAR','ATIAR',
+  'ATIRA','ATLAS','ATOLE','ATOLQ','ATROZ','AUDIO','AUDAZ','AVARO','AVIAO','AZEDO',
+  'BABAR','BAGRE','BAILE','BAIXO','BALAR','BANCO','BANDO','BANHA','BANHO','BARAO',
+  'BARCO','BARRO','BATER','BEBER','BEIJO','BELAR','BELEM','BELEZ','BELOS','BESTA',
+  'BICHO','BIGDE','BILHA','BIRRA','BISPO','BOLAS','BOLSA','BOSCO','BRACO','BRAVO',
+  'BREJO','BREVE','BRISA','BUCHO','BUGIO','BURRO','BUSCA','BUZIO','CABAR','CABLE',
+  'CABRE','CACAU','CACHE','CACOS','CAFES','CAIXE','CALDO','CALMA','CALOR','CAMPO',
+  'CANAL','CANTO','CAPAZ','CARGO','CARMA','CARNE','CARRO','CARTA','CASAL','CASCA',
+  'CASPA','CASSE','CAUSA','CEDER','CELTA','CENAS','CERCO','CERNE','CERTO','CHAVE',
+  'CHEIO','CHUVA','CINCO','CISNE','CITAR','CLARO','COBRA','COCAR','COISA','COLOR',
+  'COMBO','COMES','CONCH','CONTO','COPIA','CORES','CORPO','CORTE','CRISE','CRUSH',
+  'CUECA','CULPA','CUNHA','CUPIM','CURTO','DANCA','DATAR','DECOR','DENTE','DESSA',
+  'DEVER','DICAS','DIZER','DOCAS','DOCES','DOIDO','DONAR','DORSO','DOUTR','DRAMA',
+  'DUELO','DUQUE','DUROS','EBANO','ELEVE','EMOCI','EMOLA','ENCHE','ENTRE','EPOCH',
+  'ERRAR','ESCOL','ESTOU','ETAPA','FACAO','FACHO','FACIL','FALHA','FALTA','FARDO',
+  'FATIA','FATOR','FAVOR','FAXIM','FEBRE','FEDER','FEITO','FELIZ','FEMEA','FENDA',
+  'FERIA','FESSA','FESTA','FIAPO','FILHO','FILME','FINCA','FINOS','FIRME','FIXAR',
+  'FLOCO','FLUIR','FLUXO','FOBIA','FOCAR','FOLHA','FONTE','FORCA','FORMA',
+  'FOSCO','FRACO','FRADE','FREIO','FRETE','FRIOS','FRUTO',
+  'FUMAR','FUNDO','FUNIL','FURIA','FUSAO','FUZUE','GARRA','GATOS','GELEI',
+  'GERAL','GIRAR','GLOBO','GOLPE','GORDO','GRACA','GRAMA','GRITO','GRUPO','GUIAS',
+  'HEROI','HIENA','HONRA','HORTA','HOTEL','HUMOR','IDEIA','IGUAL','IMAGO',
+  'INOVA','JARDA','JOGAR','JORRA','JUDEU',
+  'JUIZO','JUNTO','JURAR','LACAR','LADRA','LADRO','LAICO','LANCE','LARGO','LARVA',
+  'LASER','LATAO','LAVAR','LEGAL','LEITE','LENHA','LEQUE','LEVAR','LICAO','LIDAR',
+  'LINHA','LIVRO','LOGRO','LONGE','LONGA','LOUVA','LUCRO','LUTAR','MACIO','MACRO',
+  'MAGRO','MAIOR','MALHA','MANGA','MANHA','MANOS','MARCA','MARES','MARIO','MATAR',
+  'MEDIR','MEIGA','MEIOS','MENOR','MERCA','MESES','METAL','METRO','MINHA','MIRAR',
+  'MISSO','MODAL','MOEDA','MOGNO','MOLAR','MOLDE','MOLER','MORAR','MOTOR','MUNDO',
+  'MURRO','NACAO','NADAR','NARIZ','NASCA','NAVIO','NEVAR','NOBRE','NOITE','NORMA',
+  'NOTOU','NOVOS','NUVEM','OBRAS','OCASO','OCUPE','OLHAR','OMBRO','ONTEM','OPERA',
+  'OPTAR','ORDEM','ORGAO','OVELH','PARAR','PARDO','PARES','PARIS','PARTO','PASTA',
+  'PATOS','PAGAR','PAUTA','PAVIO','PEDAL','PEDRA','PELCO','PELES','PENAS','PENSO',
+  'PERDA','PERTO','PESAR','PICOR','PILAR','PILHA','PIRAR','PISTA','PIXEL','PLANO',
+  'PLENA','PODER','POEMA','POLVO','PONTE','PORTA','POSSE','POSTO','POTRO','POUPO',
+  'PRATA','PRECE','PRETO','PRIMA','PROVA','PULSO','PUNHA','PURGE','QUASE',
+  'QUEDA','RADAR','RALAR','RAMOS','RAPAZ','RASTO','RAZAO','RECTO','REFAZ',
+  'REGRA','REMAR','RENAL','REPOR','REZAR','RITMO','RIVAL','ROCHA','ROLHA','RONCO',
+  'ROSTO','RUIDO','SABRE','SAFRA','SANAR','SAUDE','SEARA','SECAS',
+  'SECAR','SEGUE','SELVA','SENHA','SENSO','SIGLA','SIMBO','SIRVA','SISAL','MEIAS',
+  'SOBRE','SOCIO','SOLAR','SOLDO','SOPRO','SORTE','SUAVE','SURGE','TABUA','TALCO',
+  'TALAR','TANTO','TAPIR','TARDE','TARSO','TELHA','TEMPO','TENRO','TERRA','TESAO',
+  'TEXTO','TIMBO','TINTA','TIRAR','TOCAR','TOLDO','TOMAR','TOPAR',
+  'TORTO','TOTAL','TOUCA','TRAGO','TRAMA','TRAPO','TROCO','TROVA',
+  'TURBO','TURMA','ULTRA','UNICA','UNIDO','URRAR','USINA','USUAL','VALER',
+  'VALOR','VALSA','VEADO','VELHA','VELHO','VENTO','VERBO','VERDE','VERSO',
+  'VILAR','VIOLA','VIRAR','VISAO','VISTA','VIVIA','VOCAL','VOTAR','VULTO',
+  'ZOMBI','ZUNIR','URSUS','SOSIA','RUSSO','RUSSA','URSOS',
+  'ABALO','ABATE','ABRIL','ACABA','ACARA','ODIAR',
+  'ACARI','ACASO','ACIMA','ACOES','ACUSA','ADEGA','ADEUS','ADOBE',
+  'ADORO','AFETA','AFIAR','AFETO','AFINS','AGORA','AGUAS',
+  'AGUIA','AINDA','AJUDA','AJUDE','ALBUM','ALEGA','ALEMA',
+  'ALGAS','ALGOZ','ALGUM','ALIAS','ALMAS','ALPES','ALTAR','ALTAS',
+  'ALTOS','ALUNO','AMADA','AMADO','AMAPA','AMARA','AMARO','AMAVA',
+  'AMBAS','AMBOS','AMENA','AMIGA','AMIGO','AMPLA','AMPLO','ANDAR',
+  'ANEIS','ANIMA','ANIME','ANJOS','ANEXO','ANUAL','AONDE','APELO',
+  'APOIA','APOIO','ARABE','ARAME','ARCOS','AREAL','AREIA','ARENA',
+  'AROMA','ARROZ','ARTES','ASSIM','ASTRO','ATACA','ATLAS','ATRAS',
+  'ATRIZ','ATUAM','ATUAR','ATUAL','AUTOR','AUTOS','AVIDA','AVISA',
+  'AVISO','AVIAO','AVISE','BACIA','BAHIA','BAILE','BAIXA','BAIXE',
+  'BAIXO','BALAO','BALAS','BALDE','BANCA','BANCO','BANDA','BANDO',
+  'BANHO','BARBA','BARCA','BARCO','BARAO','BARRO','BASTA','BATER',
+  'BATOM','BEBEM','BEBER','BEIRA','BEIJO','BELAS','BELOS',
+  'BENTO','BERCO','BESTA','BICHO','BIQUE','BISPO','BLOCO','BLUSA',
+  'BOCAS','BOCAL','BODAS','BOIAR','BOLAS','BOLHA','BOLSA','BOLSO',
+  'BOMBA','BONUS','BORDA','BORDO','BOTAS','BOTAO','BOTAR','BRACO',
+  'BRAGA','BRASA','BRAVA','BRAVO','BREVE','BRIGA','BRISA','BRUTO',
+  'BUCAL','BUNDA','BURRO','BUSCA','CABOS','CABRA','CACAU','CACHA',
+  'CACTO','CAFES','CAIAR','CAIDA','CAIDO','CAIXA','CALCA','CALDA',
+  'CALDO','CALMA','CALMO','CALOR','CAMPA','CAMPO','CANAL','CANIL',
+  'CANTA','CANTO','CAPAS','CAPAZ','CAPIM','CARAS','CARGA','CARGO',
+  'CARMO','CARNE','CARRO','CARTA','CASAL','CASAS','CASCA','CASCO',
+  'CASAR','CASOS','CAUDA','CAUSA','CAVAR','CEDER','CELTA',
+  'CENSO','CENTO','CERCA','CERTA','CERTO','CESAR','CESTA',
+  'CHAMA','CHAME','CHAMO','CHAPA','CHATA','CHATO',
+  'CHAVE','CHECA','CHEFE','CHEIA','CHEIO','CHEGO','CHINA','CHORA',
+  'CHORO','CHUTE','CHUVA','CICLO','CIFRA','CINCO','CINTA','CINTO',
+  'CINZA','CIRCO','CISCO','CITAR','CIVEL','CIVIL','CLARA','CLARO',
+  'CLIMA','CLIPE','CLUBE','COBRA','COBRE','COCAR','COCOR','COFRE',
+  'COISA','COLAR','COLAS','COLMO','COLOR','COMER','COMBO','COMUM',
+  'CONDE','CONTE','CONTO','COPIA','COPOS','CORAL','CORDA',
+  'CORES','CORNO','COROA','CORPO','CORRA','CORRE','CORSA','CORTE',
+  'COSER','COSTA','COSTO','COTAR','COTAS','COURO','COUTO','COUVE',
+  'CRAVO','CREIO','CREME','CRIAM','CRIEI','CRIME','CRISE','CRUEL',
+  'CUBRA','CUIDA','CUIDE','CULPA','CULTO','CUPIM','CUPOM','CURAR',
+  'CURTA','CURTE','CURTI','CURTO','CURVA','DADOS','DAMOS','DANCA',
+  'DANDO','DAQUI','DARIA','DATAS','DEDOS','DEIXA','DEIXE','DEIXO',
+  'DELAS','DELES','DELTA','DEMOS','DENTE','DEPOR','DESCE','DESSE',
+  'DESTA','DESTE','DETEM','DETER','DEUSA','DEVEM','DEVIA','DEVER',
+  'DIABO','DICAS','DIETA','DIGAM','DIGNO','DIGNA','DIREI','DIRIA',
+  'DISCO','DISSE','DISSO','DITAR','DITAS','DITOS','DIZEM','DIZIA',
+  'DOBRA','DOBRO','DOCES','DOIDO','DOIDA','DOLAR','DORES','DORME',
+  'DOSES','DOURA','DOURO','DRAMA','DUCHA','DUELO','DUETO','DUPLA',
+  'DUPLO','DUQUE','DURAR','DURAS','DUROU','DUZIA','EDUCA',
+  'ELEVA','ELITE','EMITE','ENTRA','ENTRE','ENTRO','ENTAO','ENVIA',
+  'ENVIE','ENVIO','EPOCA','ERETO','ERROS','ESSAS','ESSES','ESTAR',
+  'ESTAS','ESTES','ESTOU','ETAPA','ETICA','ETICO','EVITA','EVITE',
+  'EXAME','EXATO','EXIGE','EXPOR','EXTRA','JEANS',
+  'FADAS','FAIXA','FALAI','FALAM','FALAS','FALHA','FALTA','FALSO',
+  'FALSA','FARAM','FARAO','FARIA','FAROL','FASES','FATAL','FATIA',
+  'FATOS','FATOR','FAUNA','FAVOR','FAZEM','FAZIA','FECHA','FECHE',
+  'FECHO','FEITA','FEITO','FEZES','FELIZ','FEMEA','FERRO','FERVO',
+  'FESTA','FIBRA','FICAM','FICAR','FICHA','FIQUE','FIEIS','FILAS',
+  'FILHA','FILHO','FILME','FINCA','FINCO','FINAL','FIRMA','FIRME',
+  'FITAS','FIXAR','FLORA','FLUXO','FLUIR','FOCAR','FOICE',
+  'FOGAO','FOGOS','FOLGA','FOLHA','FOLIA','FOMOS','FONTE','FORCA',
+  'FOREM','FORNO','FORRO','FORTE','FORUM','FOSSE','FRACA','FRACO',
+  'FRASE','FREIO','FRETE','FRIAS','FRIOS','FROTA','FRUTA','FRUTO',
+  'FUGIR','FUMAR','FUNDA','FUNDO','FUNIL','FURIA','FURTO',
+  'FUSAO','FUZIL','GALAN','GAMAO','GANHA','GANHE','GANHO',
+  'GARFO','GAROA','GARRA','GASES','GASTA','GASTO','GATAS',
+  'GENIO','GENTE','GERAL','GERAM','GERAR','GERIR','GESSO','GESTO',
+  'GIRAR','GLOBO','GOIAS','GOLFE','GOLPE','GORDA','GORDO','GOSTO',
+  'GRACA','GRADE','GRAMA','GRANA','GRAUS','GRAVA','GRAVE',
+  'GREVE','GRIFE','GRIPE','GRITA','GRITO','GRUDE',
+  'GRUTA','GUARA','GUIAI','GUIAS','GUINA','GUINE','HAVER',
+  'HAVIA','HEROI','HOMEM','HONRA','HORTA','HORAS','HOTEL','HUMOR',
+  'ICONE','IDEIA','IDEAL','IDOLO','IDOSO','IGUAL','ILHAS',
+  'IMITA','IMPOR','INDIA','INDIO',
+  'INDUZ','IRIAM','IRMAS','IRMAM','IRMAO','ITENS','JACAR','JARRA',
+  'JATOS','JEITO','JIBOA','JOIAS','JOGAM','JOGAR',
+  'JOGOS','JOGUE','JOVEM','JULGA','JULHO','JUNTA','JUNTE','JUNTO',
+  'JUNHO','JURUA','JUSTA','JUSTO','JUIZA','JUIZO','LABIO','LACOS',
+  'LACRA','LAGOA','LAGOS','LANCE','LANCA','LAPIS','LAPSO','LARGA',
+  'LARGO','LATAS','LATIM','LATIR','LATIU','LAZER','LEBRE','LEIAM',
+  'LEITE','LEITO','LEMOS','LENDA','LENHA','LENTE','LENTO','LEQUE',
+  'LERDA','LERDO','LESTE','LETRA','LEVAM','LEVAR',
+  'LEVES','LICAO','LIDER','LIDAR','LIDAS','LIGAR','LIGUE','LILAS',
+  'LIMPA','LIMPO','LINDA','LINDO','LINHA','LIRIO','LISTA',
+  'LITRO','LIVRE','LIVRO','LIXAR','LOIRA','LOBOS','LOCAL',
+  'LONGE','LONGO','LOUCA','LOUCO','LOUSA','LUCRO','SKATE',
+  'LUGAR','LUTAM','LUTAR','LUTAS','LUVAS','LUZES','LUZIR',
+  'MACAU','MACHO','MACIO','MADRE','MAGIA','MAGRA',
+  'MAGRO','MAIOR','MAJOR','MALAS','MALTA','MAMAE','MANDE',
+  'MANDO','MANGA','MANIA','MANHA','MANSO','MANTO','MANTA',
+  'MARCA','MARCO','MARES','MARIA','MARTE','MASSA','MATAR',
+  'MATOS','MEDIA','MEDIO','MEDIR','MEIAS',
+  'MEIOS','MENOR','MENTE','MERDA','MESES','MESMA','MESMO','METAS',
+  'METAL','METER','METRO','MEXER','MICRO','MIDIA','MILHA','MILHO',
+  'MINAS','MINHA','MIRRA','MISSA','MISSO','MISTO','MISTA',
+  'MOCHO','MOEDA','MOLHA','MOLHE','MOLHO','MONTE','MORAL','MORAM',
+  'MORAR','MORRE','MORRO','MORTA','MORTO','MOSCA','MOVEL','MOVER',
+  'MUDAM','MUDAS','MUDAR','MUITA','MUITO','MULTA','MULTI','MUNDO',
+  'MURAL','MUSEU','MUSGO','NACAO','NADAR','NARIZ','NASCE',
+  'NATAL','NAVAL','NAVIO','NEGAR','NEGRA','NELES','NELAS',
+  'NERVO','NEVES','NICHO','NINHO','NINJA','NISSO','NISTO',
+  'NOBRE','NOCAO','NOITE','NOIVA','NOIVO','NORMA','NORTE',
+  'NOSSA','NOSSO','NOTAR','NOTAS','NOVAS','NOVOS','NOZES',
+  'NUVEM','NUNCA','OBRAS','OBTER','OBVIO','OCUPA','ODEIA','ODEIO',
+  'OESTE','OLHAI','OLHAR','OLHOS','OMBRO','ONDAS','OPCAO',
+  'OPERA','OPTAR','ORDEM','ORNAR','OSSOS','OTICA','OTIMO','OUVIA',
+  'OUVIR','PACTO','PADRE','PAGAM','PAGAR','PAGAS','PAGUE','PAIOL',
+  'PALCO','PALHA','PALMA','PALMO','PANDO','PANOS','PAPAI','PAPEL',
+  'PAQUE','PARAR','PARAM','PARDA','PARIS','PARTO','PARTE','PASSA',
+  'PASSE','PASSO','PASTA','PASTO','PATAS','PATOS','PATIO',
+  'PAULA','PAUSA','PAUTA','PAVAO','PECAS','PEDAL','PEDEM','PEDIA',
+  'PEDIR','PEDRA','PEGAR','PEGUE','PEITO','PEIXE','PENAL','PENAS',
+  'PENHA','PENSA','PENSO','PENSE','PERCA','PERCO','PERDE',
+  'PERDA','PERNA','PERTO','PESCA','PESAR','PIADA','PIANO','PILAR',
+  'PILHA','PINTO','PIQUE','PIRES','PISTA','PIZZA','INVES','ENFIM',
+  'PLACA','PLANA','PLANO','PLENA','PLENO','POBRE','PODAR',
+  'PODEM','PODES','PODIA','PODER','POEMA','POETA','POLIR',
+  'PONHA','PONTA','PONTE','PONTO','PORCO','PORTO','PORTE','POREM',
+  'POSAR','POSSA','POSSE','POSSO','POSTE','POSTO','POUCA','POUCO',
+  'POUSO','POVOS','PRACA','PRADO','PRAGA','PRAIA','PRATA','PRATO',
+  'PRAZO','PRECO','PRESA','PRESO','PRETA','PRETO','PREVE','PRIMA',
+  'PRIMO','PROSA','PROVE','PROVI','PROVA','PULAR',
+  'PULSO','PUNHO','PUXAR','QUASE','QUEDA','QUERO','RACAO','RACAS',
+  'RACHA','RADAR','RADIO','RAIOS','RAIVA','RAMOS','RAMPA','RAPAZ',
+  'RASGO','RASTO','RATOS','REAIS','RECEM','REDES','REDOR',
+  'REGER','REGRA','REINO','RENDA','RENDE','RENAL','RESTA','RESTO',
+  'REUNE','REVER','REZAR','RICAS','RIFAR','RIGOR','RILHA','RIMAR',
+  'RINDO','RIPAR','RISCA','RISCO','RITMO','RIVAL','ROCHA','RODAS',
+  'RODAR','ROLAM','ROLAR','ROMAN','ROMBO','ROMPE','RONCA','ROQUE',
+  'ROSAS','ROSCA','ROSTO','ROUBO','ROUPA','RUBRO','RUGAS','RUINA',
+  'RUINS','RUIVA','RUIVO','RURAL','RUSSA','RUSSO','SABEM','SABER',
+  'SABES','SABIA','SABIO','SABAO','SAFRA','SAIAR','SAIAS','SAIDA',
+  'SAIDO','SAIBA','SAIRA','SALAM','SALAO','SALMO','SALSA','SALTO',
+  'SALVA','SALVE','SALVO','SAMBA','SANTA','SANTO','SARNA','SAUDE',
+  'SAUNA','SECAO','SECAS','SECOS','SECAR','SEGUE','SEGUI','SEIAM',
+  'SEJAM','SEIOS','SEIVA','SEMEA','SENAO','SENSO','SENTA','SENTE',
+  'SENTI','SERAO','SEREI','SEREM','SERES','SERIA','SERIE','SERPE',
+  'SERRA','SERVO','SERIO','SETOR','SEXOS','SEXTO','SIGLA','SIGIL',
+  'SIGNO','SILVA','SINAL','SINTA','SINTO','SIRVA','SITIO','SOBRA',
+  'SOCAR','SODIO','SOFRE','SOGRA','SOGRO','SOLAR','SOLDA',
+  'SOLTA','SOLTO','SOMAR','SOMOS','SONHA','SONHO','SORRI','SORVO',
+  'SUBIR','SUAVE','SUGAR','SULCO','SUPER','SUPRA',
+  'SURGE','SURJA','SURJO','SURRA','SUSTO','SUTIL','TAIPA','TAMBO',
+  'TAMPA','TARDE','TARJA','TAXAR','TAXAS','TECLA','TEMAS',
+  'TEMER','TEMOR','TEMOS','TENAZ','TENDA','TENDE','TENHA',
+  'TENHO','TENIS','TENTO','TERAM','TERAO','TERCO','TEREI','TEREM',
+  'TERMO','TERCA','TERRA','TERNO','TESAR','TESAO','TESTA','TESTE',
+  'TEXTO','TCHAU','TINTA','TINTO','TIRAR','TIRAS','TIROS',
+  'TOCAR','TOQUE','TOLAS','TOLHE','TOLHI','TOMAM','TOMAR','TONTO',
+  'TORCE','TORNA','TORNE','TORTO','TORRE','TORNO','TORTA','TOUCA',
+  'TOURO','TRAMA','TRAME','TRAVA','TRAVE','TRAVO','TRACO','TRAGA',
+  'TRAGO','TRARA','TREPA','TREVO','TREZE','TRIBO','TRIGO','TRINA',
+  'TRONO','TROCA','TROCO','TUMOR','TURMA','TURNO','TURBO',
+  'TUNEL','UNGIR','UNHAS','UNIAO','UNIDO','UNTAR','URINA','URSUS',
+  'URSOS','USADO','USAVA','USINA','USURA','UTEIS','UTERO','VACUO',
+  'VADIA','VAGAS','VALEM','VALER','VALES','VALEU','VALIA','VALOR',
+  'VAMOS','VAPOR','VARIA','VASCO','VASTA','VASTO','VEIAS','VEJAM',
+  'VELAR','VELAS','VELHA','VELHO','VENAL','VENDA','VENDE','VENHA',
+  'VENHO','VENTO','VERBA','VERBO','VERDE','VEREM','VERME','VERAO',
+  'VERSA','VERSO','VESPA','VESTE','VETOR','VEZES','VIAJA','VIBRA',
+  'VICIO','VIDEO','VIDAS','VIDRO','VIGAS','VIGOR','VILAO','VIMOS',
+  'VINCO','VINDA','VINDE','VINHA','VINHO','VINIL','VINTE','VIOLA',
+  'VIRAR','VIRUS','VISAM','VISAO','VISTO','VIVAM','VIVAS','VIVEM',
+  'VIVER','VIVIA','VIVOS','VIUVA','VOCES','VODCA','VOLEI','VOLTA',
+  'VOLTE','VOLTO','VOTOS','VOSSA','VOSSO','VOZES','XIQUE',
+  'ZANGA','ZARPA','ZONAL','ZUMBI','CIUME','RUBRE','DAMAS','FILOS',
+  'CUSTO','SURDO','RITOS','FITOS','TIPOS','REVES','LEMES','REFEM',
+  'FEMUR','UIVOS','SUMIR','RUGIR'
+].filter(w => w.length === 5);
+
+const WORD_LIST = [...new Set(WORDS)];
+
+let state = {
+  word: '',
+  guesses: [],
+  currentGuess: '',
+  gameOver: false,
+  won: false,
+  hardMode: false,
+  colorBlind: false,
+  reducedAnim: false,
+  stats: { played: 0, wins: 0, currentStreak: 0, maxStreak: 0, distribution: [0,0,0,0,0,0] }
+};
+
+function loadState() {
+  try {
+    const saved = localStorage.getItem('ursusTermo');
+    if (saved) {
+      const s = JSON.parse(saved);
+      state.stats = s.stats || state.stats;
+      state.hardMode = s.hardMode || false;
+      state.colorBlind = s.colorBlind || false;
+      state.reducedAnim = s.reducedAnim || false;
+    }
+    const today = new Date().toDateString();
+    const savedGame = localStorage.getItem('ursusGame');
+    if (savedGame) {
+      const g = JSON.parse(savedGame);
+      if (g.date === today) {
+        state.word = g.word;
+        state.guesses = g.guesses;
+        state.gameOver = g.gameOver;
+        state.won = g.won;
+        state.currentGuess = '';
+        return;
+      }
+    }
+    const idx = Math.floor((new Date() - new Date('2024-01-01')) / 86400000) % WORD_LIST.length;
+    state.word = WORD_LIST[Math.abs(idx)] || WORD_LIST[0];
+  } catch(e) {}
+}
+
+function saveState() {
+  try {
+    localStorage.setItem('ursusTermo', JSON.stringify({
+      stats: state.stats,
+      hardMode: state.hardMode,
+      colorBlind: state.colorBlind,
+      reducedAnim: state.reducedAnim
+    }));
+    localStorage.setItem('ursusGame', JSON.stringify({
+      date: new Date().toDateString(),
+      word: state.word,
+      guesses: state.guesses,
+      gameOver: state.gameOver,
+      won: state.won
+    }));
+  } catch(e) {}
+}
+
+const KB_ROWS = [
+  ['Q','W','E','R','T','Y','U','I','O','P'],
+  ['A','S','D','F','G','H','J','K','L'],
+  ['ENTER','Z','X','C','V','B','N','M','DEL']
+];
+
+function buildBoard() {
+  const board = document.getElementById('board');
+  board.innerHTML = '';
+  for (let r = 0; r < 6; r++) {
+    const row = document.createElement('div');
+    row.className = 'board-row';
+    row.id = `row-${r}`;
+    for (let c = 0; c < 5; c++) {
+      const cell = document.createElement('div');
+      cell.className = 'cell';
+      cell.id = `cell-${r}-${c}`;
+      row.appendChild(cell);
+    }
+    board.appendChild(row);
+  }
+}
+
+function buildKeyboard() {
+  KB_ROWS.forEach((row, i) => {
+    const el = document.getElementById(`kb-row-${i+1}`);
+    el.innerHTML = '';
+    row.forEach(key => {
+      const btn = document.createElement('button');
+      btn.className = 'key' + (key.length > 1 ? ' wide' : '');
+      btn.textContent = key === 'DEL' ? '←' : key;
+      btn.dataset.key = key;
+      btn.addEventListener('click', () => handleKey(key));
+      el.appendChild(btn);
+    });
+  });
+}
+
+function render() {
+  state.guesses.forEach((guess, row) => {
+    const result = evaluate(guess, state.word);
+    for (let c = 0; c < 5; c++) {
+      const cell = document.getElementById(`cell-${row}-${c}`);
+      cell.textContent = guess[c];
+      cell.className = 'cell ' + result[c];
+    }
+  });
+  const curRow = state.guesses.length;
+  if (!state.gameOver && curRow < 6) {
+    for (let c = 0; c < 5; c++) {
+      const cell = document.getElementById(`cell-${curRow}-${c}`);
+      cell.textContent = state.currentGuess[c] || '';
+      cell.className = 'cell' + (state.currentGuess[c] ? ' filled' : '') + ' active-row';
+    }
+    for (let c = state.currentGuess.length; c < 5; c++) {
+      const cell = document.getElementById(`cell-${curRow}-${c}`);
+      cell.textContent = '';
+      cell.className = 'cell active-row';
+    }
+  }
+  updateKeyboard();
+  updateStatsBar();
+}
+
+function evaluate(guess, word) {
+  const result = Array(5).fill('absent');
+  const wordArr = word.split('');
+  const guessArr = guess.split('');
+  const wordUsed = Array(5).fill(false);
+  const guessUsed = Array(5).fill(false);
+  for (let i = 0; i < 5; i++) {
+    if (guessArr[i] === wordArr[i]) {
+      result[i] = 'correct';
+      wordUsed[i] = true;
+      guessUsed[i] = true;
+    }
+  }
+  for (let i = 0; i < 5; i++) {
+    if (guessUsed[i]) continue;
+    for (let j = 0; j < 5; j++) {
+      if (!wordUsed[j] && guessArr[i] === wordArr[j]) {
+        result[i] = 'present';
+        wordUsed[j] = true;
+        break;
+      }
+    }
+  }
+  return result;
+}
+
+function updateKeyboard() {
+  const keyMap = {};
+  state.guesses.forEach(guess => {
+    const result = evaluate(guess, state.word);
+    for (let i = 0; i < 5; i++) {
+      const l = guess[i];
+      const priority = { correct: 3, present: 2, absent: 1 };
+      if (!keyMap[l] || priority[result[i]] > priority[keyMap[l]]) keyMap[l] = result[i];
+    }
+  });
+  document.querySelectorAll('.key').forEach(btn => {
+    const k = btn.dataset.key;
+    btn.className = 'key' + (k.length > 1 ? ' wide' : '') + (keyMap[k] ? ' ' + keyMap[k] : '');
+  });
+}
+
+function updateStatsBar() {
+  document.getElementById('bar-wins').textContent = state.stats.wins;
+  document.getElementById('bar-streak').textContent = state.stats.currentStreak;
+  document.getElementById('bar-record').textContent = state.stats.maxStreak;
+  const pct = state.stats.played > 0 ? Math.round(state.stats.wins / state.stats.played * 100) : 0;
+  document.getElementById('bar-winpct').textContent = pct + '%';
+}
+
+function handleKey(key) {
+  if (state.gameOver) return;
+  const cur = state.guesses.length;
+  if (cur >= 6) return;
+  if (key === 'ENTER') {
+    submitGuess();
+  } else if (key === 'DEL' || key === 'BACKSPACE') {
+    if (state.currentGuess.length > 0) {
+      state.currentGuess = state.currentGuess.slice(0, -1);
+      render();
+    }
+  } else if (/^[A-Z]$/.test(key) && state.currentGuess.length < 5) {
+    state.currentGuess += key;
+    render();
+  }
+}
+
+function submitGuess() {
+  if (state.currentGuess.length < 5) {
+    shakeRow(state.guesses.length);
+    showToast('Palavra incompleta!');
+    return;
+  }
+  if (!WORD_LIST.includes(state.currentGuess)) {
+    shakeRow(state.guesses.length);
+    showToast('Palavra nao encontrada!');
+    return;
+  }
+  if (state.hardMode && state.guesses.length > 0) {
+    const lastResult = evaluate(state.guesses[state.guesses.length - 1], state.word);
+    const lastGuess = state.guesses[state.guesses.length - 1];
+    for (let i = 0; i < 5; i++) {
+      if (lastResult[i] === 'correct' && state.currentGuess[i] !== lastGuess[i]) {
+        shakeRow(state.guesses.length);
+        showToast(`Posicao ${i+1} deve ser ${lastGuess[i]}!`);
+        return;
+      }
+    }
+  }
+  const row = state.guesses.length;
+  state.guesses.push(state.currentGuess);
+  state.currentGuess = '';
+  const result = evaluate(state.guesses[row], state.word);
+  flipRow(row, result, () => {
+    state.gameOver = result.every(r => r === 'correct') || state.guesses.length >= 6;
+    state.won = result.every(r => r === 'correct');
+    if (state.won) {
+      bounceRow(row);
+      setTimeout(() => {
+        const msgs = ['Incrivel!', 'Excelente!', 'Muito bom!', 'Boa!', 'Ufa!', 'Que susto!'];
+        showToast(msgs[row] || 'Parabens!');
+      }, 300);
+      updateStats(true, row + 1);
+      setTimeout(() => showResult(), 1800);
+    } else if (state.guesses.length >= 6) {
+      updateStats(false, 7);
+      setTimeout(() => {
+        showToast(state.word);
+        setTimeout(() => showResult(), 1200);
+      }, 400);
+    }
+    saveState();
+    render();
+  });
+}
+
+function flipRow(row, result, cb) {
+  if (state.reducedAnim) {
+    for (let c = 0; c < 5; c++) {
+      const cell = document.getElementById(`cell-${row}-${c}`);
+      cell.textContent = state.guesses[row][c];
+      cell.className = 'cell ' + result[c];
+    }
+    if (cb) cb();
+    return;
+  }
+  for (let c = 0; c < 5; c++) {
+    const cell = document.getElementById(`cell-${row}-${c}`);
+    const delay = c * 120;
+    setTimeout(() => {
+      cell.classList.add('flip');
+      setTimeout(() => {
+        cell.textContent = state.guesses[row][c];
+        cell.className = 'cell ' + result[c];
+      }, 250);
+    }, delay);
+  }
+  setTimeout(cb, 5 * 120 + 500);
+}
+
+function shakeRow(row) {
+  const rowEl = document.getElementById(`row-${row}`);
+  rowEl.querySelectorAll('.cell').forEach(c => {
+    c.classList.remove('shake');
+    void c.offsetWidth;
+    c.classList.add('shake');
+  });
+}
+
+function bounceRow(row) {
+  for (let c = 0; c < 5; c++) {
+    const cell = document.getElementById(`cell-${row}-${c}`);
+    setTimeout(() => { cell.classList.add('bounce'); }, c * 80);
+  }
+}
+
+function showToast(msg) {
+  const container = document.getElementById('toast-container');
+  const t = document.createElement('div');
+  t.className = 'toast';
+  t.textContent = msg;
+  container.appendChild(t);
+  setTimeout(() => t.remove(), 3000);
+}
+
+function updateStats(won, tries) {
+  state.stats.played++;
+  if (won) {
+    state.stats.wins++;
+    state.stats.currentStreak++;
+    state.stats.maxStreak = Math.max(state.stats.maxStreak, state.stats.currentStreak);
+    if (tries >= 1 && tries <= 6) state.stats.distribution[tries - 1]++;
+  } else {
+    state.stats.currentStreak = 0;
+  }
+  saveState();
+  updateStatsBar();
+}
+
+function showStats() {
+  const grid = document.getElementById('stats-modal-grid');
+  grid.innerHTML = `
+    <div class="rs-item"><div class="rs-value">${state.stats.played}</div><div class="rs-label">Jogados</div></div>
+    <div class="rs-item"><div class="rs-value">${state.stats.played ? Math.round(state.stats.wins/state.stats.played*100) : 0}%</div><div class="rs-label">Vitórias</div></div>
+    <div class="rs-item"><div class="rs-value">${state.stats.currentStreak}</div><div class="rs-label">Sequência</div></div>
+    <div class="rs-item"><div class="rs-value">${state.stats.maxStreak}</div><div class="rs-label">Recorde</div></div>
+  `;
+  const distEl = document.getElementById('stats-modal-dist');
+  const maxVal = Math.max(...state.stats.distribution, 1);
+  distEl.innerHTML = state.stats.distribution.map((v, i) => `
+    <div class="dist-row">
+      <span class="dist-num">${i+1}</span>
+      <div class="dist-bar-wrap">
+        <div class="dist-bar ${state.won && state.guesses.length === i+1 ? 'highlight' : ''}" style="width:${Math.max(v/maxVal*100, 8)}%">${v}</div>
+      </div>
+    </div>
+  `).join('');
+  openModal('modal-stats');
+}
+
+function showResult() {
+  document.getElementById('result-answer').textContent = state.word;
+  document.getElementById('result-title').textContent = state.won
+    ? (state.guesses.length === 1 ? 'Perfeito!' : state.guesses.length <= 3 ? 'Incrivel!' : 'Parabens!')
+    : 'Fim de Jogo';
+
+  const grid = document.getElementById('result-stats-grid');
+  grid.innerHTML = `
+    <div class="rs-item"><div class="rs-value">${state.stats.played}</div><div class="rs-label">Jogados</div></div>
+    <div class="rs-item"><div class="rs-value">${state.stats.played ? Math.round(state.stats.wins/state.stats.played*100) : 0}%</div><div class="rs-label">Vitórias</div></div>
+    <div class="rs-item"><div class="rs-value">${state.stats.currentStreak}</div><div class="rs-label">Sequência</div></div>
+    <div class="rs-item"><div class="rs-value">${state.stats.maxStreak}</div><div class="rs-label">Recorde</div></div>
+  `;
+
+  const distEl = document.getElementById('result-dist');
+  const maxVal = Math.max(...state.stats.distribution, 1);
+  distEl.innerHTML = state.stats.distribution.map((v, i) => `
+    <div class="dist-row">
+      <span class="dist-num">${i+1}</span>
+      <div class="dist-bar-wrap">
+        <div class="dist-bar ${state.won && state.guesses.length === i+1 ? 'highlight' : ''}" style="width:${Math.max(v/maxVal*100, 8)}%">${v}</div>
+      </div>
+    </div>
+  `).join('');
+
+  openModal('modal-result');
+}
+
+function shareResult() {
+  const lines = state.guesses.map(g => {
+    const r = evaluate(g, state.word);
+    return r.map(s => s === 'correct' ? '[V]' : s === 'present' ? '[A]' : '[X]').join('');
+  });
+  const text = `Charada do Ursus ${state.won ? state.guesses.length : 'X'}/6\n\n${lines.join('\n')}\n\nhttps://ursusman.com/termo`;
+  if (navigator.share) {
+    navigator.share({ text });
+  } else {
+    navigator.clipboard.writeText(text).then(() => showToast('Resultado copiado!'));
+  }
+}
+
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+function initSettings() {
+  const toggleHard = document.getElementById('toggle-hard');
+  const toggleColor = document.getElementById('toggle-color');
+  const toggleAnim = document.getElementById('toggle-anim');
+
+  function syncToggle(el, val) {
+    el.classList.toggle('on', val);
+    el.setAttribute('aria-checked', val);
+  }
+  syncToggle(toggleHard, state.hardMode);
+  syncToggle(toggleColor, state.colorBlind);
+  syncToggle(toggleAnim, state.reducedAnim);
+
+  toggleHard.addEventListener('click', () => {
+    state.hardMode = !state.hardMode;
+    syncToggle(toggleHard, state.hardMode);
+    saveState();
+    showToast(state.hardMode ? 'Modo dificil ativado' : 'Modo dificil desativado');
+  });
+  toggleColor.addEventListener('click', () => {
+    state.colorBlind = !state.colorBlind;
+    syncToggle(toggleColor, state.colorBlind);
+    applyColorBlind();
+    saveState();
+  });
+  toggleAnim.addEventListener('click', () => {
+    state.reducedAnim = !state.reducedAnim;
+    syncToggle(toggleAnim, state.reducedAnim);
+    saveState();
+  });
+
+  document.querySelectorAll('[data-diff]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('[data-diff]').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+
+  document.getElementById('btn-reset-stats').addEventListener('click', () => {
+    if (confirm('Tem certeza que quer resetar todas as estatisticas?')) {
+      state.stats = { played:0, wins:0, currentStreak:0, maxStreak:0, distribution:[0,0,0,0,0,0] };
+      saveState();
+      updateStatsBar();
+      showToast('Estatisticas resetadas!');
+      closeModal('modal-settings');
+    }
+  });
+}
+
+function applyColorBlind() {
+  if (state.colorBlind) {
+    document.documentElement.style.setProperty('--green', '#0077BB');
+    document.documentElement.style.setProperty('--yellow', '#EE7733');
+  } else {
+    document.documentElement.style.setProperty('--green', '#4caf82');
+    document.documentElement.style.setProperty('--yellow', '#d4aa00');
+  }
+}
+
+document.addEventListener('keydown', e => {
+  if (e.ctrlKey || e.altKey || e.metaKey) return;
+  if (e.key === 'Enter') handleKey('ENTER');
+  else if (e.key === 'Backspace') handleKey('BACKSPACE');
+  else if (/^[a-zA-ZÀ-ÿ]$/.test(e.key)) {
+    const normalized = e.key.toUpperCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+    handleKey(normalized);
+  }
+});
+
+document.getElementById('btn-how').addEventListener('click', () => openModal('modal-how'));
+document.getElementById('btn-settings').addEventListener('click', () => openModal('modal-settings'));
+document.getElementById('btn-stats').addEventListener('click', () => showStats());
+document.getElementById('btn-share').addEventListener('click', shareResult);
+document.getElementById('btn-new-game').addEventListener('click', () => {
+  closeModal('modal-result');
+  if (!state.gameOver) return;
+  const idx = Math.floor(Math.random() * WORD_LIST.length);
+  state.word = WORD_LIST[idx];
+  state.guesses = [];
+  state.currentGuess = '';
+  state.gameOver = false;
+  state.won = false;
+  buildBoard();
+  render();
+  saveState();
+});
+
+document.querySelectorAll('[data-close]').forEach(btn => {
+  btn.addEventListener('click', () => closeModal(btn.dataset.close));
+});
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+  overlay.addEventListener('click', e => {
+    if (e.target === overlay) overlay.classList.remove('open');
+  });
+});
+
+loadState();
+buildBoard();
+buildKeyboard();
+applyColorBlind();
+initSettings();
+render();
+
+if (!localStorage.getItem('ursusVisited')) {
+  localStorage.setItem('ursusVisited', '1');
+  setTimeout(() => openModal('modal-how'), 600);
+}
+
+if (state.gameOver) {
+  setTimeout(() => showResult(), 800);
+}
+</script>
+</body>
+</html>
