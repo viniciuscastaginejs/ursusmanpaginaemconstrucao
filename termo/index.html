@@ -1023,8 +1023,7 @@ function loadState() {
         return;
       }
     }
-    const idx = Math.floor((new Date() - new Date('2024-01-01')) / 86400000) % WORD_LIST.length;
-    state.word = WORD_LIST[Math.abs(idx)] || WORD_LIST[0];
+    state.word = WORD_LIST[Math.floor(Math.random() * WORD_LIST.length)];
   } catch(e) {}
 }
 
