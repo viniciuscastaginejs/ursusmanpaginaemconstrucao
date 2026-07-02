@@ -6,8 +6,8 @@
 
   <!-- ── SEO BÁSICO ── -->
   <title>UrsusMan — Site Oficial</title>
-  <meta name="description" content="Site oficial do UrsusMan. Em breve com novidades! Enquanto isso, siga nas redes sociais e jogue a Charada do Ursus." />
-  <meta name="keywords" content="UrsusMan, ursusman oficial, streamer, TikTok, YouTube, Instagram, Twitch, charada do ursus, jogo de palavras" />
+  <meta name="description" content="Site oficial do UrsusMan. Em breve com novidades! Enquanto isso, siga nas redes sociais e jogue a Charada." />
+  <meta name="keywords" content="UrsusMan, ursusman oficial, streamer, TikTok, YouTube, Instagram, Twitch, charada, jogo de palavras" />
   <meta name="author" content="UrsusMan" />
   <meta name="robots" content="index, follow" />
   <meta name="theme-color" content="#040d1a" />
@@ -19,7 +19,7 @@
   <meta property="og:site_name"   content="UrsusMan" />
   <meta property="og:locale"      content="pt_BR" />
   <meta property="og:title"       content="UrsusMan — Site Oficial" />
-  <meta property="og:description" content="Site oficial do UrsusMan chegando em breve! Jogue a Charada do Ursus enquanto espera." />
+  <meta property="og:description" content="Site oficial do UrsusMan chegando em breve! Jogue a Charada enquanto espera." />
   <meta property="og:image"       content="https://res.cloudinary.com/dtdomrtyp/image/upload/w_1200,h_630,c_pad,b_rgb:040d1a/v1782511745/ChatGPT_Image_26_de_jun._de_2026_19_08_40_ytuch4.png" />
   <meta property="og:image:width"  content="1200" />
   <meta property="og:image:height" content="630" />
@@ -28,7 +28,7 @@
   <!-- ── TWITTER CARD ── -->
   <meta name="twitter:card"        content="summary_large_image" />
   <meta name="twitter:title"       content="UrsusMan — Site Oficial" />
-  <meta name="twitter:description" content="Site oficial do UrsusMan chegando em breve! Jogue a Charada do Ursus enquanto espera." />
+  <meta name="twitter:description" content="Site oficial do UrsusMan chegando em breve! Jogue a Charada enquanto espera." />
   <meta name="twitter:image"       content="https://res.cloudinary.com/dtdomrtyp/image/upload/w_1200,h_630,c_pad,b_rgb:040d1a/v1782511745/ChatGPT_Image_26_de_jun._de_2026_19_08_40_ytuch4.png" />
   <meta name="twitter:image:alt"   content="UrsusMan" />
 
@@ -195,8 +195,8 @@
       fill: currentColor;
     }
 
-    /* ── TERMO BUTTON ── */
-    .termo-section {
+    /* ── charada BUTTON ── */
+    .charada-section {
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -204,7 +204,7 @@
       flex-shrink: 0;
     }
 
-    .termo-label {
+    .charada-label {
       font-size: clamp(9px, 1.8vw, 11px);
       font-weight: 700;
       letter-spacing: 3px;
@@ -212,7 +212,7 @@
       color: rgba(255,255,255,0.3);
     }
 
-    .btn-termo {
+    .btn-charada {
       display: inline-flex;
       align-items: center;
       gap: 9px;
@@ -230,20 +230,20 @@
       position: relative;
       overflow: hidden;
     }
-    .btn-termo::before {
+    .btn-charada::before {
       content: '';
       position: absolute;
       inset: 0;
       background: linear-gradient(135deg, rgba(255,255,255,0.22) 0%, transparent 55%);
       border-radius: inherit;
     }
-    .btn-termo:hover {
+    .btn-charada:hover {
       transform: translateY(-3px) scale(1.04);
       box-shadow: 0 0 36px rgba(245, 200, 66, 0.65), 0 10px 28px rgba(0,0,0,0.5);
       filter: brightness(1.05);
     }
-    .btn-termo:active { transform: scale(0.97); }
-    .btn-termo svg {
+    .btn-charada:active { transform: scale(0.97); }
+    .btn-charada svg {
       width: clamp(16px, 4vw, 20px);
       height: clamp(16px, 4vw, 20px);
       fill: #0a1628;
@@ -285,11 +285,11 @@
     </div>
   </div>
 
-  <div class="termo-section">
-    <p class="termo-label">Enquanto isso, joga!</p>
-    <a class="btn-termo" href="termo/">
+  <div class="charada-section">
+    <p class="charada-label">Enquanto isso, joga!</p>
+    <a class="btn-charada" href="charada/">
       <svg viewBox="0 0 24 24"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>
-      Charada do Ursus
+      Charada
     </a>
   </div>
 
