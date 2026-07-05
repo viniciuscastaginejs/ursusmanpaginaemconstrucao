@@ -769,7 +769,7 @@ const WORDS = [
   'AGORA','AGOSTO','AGUDA','AGUDO','AINDA','AJUDA','ALADO','ALAMO','ALEGA','ALETA',
   'ALGAS','ALGUM','ALIAR','ALMAS','ALOJA','ALTOS','ALUNO','AMADO',
   'AMAGO','AMARA','AMARO','AMENO','AMIGO','AMORA','AMPLO','ANDAR','ANEIS','ANGEL',
-  'ANIMA','ANISE','ANJOS','ANTES','ANZOL','AONDE','APITO','APOIA','ARARA',
+  'ANGRA','ANIMA','ANISE','ANJOS','ANTES','ANZOL','AONDE','APITO','APOIA','ARARA',
   'ARCAR','ARCOS','ARDOR','AREIA','ARMAR','AROAR','AROSA',
   'ARTES','ARVORE','ASSAR','ASSIM','ATADO','ATEAR',
   'ATIRA','ATLAS','ATROZ','AUDIO','AUDAZ','AVARO','AVIAO','AZEDO',
@@ -848,7 +848,7 @@ const WORDS = [
   'CHAMA','CHAPA','CHATA','CHATO',
   'CHAVE','CHEFE','CHEIA','CHEIO',
   'CHORO','CHUTE','CHUVA','CICLO','CIFRA','CINCO','CINTA','CINTO',
-  'CINZA','CIRCO','CISCO','CITAR','CIVIL','CLARA','CLARO',
+  'CINZA','CIRCO','CISCO','CITAR','CIVEL','CIVIL','CLARA','CLARO',
   'CLIMA','CLIPE','CLUBE','COBRA','COBRE','COCAR','COFRE',
   'COISA','COLAR','COLAS','COMER','COMBO','COMUM',
   'CONDE','CONTO','COPIA','COPOS','CORAL','CORDA',
@@ -1373,8 +1373,19 @@ function shareResult() {
   }
 }
 
-function openModal(id) { document.getElementById(id).classList.add('open'); }
-function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+function setModalButtonsEnabled(id, enabled) {
+  document.getElementById(id).querySelectorAll('button').forEach(b => {
+    b.disabled = !enabled;
+  });
+}
+function openModal(id) {
+  setModalButtonsEnabled(id, true);
+  document.getElementById(id).classList.add('open');
+}
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+  setModalButtonsEnabled(id, false);
+}
 
 function initSettings() {
   const toggleHard = document.getElementById('toggle-hard');
@@ -1501,6 +1512,13 @@ buildKeyboard();
 applyColorBlind();
 initSettings();
 render();
+
+// Garante que nenhum botão dentro de um modal fechado possa ser
+// "clicado" via teclado (Enter) ou toque enquanto ele ainda está
+// invisível — só fica utilizável quando o modal realmente abre.
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+  if (!overlay.classList.contains('open')) setModalButtonsEnabled(overlay.id, false);
+});
 
 if (!localStorage.getItem('ursusVisited')) {
   localStorage.setItem('ursusVisited', '1');
