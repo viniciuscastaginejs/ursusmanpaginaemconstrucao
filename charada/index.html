@@ -1230,18 +1230,11 @@ function submitGuess() {
     state.won = result.every(r => r === 'correct');
     if (state.won) {
       bounceRow(row);
-      setTimeout(() => {
-        const msgs = ['Incrivel!', 'Excelente!', 'Muito bom!', 'Boa!', 'Ufa!', 'Que susto!'];
-        showToast(msgs[row] || 'Parabens!');
-      }, 300);
       updateStats(true, row + 1);
-      setTimeout(() => showResult(), 1800);
+      setTimeout(() => showResult(), 100);
     } else if (state.guesses.length >= 6) {
       updateStats(false, 7);
-      setTimeout(() => {
-        showToast(state.word);
-        setTimeout(() => showResult(), 1200);
-      }, 400);
+      setTimeout(() => showResult(), 100);
     }
     saveState();
     render();
