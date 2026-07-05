@@ -769,7 +769,7 @@ const WORDS = [
   'AGORA','AGOSTO','AGUDA','AGUDO','AINDA','AJUDA','ALADO','ALAMO','ALEGA','ALETA',
   'ALGAS','ALGUM','ALIAR','ALMAS','ALOJA','ALTOS','ALUNO','AMADO',
   'AMAGO','AMARA','AMARO','AMENO','AMIGO','AMORA','AMPLO','ANDAR','ANEIS','ANGEL',
-  'ANGRA','ANIMA','ANISE','ANJOS','ANTES','ANZOL','AONDE','APITO','APOIA','ARARA',
+  'ANIMA','ANISE','ANJOS','ANTES','ANZOL','AONDE','APITO','APOIA','ARARA',
   'ARCAR','ARCOS','ARDOR','AREIA','ARMAR','AROAR','AROSA',
   'ARTES','ARVORE','ASSAR','ASSIM','ATADO','ATEAR',
   'ATIRA','ATLAS','ATROZ','AUDIO','AUDAZ','AVARO','AVIAO','AZEDO',
@@ -848,7 +848,7 @@ const WORDS = [
   'CHAMA','CHAPA','CHATA','CHATO',
   'CHAVE','CHEFE','CHEIA','CHEIO',
   'CHORO','CHUTE','CHUVA','CICLO','CIFRA','CINCO','CINTA','CINTO',
-  'CINZA','CIRCO','CISCO','CITAR','CIVEL','CIVIL','CLARA','CLARO',
+  'CINZA','CIRCO','CISCO','CITAR','CIVIL','CLARA','CLARO',
   'CLIMA','CLIPE','CLUBE','COBRA','COBRE','COCAR','COFRE',
   'COISA','COLAR','COLAS','COMER','COMBO','COMUM',
   'CONDE','CONTO','COPIA','COPOS','CORAL','CORDA',
@@ -1100,7 +1100,7 @@ function buildKeyboard() {
       btn.className = 'key' + (key.length > 1 ? ' wide' : '');
       btn.textContent = key === 'DEL' ? '←' : key;
       btn.dataset.key = key;
-      btn.addEventListener('click', () => handleKey(key));
+      btn.addEventListener('click', () => { handleKey(key); btn.blur(); });
       el.appendChild(btn);
     });
   });
@@ -1437,7 +1437,21 @@ function applyColorBlind() {
 
 document.addEventListener('keydown', e => {
   if (e.ctrlKey || e.altKey || e.metaKey) return;
-  if (e.key === 'Enter') handleKey('ENTER');
+  if (e.key === 'Enter') {
+    // Impede que o Enter acione nativamente algum botão que tenha ficado
+    // focado (ex: teclado virtual ou "Jogar Novamente"), o que fazia o
+    // próximo jogo começar escondido antes do resultado aparecer.
+    e.preventDefault();
+    const resultModal = document.getElementById('modal-result');
+    if (resultModal.classList.contains('open')) {
+      // Resultado já está na tela: agora sim o Enter inicia o próximo jogo.
+      startNewGame();
+    } else {
+      // Enquanto o resultado não aparece (inclusive durante a animação de
+      // fim de jogo), o Enter fica bloqueado e não faz nada.
+      handleKey('ENTER');
+    }
+  }
   else if (e.key === 'Backspace') handleKey('BACKSPACE');
   else if (/^[a-zA-ZÀ-ÿ]$/.test(e.key)) {
     const normalized = e.key.toUpperCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
@@ -1449,9 +1463,13 @@ document.getElementById('btn-how').addEventListener('click', () => openModal('mo
 document.getElementById('btn-settings').addEventListener('click', () => openModal('modal-settings'));
 document.getElementById('btn-stats').addEventListener('click', () => showStats());
 document.getElementById('btn-share').addEventListener('click', shareResult);
-document.getElementById('btn-new-game').addEventListener('click', () => {
+function startNewGame() {
+  // Só inicia um novo jogo se o resultado do jogo anterior já estiver
+  // realmente visível na tela — evita que um clique/Enter perdido troque
+  // a palavra escondido, antes do jogador ver o resultado.
+  const resultModal = document.getElementById('modal-result');
+  if (!state.gameOver || !resultModal.classList.contains('open')) return;
   closeModal('modal-result');
-  if (!state.gameOver) return;
   const idx = Math.floor(Math.random() * WORD_LIST.length);
   state.word = WORD_LIST[idx];
   state.guesses = [];
@@ -1461,10 +1479,15 @@ document.getElementById('btn-new-game').addEventListener('click', () => {
   buildBoard();
   render();
   saveState();
+}
+
+document.getElementById('btn-new-game').addEventListener('click', (e) => {
+  startNewGame();
+  e.currentTarget.blur();
 });
 
 document.querySelectorAll('[data-close]').forEach(btn => {
-  btn.addEventListener('click', () => closeModal(btn.dataset.close));
+  btn.addEventListener('click', () => { closeModal(btn.dataset.close); btn.blur(); });
 });
 document.querySelectorAll('.modal-overlay').forEach(overlay => {
   overlay.addEventListener('click', e => {
