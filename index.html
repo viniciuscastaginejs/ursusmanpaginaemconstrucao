@@ -368,6 +368,74 @@
     min-height:calc(1.4em * 2 + 32px);
 }
 
+
+    /* ── TWITCH AO VIVO ── */
+    .live-card {
+      position: relative;
+      display: block;
+      max-width: 760px;
+      margin: 0 auto;
+      aspect-ratio: 16 / 9;
+      border-radius: 16px;
+      overflow: hidden;
+      background: var(--panel);
+      border: 1px solid var(--panel-border);
+      text-decoration: none;
+      color: var(--ink);
+      transition: transform .25s, border-color .25s, box-shadow .25s;
+    }
+    .live-card:hover { transform: translateY(-4px); border-color: rgba(145, 70, 255, .8); }
+    .live-card.is-live { border-color: rgba(255, 64, 64, .7); box-shadow: 0 0 0 3px rgba(255, 64, 64, .15), 0 12px 40px rgba(0,0,0,.35); }
+    #twitch-player, #twitch-player iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+    .live-card:not(.is-live) #twitch-player { visibility: hidden; }
+    .live-click {
+      position: absolute; inset: 0; z-index: 2;
+      display: flex; align-items: flex-end; justify-content: center;
+      padding: 18px;
+      background: linear-gradient(to top, rgba(4,10,24,.55), transparent 45%);
+      opacity: 0; transition: opacity .2s;
+    }
+    .live-card.is-live:hover .live-click, .live-card.is-live:focus-visible .live-click { opacity: 1; }
+    .live-cta {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: #9146ff; color: #fff;
+      font-weight: 700; font-size: 14px;
+      padding: 10px 18px; border-radius: 999px;
+    }
+    .live-cta svg { width: 16px; height: 16px; fill: currentColor; }
+    .live-badge {
+      position: absolute; top: 14px; left: 14px; z-index: 3;
+      display: none; align-items: center; gap: 7px;
+      background: #e91916; color: #fff;
+      font-size: 12px; font-weight: 800; letter-spacing: 1px;
+      padding: 5px 11px; border-radius: 6px;
+    }
+    .live-badge::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #fff; animation: livePulse 1.2s infinite; }
+    .live-card.is-live .live-badge { display: inline-flex; }
+    @keyframes livePulse { 0%,100% { opacity: 1; } 50% { opacity: .25; } }
+    .live-offline {
+      position: absolute; inset: 0; z-index: 1;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+      text-align: center; padding: 20px;
+      background:
+        radial-gradient(circle at 50% 40%, rgba(145, 70, 255, .16), transparent 60%),
+        repeating-linear-gradient(45deg, rgba(255,255,255,.018) 0 12px, transparent 12px 24px);
+    }
+    .live-card.is-live .live-offline { display: none; }
+    .live-offline-title {
+      font-size: clamp(34px, 8vw, 64px); font-weight: 900; letter-spacing: 6px;
+      color: var(--ink-faint);
+    }
+    .live-offline-title::before {
+      content: ""; display: inline-block; width: .32em; height: .32em; border-radius: 50%;
+      background: var(--ink-faint); margin-right: .35em; vertical-align: .18em;
+    }
+    .live-offline-sub { font-size: 14px; color: var(--ink-dim); }
+    .live-card.is-checking .live-offline-title { animation: livePulse 1.6s infinite; }
+    @media (prefers-reduced-motion: reduce) {
+      .live-badge::before, .live-card.is-checking .live-offline-title { animation: none; }
+    }
+
     /* ── JOGOS ── */
     .games-grid {
       display: grid;
@@ -606,6 +674,25 @@
     </div>
   </section>
 
+  <!-- ══════════ TWITCH AO VIVO ══════════ -->
+  <section class="section" id="live">
+    <div class="section-head">
+      <p class="section-eyebrow">Twitch</p>
+      <h2 class="section-title">Ao vivo</h2>
+    </div>
+    <a class="live-card is-checking" id="live-card" href="https://www.twitch.tv/ursusmanoficial" target="_blank" rel="noopener"
+       aria-label="Abrir o canal ursusmanoficial na Twitch">
+      <div id="twitch-player"></div>
+      <span class="live-badge">AO VIVO</span>
+      <div class="live-offline">
+        <div class="live-offline-title">OFFLINE</div>
+        <div class="live-offline-sub" id="live-offline-sub">Verificando se a live está no ar…</div>
+        <span class="live-cta"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z"/></svg> Ir para a Twitch</span>
+      </div>
+      <div class="live-click"><span class="live-cta"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z"/></svg> Assistir na Twitch</span></div>
+    </a>
+  </section>
+
   <!-- ══════════ VÍDEOS DO YOUTUBE ══════════ -->
   <section class="section" id="videos">
   <div class="section-head">
@@ -772,6 +859,59 @@
   window.addEventListener('resize', resize);
   init();
   draw();
+</script>
+
+<script src="https://player.twitch.tv/js/embed/v1.js"></script>
+<script>
+  // ── TWITCH AO VIVO ──
+  // Se o canal estiver ao vivo: mostra a live rodando (sem som) com o selo
+  // "AO VIVO"; clicar abre a live na Twitch.
+  // Se estiver offline: mostra "OFFLINE"; clicar abre a página do canal.
+  // Quem avisa se está no ar é o próprio player oficial da Twitch (eventos
+  // ONLINE/OFFLINE), então a seção muda sozinha quando a live começa/acaba,
+  // sem precisar recarregar a página. Não precisa de chave de API.
+  (function () {
+    const CHANNEL = 'ursusmanoficial';
+    const card = document.getElementById('live-card');
+    const sub = document.getElementById('live-offline-sub');
+    if (!card) return;
+
+    function setLive(live) {
+      card.classList.remove('is-checking');
+      card.classList.toggle('is-live', live);
+      card.setAttribute('aria-label', live
+        ? 'UrsusMan está ao vivo agora — assistir na Twitch'
+        : 'UrsusMan está offline — abrir o canal na Twitch');
+      if (!live) sub.textContent = 'Siga na Twitch e ative o sininho para saber quando a live começar.';
+    }
+
+    // Plano B: se o player não responder, consulta um serviço público de status
+    async function fallbackCheck() {
+      try {
+        const r = await fetch('https://decapi.me/twitch/uptime/' + CHANNEL);
+        const t = (await r.text()).toLowerCase();
+        setLive(r.ok && !t.includes('offline') && !t.includes('error'));
+      } catch (e) {
+        setLive(false);
+      }
+    }
+
+    if (!window.Twitch || !Twitch.Player) { fallbackCheck(); return; }
+
+    let answered = false;
+    const player = new Twitch.Player('twitch-player', {
+      channel: CHANNEL,
+      parent: ['ursusman.com', 'www.ursusman.com'],
+      width: '100%',
+      height: '100%',
+      muted: true,
+      autoplay: true
+    });
+    player.addEventListener(Twitch.Player.ONLINE, () => { answered = true; setLive(true); });
+    player.addEventListener(Twitch.Player.OFFLINE, () => { answered = true; setLive(false); });
+    player.addEventListener(Twitch.Player.PLAYING, () => { answered = true; setLive(true); });
+    setTimeout(() => { if (!answered) fallbackCheck(); }, 8000);
+  })();
 </script>
 
 <script>
