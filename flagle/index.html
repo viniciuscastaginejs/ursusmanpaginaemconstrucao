@@ -1,0 +1,1585 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-7NSPWGP17W"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-7NSPWGP17W');
+</script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- ── SEO BÁSICO ── -->
+  <title>Bandeira — Adivinhe o País | UrsusMan</title>
+  <meta name="description" content="Bandeira é o jogo de bandeiras do UrsusMan. Descubra o país escondido em até 6 tentativas: a cada chute, as partes iguais da bandeira são reveladas." />
+  <meta name="keywords" content="bandeira, jogo de bandeiras, flagle português, adivinhe o país, quiz de bandeiras, UrsusMan" />
+  <meta name="author" content="UrsusMan" />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#060f1e" />
+  <link rel="canonical" href="https://ursusman.com/flagle/" />
+
+  <!-- ── OPEN GRAPH ── -->
+  <meta property="og:type"        content="website" />
+  <meta property="og:url"         content="https://ursusman.com/flagle/" />
+  <meta property="og:site_name"   content="UrsusMan" />
+  <meta property="og:locale"      content="pt_BR" />
+  <meta property="og:title"       content="Bandeira — Adivinhe o País" />
+  <meta property="og:description" content="Descubra o país escondido em até 6 tentativas. Jogue quantas vezes quiser no site do UrsusMan!" />
+  <meta property="og:image"       content="https://res.cloudinary.com/dtdomrtyp/image/upload/w_1200,h_630,c_pad,b_rgb:060f1e/v1781116238/UrsusMan_transparente_jnsn6c.png" />
+  <meta property="og:image:width"  content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt"    content="Bandeira" />
+
+  <!-- ── TWITTER CARD ── -->
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:title"       content="Bandeira — Adivinhe o País" />
+  <meta name="twitter:description" content="Descubra o país escondido em até 6 tentativas. Jogue quantas vezes quiser!" />
+  <meta name="twitter:image"       content="https://res.cloudinary.com/dtdomrtyp/image/upload/w_1200,h_630,c_pad,b_rgb:060f1e/v1781116238/UrsusMan_transparente_jnsn6c.png" />
+  <meta name="twitter:image:alt"   content="Bandeira" />
+
+  <!-- ── FAVICONS ── -->
+  <link rel="icon" type="image/png" sizes="16x16"
+        href="https://res.cloudinary.com/dtdomrtyp/image/upload/w_16,h_16,c_pad,b_transparent/v1781116238/UrsusMan_transparente_jnsn6c.png" />
+  <link rel="icon" type="image/png" sizes="32x32"
+        href="https://res.cloudinary.com/dtdomrtyp/image/upload/w_32,h_32,c_pad,b_transparent/v1781116238/UrsusMan_transparente_jnsn6c.png" />
+  <link rel="icon" type="image/png" sizes="96x96"
+        href="https://res.cloudinary.com/dtdomrtyp/image/upload/w_96,h_96,c_pad,b_transparent/v1781116238/UrsusMan_transparente_jnsn6c.png" />
+  <link rel="apple-touch-icon" sizes="180x180"
+        href="https://res.cloudinary.com/dtdomrtyp/image/upload/w_180,h_180,c_pad,b_rgb:060f1e/v1781116238/UrsusMan_transparente_jnsn6c.png" />
+  <link rel="manifest" href="/manifest.json" />
+
+  <!-- ── JSON-LD ── -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Game",
+    "name": "Bandeira",
+    "description": "Jogo de bandeiras do UrsusMan. Descubra o país escondido em até 6 tentativas.",
+    "url": "https://ursusman.com/flagle/",
+    "author": {
+      "@type": "Person",
+      "name": "UrsusMan",
+      "url": "https://ursusman.com"
+    },
+    "inLanguage": "pt-BR",
+    "image": "https://res.cloudinary.com/dtdomrtyp/image/upload/v1781116238/UrsusMan_transparente_jnsn6c.png"
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://flagcdn.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue-dark: #060f1e;
+      --blue-mid: #0d1f3c;
+      --blue-light: #1a3a6e;
+      --blue-accent: #2d6bc4;
+      --blue-bright: #4a90e2;
+      --gold: #f5c842;
+      --gold-dark: #c9991a;
+      --white: #ffffff;
+      --gray-light: #e8edf5;
+      --gray-mid: #9baac4;
+      --gray-dark: #3d5070;
+      --green: #4caf82;
+      --green-dark: #2e7d5a;
+      --yellow: #d4aa00;
+      --yellow-dark: #a07b00;
+      --absent: #1e3050;
+      --absent-border: #2a4060;
+      --cell-empty: rgba(255,255,255,0.04);
+      --cell-border: rgba(255,255,255,0.15);
+      --font: 'Poppins', sans-serif;
+      --radius: 10px;
+      --shadow: 0 8px 32px rgba(0,0,0,0.4);
+    }
+
+    html, body {
+      height: 100%;
+      font-family: var(--font);
+      background: linear-gradient(160deg, var(--blue-dark) 0%, var(--blue-mid) 40%, var(--blue-light) 100%);
+      background-attachment: fixed;
+      color: var(--white);
+      min-height: 100vh;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      background: rgba(6,15,30,0.6);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .header-logo img {
+      height: 44px;
+      object-fit: contain;
+      filter: drop-shadow(0 2px 8px rgba(74,144,226,0.5));
+    }
+
+    .header-title {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #ffffff 0%, #a8c8ff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .icon-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.06);
+      color: var(--white);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s, transform 0.1s;
+    }
+    .icon-btn:hover { background: rgba(255,255,255,0.12); transform: scale(1.05); }
+    .icon-btn:active { transform: scale(0.95); }
+    .icon-btn svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+    main {
+      max-width: 540px;
+      margin: 0 auto;
+      padding: 24px 16px 150px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    #toast-container {
+      position: fixed;
+      top: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 999;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      align-items: center;
+      pointer-events: none;
+    }
+    .toast {
+      background: rgba(255,255,255,0.95);
+      color: #0d1f3c;
+      padding: 10px 20px;
+      border-radius: 100px;
+      font-size: 14px;
+      font-weight: 600;
+      animation: toastIn 0.3s ease, toastOut 0.4s 2.5s ease forwards;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+    @keyframes toastIn { from { opacity:0; transform:translateY(-8px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes toastOut { from { opacity:1; } to { opacity:0; } }
+
+    .stats-bar {
+      display: flex;
+      gap: 16px;
+      width: 100%;
+    }
+    .stat-chip {
+      flex: 1;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--radius);
+      padding: 10px 8px;
+      text-align: center;
+    }
+    .stat-chip .value { font-size: 22px; font-weight: 800; color: var(--gold); line-height: 1; }
+    .stat-chip .label { font-size: 10px; font-weight: 500; color: var(--gray-mid); margin-top: 3px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+    .board {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      width: 100%;
+      max-width: 360px;
+    }
+
+    .board-row {
+      display: flex;
+      gap: 6px;
+    }
+
+    .cell {
+      flex: 1;
+      aspect-ratio: 1;
+      border: 2px solid var(--cell-border);
+      border-radius: 8px;
+      background: var(--cell-empty);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: var(--white);
+      position: relative;
+      transition: border-color 0.1s;
+      user-select: none;
+      letter-spacing: 0;
+    }
+
+    .cell.filled {
+      border-color: rgba(255,255,255,0.35);
+      animation: pop 0.1s ease;
+    }
+    .cell.active-row { border-color: rgba(255,255,255,0.4); }
+
+    @keyframes pop {
+      0%  { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100%{ transform: scale(1); }
+    }
+
+    .cell.flip { animation: flip 0.5s ease forwards; }
+    @keyframes flip {
+      0%   { transform: rotateX(0deg); }
+      50%  { transform: rotateX(-90deg); }
+      100% { transform: rotateX(0deg); }
+    }
+
+    .cell.correct { background: var(--green); border-color: var(--green-dark); color: #fff; }
+    .cell.present { background: var(--yellow); border-color: var(--yellow-dark); color: #fff; }
+    .cell.absent  { background: var(--absent); border-color: var(--absent-border); color: var(--gray-mid); }
+
+    .cell.shake { animation: shake 0.4s ease; }
+    @keyframes shake {
+      0%,100%{ transform: translateX(0); }
+      20%    { transform: translateX(-6px); }
+      40%    { transform: translateX(6px); }
+      60%    { transform: translateX(-4px); }
+      80%    { transform: translateX(4px); }
+    }
+
+    .cell.bounce { animation: bounce 0.6s ease; }
+    @keyframes bounce {
+      0%,100%{ transform: translateY(0); }
+      40%    { transform: translateY(-12px); }
+      70%    { transform: translateY(-6px); }
+    }
+
+    /* ── KEYBOARD ── */
+    #keyboard {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(to top, rgba(6,15,30,0.98) 80%, transparent);
+      padding: 10px 10px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      align-items: center;
+    }
+
+    .kb-row {
+      display: flex;
+      gap: 5px;
+    }
+
+    .key {
+      height: 52px;
+      min-width: 36px;
+      padding: 0 6px;
+      border-radius: 7px;
+      border: none;
+      background: rgba(255,255,255,0.1);
+      color: var(--white);
+      font-family: var(--font);
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      user-select: none;
+    }
+    .key:hover { background: rgba(255,255,255,0.18); }
+    .key:active { transform: scale(0.94); }
+    .key.wide { min-width: 56px; font-size: 11px; }
+    .key.correct { background: var(--green); }
+    .key.present { background: var(--yellow); }
+    .key.absent  { background: var(--absent); color: var(--gray-mid); }
+
+    /* ── SOCIAL BAR ── */
+    .social-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      padding: 10px 0 18px;
+      width: 100%;
+    }
+
+    .social-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(74, 144, 226, 0.4);
+      background: rgba(74, 144, 226, 0.08);
+      color: #4a90e2;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s, background 0.2s;
+      box-shadow: 0 0 8px rgba(74, 144, 226, 0.2), inset 0 0 8px rgba(74, 144, 226, 0.05);
+    }
+    .social-link:hover {
+      transform: scale(1.12);
+      border-color: rgba(74, 144, 226, 0.9);
+      background: rgba(74, 144, 226, 0.18);
+      box-shadow: 0 0 16px rgba(74, 144, 226, 0.6), 0 0 32px rgba(74, 144, 226, 0.25), inset 0 0 10px rgba(74, 144, 226, 0.1);
+      color: #7ab8ff;
+    }
+    .social-link svg {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
+    }
+
+    /* ── MODALS ── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(6,15,30,0.85);
+      backdrop-filter: blur(8px);
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s;
+    }
+    .modal-overlay.open { opacity: 1; pointer-events: all; }
+
+    .modal {
+      background: linear-gradient(135deg, #0f2040 0%, #1a3060 100%);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 20px;
+      padding: 28px 24px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: var(--shadow);
+      transform: translateY(20px);
+      transition: transform 0.25s;
+    }
+    .modal-overlay.open .modal { transform: translateY(0); }
+
+    .modal h2 {
+      font-size: 20px;
+      font-weight: 800;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: none;
+      border: none;
+      color: var(--gray-mid);
+      cursor: pointer;
+      font-size: 22px;
+      line-height: 1;
+    }
+    .modal { position: relative; }
+
+    .how-step {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      margin-bottom: 16px;
+    }
+    .how-example {
+      display: flex;
+      gap: 5px;
+      margin: 12px 0;
+    }
+    .how-cell {
+      width: 38px;
+      height: 38px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 18px;
+      border: 2px solid rgba(255,255,255,0.2);
+      background: var(--cell-empty);
+    }
+    .how-cell.correct { background: var(--green); border-color: var(--green-dark); }
+    .how-cell.present { background: var(--yellow); border-color: var(--yellow-dark); }
+    .how-cell.absent  { background: var(--absent); border-color: var(--absent-border); }
+    .how-step p { font-size: 14px; color: var(--gray-light); line-height: 1.5; }
+    .how-step strong { color: var(--white); }
+
+    .result-word {
+      text-align: center;
+      font-size: 15px;
+      color: var(--gray-mid);
+      margin-bottom: 6px;
+    }
+    .result-answer {
+      text-align: center;
+      font-size: 28px;
+      font-weight: 900;
+      letter-spacing: 4px;
+      color: var(--gold);
+      margin-bottom: 20px;
+      text-transform: uppercase;
+    }
+
+    .result-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+    .rs-item { text-align: center; }
+    .rs-value { font-size: 24px; font-weight: 800; color: var(--gold); }
+    .rs-label { font-size: 10px; color: var(--gray-mid); text-transform: uppercase; letter-spacing: 0.5px; }
+
+    .result-share {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .btn {
+      padding: 13px 16px;
+      border-radius: var(--radius);
+      border: none;
+      font-family: var(--font);
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.1s, opacity 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .btn:active { transform: scale(0.97); }
+    .btn-primary { background: var(--blue-accent); color: #fff; }
+    .btn-primary:hover { background: var(--blue-bright); }
+    .btn-gold { background: var(--gold); color: #0d1f3c; }
+    .btn-gold:hover { background: #f7d454; }
+    .btn svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .btn-full { grid-column: 1 / -1; }
+
+    .dist-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    .dist-num { font-size: 13px; font-weight: 600; width: 16px; text-align: center; color: var(--gray-mid); }
+    .dist-bar-wrap { flex: 1; height: 22px; background: rgba(255,255,255,0.06); border-radius: 4px; overflow: hidden; }
+    .dist-bar { height: 100%; background: var(--blue-accent); border-radius: 4px; display: flex; align-items: center; padding: 0 8px; font-size: 12px; font-weight: 700; min-width: 28px; transition: width 0.5s ease; }
+    .dist-bar.highlight { background: var(--green); }
+
+    .setting-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    .setting-row:last-child { border-bottom: none; }
+    .setting-label { font-size: 15px; font-weight: 500; }
+    .setting-sub { font-size: 12px; color: var(--gray-mid); margin-top: 2px; }
+    .toggle {
+      width: 48px; height: 26px;
+      background: var(--gray-dark);
+      border-radius: 100px;
+      border: none;
+      cursor: pointer;
+      position: relative;
+      transition: background 0.25s;
+    }
+    .toggle.on { background: var(--blue-accent); }
+    .toggle::after {
+      content: '';
+      position: absolute;
+      top: 3px; left: 3px;
+      width: 20px; height: 20px;
+      background: #fff;
+      border-radius: 50%;
+      transition: transform 0.25s;
+    }
+    .toggle.on::after { transform: translateX(22px); }
+
+    .mode-tabs { display: flex; gap: 6px; }
+    .mode-tab {
+      padding: 6px 12px;
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.05);
+      color: var(--gray-mid);
+      font-family: var(--font);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .mode-tab.active { background: var(--blue-accent); border-color: var(--blue-accent); color: #fff; }
+
+    .divider { width: 100%; height: 1px; background: rgba(255,255,255,0.08); }
+
+    .game-title {
+      font-size: 28px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      text-align: center;
+      width: 100%;
+      background: linear-gradient(135deg, #ffffff 0%, #a8c8ff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: -4px;
+    }
+
+    @media (max-width: 480px) {
+      .game-title { font-size: 22px; }
+      .stats-bar { gap: 8px; }
+      .stat-chip { padding: 8px 4px; }
+      .stat-chip .value { font-size: 18px; }
+      .stat-chip .label { font-size: 9px; }
+      main { padding: 16px 10px 150px; gap: 14px; }
+    }
+
+    @media (max-width: 380px) {
+      .cell { font-size: 18px; }
+      .key { height: 44px; min-width: 28px; font-size: 11px; padding: 0 3px; }
+      .key.wide { min-width: 44px; font-size: 10px; }
+      .social-link { width: 34px; height: 34px; }
+      .social-link svg { width: 15px; height: 15px; }
+      .social-bar { gap: 14px; }
+      .game-title { font-size: 20px; }
+    }
+
+    @media (max-width: 320px) {
+      .key { height: 40px; min-width: 24px; font-size: 10px; }
+      .key.wide { min-width: 38px; }
+      .kb-row { gap: 3px; }
+    }
+  
+
+    /* ═══════════════ BANDEIRA ═══════════════ */
+    .header-logo a { display: flex; align-items: center; border-radius: 10px; }
+    .header-logo a:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+
+    main { padding-bottom: 110px; }
+
+    .flag-stage {
+      position: relative;
+      width: 100%;
+      max-width: 400px;
+      aspect-ratio: 400 / 267;
+      border-radius: 12px;
+      border: 2px solid var(--cell-border);
+      background:
+        repeating-linear-gradient(45deg, rgba(255,255,255,0.025) 0 10px, transparent 10px 20px),
+        var(--cell-empty);
+      overflow: hidden;
+      box-shadow: 0 8px 28px rgba(0,0,0,0.35);
+    }
+    .flag-stage canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+    #anim-canvas { opacity: 0; transition: opacity 0.55s ease; }
+    #anim-canvas.show { opacity: 1; }
+    .flag-stage.won { border-color: var(--green); box-shadow: 0 0 0 3px rgba(76,175,130,0.25), 0 8px 28px rgba(0,0,0,0.35); }
+    .flag-stage.lost { border-color: var(--gold); }
+    .flag-loading {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--gray-mid); font-size: 13px; font-weight: 600;
+    }
+    .flag-loading[hidden] { display: none; }
+
+    .reveal-info {
+      width: 100%; max-width: 400px;
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 12px; color: var(--gray-mid); margin-top: -8px;
+    }
+    .reveal-info strong { color: var(--gold); font-weight: 800; }
+
+    .guess-list {
+      width: 100%; max-width: 400px;
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .guess-row {
+      display: grid;
+      grid-template-columns: 54px 1fr auto 52px;
+      align-items: center;
+      gap: 10px;
+      height: 44px;
+      padding: 0 10px 0 6px;
+      border-radius: 10px;
+      border: 2px solid var(--cell-border);
+      background: var(--cell-empty);
+    }
+    .guess-row.filled { border-color: rgba(255,255,255,0.22); background: rgba(255,255,255,0.06); animation: pop 0.25s ease; }
+    .guess-row.correct { border-color: var(--green); background: rgba(76,175,130,0.15); }
+    .guess-row.answer { border-color: var(--gold); background: rgba(245,200,66,0.10); }
+    .guess-thumb {
+      width: 54px; height: 32px; border-radius: 4px;
+      background: rgba(255,255,255,0.05);
+      display: block;
+    }
+    .guess-name {
+      font-size: 14px; font-weight: 600;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .guess-squares { display: flex; gap: 3px; }
+    .sq {
+      width: 14px; height: 14px; border-radius: 3px;
+      background: var(--absent); border: 1px solid var(--absent-border);
+    }
+    .sq.present { background: var(--yellow); border-color: var(--yellow-dark); }
+    .sq.correct { background: var(--green); border-color: var(--green-dark); }
+    .guess-pct { font-size: 14px; font-weight: 800; text-align: right; color: var(--gold); font-variant-numeric: tabular-nums; }
+
+    .guess-form {
+      width: 100%; max-width: 400px;
+      display: flex; gap: 8px;
+      position: relative;
+    }
+    .guess-form[hidden] { display: none; }
+    .search-wrap { position: relative; flex: 1; }
+    .search-input {
+      width: 100%; height: 50px; padding: 0 16px;
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.07);
+      color: var(--white);
+      font-family: var(--font); font-size: 16px; font-weight: 500;
+      outline: none;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .search-input::placeholder { color: var(--gray-mid); }
+    .search-input:focus { border-color: var(--gold); background: rgba(255,255,255,0.1); }
+    .search-input.shake { animation: shake 0.4s ease; }
+    .guess-btn { height: 50px; padding: 0 20px; }
+    .guess-btn:disabled { opacity: 0.5; cursor: default; }
+
+    .suggestions {
+      position: absolute;
+      left: 0; right: 0;
+      top: calc(100% + 6px);
+      max-height: 264px;
+      overflow-y: auto;
+      list-style: none;
+      background: linear-gradient(135deg, #0f2040 0%, #1a3060 100%);
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      z-index: 50;
+      padding: 4px;
+    }
+    .suggestions[hidden] { display: none; }
+    .suggestions li {
+      display: flex; align-items: center; gap: 12px;
+      padding: 9px 10px;
+      border-radius: 8px;
+      font-size: 14px; font-weight: 500;
+      cursor: pointer;
+    }
+    .suggestions li img { width: 32px; height: 21px; object-fit: cover; border-radius: 3px; flex: none; background: rgba(255,255,255,0.08); }
+    .suggestions li.active, .suggestions li:hover { background: rgba(255,255,255,0.1); }
+    .suggestions li.used { opacity: 0.4; }
+    .suggestions .empty { color: var(--gray-mid); cursor: default; }
+    .suggestions .empty:hover { background: none; }
+
+    .end-actions {
+      width: 100%; max-width: 400px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+    }
+    .end-actions[hidden] { display: none; }
+
+    .result-flag {
+      display: block;
+      width: 160px; height: 107px;
+      margin: 0 auto 10px;
+      border-radius: 8px;
+      object-fit: fill;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+    }
+    .result-answer { letter-spacing: 1px; font-size: 24px; text-transform: none; }
+
+    .how-legend { display: flex; flex-direction: column; gap: 8px; margin: 6px 0 4px; }
+    .how-legend-row { display: flex; align-items: center; gap: 12px; font-size: 13px; color: var(--gray-light); }
+    .how-legend-row .guess-squares { flex: none; }
+
+    #bottom-bar {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      background: linear-gradient(to top, rgba(6,15,30,0.98) 70%, transparent);
+      padding: 14px 10px 0;
+      z-index: 20;
+    }
+
+    @media (max-width: 380px) {
+      .guess-row { grid-template-columns: 46px 1fr auto 46px; gap: 7px; }
+      .guess-thumb { width: 46px; height: 28px; }
+      .guess-name { font-size: 13px; }
+      .sq { width: 12px; height: 12px; }
+      .guess-pct { font-size: 13px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-logo">
+    <a href="https://ursusman.com" aria-label="Ir para a página inicial do UrsusMan" title="Página inicial">
+      <img src="https://res.cloudinary.com/dtdomrtyp/image/upload/v1781116238/UrsusMan_transparente_jnsn6c.png" alt="Ursusman" />
+    </a>
+  </div>
+  <div class="header-actions">
+    <button class="icon-btn" id="btn-stats" title="Estatísticas" aria-label="Ver estatísticas">
+      <svg viewBox="0 0 24 24"><rect x="3" y="14" width="4" height="7" rx="1"/><rect x="10" y="9" width="4" height="12" rx="1"/><rect x="17" y="4" width="4" height="17" rx="1"/></svg>
+    </button>
+    <button class="icon-btn" id="btn-how" title="Como jogar" aria-label="Como jogar">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.82 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+    </button>
+    <button class="icon-btn" id="btn-settings" title="Configurações" aria-label="Configurações">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+    </button>
+  </div>
+</header>
+
+<div id="toast-container"></div>
+
+<main>
+  <div class="game-title">Bandeira</div>
+  <div class="stats-bar" id="stats-bar">
+    <div class="stat-chip"><div class="value" id="bar-wins">0</div><div class="label">Vitórias</div></div>
+    <div class="stat-chip"><div class="value" id="bar-streak">0</div><div class="label">Sequência</div></div>
+    <div class="stat-chip"><div class="value" id="bar-record">0</div><div class="label">Recorde</div></div>
+    <div class="stat-chip"><div class="value" id="bar-winpct">0%</div><div class="label">% Vitória</div></div>
+  </div>
+
+  <div class="flag-stage" id="flag-stage">
+    <canvas id="flag-canvas" width="400" height="267" aria-label="Bandeira escondida"></canvas>
+    <canvas id="anim-canvas" width="400" height="267" aria-hidden="true"></canvas>
+    <div class="flag-loading" id="flag-loading">Carregando bandeira…</div>
+  </div>
+  <div class="reveal-info">
+    <span>Tentativa <strong id="try-count">1</strong>/6</span>
+    <span><strong id="reveal-pct">0%</strong> revelado</span>
+  </div>
+
+  <form class="guess-form" id="guess-form" autocomplete="off">
+    <div class="search-wrap">
+      <input class="search-input" id="country-input" type="text" placeholder="Digite um país…"
+             role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="suggestions"
+             spellcheck="false" autocapitalize="off" />
+      <ul class="suggestions" id="suggestions" role="listbox" hidden></ul>
+    </div>
+    <button class="btn btn-gold guess-btn" id="guess-btn" type="submit">Chutar</button>
+  </form>
+
+  <div class="end-actions" id="end-actions" hidden>
+    <button class="btn btn-gold" id="btn-share-inline" type="button">
+      <svg viewBox="0 0 24 24"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+      Compartilhar
+    </button>
+    <button class="btn btn-primary" id="btn-again-inline" type="button">
+      <svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+      Jogar de novo
+    </button>
+  </div>
+
+  <div class="guess-list" id="guess-list"></div>
+
+</main>
+
+<div id="bottom-bar">
+  <div class="social-bar">
+    <a class="social-link" href="https://www.twitch.tv/ursusmanoficial" target="_blank" rel="noopener" aria-label="Twitch">
+      <svg viewBox="0 0 24 24"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z"/></svg>
+    </a>
+    <a class="social-link" href="https://www.instagram.com/ursusmanoficial/" target="_blank" rel="noopener" aria-label="Instagram">
+      <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+    </a>
+    <a class="social-link" href="https://www.youtube.com/@ursusmanoficial" target="_blank" rel="noopener" aria-label="YouTube">
+      <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+    </a>
+    <a class="social-link" href="https://tiktok.com/@ursusmanoficial" target="_blank" rel="noopener" aria-label="TikTok">
+      <svg viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
+    </a>
+  </div>
+</div>
+
+<!-- STATS MODAL -->
+<div class="modal-overlay" id="modal-stats">
+  <div class="modal">
+    <button class="modal-close" data-close="modal-stats" aria-label="Fechar">&times;</button>
+    <h2>Estatísticas</h2>
+    <div class="result-stats" id="stats-modal-grid"></div>
+    <div id="stats-modal-dist"></div>
+  </div>
+</div>
+
+<!-- HOW TO PLAY MODAL -->
+<div class="modal-overlay" id="modal-how">
+  <div class="modal">
+    <button class="modal-close" data-close="modal-how" aria-label="Fechar">&times;</button>
+    <h2>Como Jogar</h2>
+    <p style="font-size:14px;color:var(--gray-light);line-height:1.55;margin-bottom:12px;">
+      Descubra o <strong>país da bandeira escondida</strong> em até 6 tentativas.
+    </p>
+    <p style="font-size:14px;color:var(--gray-light);line-height:1.55;margin-bottom:12px;">
+      A cada chute, a bandeira do país que você escolheu é colocada por cima da bandeira escondida.
+      Toda parte em que as <strong>cores coincidem no mesmo lugar</strong> é revelada.
+    </p>
+    <p style="font-size:13px;color:var(--gray-mid);line-height:1.5;margin-bottom:14px;">
+      Todas as bandeiras são esticadas para o mesmo formato. A porcentagem mostra quanto do seu chute bateu com a bandeira certa.
+    </p>
+    <div class="divider" style="margin-bottom:14px;"></div>
+    <div class="how-legend">
+      <div class="how-legend-row"><div class="guess-squares"><span class="sq"></span><span class="sq"></span><span class="sq"></span><span class="sq"></span><span class="sq"></span></div> menos de 2,5%</div>
+      <div class="how-legend-row"><div class="guess-squares"><span class="sq correct"></span><span class="sq correct"></span><span class="sq present"></span><span class="sq"></span><span class="sq"></span></div> entre 20% e 30%</div>
+      <div class="how-legend-row"><div class="guess-squares"><span class="sq correct"></span><span class="sq correct"></span><span class="sq correct"></span><span class="sq correct"></span><span class="sq present"></span></div> 80% ou mais, mas não é o país</div>
+      <div class="how-legend-row"><div class="guess-squares"><span class="sq correct"></span><span class="sq correct"></span><span class="sq correct"></span><span class="sq correct"></span><span class="sq correct"></span></div> acertou o país!</div>
+    </div>
+    <div class="divider" style="margin:14px 0;"></div>
+    <p style="font-size:13px;color:var(--gray-mid);text-align:center;">Jogue quantas vezes quiser — 197 países.</p>
+  </div>
+</div>
+
+<!-- SETTINGS MODAL -->
+<div class="modal-overlay" id="modal-settings">
+  <div class="modal">
+    <button class="modal-close" data-close="modal-settings" aria-label="Fechar">&times;</button>
+    <h2>Configurações</h2>
+    <div class="setting-row">
+      <div>
+        <div class="setting-label">Modo Difícil</div>
+        <div class="setting-sub">Esconde as bandeiras na lista de países</div>
+      </div>
+      <button class="toggle" id="toggle-hard" role="switch" aria-checked="false"></button>
+    </div>
+    <div class="setting-row">
+      <div>
+        <div class="setting-label">Modo Daltônico</div>
+        <div class="setting-sub">Alto contraste para cores</div>
+      </div>
+      <button class="toggle" id="toggle-color" role="switch" aria-checked="false"></button>
+    </div>
+    <div class="setting-row">
+      <div>
+        <div class="setting-label">Animações Reduzidas</div>
+        <div class="setting-sub">Revela a bandeira sem transição</div>
+      </div>
+      <button class="toggle" id="toggle-anim" role="switch" aria-checked="false"></button>
+    </div>
+    <div class="divider" style="margin:16px 0;"></div>
+    <button class="btn btn-primary btn-full" id="btn-reset-stats" style="width:100%;">Resetar Estatísticas</button>
+  </div>
+</div>
+
+<!-- RESULT MODAL -->
+<div class="modal-overlay" id="modal-result">
+  <div class="modal">
+    <button class="modal-close" data-close="modal-result" aria-label="Fechar">&times;</button>
+    <h2 id="result-title">Resultado</h2>
+    <div class="result-word">O país era</div>
+    <img class="result-flag" id="result-flag" alt="" />
+    <div class="result-answer" id="result-answer"></div>
+    <div class="result-stats" id="result-stats-grid"></div>
+    <div id="result-dist" style="margin-bottom:20px;"></div>
+    <div class="result-share">
+      <button class="btn btn-gold" id="btn-share">
+        <svg viewBox="0 0 24 24"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+        Compartilhar
+      </button>
+      <button class="btn btn-primary" id="btn-new-game">
+        <svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+        Novo Jogo
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════════════
+//  BANDEIRA — jogo de bandeiras do UrsusMan
+//  Bandeiras: flagcdn.com (domínio público). Nomes: CLDR (pt-BR).
+// ═══════════════════════════════════════════════════════════════════════
+
+const COUNTRIES = [{"code": "af", "name": "Afeganistão"}, {"code": "al", "name": "Albânia"}, {"code": "de", "name": "Alemanha"}, {"code": "ad", "name": "Andorra"}, {"code": "ao", "name": "Angola"}, {"code": "ag", "name": "Antígua e Barbuda"}, {"code": "ar", "name": "Argentina"}, {"code": "dz", "name": "Argélia"}, {"code": "am", "name": "Armênia"}, {"code": "sa", "name": "Arábia Saudita"}, {"code": "au", "name": "Austrália"}, {"code": "az", "name": "Azerbaijão"}, {"code": "bs", "name": "Bahamas", "aliases": []}, {"code": "bh", "name": "Bahrein", "aliases": ["Barein"]}, {"code": "bd", "name": "Bangladesh"}, {"code": "bb", "name": "Barbados"}, {"code": "bz", "name": "Belize"}, {"code": "bj", "name": "Benin"}, {"code": "by", "name": "Bielorrússia"}, {"code": "bo", "name": "Bolívia"}, {"code": "bw", "name": "Botsuana"}, {"code": "br", "name": "Brasil"}, {"code": "bn", "name": "Brunei"}, {"code": "bg", "name": "Bulgária"}, {"code": "bf", "name": "Burkina Faso", "aliases": ["Burquina Faso"]}, {"code": "bi", "name": "Burundi"}, {"code": "bt", "name": "Butão"}, {"code": "be", "name": "Bélgica"}, {"code": "ba", "name": "Bósnia e Herzegovina"}, {"code": "cv", "name": "Cabo Verde", "aliases": ["Cabo-Verde"]}, {"code": "cm", "name": "Camarões"}, {"code": "kh", "name": "Camboja"}, {"code": "ca", "name": "Canadá"}, {"code": "qa", "name": "Catar"}, {"code": "kz", "name": "Cazaquistão"}, {"code": "td", "name": "Chade"}, {"code": "cl", "name": "Chile"}, {"code": "cn", "name": "China"}, {"code": "cy", "name": "Chipre"}, {"code": "co", "name": "Colômbia"}, {"code": "km", "name": "Comores"}, {"code": "kp", "name": "Coreia do Norte", "aliases": ["Coreia"]}, {"code": "kr", "name": "Coreia do Sul", "aliases": ["Coreia"]}, {"code": "cr", "name": "Costa Rica"}, {"code": "ci", "name": "Costa do Marfim", "aliases": []}, {"code": "hr", "name": "Croácia"}, {"code": "cu", "name": "Cuba"}, {"code": "dk", "name": "Dinamarca"}, {"code": "dj", "name": "Djibuti"}, {"code": "dm", "name": "Dominica"}, {"code": "eg", "name": "Egito"}, {"code": "sv", "name": "El Salvador"}, {"code": "ae", "name": "Emirados Árabes Unidos", "aliases": ["EAU", "Emirados"]}, {"code": "ec", "name": "Equador"}, {"code": "er", "name": "Eritreia"}, {"code": "sk", "name": "Eslováquia"}, {"code": "si", "name": "Eslovênia"}, {"code": "es", "name": "Espanha"}, {"code": "sz", "name": "Essuatíni", "aliases": ["Suazilândia", "Eswatini"]}, {"code": "us", "name": "Estados Unidos", "aliases": ["EUA", "USA"]}, {"code": "ee", "name": "Estônia"}, {"code": "et", "name": "Etiópia"}, {"code": "fj", "name": "Fiji"}, {"code": "ph", "name": "Filipinas"}, {"code": "fi", "name": "Finlândia"}, {"code": "fr", "name": "França"}, {"code": "ga", "name": "Gabão"}, {"code": "gh", "name": "Gana"}, {"code": "ge", "name": "Geórgia"}, {"code": "gd", "name": "Granada"}, {"code": "gr", "name": "Grécia"}, {"code": "gt", "name": "Guatemala"}, {"code": "gy", "name": "Guiana"}, {"code": "gn", "name": "Guiné"}, {"code": "gq", "name": "Guiné Equatorial"}, {"code": "gw", "name": "Guiné-Bissau", "aliases": ["Guiné Bissau"]}, {"code": "gm", "name": "Gâmbia"}, {"code": "ht", "name": "Haiti"}, {"code": "hn", "name": "Honduras"}, {"code": "hu", "name": "Hungria"}, {"code": "mh", "name": "Ilhas Marshall"}, {"code": "sb", "name": "Ilhas Salomão"}, {"code": "id", "name": "Indonésia"}, {"code": "iq", "name": "Iraque"}, {"code": "ie", "name": "Irlanda"}, {"code": "ir", "name": "Irã"}, {"code": "is", "name": "Islândia"}, {"code": "il", "name": "Israel"}, {"code": "it", "name": "Itália"}, {"code": "ye", "name": "Iêmen"}, {"code": "jm", "name": "Jamaica"}, {"code": "jp", "name": "Japão"}, {"code": "jo", "name": "Jordânia"}, {"code": "xk", "name": "Kosovo"}, {"code": "kw", "name": "Kuwait"}, {"code": "la", "name": "Laos"}, {"code": "ls", "name": "Lesoto"}, {"code": "lv", "name": "Letônia"}, {"code": "lr", "name": "Libéria"}, {"code": "li", "name": "Liechtenstein"}, {"code": "lt", "name": "Lituânia"}, {"code": "lu", "name": "Luxemburgo"}, {"code": "lb", "name": "Líbano"}, {"code": "ly", "name": "Líbia"}, {"code": "mk", "name": "Macedônia do Norte", "aliases": ["Macedônia"]}, {"code": "mg", "name": "Madagascar"}, {"code": "mw", "name": "Malaui"}, {"code": "mv", "name": "Maldivas"}, {"code": "ml", "name": "Mali"}, {"code": "mt", "name": "Malta"}, {"code": "my", "name": "Malásia"}, {"code": "ma", "name": "Marrocos"}, {"code": "mr", "name": "Mauritânia"}, {"code": "mu", "name": "Maurício"}, {"code": "mm", "name": "Mianmar", "aliases": ["Birmânia"]}, {"code": "fm", "name": "Micronésia"}, {"code": "md", "name": "Moldávia"}, {"code": "mn", "name": "Mongólia"}, {"code": "me", "name": "Montenegro"}, {"code": "mz", "name": "Moçambique"}, {"code": "mx", "name": "México"}, {"code": "mc", "name": "Mônaco"}, {"code": "na", "name": "Namíbia"}, {"code": "nr", "name": "Nauru"}, {"code": "np", "name": "Nepal"}, {"code": "ni", "name": "Nicarágua"}, {"code": "ng", "name": "Nigéria"}, {"code": "no", "name": "Noruega"}, {"code": "nz", "name": "Nova Zelândia"}, {"code": "ne", "name": "Níger"}, {"code": "om", "name": "Omã"}, {"code": "pw", "name": "Palau"}, {"code": "ps", "name": "Palestina", "aliases": ["Territórios Palestinos"]}, {"code": "pa", "name": "Panamá"}, {"code": "pg", "name": "Papua-Nova Guiné", "aliases": ["Papua Nova Guiné"]}, {"code": "pk", "name": "Paquistão"}, {"code": "py", "name": "Paraguai"}, {"code": "nl", "name": "Países Baixos", "aliases": ["Holanda"]}, {"code": "pe", "name": "Peru"}, {"code": "pl", "name": "Polônia"}, {"code": "pt", "name": "Portugal"}, {"code": "kg", "name": "Quirguistão"}, {"code": "ki", "name": "Quiribati"}, {"code": "ke", "name": "Quênia"}, {"code": "gb", "name": "Reino Unido", "aliases": ["Inglaterra", "Grã-Bretanha", "UK"]}, {"code": "cf", "name": "República Centro-Africana"}, {"code": "cd", "name": "República Democrática do Congo", "aliases": ["Congo", "RDC", "Congo-Kinshasa"]}, {"code": "do", "name": "República Dominicana"}, {"code": "cz", "name": "República Tcheca", "aliases": ["Tchéquia", "Tchecoslováquia"]}, {"code": "cg", "name": "República do Congo", "aliases": ["Congo", "Congo-Brazzaville"]}, {"code": "ro", "name": "Romênia"}, {"code": "rw", "name": "Ruanda"}, {"code": "ru", "name": "Rússia", "aliases": ["Federação Russa"]}, {"code": "ws", "name": "Samoa"}, {"code": "sm", "name": "San Marino"}, {"code": "lc", "name": "Santa Lúcia"}, {"code": "sc", "name": "Seicheles"}, {"code": "sn", "name": "Senegal"}, {"code": "sl", "name": "Serra Leoa"}, {"code": "sg", "name": "Singapura"}, {"code": "so", "name": "Somália"}, {"code": "lk", "name": "Sri Lanka"}, {"code": "sd", "name": "Sudão"}, {"code": "ss", "name": "Sudão do Sul"}, {"code": "sr", "name": "Suriname"}, {"code": "se", "name": "Suécia"}, {"code": "ch", "name": "Suíça"}, {"code": "kn", "name": "São Cristóvão e Névis", "aliases": ["São Cristóvão e Nevis"]}, {"code": "st", "name": "São Tomé e Príncipe"}, {"code": "vc", "name": "São Vicente e Granadinas"}, {"code": "rs", "name": "Sérvia"}, {"code": "sy", "name": "Síria"}, {"code": "tj", "name": "Tadjiquistão"}, {"code": "th", "name": "Tailândia"}, {"code": "tw", "name": "Taiwan"}, {"code": "tz", "name": "Tanzânia"}, {"code": "tl", "name": "Timor-Leste", "aliases": ["Timor Leste"]}, {"code": "tg", "name": "Togo"}, {"code": "to", "name": "Tonga"}, {"code": "tt", "name": "Trinidad e Tobago"}, {"code": "tn", "name": "Tunísia"}, {"code": "tm", "name": "Turcomenistão"}, {"code": "tr", "name": "Turquia"}, {"code": "tv", "name": "Tuvalu"}, {"code": "ua", "name": "Ucrânia"}, {"code": "ug", "name": "Uganda"}, {"code": "uy", "name": "Uruguai"}, {"code": "uz", "name": "Uzbequistão"}, {"code": "vu", "name": "Vanuatu"}, {"code": "va", "name": "Vaticano", "aliases": ["Santa Sé", "Cidade do Vaticano"]}, {"code": "ve", "name": "Venezuela"}, {"code": "vn", "name": "Vietnã"}, {"code": "zw", "name": "Zimbábue"}, {"code": "zm", "name": "Zâmbia"}, {"code": "za", "name": "África do Sul", "aliases": ["Africa do Sul"]}, {"code": "at", "name": "Áustria"}, {"code": "in", "name": "Índia"}];
+
+const W = 400, H = 267;              // todas as bandeiras são esticadas para 3:2
+const COLOR_THRESHOLD = 18;          // % de diferença de cor aceita como "mesma cor"
+const MAX_TRIES = 6;
+const MAX_DIST = Math.sqrt(3 * 255 * 255);
+
+const BY_CODE = Object.fromEntries(COUNTRIES.map(c => [c.code, c]));
+const norm = s => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().trim();
+COUNTRIES.forEach(c => { c.keys = [c.name, ...(c.aliases || [])].map(norm); });
+
+const flagUrl  = code => `https://flagcdn.com/w640/${code}.png`;
+const thumbUrl = code => `https://flagcdn.com/w80/${code}.png`;
+
+let state = {
+  sol: null,          // código do país secreto
+  guesses: [],        // [{ code, pct }]
+  gameOver: false,
+  won: false,
+  hardMode: false,
+  colorBlind: false,
+  reducedAnim: false,
+  stats: { played: 0, wins: 0, currentStreak: 0, maxStreak: 0, distribution: [0,0,0,0,0,0] }
+};
+
+let busy = false;         // true enquanto um chute está sendo processado/animado
+let solFlag = null;       // { data, opaque } da bandeira secreta
+let revealed = null;      // ImageData com os pixels já revelados
+const thumbs = [];        // dados para as miniaturas que alternam
+let showOriginal = false;
+
+// ── Carregamento das bandeiras ──────────────────────────────────────────
+const flagCache = new Map();
+function loadFlag(code) {
+  if (flagCache.has(code)) return flagCache.get(code);
+  const p = new Promise((resolve, reject) => {
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = () => {
+      const c = document.createElement('canvas');
+      c.width = W; c.height = H;
+      const ctx = c.getContext('2d', { willReadFrequently: true });
+      const ratio = img.naturalWidth / img.naturalHeight;
+      if (ratio < 1) {
+        // Bandeira não retangular (Nepal): mantém a proporção, centralizada
+        const h = H, w = Math.round(H * ratio);
+        ctx.drawImage(img, Math.round((W - w) / 2), 0, w, h);
+      } else {
+        ctx.drawImage(img, 0, 0, W, H);
+      }
+      const data = ctx.getImageData(0, 0, W, H).data;
+      let opaque = 0;
+      for (let i = 3; i < data.length; i += 4) if (data[i] > 127) opaque++;
+      resolve({ data, opaque, canvas: c });
+    };
+    img.onerror = () => { flagCache.delete(code); reject(new Error('flag ' + code)); };
+    img.src = flagUrl(code);
+  });
+  flagCache.set(code, p);
+  return p;
+}
+
+// Compara o chute com a bandeira secreta e revela os pixels iguais
+function compare(guessFlag, isCorrect) {
+  const a = solFlag.data, b = guessFlag.data;
+  const rev = revealed.data;
+  const mask = new Uint8ClampedArray(a.length);
+  let matches = 0;
+  for (let i = 0; i < a.length; i += 4) {
+    mask[i] = b[i]; mask[i+1] = b[i+1]; mask[i+2] = b[i+2];
+    if (a[i+3] > 127 && b[i+3] > 127) {
+      const d = Math.sqrt((a[i]-b[i])**2 + (a[i+1]-b[i+1])**2 + (a[i+2]-b[i+2])**2);
+      if (d / MAX_DIST * 100 < COLOR_THRESHOLD) {
+        matches++;
+        mask[i+3] = 255;
+        if (rev[i+3] === 0) { rev[i] = a[i]; rev[i+1] = a[i+1]; rev[i+2] = a[i+2]; rev[i+3] = 255; }
+      }
+    }
+  }
+  const overlap = matches / (W * H);
+  const pct = isCorrect ? 100 : overlap >= 1 ? 99.9 : overlap * 100;
+  return { pct: Math.round(pct * 10) / 10, mask: new ImageData(mask, W, H) };
+}
+
+function squares(p) {
+  return [
+    p < 2.5 ? 'absent' : p < 5  ? 'present' : 'correct',
+    p < 10  ? 'absent' : p < 15 ? 'present' : 'correct',
+    p < 20  ? 'absent' : p < 30 ? 'present' : 'correct',
+    p < 40  ? 'absent' : p < 60 ? 'present' : 'correct',
+    p < 80  ? 'absent' : p < 100 ? 'present' : 'correct',
+  ];
+}
+
+// ── Desenho ─────────────────────────────────────────────────────────────
+const flagCanvas = document.getElementById('flag-canvas');
+const animCanvas = document.getElementById('anim-canvas');
+const fctx = flagCanvas.getContext('2d');
+const actx = animCanvas.getContext('2d');
+
+function drawRevealed() {
+  fctx.clearRect(0, 0, W, H);
+  if (revealed) fctx.putImageData(revealed, 0, 0);
+}
+function drawFullSolution() {
+  fctx.clearRect(0, 0, W, H);
+  fctx.putImageData(new ImageData(new Uint8ClampedArray(solFlag.data), W, H), 0, 0);
+}
+function revealedPct() {
+  if (!revealed || !solFlag) return 0;
+  if (state.won) return 100;
+  let n = 0;
+  const d = revealed.data;
+  for (let i = 3; i < d.length; i += 4) if (d[i]) n++;
+  return Math.min(100, n / solFlag.opaque * 100);
+}
+
+function buildGuessList() {
+  const list = document.getElementById('guess-list');
+  list.innerHTML = '';
+  thumbs.length = 0;
+  for (let i = 0; i < MAX_TRIES; i++) {
+    const row = document.createElement('div');
+    row.className = 'guess-row';
+    row.id = `guess-${i}`;
+    row.innerHTML = `<canvas class="guess-thumb" width="${W/4}" height="${Math.round(H/4)}"></canvas>
+      <div class="guess-name"></div>
+      <div class="guess-squares">${'<span class="sq"></span>'.repeat(5)}</div>
+      <div class="guess-pct"></div>`;
+    list.appendChild(row);
+  }
+}
+
+function fillRow(i, code, pct, extraClass) {
+  const row = document.getElementById(`guess-${i}`) || appendAnswerRow();
+  row.className = 'guess-row filled' + (extraClass ? ' ' + extraClass : '');
+  row.querySelector('.guess-name').textContent = BY_CODE[code].name;
+  const sq = squares(pct);
+  row.querySelectorAll('.sq').forEach((el, k) => { el.className = 'sq ' + sq[k]; });
+  row.querySelector('.guess-pct').textContent = (pct === 100 ? '100' : pct.toFixed(1).replace('.', ',')) + '%';
+  return row;
+}
+
+function appendAnswerRow() {
+  const row = document.createElement('div');
+  row.id = 'guess-answer';
+  row.innerHTML = `<canvas class="guess-thumb" width="${W/4}" height="${Math.round(H/4)}"></canvas>
+    <div class="guess-name"></div><div class="guess-squares">${'<span class="sq"></span>'.repeat(5)}</div><div class="guess-pct"></div>`;
+  document.getElementById('guess-list').appendChild(row);
+  return row;
+}
+
+function setThumb(row, original, mask) {
+  const canvas = row.querySelector('.guess-thumb');
+  const t = { canvas, original, mask };
+  thumbs.push(t);
+  paintThumb(t);
+}
+function paintThumb(t) {
+  const ctx = t.canvas.getContext('2d');
+  ctx.clearRect(0, 0, t.canvas.width, t.canvas.height);
+  if (!showOriginal && t.mask) {
+    const tmp = document.createElement('canvas');
+    tmp.width = W; tmp.height = H;
+    tmp.getContext('2d').putImageData(t.mask, 0, 0);
+    ctx.drawImage(tmp, 0, 0, t.canvas.width, t.canvas.height);
+  } else {
+    ctx.drawImage(t.original, 0, 0, t.canvas.width, t.canvas.height);
+  }
+}
+// Igual ao original: as miniaturas alternam entre a bandeira chutada
+// inteira e só a parte que bateu, a cada 3 segundos.
+setInterval(() => {
+  if (document.hidden) return;
+  showOriginal = !showOriginal;
+  thumbs.forEach(paintThumb);
+}, 3000);
+
+function updateInfo() {
+  const tries = Math.min(state.guesses.length + (state.gameOver ? 0 : 1), MAX_TRIES);
+  document.getElementById('try-count').textContent = tries;
+  document.getElementById('reveal-pct').textContent = Math.round(revealedPct()) + '%';
+  const stage = document.getElementById('flag-stage');
+  stage.classList.toggle('won', state.gameOver && state.won);
+  stage.classList.toggle('lost', state.gameOver && !state.won);
+  document.getElementById('guess-form').hidden = state.gameOver;
+  document.getElementById('end-actions').hidden = !state.gameOver;
+  updateStatsBar();
+}
+
+// ── Estado / armazenamento ──────────────────────────────────────────────
+function saveState() {
+  try {
+    localStorage.setItem('ursusBandeira', JSON.stringify({
+      stats: state.stats, hardMode: state.hardMode,
+      colorBlind: state.colorBlind, reducedAnim: state.reducedAnim
+    }));
+    localStorage.setItem('ursusBandeiraGame', JSON.stringify({
+      sol: state.sol, guesses: state.guesses.map(g => g.code),
+      gameOver: state.gameOver, won: state.won
+    }));
+  } catch (e) {}
+}
+
+function loadState() {
+  try {
+    const s = JSON.parse(localStorage.getItem('ursusBandeira') || 'null');
+    if (s) {
+      state.stats = s.stats || state.stats;
+      state.hardMode = !!s.hardMode;
+      state.colorBlind = !!s.colorBlind;
+      state.reducedAnim = !!s.reducedAnim;
+    }
+  } catch (e) {}
+  // Igual ao Charada: ao recarregar, retoma a partida em andamento.
+  // Partida terminada ou sem chutes → país novo.
+  try {
+    const g = JSON.parse(localStorage.getItem('ursusBandeiraGame') || 'null');
+    if (g && BY_CODE[g.sol] && !g.gameOver && Array.isArray(g.guesses) &&
+        g.guesses.length > 0 && g.guesses.length < MAX_TRIES && g.guesses.every(c => BY_CODE[c])) {
+      state.sol = g.sol;
+      return g.guesses;
+    }
+  } catch (e) {}
+  state.sol = randomCountry();
+  return [];
+}
+
+function randomCountry() {
+  const buf = new Uint32Array(1);
+  (window.crypto || window.msCrypto).getRandomValues(buf);
+  let code = COUNTRIES[buf[0] % COUNTRIES.length].code;
+  if (code === state.sol && COUNTRIES.length > 1) code = COUNTRIES[(buf[0] + 1) % COUNTRIES.length].code;
+  return code;
+}
+
+async function startGame(restoreGuesses = []) {
+  busy = true;
+  state.guesses = []; state.gameOver = false; state.won = false;
+  revealed = new ImageData(W, H);
+  solFlag = null;
+  fctx.clearRect(0, 0, W, H);
+  actx.clearRect(0, 0, W, H);
+  buildGuessList();
+  const loading = document.getElementById('flag-loading');
+  loading.hidden = false;
+  loading.textContent = 'Carregando bandeira…';
+  updateInfo();
+  try {
+    solFlag = await loadFlag(state.sol);
+    for (const code of restoreGuesses) {
+      const gf = await loadFlag(code);
+      const r = compare(gf, code === state.sol);
+      const idx = state.guesses.length;
+      state.guesses.push({ code, pct: r.pct });
+      setThumb(fillRow(idx, code, r.pct, code === state.sol ? 'correct' : ''), gf.canvas, r.mask);
+    }
+    loading.hidden = true;
+    drawRevealed();
+    saveState();
+    // Pré-carrega algumas bandeiras para os primeiros chutes ficarem rápidos
+  } catch (e) {
+    loading.textContent = 'Não foi possível carregar a bandeira. Verifique sua conexão e recarregue a página.';
+  }
+  busy = false;
+  updateInfo();
+}
+
+// ── Chute ───────────────────────────────────────────────────────────────
+async function submitGuess(code) {
+  if (busy || state.gameOver || !solFlag) return;
+  const input = document.getElementById('country-input');
+  if (!code) {
+    shakeInput();
+    showToast('País não está na lista');
+    return;
+  }
+  if (state.guesses.some(g => g.code === code)) {
+    shakeInput();
+    showToast('Você já chutou esse país');
+    return;
+  }
+  busy = true;
+  document.getElementById('guess-btn').disabled = true;
+  input.value = '';
+  closeSuggestions();
+
+  let gf;
+  try {
+    gf = await loadFlag(code);
+  } catch (e) {
+    showToast('Não foi possível carregar essa bandeira. Tente de novo.');
+    busy = false;
+    document.getElementById('guess-btn').disabled = false;
+    return;
+  }
+
+  const isCorrect = code === state.sol;
+  const r = compare(gf, isCorrect);
+  const idx = state.guesses.length;
+  state.guesses.push({ code, pct: r.pct });
+  state.won = isCorrect;
+  state.gameOver = isCorrect || state.guesses.length >= MAX_TRIES;
+  saveState();
+
+  const finish = () => {
+    if (state.won) drawFullSolution(); else drawRevealed();
+    const row = fillRow(idx, code, r.pct, isCorrect ? 'correct' : '');
+    setThumb(row, gf.canvas, r.mask);
+    if (state.gameOver) endGame();
+    busy = false;
+    document.getElementById('guess-btn').disabled = false;
+    updateInfo();
+    if (!state.gameOver && !matchMedia('(hover: none)').matches) input.focus();
+  };
+
+  if (state.reducedAnim) {
+    finish();
+  } else {
+    // Mostra a bandeira chutada por cima, depois revela o que bateu
+    actx.clearRect(0, 0, W, H);
+    actx.drawImage(gf.canvas, 0, 0);
+    animCanvas.classList.add('show');
+    setTimeout(() => {
+      if (state.won) drawFullSolution(); else drawRevealed();
+      animCanvas.classList.remove('show');
+      setTimeout(finish, 550);
+    }, 900);
+  }
+}
+
+function endGame() {
+  updateStats(state.won, state.guesses.length);
+  if (state.won) {
+    showToast(['Mandou bem!', 'Incrível!', 'Na mosca!'][Math.floor(Math.random() * 3)]);
+  } else {
+    drawFullSolution();
+    const row = fillRow(MAX_TRIES, state.sol, 100, 'answer');
+    row.querySelectorAll('.sq').forEach(el => { el.className = 'sq'; });
+    row.querySelector('.guess-pct').textContent = '';
+    loadFlag(state.sol).then(f => setThumb(row, f.canvas, null));
+  }
+  saveState();
+  setTimeout(showResult, state.won ? 700 : 600);
+}
+
+function shakeInput() {
+  const el = document.getElementById('country-input');
+  el.classList.remove('shake'); void el.offsetWidth; el.classList.add('shake');
+}
+
+// ── Busca de países (autocomplete) ──────────────────────────────────────
+const inputEl = document.getElementById('country-input');
+const sugEl = document.getElementById('suggestions');
+let sugItems = [], sugActive = -1;
+
+function searchCountries(q) {
+  const n = norm(q);
+  if (!n) return [];
+  const starts = [], wordStarts = [], contains = [];
+  for (const c of COUNTRIES) {
+    let rank = -1;
+    for (const k of c.keys) {
+      if (k.startsWith(n)) { rank = 0; break; }
+      if (k.split(/[\s-]+/).some(w => w.startsWith(n))) rank = rank < 0 || rank > 1 ? 1 : rank;
+      else if (k.includes(n) && rank < 0) rank = 2;
+    }
+    if (rank === 0) starts.push(c); else if (rank === 1) wordStarts.push(c); else if (rank === 2) contains.push(c);
+  }
+  const byName = (a, b) => a.name.localeCompare(b.name, 'pt-BR');
+  return [...starts.sort(byName), ...wordStarts.sort(byName), ...contains.sort(byName)].slice(0, 30);
+}
+
+function exactMatch(q) {
+  const n = norm(q);
+  return COUNTRIES.find(c => c.keys.includes(n)) || null;
+}
+
+function renderSuggestions() {
+  const q = inputEl.value;
+  sugItems = searchCountries(q);
+  sugActive = sugItems.length ? 0 : -1;
+  if (!q.trim()) { closeSuggestions(); return; }
+  sugEl.innerHTML = '';
+  if (!sugItems.length) {
+    const li = document.createElement('li');
+    li.className = 'empty';
+    li.textContent = 'Nenhum país encontrado';
+    sugEl.appendChild(li);
+  }
+  sugItems.forEach((c, i) => {
+    const li = document.createElement('li');
+    li.role = 'option';
+    li.dataset.code = c.code;
+    if (state.guesses.some(g => g.code === c.code)) li.classList.add('used');
+    if (!state.hardMode) {
+      const img = document.createElement('img');
+      img.loading = 'lazy'; img.alt = ''; img.src = thumbUrl(c.code);
+      li.appendChild(img);
+    }
+    li.appendChild(document.createTextNode(c.name));
+    li.addEventListener('mousedown', e => { e.preventDefault(); pick(c); });
+    sugEl.appendChild(li);
+  });
+  sugEl.hidden = false;
+  inputEl.setAttribute('aria-expanded', 'true');
+  highlight();
+}
+function highlight() {
+  [...sugEl.querySelectorAll('li[data-code]')].forEach((li, i) => {
+    li.classList.toggle('active', i === sugActive);
+    if (i === sugActive) li.scrollIntoView({ block: 'nearest' });
+  });
+}
+function closeSuggestions() {
+  sugEl.hidden = true;
+  inputEl.setAttribute('aria-expanded', 'false');
+}
+function pick(c) {
+  inputEl.value = c.name;
+  closeSuggestions();
+  submitGuess(c.code);
+}
+
+inputEl.addEventListener('input', renderSuggestions);
+inputEl.addEventListener('focus', () => { if (inputEl.value.trim()) renderSuggestions(); });
+inputEl.addEventListener('blur', () => setTimeout(closeSuggestions, 120));
+inputEl.addEventListener('keydown', e => {
+  if (sugEl.hidden) return;
+  if (e.key === 'ArrowDown') { e.preventDefault(); sugActive = Math.min(sugActive + 1, sugItems.length - 1); highlight(); }
+  else if (e.key === 'ArrowUp') { e.preventDefault(); sugActive = Math.max(sugActive - 1, 0); highlight(); }
+  else if (e.key === 'Escape') { closeSuggestions(); }
+});
+
+document.getElementById('guess-form').addEventListener('submit', e => {
+  e.preventDefault();
+  const exact = exactMatch(inputEl.value);
+  if (exact) { closeSuggestions(); submitGuess(exact.code); return; }
+  if (!sugEl.hidden && sugActive >= 0 && sugItems[sugActive]) { pick(sugItems[sugActive]); return; }
+  submitGuess(null);
+});
+
+// ── Estatísticas / resultado ────────────────────────────────────────────
+function updateStats(won, tries) {
+  state.stats.played++;
+  if (won) {
+    state.stats.wins++;
+    state.stats.currentStreak++;
+    state.stats.maxStreak = Math.max(state.stats.maxStreak, state.stats.currentStreak);
+    if (tries >= 1 && tries <= 6) state.stats.distribution[tries - 1]++;
+  } else {
+    state.stats.currentStreak = 0;
+  }
+  saveState();
+  updateStatsBar();
+}
+
+function updateStatsBar() {
+  document.getElementById('bar-wins').textContent = state.stats.wins;
+  document.getElementById('bar-streak').textContent = state.stats.currentStreak;
+  document.getElementById('bar-record').textContent = state.stats.maxStreak;
+  const pct = state.stats.played > 0 ? Math.round(state.stats.wins / state.stats.played * 100) : 0;
+  document.getElementById('bar-winpct').textContent = pct + '%';
+}
+
+function statsHtml() {
+  const s = state.stats;
+  return `
+    <div class="rs-item"><div class="rs-value">${s.played}</div><div class="rs-label">Jogados</div></div>
+    <div class="rs-item"><div class="rs-value">${s.played ? Math.round(s.wins / s.played * 100) : 0}%</div><div class="rs-label">Vitórias</div></div>
+    <div class="rs-item"><div class="rs-value">${s.currentStreak}</div><div class="rs-label">Sequência</div></div>
+    <div class="rs-item"><div class="rs-value">${s.maxStreak}</div><div class="rs-label">Recorde</div></div>`;
+}
+function distHtml() {
+  const d = state.stats.distribution;
+  const maxVal = Math.max(...d, 1);
+  return d.map((v, i) => `
+    <div class="dist-row">
+      <span class="dist-num">${i + 1}</span>
+      <div class="dist-bar-wrap">
+        <div class="dist-bar ${state.gameOver && state.won && state.guesses.length === i + 1 ? 'highlight' : ''}" style="width:${Math.max(v / maxVal * 100, 8)}%">${v}</div>
+      </div>
+    </div>`).join('');
+}
+
+function showStats() {
+  document.getElementById('stats-modal-grid').innerHTML = statsHtml();
+  document.getElementById('stats-modal-dist').innerHTML = distHtml();
+  openModal('modal-stats');
+}
+
+function showResult() {
+  const n = state.guesses.length;
+  document.getElementById('result-title').textContent = state.won
+    ? (n === 1 ? 'Perfeito!' : n <= 3 ? 'Incrível!' : 'Parabéns!')
+    : 'Fim de Jogo';
+  const img = document.getElementById('result-flag');
+  img.src = thumbUrl(state.sol).replace('/w80/', '/w320/');
+  img.alt = 'Bandeira: ' + BY_CODE[state.sol].name;
+  document.getElementById('result-answer').textContent = BY_CODE[state.sol].name;
+  document.getElementById('result-stats-grid').innerHTML = statsHtml();
+  document.getElementById('result-dist').innerHTML = distHtml();
+  openModal('modal-result');
+}
+
+// ── Compartilhar ────────────────────────────────────────────────────────
+function shareText(text) {
+  const copy = () => {
+    if (!navigator.clipboard) { showToast('Navegador não compatível com compartilhamento.'); return; }
+    navigator.clipboard.writeText(text)
+      .then(() => showToast('Resultado copiado para a área de transferência'))
+      .catch(() => showToast('Não foi possível copiar.'));
+  };
+  if (navigator.share) {
+    navigator.share({ text }).catch(err => { if (err && err.name !== 'AbortError') copy(); });
+  } else {
+    copy();
+  }
+}
+
+function shareResult() {
+  const lines = state.guesses.map(g => squares(g.pct)
+    .map(s => s === 'correct' ? '🟩' : s === 'present' ? '🟨' : '⬛').join(''));
+  let text = `Bandeira ∞ ${state.won ? state.guesses.length : 'X'}/6${state.hardMode ? '*' : ''} ${state.won ? '🏁' : '🏳️'}\n\n${lines.join('\n')}`;
+  if (state.stats.currentStreak > 1) text += `\nSequência atual: ${state.stats.currentStreak}`;
+  text += '\n\n🎮 ursusman.com/flagle';
+  shareText(text);
+}
+
+// ── Novo jogo ───────────────────────────────────────────────────────────
+function startNewGame() {
+  if (!state.gameOver || busy) return;
+  closeModal('modal-result');
+  state.sol = randomCountry();
+  startGame([]);
+  inputEl.value = '';
+}
+
+// ── Modais / UI ─────────────────────────────────────────────────────────
+function showToast(msg) {
+  const container = document.getElementById('toast-container');
+  const t = document.createElement('div');
+  t.className = 'toast';
+  t.textContent = msg;
+  container.appendChild(t);
+  setTimeout(() => t.remove(), 3000);
+}
+function setModalButtonsEnabled(id, enabled) {
+  document.getElementById(id).querySelectorAll('button').forEach(b => { b.disabled = !enabled; });
+}
+function openModal(id) {
+  setModalButtonsEnabled(id, true);
+  document.getElementById(id).classList.add('open');
+}
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+  setModalButtonsEnabled(id, false);
+}
+
+function applyColorBlind() {
+  const root = document.documentElement.style;
+  if (state.colorBlind) {
+    root.setProperty('--green', '#0077BB');
+    root.setProperty('--yellow', '#EE7733');
+  } else {
+    root.setProperty('--green', '#4caf82');
+    root.setProperty('--yellow', '#d4aa00');
+  }
+}
+
+function initSettings() {
+  const toggles = {
+    'toggle-hard': 'hardMode',
+    'toggle-color': 'colorBlind',
+    'toggle-anim': 'reducedAnim'
+  };
+  const sync = (el, val) => { el.classList.toggle('on', val); el.setAttribute('aria-checked', val); };
+  Object.entries(toggles).forEach(([id, key]) => {
+    const el = document.getElementById(id);
+    sync(el, state[key]);
+    el.addEventListener('click', () => {
+      state[key] = !state[key];
+      sync(el, state[key]);
+      if (key === 'colorBlind') applyColorBlind();
+      if (key === 'hardMode') showToast(state.hardMode ? 'Modo difícil ativado' : 'Modo difícil desativado');
+      saveState();
+    });
+  });
+  document.getElementById('btn-reset-stats').addEventListener('click', () => {
+    if (confirm('Tem certeza que quer resetar todas as estatísticas?')) {
+      state.stats = { played: 0, wins: 0, currentStreak: 0, maxStreak: 0, distribution: [0,0,0,0,0,0] };
+      saveState();
+      updateStatsBar();
+      showToast('Estatísticas resetadas!');
+      closeModal('modal-settings');
+    }
+  });
+}
+
+document.getElementById('btn-how').addEventListener('click', () => openModal('modal-how'));
+document.getElementById('btn-settings').addEventListener('click', () => openModal('modal-settings'));
+document.getElementById('btn-stats').addEventListener('click', showStats);
+document.getElementById('btn-share').addEventListener('click', shareResult);
+document.getElementById('btn-share-inline').addEventListener('click', shareResult);
+document.getElementById('btn-new-game').addEventListener('click', e => { startNewGame(); e.currentTarget.blur(); });
+document.getElementById('btn-again-inline').addEventListener('click', e => { startNewGame(); e.currentTarget.blur(); });
+document.querySelectorAll('[data-close]').forEach(btn => {
+  btn.addEventListener('click', () => { closeModal(btn.dataset.close); btn.blur(); });
+});
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+  overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(overlay.id); });
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') document.querySelectorAll('.modal-overlay.open').forEach(m => closeModal(m.id));
+  if (e.key === 'Enter' && document.getElementById('modal-result').classList.contains('open')) {
+    e.preventDefault();
+    startNewGame();
+  }
+});
+
+// ── Início ──────────────────────────────────────────────────────────────
+const restore = loadState();
+applyColorBlind();
+initSettings();
+updateStatsBar();
+document.querySelectorAll('.modal-overlay').forEach(o => setModalButtonsEnabled(o.id, false));
+startGame(restore);
+
+if (!localStorage.getItem('ursusBandeiraVisited')) {
+  try { localStorage.setItem('ursusBandeiraVisited', '1'); } catch (e) {}
+  setTimeout(() => openModal('modal-how'), 600);
+}
+</script>
+</body>
+</html>
