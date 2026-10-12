@@ -361,6 +361,11 @@
     font-size:15px;
     font-weight:700;
     line-height:1.4;
+    display:-webkit-box;
+    -webkit-line-clamp:2;
+    -webkit-box-orient:vertical;
+    overflow:hidden;
+    min-height:calc(1.4em * 2 + 32px);
 }
 
     /* ── JOGOS ── */
@@ -606,32 +611,24 @@
   <div class="section-head">
     <p class="section-eyebrow">YouTube</p>
     <h2 class="section-title">Vídeos em destaque</h2>
-    <p class="section-lede" id="video-status">
-      Carregando os vídeos mais recentes do canal…
-    </p>
+
   </div>
 
   <div class="video-grid" id="video-grid">
 
-    <a class="video-card" href="https://www.youtube.com/watch?v=yRKIwfm12QA&t=393s" target="_blank">
-      <img class="video-thumb"
-           src="https://img.youtube.com/vi/yRKIwfm12QA/maxresdefault.jpg"
-           alt="Vídeo 1">
-      <div class="video-title">Assista no canal</div>
+    <a class="video-card" href="https://www.youtube.com/watch?v=TG51NxBe3-g" target="_blank" rel="noopener">
+      <div class="video-thumb" style="background-image:url('https://i.ytimg.com/vi/TG51NxBe3-g/hqdefault.jpg')"></div>
+      <div class="video-title">COMO É COMEÇAR NO DESAFIO BRASILEIRO DE PROJECT ZOMBOID? 🧟</div>
     </a>
 
-    <a class="video-card" href="https://www.youtube.com/watch?v=DFg73x6z7bg" target="_blank">
-      <img class="video-thumb"
-           src="https://img.youtube.com/vi/DFg73x6z7bg/maxresdefault.jpg"
-           alt="Vídeo 2">
-      <div class="video-title">Assista no canal</div>
+    <a class="video-card" href="https://www.youtube.com/watch?v=9PXl-fYB9C4" target="_blank" rel="noopener">
+      <div class="video-thumb" style="background-image:url('https://i.ytimg.com/vi/9PXl-fYB9C4/hqdefault.jpg')"></div>
+      <div class="video-title">ELA PLANEJAVA UM M4SS4CR3 MAS O FBI ESTAVA NA COLA DELA</div>
     </a>
 
-    <a class="video-card" href="https://www.youtube.com/watch?v=AoUkuiS7qbs" target="_blank">
-      <img class="video-thumb"
-           src="https://img.youtube.com/vi/AoUkuiS7qbs/maxresdefault.jpg"
-           alt="Vídeo 3">
-      <div class="video-title">Assista no canal</div>
+    <a class="video-card" href="https://www.youtube.com/watch?v=W07Av6Ga08k" target="_blank" rel="noopener">
+      <div class="video-thumb" style="background-image:url('https://i.ytimg.com/vi/W07Av6Ga08k/hqdefault.jpg')"></div>
+      <div class="video-title">NOVIDADES EXPOSTAS PELA ROCKSTAR NO TRAILER DA GAMEPLAY DE GTA 6</div>
     </a>
 
   </div>
@@ -779,60 +776,105 @@
 
 <script>
   // ── VÍDEOS AUTOMÁTICOS DO YOUTUBE ──
-  // Sempre pega os 3 uploads mais recentes do canal. Quando um vídeo novo é
-  // postado, ele assume o lugar do mais antigo automaticamente — não precisa
-  // editar o site na mão.
+  // Mostra sempre os 3 vídeos mais recentes do canal — SEM Shorts e SEM lives.
+  // Quando sai vídeo novo, ele entra no lugar do mais antigo sozinho.
   //
-  // COMO ATIVAR (só precisa fazer uma vez):
-  // 1. Acesse https://console.cloud.google.com/apis/credentials
-  // 2. Crie um projeto (ou use um existente) e ative a "YouTube Data API v3"
-  //    em https://console.cloud.google.com/apis/library/youtube.googleapis.com
-  // 3. Crie uma "API key" em Credentials.
-  // 4. IMPORTANTE: clique na key criada > "Application restrictions" >
-  //    "Websites" > adicione https://ursusman.com/* — isso impede que
-  //    outras pessoas usem sua key mesmo ela estando visível no HTML.
-  // 5. Cole a key abaixo em apiKey. Pronto, os vídeos passam a atualizar sozinhos.
+  // Como funciona:
+  // 1. Lê a playlist "Vídeos" do canal (UULF…), que o YouTube mantém só com
+  //    vídeos normais — Shorts e transmissões ao vivo ficam de fora.
+  // 2. Confere cada vídeo na API (descarta live, estreia agendada, vídeo não
+  //    público e qualquer coisa com menos de 1 minuto).
+  // 3. Guarda o resultado no navegador por 30 minutos, para não gastar a cota
+  //    da API a cada visita. Se a API falhar, mostra os últimos que deram certo.
+  //
+  // A API key precisa permitir os dois endereços do site no Google Cloud
+  // (Credentials > sua key > Website restrictions):
+  //   https://ursusman.com/*   e   https://www.ursusman.com/*
   const YT_CONFIG = {
     apiKey: 'AIzaSyDrypQBtgB5FtOArZDIDsm7Xb6G1TYRbHg',
-    uploadsPlaylistId: 'UU45aLk4Mk4wCOBlpVXrwIuw' // canal @ursusmanoficial
+    channelId: 'UC45aLk4Mk4wCOBlpVXrwIuw', // canal @ursusmanoficial
+    count: 3,
+    cacheMinutes: 30
   };
+  const YT_CACHE_KEY = 'ursusVideosCache';
+
+  function ytDurationSeconds(iso) {
+    const m = /P(?:(\d+)D)?T?(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/.exec(iso || '');
+    if (!m) return 0;
+    return (+m[1] || 0) * 86400 + (+m[2] || 0) * 3600 + (+m[3] || 0) * 60 + (+m[4] || 0);
+  }
+
+  function renderVideos(videos) {
+    const grid = document.getElementById('video-grid');
+    if (!grid || !videos || !videos.length) return;
+    grid.innerHTML = '';
+    videos.forEach(v => {
+      const card = document.createElement('a');
+      card.className = 'video-card';
+      card.href = 'https://www.youtube.com/watch?v=' + encodeURIComponent(v.id);
+      card.target = '_blank';
+      card.rel = 'noopener';
+      const thumb = document.createElement('div');
+      thumb.className = 'video-thumb';
+      thumb.style.backgroundImage = `url('${v.thumb}')`;
+      const title = document.createElement('div');
+      title.className = 'video-title';
+      title.textContent = v.title;
+      card.append(thumb, title);
+      grid.appendChild(card);
+    });
+  }
+
+  function readCache() {
+    try { return JSON.parse(localStorage.getItem(YT_CACHE_KEY) || 'null'); } catch (e) { return null; }
+  }
+
+  async function fetchLatestVideos() {
+    const key = YT_CONFIG.apiKey;
+    const playlist = 'UULF' + YT_CONFIG.channelId.slice(2);
+    const listUrl = `https://www.googleapis.com/youtube/v3/playlistItems?part=contentDetails&maxResults=15&playlistId=${playlist}&key=${key}`;
+    const listRes = await fetch(listUrl);
+    if (!listRes.ok) throw new Error('playlistItems ' + listRes.status);
+    const ids = ((await listRes.json()).items || []).map(i => i.contentDetails.videoId);
+    if (!ids.length) throw new Error('Nenhum vídeo encontrado');
+
+    const vidUrl = `https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails,status,liveStreamingDetails&id=${ids.join(',')}&key=${key}`;
+    const vidRes = await fetch(vidUrl);
+    if (!vidRes.ok) throw new Error('videos ' + vidRes.status);
+    const items = (await vidRes.json()).items || [];
+
+    const videos = items
+      .filter(v => !v.liveStreamingDetails)                       // nada de live (nem gravação de live)
+      .filter(v => v.snippet.liveBroadcastContent === 'none')     // nada de estreia/live agendada
+      .filter(v => v.status.privacyStatus === 'public')
+      .filter(v => ytDurationSeconds(v.contentDetails.duration) > 60) // segurança extra contra Shorts
+      .sort((a, b) => new Date(b.snippet.publishedAt) - new Date(a.snippet.publishedAt))
+      .slice(0, YT_CONFIG.count)
+      .map(v => {
+        const t = v.snippet.thumbnails;
+        return {
+          id: v.id,
+          title: v.snippet.title,
+          thumb: (t.maxres || t.standard || t.high || t.medium || t.default).url
+        };
+      });
+    if (!videos.length) throw new Error('Nenhum vídeo válido');
+    return videos;
+  }
 
   async function loadLatestVideos() {
-    const statusEl = document.getElementById('video-status');
-    if (!YT_CONFIG.apiKey || YT_CONFIG.apiKey.includes('COLE_SUA')) {
-      if (statusEl) statusEl.textContent = 'Automação pronta — falta só colar a API key do YouTube no código (veja o comentário no script).';
-      return;
+    const cache = readCache();
+    if (cache && cache.videos && cache.videos.length) {
+      renderVideos(cache.videos);
+      if (Date.now() - cache.time < YT_CONFIG.cacheMinutes * 60000) return;
     }
     try {
-      const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=3&playlistId=${YT_CONFIG.uploadsPlaylistId}&key=${YT_CONFIG.apiKey}`;
-      const res = await fetch(url);
-      if (!res.ok) throw new Error('Falha na API do YouTube: ' + res.status);
-      const data = await res.json();
-      const grid = document.getElementById('video-grid');
-      if (!data.items || !data.items.length) throw new Error('Nenhum vídeo encontrado');
-
-      grid.innerHTML = '';
-      data.items.forEach(item => {
-        const videoId = item.snippet.resourceId.videoId;
-        const title = item.snippet.title;
-        const thumb = (item.snippet.thumbnails.high || item.snippet.thumbnails.medium || item.snippet.thumbnails.default).url;
-
-        const card = document.createElement('a');
-        card.className = 'video-card';
-        card.href = `https://www.youtube.com/watch?v=${videoId}`;
-        card.target = '_blank';
-        card.rel = 'noopener';
-        card.innerHTML = `
-          <div class="video-thumb" style="background-image:url('${thumb}')"></div>
-          <div class="video-title">${title}</div>
-        `;
-        grid.appendChild(card);
-      });
-
-      if (statusEl) statusEl.remove();
+      const videos = await fetchLatestVideos();
+      renderVideos(videos);
+      try { localStorage.setItem(YT_CACHE_KEY, JSON.stringify({ time: Date.now(), videos })); } catch (e) {}
     } catch (err) {
-      console.warn('Não deu pra carregar os vídeos automaticamente:', err);
-      if (statusEl) statusEl.textContent = 'Não consegui carregar os vídeos agora — mostrando os últimos salvos.';
+      // Mantém o que já está na tela (cache ou os vídeos salvos no HTML)
+      console.warn('Não deu pra atualizar os vídeos do YouTube:', err);
     }
   }
 
