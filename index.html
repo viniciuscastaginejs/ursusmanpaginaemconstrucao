@@ -374,20 +374,20 @@
 
 
     /* ── TWITCH AO VIVO (moldura do setup) ── */
-    #live { max-width: none; padding-left: clamp(10px, 2.5vw, 28px); padding-right: clamp(10px, 2.5vw, 28px); }
     .live-frame {
       position: relative;
       container-type: inline-size;
-      max-width: 1600px;
+      width: 100%;
       margin: 0 auto;
       aspect-ratio: 1280 / 720;
-      border-radius: clamp(14px, 2.2vw, 30px);
+      border-radius: 16px;
+      border: 1px solid var(--panel-border);
       overflow: hidden;
       background-color: #0b1230;
       background-position: center;
       background-size: cover;
       background-repeat: no-repeat;
-      box-shadow: 0 24px 70px rgba(0,0,0,.5), 0 0 0 1px rgba(145,70,255,.35), 0 0 50px rgba(110,80,255,.18);
+      box-shadow: 0 16px 40px rgba(0,0,0,.35);
     }
     /* retângulo "SUA LIVE AQUI" da imagem: x 30–786, y 162–586 (de 1280×720) */
     .live-card {
