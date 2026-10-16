@@ -467,6 +467,45 @@
       .live-badge::before, .live-card.is-checking .live-offline-title, .live-rgb { animation: none; }
     }
 
+
+    /* ── LOJA ── */
+    .shop-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; }
+    @media (max-width: 860px) { .shop-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 560px) { .shop-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; } }
+    .shop-card {
+      position: relative; display: flex; flex-direction: column;
+      background: var(--panel); border: 1px solid var(--panel-border); border-radius: 16px;
+      overflow: hidden; text-decoration: none; color: var(--ink); transition: .25s;
+    }
+    .shop-card:hover { transform: translateY(-6px); border-color: rgba(245,200,66,.6); }
+    .shop-img { aspect-ratio: 1 / 1; background: #eef1f6; overflow: hidden; }
+    .shop-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .35s; }
+    .shop-card:hover .shop-img img { transform: scale(1.06); }
+    .shop-off {
+      position: absolute; top: 10px; left: 10px;
+      background: var(--gold); color: #1a1200; font-size: 11px; font-weight: 800;
+      padding: 3px 8px; border-radius: 6px; letter-spacing: .3px;
+    }
+    .shop-info { padding: 12px 12px 14px; display: flex; flex-direction: column; gap: 6px; flex: 1; }
+    .shop-name {
+      font-size: 13.5px; font-weight: 700; line-height: 1.35;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+      min-height: calc(1.35em * 2);
+    }
+    .shop-price { margin-top: auto; display: flex; align-items: baseline; gap: 7px; flex-wrap: wrap; }
+    .shop-old { font-size: 12px; color: var(--ink-faint); text-decoration: line-through; }
+    .shop-new { font-family: 'Poppins', sans-serif; font-size: 16px; font-weight: 800; color: var(--gold); }
+    .shop-cta-wrap { text-align: center; margin-top: 26px; }
+    .shop-cta {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--gold); color: #1a1200; text-decoration: none;
+      font-family: 'Poppins', sans-serif; font-weight: 800; font-size: 15px;
+      padding: 13px 28px; border-radius: 999px; transition: .2s;
+      box-shadow: 0 8px 24px rgba(245,200,66,.25);
+    }
+    .shop-cta:hover { background: #ffd65c; transform: translateY(-2px); }
+    .shop-cta svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; }
+
     /* ── JOGOS ── */
     .games-grid {
       display: grid;
@@ -765,6 +804,103 @@
 
   </div>
 </section>
+
+  <!-- ══════════ LOJA ══════════ -->
+  <section class="section" id="loja">
+    <div class="section-head">
+      <p class="section-eyebrow">Ursus Store</p>
+      <h2 class="section-title">Vista a camisa</h2>
+      <p class="section-lede">Camisetas oficiais do Ursusman. Parcele em até 6x sem juros e a primeira troca é por nossa conta.</p>
+    </div>
+    <div class="shop-grid">
+      <a class="shop-card" href="https://reserva.ink/ursusman/product/evolution-ursusman" target="_blank" rel="noopener">
+        <span class="shop-off">-39%</span>
+        <div class="shop-img"><img src="https://gcp-images.majestic.ink.rsvcloud.com/images/product_v2/main_image/04ffe58940b0bf54bb88c5e885d2796f.webp" alt="Evolution Ursusman" loading="lazy" /></div>
+        <div class="shop-info">
+          <div class="shop-name">Evolution Ursusman</div>
+          <div class="shop-price"><span class="shop-old">R$ 129,90</span><span class="shop-new">R$ 79,00</span></div>
+        </div>
+      </a>
+      <a class="shop-card" href="https://reserva.ink/ursusman/product/ursusman-art" target="_blank" rel="noopener">
+        <span class="shop-off">-50%</span>
+        <div class="shop-img"><img src="https://gcp-images.majestic.ink.rsvcloud.com/images/product_v2/main_image/bfb2456002b0bef6a857a1bb17607a2e.webp" alt="Ursusman Art" loading="lazy" /></div>
+        <div class="shop-info">
+          <div class="shop-name">Ursusman Art</div>
+          <div class="shop-price"><span class="shop-old">R$ 199,00</span><span class="shop-new">R$ 99,00</span></div>
+        </div>
+      </a>
+      <a class="shop-card" href="https://reserva.ink/ursusman/product/logo-p-b-4b0317fd-178f-48e4-9e62-d27b0d6d6be0" target="_blank" rel="noopener">
+        <span class="shop-off">-35%</span>
+        <div class="shop-img"><img src="https://gcp-images.majestic.ink.rsvcloud.com/images/product_v2/main_image/3b585d9632191076808329e5429cf979.webp" alt="Logo P&amp;B" loading="lazy" /></div>
+        <div class="shop-info">
+          <div class="shop-name">Logo P&amp;B</div>
+          <div class="shop-price"><span class="shop-old">R$ 139,00</span><span class="shop-new">R$ 89,00</span></div>
+        </div>
+      </a>
+      <a class="shop-card" href="https://reserva.ink/ursusman/product/black-neon-ed675262-3db4-4f8f-8431-e055f1b8443b" target="_blank" rel="noopener">
+        <span class="shop-off">-35%</span>
+        <div class="shop-img"><img src="https://gcp-images.majestic.ink.rsvcloud.com/images/product_v2/main_image/94d13dffcb1d320d5f1a892422215ace.webp" alt="Black Neon" loading="lazy" /></div>
+        <div class="shop-info">
+          <div class="shop-name">Black Neon</div>
+          <div class="shop-price"><span class="shop-old">R$ 139,00</span><span class="shop-new">R$ 89,00</span></div>
+        </div>
+      </a>
+      <a class="shop-card" href="https://reserva.ink/ursusman/product/charada-ursus" target="_blank" rel="noopener">
+        <span class="shop-off">-38%</span>
+        <div class="shop-img"><img src="https://gcp-images.majestic.ink.rsvcloud.com/images/product_v2/main_image/72ea62b2ea96c2004711f46effb3e423.webp" alt="CHARADA - Ursus" loading="lazy" /></div>
+        <div class="shop-info">
+          <div class="shop-name">CHARADA - Ursus</div>
+          <div class="shop-price"><span class="shop-old">R$ 139,90</span><span class="shop-new">R$ 85,90</span></div>
+        </div>
+      </a>
+      <a class="shop-card" href="https://reserva.ink/ursusman/product/charada-nos-vamos-com-o-ursus" target="_blank" rel="noopener">
+        <span class="shop-off">-57%</span>
+        <div class="shop-img"><img src="https://gcp-images.majestic.ink.rsvcloud.com/images/product_v2/main_image/8e4dcad7cec5dd5bd72f30bc0ddbe814.webp" alt="CHARADA - Nós Vamos com o Ursus" loading="lazy" /></div>
+        <div class="shop-info">
+          <div class="shop-name">CHARADA - Nós Vamos com o Ursus</div>
+          <div class="shop-price"><span class="shop-old">R$ 179,00</span><span class="shop-new">R$ 75,90</span></div>
+        </div>
+      </a>
+      <a class="shop-card" href="https://reserva.ink/ursusman/product/ursusman-snickers" target="_blank" rel="noopener">
+        <span class="shop-off">-33%</span>
+        <div class="shop-img"><img src="https://gcp-images.majestic.ink.rsvcloud.com/images/product_v2/main_image/25209a78db60475fc58d3160acb3c47e.webp" alt="URSUSMAN SNICKERS" loading="lazy" /></div>
+        <div class="shop-info">
+          <div class="shop-name">URSUSMAN SNICKERS</div>
+          <div class="shop-price"><span class="shop-old">R$ 149,00</span><span class="shop-new">R$ 99,00</span></div>
+        </div>
+      </a>
+      <a class="shop-card" href="https://reserva.ink/ursusman/product/donuts-ursus" target="_blank" rel="noopener">
+        <span class="shop-off">-33%</span>
+        <div class="shop-img"><img src="https://gcp-images.majestic.ink.rsvcloud.com/images/product_v2/main_image/88f0bea52928058eb3a6f33a3ee17a7f.webp" alt="Donuts Ursus" loading="lazy" /></div>
+        <div class="shop-info">
+          <div class="shop-name">Donuts Ursus</div>
+          <div class="shop-price"><span class="shop-old">R$ 149,00</span><span class="shop-new">R$ 99,00</span></div>
+        </div>
+      </a>
+      <a class="shop-card" href="https://reserva.ink/ursusman/product/camiseta-ursusman" target="_blank" rel="noopener">
+        <span class="shop-off">-50%</span>
+        <div class="shop-img"><img src="https://gcp-images.majestic.ink.rsvcloud.com/images/product_v2/main_image/4f3010dc6f0c25a8d19836e4fa3952b8.webp" alt="Camiseta Ursusman" loading="lazy" /></div>
+        <div class="shop-info">
+          <div class="shop-name">Camiseta Ursusman</div>
+          <div class="shop-price"><span class="shop-old">R$ 179,00</span><span class="shop-new">R$ 89,00</span></div>
+        </div>
+      </a>
+      <a class="shop-card" href="https://reserva.ink/ursusman/product/grafite-ursusman" target="_blank" rel="noopener">
+        <span class="shop-off">-47%</span>
+        <div class="shop-img"><img src="https://gcp-images.majestic.ink.rsvcloud.com/images/product_v2/main_image/2955807ef3252d6befc6bfe44bad1aea.webp" alt="Grafite Ursusman" loading="lazy" /></div>
+        <div class="shop-info">
+          <div class="shop-name">Grafite Ursusman</div>
+          <div class="shop-price"><span class="shop-old">R$ 189,00</span><span class="shop-new">R$ 99,00</span></div>
+        </div>
+      </a>
+    </div>
+    <div class="shop-cta-wrap">
+      <a class="shop-cta" href="https://reserva.ink/ursusman" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        Ver loja completa
+      </a>
+    </div>
+  </section>
 
   <!-- ══════════ LINK DOS JOGOS ══════════ -->
   <section class="section" id="jogos">
