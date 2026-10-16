@@ -596,23 +596,28 @@
 
 
     /* ── IMAGEM DE DESTAQUE ── */
-    .feature-image-wrap {
-      max-width: 880px;
-      margin: 0 auto;
-      padding: 0 22px;
-      display: flex;
-      justify-content: center;
-    }
-    .feature-image {
-      width: min(420px, 100%);
-      border-radius: 18px;
-      filter: drop-shadow(0 10px 30px rgba(0,0,0,0.5));
-    }
 
     /* ── FECHAMENTO / EM CONSTRUÇÃO ── */
     .closing {
       text-align: center;
       padding-bottom: clamp(60px, 10vh, 100px);
+    }
+    .closing-head {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(10px, 3vw, 36px);
+    }
+    .closing-bear {
+      width: clamp(64px, 12vw, 120px);
+      height: auto;
+      flex-shrink: 0;
+      filter: drop-shadow(0 6px 16px rgba(0,0,0,.55));
+    }
+    .closing-bear--right { transform: scaleX(-1); }
+    @media (max-width: 520px) {
+      .closing-head { gap: 8px; }
+      .closing-bear { width: 56px; }
     }
     .closing-title {
       font-size: clamp(20px, 4vw, 28px);
@@ -939,17 +944,16 @@
     <a class="placeholder-note2" href="https://bit.ly/3TTjcUG" target="_blank" rel="noopener">Clique aqui e garanta seu desconto</a>
   </section>
 
-  <!-- ══════════ IMAGEM DE DESTAQUE ══════════ -->
-  <div class="feature-image-wrap">
-    <img class="feature-image"
-         src="https://res.cloudinary.com/dtdomrtyp/image/upload/v1782511745/ChatGPT_Image_26_de_jun._de_2026_19_08_40_ytuch4.png"
-         alt="UrsusMan" />
-  </div>
-
   <!-- ══════════ AINDA EM CONSTRUÇÃO ══════════ -->
   <section class="section closing" id="construcao">
-    <h2 class="closing-title">Ainda estamos em construção</h2>
-    <p class="closing-sub">Novidades chegando em breve. Enquanto isso, me acompanha por aqui:</p>
+    <div class="closing-head">
+      <img class="closing-bear" src="https://res.cloudinary.com/dtdomrtyp/image/upload/w_260/v1782511745/ChatGPT_Image_26_de_jun._de_2026_19_08_40_ytuch4.png" alt="" aria-hidden="true" loading="lazy" />
+      <div class="closing-text">
+        <h2 class="closing-title">Ainda estamos em construção</h2>
+        <p class="closing-sub">Novidades chegando em breve. Enquanto isso, me acompanha por aqui:</p>
+      </div>
+      <img class="closing-bear closing-bear--right" src="https://res.cloudinary.com/dtdomrtyp/image/upload/w_260/v1782511745/ChatGPT_Image_26_de_jun._de_2026_19_08_40_ytuch4.png" alt="" aria-hidden="true" loading="lazy" />
+    </div>
 
     <div class="social-section">
       <p class="social-label">Me segue nas redes</p>
