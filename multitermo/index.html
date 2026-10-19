@@ -839,8 +839,8 @@ async function open_(key, buf) {
 function connectBroker(url, opts) {
   return new Promise((resolve, reject) => {
     if (!window.mqtt) return reject(new Error('mqtt'));
-    const c = mqtt.connect(url, Object.assign({ connectTimeout: 7000, reconnectPeriod: 2000, keepalive: 20, clean: true }, opts));
-    const fail = setTimeout(() => { try { c.end(true); } catch (e) {} reject(new Error('timeout')); }, 8000);
+    const c = mqtt.connect(url, Object.assign({ connectTimeout: 9000, reconnectPeriod: 2000, keepalive: 20, clean: true }, opts));
+    const fail = setTimeout(() => { try { c.end(true); } catch (e) {} reject(new Error('timeout')); }, 10000);
     c.once('connect', () => { clearTimeout(fail); resolve(c); });
     c.once('error', () => {});
   });
@@ -960,8 +960,9 @@ async function guestJoin(code, brokerIdx) {
       const bye = await seal(r.key, { t: 'bye', id: ME });
       client = await connectBroker(BROKERS[idx], { will: { topic: r.base + 'h', payload: bye, qos: 1, retain: false } });
     } catch (e) { continue; }
+    let retry = null;
     const res = await new Promise(resolve => {
-      const timeout = setTimeout(() => resolve('not_found'), 9000);
+      const timeout = setTimeout(() => resolve('not_found'), 12000);
       client.on('message', async (topic, payload) => {
         if (topic === r.base + 'c/' + ME) {
           const msg = await open_(r.key, payload);
@@ -974,9 +975,12 @@ async function guestJoin(code, brokerIdx) {
         }
       });
       client.subscribe([r.base + 'c/' + ME, r.base + 'info'], { qos: 1 }, async () => {
-        client.publish(r.base + 'h', await seal(r.key, { t: 'join', id: ME, name }), { qos: 1 });
+        const joinMsg = async () => client.publish(r.base + 'h', await seal(r.key, { t: 'join', id: ME, name }), { qos: 1 });
+        joinMsg();
+        retry = setInterval(joinMsg, 2500); // se a mensagem se perder, tenta de novo
       });
     });
+    clearInterval(retry);
     if (res === 'ok') {
       Object.assign(S, { role: 'guest', code, brokerIdx: idx, client, key: r.key, base: r.base, hostSeen: Date.now(), closed: false });
       client.on('connect', () => guestSend({ t: 'join', name }));
@@ -988,11 +992,12 @@ async function guestJoin(code, brokerIdx) {
     }
     try { client.end(true); } catch (e) {}
     if (res !== 'not_found') {
-      const msgs = { full: 'A sala está cheia.', already_started: 'A partida já começou. Peça para o dono da sala criar uma nova rodada quando acabar.' };
+      const msgs = { full: 'A sala está cheia.', already_started: 'A partida já começou. Espere a rodada acabar e tente de novo.' };
       return showError('Não deu para entrar', msgs[res] || 'Tente de novo.');
     }
+    return showError('Sala não encontrada', 'Confira o código. A sala só existe enquanto quem criou estiver com a página aberta.');
   }
-  showError('Sala não encontrada', 'Confira o código. A sala só existe enquanto quem criou estiver com a página aberta.');
+  showError('Não consegui conectar', 'Verifique sua internet e tente de novo.');
 }
 function guestSend(obj) {
   const c = S.client, base = S.base;
