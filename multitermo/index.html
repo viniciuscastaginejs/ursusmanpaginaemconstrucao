@@ -664,8 +664,11 @@ function randomId(n) {
   return [...a].map(x => 'abcdefghijkmnpqrstuvwxyz23456789'[x % 32]).join('');
 }
 function myPlayerId() {
-  let id = store.get('mtPlayerId', '');
-  if (!id) { id = randomId(12); store.set('mtPlayerId', id); }
+  // um id por aba: recarregar a página mantém o lugar na sala,
+  // e dá para abrir duas abas como jogadores diferentes
+  let id = '';
+  try { id = sessionStorage.getItem('mtPlayerId') || ''; } catch (e) {}
+  if (!id) { id = randomId(12); try { sessionStorage.setItem('mtPlayerId', id); } catch (e) {} }
   return id;
 }
 const ME = myPlayerId();
