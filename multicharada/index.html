@@ -1,0 +1,1473 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-7NSPWGP17W"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-7NSPWGP17W');
+</script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+
+  <!-- ── SEO BÁSICO ── -->
+  <title>Multi Charada — Charada com os amigos | UrsusMan</title>
+  <meta name="description" content="Multi Charada do UrsusMan: crie uma sala, mande o link e dispute a Charada com seus amigos em tempo real. Quem descobrir a palavra primeiro ganha." />
+  <meta name="keywords" content="multi charada, charada multiplayer, termo multiplayer, termo online com amigos, wordle português, jogo de palavras, UrsusMan" />
+  <meta name="author" content="UrsusMan" />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#060f1e" />
+  <link rel="canonical" href="https://ursusman.com/multicharada/" />
+
+  <!-- ── OPEN GRAPH ── -->
+  <meta property="og:type"        content="website" />
+  <meta property="og:url"         content="https://ursusman.com/multicharada/" />
+  <meta property="og:site_name"   content="UrsusMan" />
+  <meta property="og:locale"      content="pt_BR" />
+  <meta property="og:title"       content="Multi Charada — Charada com os amigos" />
+  <meta property="og:description" content="Crie uma sala, mande o link e dispute a Charada com seus amigos em tempo real!" />
+  <meta property="og:image"       content="https://res.cloudinary.com/dtdomrtyp/image/upload/w_1200,h_630,c_pad,b_rgb:060f1e/v1781116238/UrsusMan_transparente_jnsn6c.png" />
+  <meta property="og:image:width"  content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt"    content="Multi Charada" />
+
+  <!-- ── TWITTER CARD ── -->
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:title"       content="Multi Charada — Charada com os amigos" />
+  <meta name="twitter:description" content="Crie uma sala e dispute a Charada com seus amigos em tempo real!" />
+  <meta name="twitter:image"       content="https://res.cloudinary.com/dtdomrtyp/image/upload/w_1200,h_630,c_pad,b_rgb:060f1e/v1781116238/UrsusMan_transparente_jnsn6c.png" />
+  <meta name="twitter:image:alt"   content="Multi Charada" />
+
+  <!-- ── FAVICONS ── -->
+  <link rel="icon" type="image/png" sizes="16x16"
+        href="https://res.cloudinary.com/dtdomrtyp/image/upload/w_16,h_16,c_pad,b_transparent/v1781116238/UrsusMan_transparente_jnsn6c.png" />
+  <link rel="icon" type="image/png" sizes="32x32"
+        href="https://res.cloudinary.com/dtdomrtyp/image/upload/w_32,h_32,c_pad,b_transparent/v1781116238/UrsusMan_transparente_jnsn6c.png" />
+  <link rel="icon" type="image/png" sizes="96x96"
+        href="https://res.cloudinary.com/dtdomrtyp/image/upload/w_96,h_96,c_pad,b_transparent/v1781116238/UrsusMan_transparente_jnsn6c.png" />
+  <link rel="apple-touch-icon" sizes="180x180"
+        href="https://res.cloudinary.com/dtdomrtyp/image/upload/w_180,h_180,c_pad,b_rgb:060f1e/v1781116238/UrsusMan_transparente_jnsn6c.png" />
+  <link rel="manifest" href="/manifest.json" />
+
+  <!-- ── JSON-LD ── -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Game",
+    "name": "Multi Charada",
+    "description": "Charada multiplayer do UrsusMan: dispute a mesma palavra com seus amigos em tempo real.",
+    "url": "https://ursusman.com/multicharada/",
+    "author": { "@type": "Person", "name": "UrsusMan", "url": "https://ursusman.com" },
+    "inLanguage": "pt-BR",
+    "image": "https://res.cloudinary.com/dtdomrtyp/image/upload/v1781116238/UrsusMan_transparente_jnsn6c.png"
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue-dark: #060f1e;
+      --blue-mid: #0d1f3c;
+      --blue-light: #1a3a6e;
+      --blue-accent: #2d6bc4;
+      --blue-bright: #4a90e2;
+      --gold: #f5c842;
+      --gold-dark: #c9991a;
+      --white: #ffffff;
+      --gray-light: #e8edf5;
+      --gray-mid: #9baac4;
+      --gray-dark: #3d5070;
+      --green: #4caf82;
+      --green-dark: #2e7d5a;
+      --yellow: #d4aa00;
+      --yellow-dark: #a07b00;
+      --absent: #1e3050;
+      --absent-border: #2a4060;
+      --danger: #ff8a8a;
+      --cell-empty: rgba(255,255,255,0.04);
+      --cell-border: rgba(255,255,255,0.15);
+      --font: 'Poppins', sans-serif;
+      --radius: 10px;
+      --shadow: 0 8px 32px rgba(0,0,0,0.4);
+    }
+
+    html, body {
+      min-height: 100%;
+      font-family: var(--font);
+      background: linear-gradient(160deg, var(--blue-dark) 0%, var(--blue-mid) 40%, var(--blue-light) 100%);
+      background-attachment: fixed;
+      color: var(--white);
+      min-height: 100vh;
+    }
+    [hidden] { display: none !important; }
+
+    /* ── HEADER ── */
+    header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      background: rgba(6,15,30,0.6);
+      backdrop-filter: blur(12px);
+      position: sticky; top: 0; z-index: 100;
+    }
+    .header-logo { display: flex; align-items: center; gap: 10px; }
+    .header-logo img { height: 44px; object-fit: contain; filter: drop-shadow(0 2px 8px rgba(74,144,226,0.5)); }
+    .header-actions { display: flex; gap: 8px; }
+    .icon-btn {
+      width: 38px; height: 38px; border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.06);
+      color: var(--white); cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s, transform 0.1s;
+    }
+    .icon-btn:hover { background: rgba(255,255,255,0.12); transform: scale(1.05); }
+    .icon-btn:active { transform: scale(0.95); }
+    .icon-btn svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+    /* ── TOAST ── */
+    #toast-container {
+      position: fixed; top: 80px; left: 50%; transform: translateX(-50%);
+      z-index: 999; display: flex; flex-direction: column; gap: 8px; align-items: center;
+      pointer-events: none;
+    }
+    .toast {
+      background: rgba(255,255,255,0.95); color: #0d1f3c;
+      padding: 10px 20px; border-radius: 100px;
+      font-size: 14px; font-weight: 600; text-align: center;
+      animation: toastIn 0.3s ease, toastOut 0.4s 2.5s ease forwards;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+    @keyframes toastIn { from { opacity:0; transform:translateY(-8px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes toastOut { from { opacity:1; } to { opacity:0; } }
+
+    /* ── LOBBY ── */
+    #lobby {
+      max-width: 440px; margin: 0 auto;
+      padding: 36px 18px 40px;
+      display: flex; flex-direction: column; align-items: center; gap: 22px;
+    }
+    .logo-tiles { display: flex; flex-direction: column; gap: 6px; align-items: center; }
+    .logo-row { display: flex; gap: 6px; }
+    .logo-row .cell { width: 50px; flex: none; font-size: 26px; }
+    .lobby-lede { text-align: center; font-size: 14px; color: var(--gray-mid); line-height: 1.6; max-width: 340px; }
+    .lobby-card {
+      width: 100%;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px;
+      padding: 18px;
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .lobby-or {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 11px; color: var(--gray-mid); text-transform: uppercase; letter-spacing: 2px;
+    }
+    .lobby-or::before, .lobby-or::after { content: ""; flex: 1; height: 1px; background: rgba(255,255,255,0.1); }
+    .join-row { display: flex; gap: 8px; }
+    .join-row .field-input { text-transform: uppercase; letter-spacing: 4px; font-weight: 700; text-align: center; }
+    .join-row .btn { flex: none; padding: 12px 18px; }
+
+    /* ── CAMPOS / BOTÕES ── */
+    .field-label { display: block; font-size: 12px; color: var(--gray-mid); margin-bottom: 6px; font-weight: 500; }
+    .field-input {
+      width: 100%; padding: 12px 14px; border-radius: var(--radius);
+      border: 1px solid var(--cell-border); background: rgba(255,255,255,0.06);
+      color: var(--white); font-family: var(--font); font-size: 16px; outline: none;
+    }
+    .field-input:focus { border-color: var(--gold); }
+    .btn {
+      padding: 13px 16px; border-radius: var(--radius); border: none;
+      font-family: var(--font); font-size: 14px; font-weight: 700;
+      cursor: pointer; transition: transform 0.1s, opacity 0.2s, background 0.2s;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      color: #fff; text-decoration: none;
+    }
+    .btn:active { transform: scale(0.97); }
+    .btn:disabled { opacity: .45; cursor: not-allowed; }
+    .btn-primary { background: var(--blue-accent); }
+    .btn-primary:hover:not(:disabled) { background: var(--blue-bright); }
+    .btn-gold { background: var(--gold); color: #0d1f3c; }
+    .btn-gold:hover:not(:disabled) { background: #f7d454; }
+    .btn-ghost { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.14); }
+    .btn-ghost:hover:not(:disabled) { background: rgba(255,255,255,0.14); }
+    .btn svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .btn-full { width: 100%; }
+    .btn-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+    .stepper { display: flex; align-items: center; gap: 8px; }
+    .stepper button {
+      width: 36px; height: 36px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.06); color: #fff; font-size: 18px; font-weight: 700; cursor: pointer;
+    }
+    .stepper output { min-width: 32px; text-align: center; font-size: 20px; font-weight: 800; color: var(--gold); }
+    .setting-row {
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    .setting-row:last-of-type { border-bottom: none; }
+    .setting-label { font-size: 15px; font-weight: 600; }
+    .setting-sub { font-size: 12px; color: var(--gray-mid); margin-top: 2px; }
+    .mode-tabs { display: flex; gap: 6px; }
+    .mode-tab {
+      padding: 7px 12px; border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.05);
+      color: var(--gray-mid); font-family: var(--font); font-size: 13px; font-weight: 600; cursor: pointer;
+    }
+    .target-input { width: 104px; flex: none; text-align: center; font-weight: 700; padding: 9px 8px; }
+    .target-input::placeholder { font-size: 12px; font-weight: 500; }
+    .champion {
+      text-align: center; margin-bottom: 14px; padding: 12px; border-radius: 12px;
+      background: linear-gradient(135deg, rgba(245,200,66,.22), rgba(245,200,66,.08));
+      border: 1px solid rgba(245,200,66,.55);
+    }
+    .champion-title { font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); }
+    .champion-name { font-size: 22px; font-weight: 900; margin-top: 2px; }
+    .result-again {
+      display: none; margin: 4px auto 0; padding: 8px 16px; border-radius: 999px;
+      background: var(--gold); color: #0d1f3c; border: none; font-family: var(--font); font-size: 13px; font-weight: 800; cursor: pointer;
+    }
+    .result-again.show { display: inline-flex; align-items: center; gap: 6px; }
+    .mode-tab.active { background: var(--blue-accent); border-color: var(--blue-accent); color: #fff; }
+
+    /* ── JOGO ── */
+    #game {
+      max-width: 1180px; margin: 0 auto;
+      padding: 18px 16px 230px;
+      display: flex; gap: 32px; justify-content: center; align-items: flex-start;
+    }
+    .me-col { order: 0; display: flex; flex-direction: column; align-items: center; gap: 10px; flex: none; width: max(220px, min(360px, 100%, calc((100dvh - 400px) * 5 / var(--rows, 6)))); }
+    .player-tag { font-size: 15px; font-weight: 700; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .player-tag .pts { color: var(--gold); }
+    .round-info { font-size: 12px; color: var(--gray-mid); text-align: center; min-height: 18px; }
+    .round-info b { color: var(--gold); }
+
+    .board { display: flex; flex-direction: column; gap: 6px; width: 100%; }
+    .board-row { display: flex; gap: 6px; }
+    .cell {
+      flex: 1; aspect-ratio: 1;
+      border: 2px solid var(--cell-border); border-radius: 8px;
+      background: var(--cell-empty);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 26px; font-weight: 800; text-transform: uppercase; color: var(--white);
+      user-select: none; transition: border-color .1s;
+    }
+    .cell.filled { border-color: rgba(255,255,255,0.35); animation: pop 0.1s ease; }
+    .cell.active-row { border-color: rgba(255,255,255,0.3); cursor: pointer; }
+    .cell.cursor { border-bottom-width: 5px; border-bottom-color: var(--gold); }
+    .cell.correct { background: var(--green); border-color: var(--green-dark); }
+    .cell.present { background: var(--yellow); border-color: var(--yellow-dark); }
+    .cell.absent  { background: var(--absent); border-color: var(--absent-border); color: var(--gray-mid); }
+    .cell.flip { animation: flip 0.5s ease forwards; }
+    .board.shake { animation: shake 0.4s ease; }
+    @keyframes pop { 50% { transform: scale(1.1); } }
+    @keyframes flip { 50% { transform: rotateX(-90deg); } }
+    @keyframes shake { 20%{transform:translateX(-6px)} 40%{transform:translateX(6px)} 60%{transform:translateX(-4px)} 80%{transform:translateX(4px)} }
+
+    .opp-col { order: 1; flex: 1; min-width: 0; max-width: 700px; }
+    .opp-title { font-size: 11px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--blue-bright); margin-bottom: 12px; }
+    .opp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 14px; }
+    .opp-card {
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px; padding: 10px; transition: opacity .2s, border-color .2s;
+    }
+    .opp-card.done { opacity: .55; }
+    .opp-card.won { border-color: rgba(76,175,130,.6); opacity: 1; }
+    .opp-card.off .opp-name { color: var(--danger); }
+    .opp-name { font-size: 12px; font-weight: 700; margin-bottom: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .opp-name .pts { color: var(--gold); }
+    .opp-card .board, .opp-card .board-row { gap: 3px; }
+    .opp-card .cell { border-width: 1px; border-radius: 4px; font-size: 11px; }
+
+    /* ── TECLADO ── */
+    #keyboard {
+      position: fixed; bottom: 0; left: 0; right: 0;
+      background: linear-gradient(to top, rgba(6,15,30,0.98) 80%, transparent);
+      padding: 10px 10px 0;
+      display: flex; flex-direction: column; gap: 7px; align-items: center;
+      z-index: 50;
+    }
+    .kb-row { display: flex; gap: 5px; }
+    .key {
+      height: 52px; min-width: 36px; padding: 0 6px;
+      border-radius: 7px; border: none;
+      background: rgba(255,255,255,0.1); color: var(--white);
+      font-family: var(--font); font-size: 13px; font-weight: 700;
+      cursor: pointer; transition: background 0.15s, transform 0.1s;
+      display: flex; align-items: center; justify-content: center; user-select: none;
+    }
+    .key:hover { background: rgba(255,255,255,0.18); }
+    .key:active { transform: scale(0.94); }
+    .key.wide { min-width: 56px; font-size: 11px; }
+    .key.correct { background: var(--green); }
+    .key.present { background: var(--yellow); }
+    .key.absent  { background: var(--absent); color: var(--gray-mid); }
+
+    /* ── REDES ── */
+    .social-bar { display: flex; justify-content: center; align-items: center; gap: 20px; padding: 10px 0 18px; width: 100%; }
+    .social-link {
+      display: flex; align-items: center; justify-content: center;
+      width: 40px; height: 40px; border-radius: 50%;
+      border: 1.5px solid rgba(74, 144, 226, 0.4); background: rgba(74, 144, 226, 0.08);
+      color: #4a90e2; text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s, background 0.2s;
+      box-shadow: 0 0 8px rgba(74, 144, 226, 0.2), inset 0 0 8px rgba(74, 144, 226, 0.05);
+    }
+    .social-link:hover { transform: scale(1.12); border-color: rgba(74, 144, 226, 0.9); background: rgba(74, 144, 226, 0.18); color: #7ab8ff; }
+    .social-link svg { width: 18px; height: 18px; fill: currentColor; }
+    #lobby .social-bar { padding-top: 6px; }
+
+    /* ── MODAIS ── */
+    .modal-overlay {
+      position: fixed; inset: 0; background: rgba(6,15,30,0.85); backdrop-filter: blur(8px);
+      z-index: 200; display: flex; align-items: center; justify-content: center; padding: 20px;
+      opacity: 0; pointer-events: none; transition: opacity 0.25s;
+    }
+    .modal-overlay.open { opacity: 1; pointer-events: all; }
+    .modal {
+      position: relative;
+      background: linear-gradient(135deg, #0f2040 0%, #1a3060 100%);
+      border: 1px solid rgba(255,255,255,0.12); border-radius: 20px;
+      padding: 28px 24px; width: 100%; max-width: 420px;
+      max-height: calc(100vh - 40px); overflow-y: auto;
+      box-shadow: var(--shadow); transform: translateY(20px); transition: transform 0.25s;
+    }
+    .modal-overlay.open .modal { transform: translateY(0); }
+    .modal h2 { font-size: 20px; font-weight: 800; margin-bottom: 18px; text-align: center; }
+    .modal-close { position: absolute; top: 16px; right: 16px; background: none; border: none; color: var(--gray-mid); cursor: pointer; font-size: 22px; line-height: 1; }
+    .modal-sub { font-size: 13px; color: var(--gray-mid); text-align: center; margin-bottom: 14px; line-height: 1.5; }
+
+    .room-code {
+      font-size: 34px; font-weight: 900; letter-spacing: 10px; text-align: center; color: var(--gold);
+      margin: 4px 0 10px;
+    }
+    .room-link {
+      word-break: break-all; font-size: 12px; color: var(--gray-light);
+      background: rgba(255,255,255,0.06); border-radius: var(--radius); padding: 10px 12px; margin-bottom: 12px;
+      text-align: center; cursor: pointer;
+    }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin: 14px 0 18px; }
+    .chip { font-size: 12px; font-weight: 600; padding: 6px 12px; border-radius: 999px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); }
+    .chip.host { border-color: rgba(245,200,66,.6); color: var(--gold); }
+    .chip.me { background: rgba(45,107,196,.35); }
+
+    .result-word { text-align: center; font-size: 14px; color: var(--gray-mid); margin-bottom: 4px; }
+    .result-answer { text-align: center; font-size: 28px; font-weight: 900; letter-spacing: 4px; color: var(--gold); margin-bottom: 6px; }
+    .result-me { text-align: center; font-size: 14px; margin-bottom: 16px; }
+    .result-me.win { color: #8fe0b8; }
+    .result-me.lose { color: var(--danger); }
+    .rank { display: flex; flex-direction: column; gap: 8px; margin-bottom: 18px; }
+    .rank-row {
+      display: flex; align-items: center; justify-content: space-between; gap: 10px;
+      padding: 10px 14px; border-radius: 10px; background: rgba(255,255,255,0.06);
+      border: 1px solid transparent;
+    }
+    .rank-row.me { border-color: rgba(255,255,255,0.5); }
+    .rank-row.voted { background: rgba(76,175,130,.22); }
+    .rank-left { display: flex; align-items: center; gap: 10px; min-width: 0; }
+    .rank-pos { width: 22px; text-align: center; font-weight: 800; color: var(--gray-mid); }
+    .rank-name { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .rank-detail { font-size: 11px; color: var(--gray-mid); }
+    .rank-right { display: flex; align-items: baseline; gap: 6px; flex: none; }
+    .rank-round { font-size: 12px; color: #8fe0b8; }
+    .rank-total { font-size: 20px; font-weight: 800; color: var(--gold); }
+
+    .how-example { display: flex; gap: 5px; margin: 10px 0; }
+    .how-cell {
+      width: 36px; height: 36px; border-radius: 6px; display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 17px; border: 2px solid rgba(255,255,255,0.2); background: var(--cell-empty);
+    }
+    .how-cell.correct { background: var(--green); border-color: var(--green-dark); }
+    .how-cell.present { background: var(--yellow); border-color: var(--yellow-dark); }
+    .how-cell.absent  { background: var(--absent); border-color: var(--absent-border); }
+    .how p, .how li { font-size: 14px; color: var(--gray-light); line-height: 1.55; }
+    .how ul { padding-left: 18px; margin: 8px 0 14px; }
+    .how strong { color: #fff; }
+    .divider { width: 100%; height: 1px; background: rgba(255,255,255,0.08); margin: 14px 0; }
+
+    .spinner {
+      width: 34px; height: 34px; border-radius: 50%; margin: 6px auto 14px;
+      border: 4px solid rgba(255,255,255,.15); border-top-color: var(--gold); animation: spin .8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── RESPONSIVO ── */
+    @media (max-width: 760px) {
+      #game { flex-direction: column; align-items: center; gap: 12px; padding: 12px 10px 230px; }
+      .opp-col { order: 0; width: 100%; max-width: none; }
+      .me-col { order: 1; }
+      .opp-title { display: none; }
+      .opp-grid { display: flex; overflow-x: auto; gap: 10px; padding-bottom: 4px; scroll-snap-type: x proximity; }
+      .opp-card { flex: 0 0 86px; padding: 6px; scroll-snap-align: start; }
+      .opp-card .board, .opp-card .board-row { gap: 2px; }
+      .opp-card .cell { font-size: 8px; border-radius: 3px; }
+      .opp-name { font-size: 10px; margin-bottom: 5px; }
+      .me-col { width: max(190px, min(330px, 100%, calc((100dvh - 490px) * 5 / var(--rows, 6)))); gap: 6px; }
+      #game.no-opp .me-col { width: max(190px, min(330px, 100%, calc((100dvh - 360px) * 5 / var(--rows, 6)))); }
+      .key { height: 48px; }
+      #keyboard .social-bar { padding: 6px 0 10px; gap: 16px; }
+      #keyboard .social-link { width: 32px; height: 32px; }
+      #keyboard .social-link svg { width: 14px; height: 14px; }
+      .board, .board-row { gap: 5px; }
+    }
+    @media (max-width: 430px) {
+      .kb-row { gap: 4px; }
+      .key { min-width: 0; width: calc((100vw - 20px - 36px) / 10); padding: 0; }
+      .key.wide { width: auto; min-width: 0; flex: 1.6; padding: 0 6px; }
+      .kb-row:last-of-type, #kb-row-3 { width: calc(100vw - 20px); }
+      #kb-row-3 .key:not(.wide) { flex: 1; width: auto; }
+    }
+    @media (max-width: 480px) {
+      .logo-row .cell { width: 42px; font-size: 21px; }
+      .logo-row { gap: 5px; }
+      .cell { font-size: 22px; }
+    }
+    @media (max-width: 380px) {
+      .key { height: 44px; min-width: 28px; font-size: 11px; padding: 0 3px; }
+      .key.wide { min-width: 44px; font-size: 10px; }
+      .social-link { width: 34px; height: 34px; }
+      .social-link svg { width: 15px; height: 15px; }
+      .social-bar { gap: 14px; }
+      .logo-row .cell { width: 37px; font-size: 18px; }
+    }
+    @media (max-width: 320px) {
+      .key { height: 40px; min-width: 24px; font-size: 10px; }
+      .key.wide { min-width: 38px; }
+      .kb-row { gap: 3px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .cell.flip, .cell.filled, .board.shake, .spinner { animation: none; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-logo">
+    <a href="https://ursusman.com" aria-label="Ir para a página inicial do UrsusMan" title="Página inicial">
+      <img src="https://res.cloudinary.com/dtdomrtyp/image/upload/v1781116238/UrsusMan_transparente_jnsn6c.png" alt="Ursusman" />
+    </a>
+  </div>
+  <div class="header-actions">
+    <button class="icon-btn" id="btn-room" title="Convidar amigos" aria-label="Convidar amigos" hidden>
+      <svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6"/><path d="M22 11h-6"/></svg>
+    </button>
+    <button class="icon-btn" id="btn-how" title="Como jogar" aria-label="Como jogar">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.82 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+    </button>
+    <button class="icon-btn" id="btn-exit" title="Sair da sala" aria-label="Sair da sala" hidden>
+      <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>
+    </button>
+  </div>
+</header>
+
+<div id="toast-container"></div>
+
+<!-- ══════════ LOBBY ══════════ -->
+<section id="lobby">
+  <div class="logo-tiles" aria-label="Multi Charada">
+    <div class="logo-row">
+      <div class="cell present">M</div><div class="cell absent">U</div><div class="cell absent">L</div><div class="cell present">T</div><div class="cell absent">I</div>
+    </div>
+    <div class="logo-row">
+      <div class="cell correct">C</div><div class="cell absent">H</div><div class="cell present">A</div><div class="cell absent">R</div><div class="cell correct">A</div><div class="cell absent">D</div><div class="cell present">A</div>
+    </div>
+  </div>
+  <p class="lobby-lede">Crie uma sala, mande o link e dispute a Charada com seus amigos <strong>em tempo real</strong>. Todo mundo tenta a mesma palavra!</p>
+
+  <div class="lobby-card">
+    <div>
+      <label class="field-label" for="username">Seu nome</label>
+      <input class="field-input" id="username" maxlength="16" autocomplete="nickname" placeholder="Como quer aparecer?" />
+    </div>
+    <button class="btn btn-gold btn-full" id="btn-create">
+      <svg viewBox="0 0 24 24"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+      Criar sala
+    </button>
+    <div class="lobby-or">ou entre numa sala</div>
+    <div class="join-row">
+      <input class="field-input" id="join-code" maxlength="6" placeholder="CÓDIGO" autocomplete="off" />
+      <button class="btn btn-primary" id="btn-join">Entrar</button>
+    </div>
+    <div class="lobby-or">ou treine</div>
+    <button class="btn btn-ghost btn-full" id="btn-solo">Jogar sozinho</button>
+  </div>
+
+  <div class="social-bar">
+    <a class="social-link" href="https://www.twitch.tv/ursusmanoficial" target="_blank" rel="noopener" aria-label="Twitch">
+      <svg viewBox="0 0 24 24"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z"/></svg>
+    </a>
+    <a class="social-link" href="https://www.instagram.com/ursusmanoficial/" target="_blank" rel="noopener" aria-label="Instagram">
+      <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+    </a>
+    <a class="social-link" href="https://www.youtube.com/@ursusmanoficial" target="_blank" rel="noopener" aria-label="YouTube">
+      <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+    </a>
+    <a class="social-link" href="https://tiktok.com/@ursusmanoficial" target="_blank" rel="noopener" aria-label="TikTok">
+      <svg viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
+    </a>
+  </div>
+</section>
+
+<!-- ══════════ JOGO ══════════ -->
+<section id="game" hidden>
+  <div class="opp-col" id="opp-col">
+    <p class="opp-title">Adversários</p>
+    <div class="opp-grid" id="opp-grid"></div>
+  </div>
+  <div class="me-col">
+    <div class="player-tag" id="me-tag"></div>
+    <div class="board" id="board"></div>
+    <div class="round-info" id="round-info"></div>
+    <button class="result-again" id="btn-show-result" type="button">Ver resultado <span style="opacity:.6;font-weight:600">(Enter)</span></button>
+  </div>
+</section>
+
+<div id="keyboard" hidden>
+  <div class="kb-row" id="kb-row-1"></div>
+  <div class="kb-row" id="kb-row-2"></div>
+  <div class="kb-row" id="kb-row-3"></div>
+  <div class="social-bar"></div>
+</div>
+
+<!-- CRIAR SALA -->
+<div class="modal-overlay" id="modal-create">
+  <div class="modal">
+    <button class="modal-close" data-close="modal-create" aria-label="Fechar">&times;</button>
+    <h2>Criar sala</h2>
+    <div class="setting-row">
+      <div><div class="setting-label">Jogadores</div><div class="setting-sub">A partida começa quando a sala enche (ou quando você mandar)</div></div>
+      <div class="stepper" data-field="maxPlayers" data-min="2" data-max="20"><button type="button" data-d="-1">−</button><output>2</output><button type="button" data-d="1">+</button></div>
+    </div>
+    <div class="setting-row">
+      <div><div class="setting-label">Tentativas</div><div class="setting-sub">De 3 a 9 chances por rodada</div></div>
+      <div class="stepper" data-field="maxGuesses" data-min="3" data-max="9"><button type="button" data-d="-1">−</button><output>6</output><button type="button" data-d="1">+</button></div>
+    </div>
+    <div class="setting-row">
+      <div><div class="setting-label">Modo</div><div class="setting-sub" id="mode-sub">Ganha quem acertar com menos tentativas</div></div>
+      <div class="mode-tabs" id="mode-tabs">
+        <button type="button" class="mode-tab active" data-mode="guesses">Tentativas</button>
+        <button type="button" class="mode-tab" data-mode="timed">Tempo</button>
+      </div>
+    </div>
+    <div class="setting-row">
+      <div><div class="setting-label">Meta de pontos</div><div class="setting-sub">Quem chegar primeiro vence a partida. Deixe em branco para jogar sem fim.</div></div>
+      <input class="field-input target-input" id="target-input" type="number" inputmode="numeric" min="1" max="999" placeholder="Sem meta" />
+    </div>
+    <button class="btn btn-gold btn-full" id="btn-create-confirm" style="margin-top:16px">Criar sala</button>
+  </div>
+</div>
+
+<!-- SALA DE ESPERA -->
+<div class="modal-overlay" id="modal-wait">
+  <div class="modal">
+    <h2 id="wait-title">Aguardando jogadores…</h2>
+    <p class="modal-sub" id="wait-sub">Mande o link ou o código para seus amigos:</p>
+    <div class="room-code" id="wait-code">------</div>
+    <div class="room-link" id="wait-link" title="Copiar link"></div>
+    <div class="btn-row">
+      <button class="btn btn-primary" id="btn-copy-link">
+        <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        Copiar link
+      </button>
+      <button class="btn btn-ghost" id="btn-share-link">
+        <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.59 13.51l6.83 3.98"/><path d="M15.41 6.51l-6.82 3.98"/></svg>
+        Compartilhar
+      </button>
+    </div>
+    <div class="chips" id="wait-chips"></div>
+    <button class="btn btn-gold btn-full" id="btn-start" hidden>Começar agora</button>
+    <p class="modal-sub" id="wait-guest-note" style="margin:12px 0 0" hidden>A partida começa quando o dono da sala mandar ou quando a sala encher.</p>
+    <button class="btn btn-ghost btn-full" id="btn-close-room" style="margin-top:10px">Ver o tabuleiro</button>
+  </div>
+</div>
+
+<!-- CONECTANDO / ERRO -->
+<div class="modal-overlay" id="modal-status">
+  <div class="modal">
+    <div class="spinner" id="status-spinner"></div>
+    <h2 id="status-title">Conectando…</h2>
+    <p class="modal-sub" id="status-text"></p>
+    <button class="btn btn-primary btn-full" id="status-btn" hidden>Voltar</button>
+  </div>
+</div>
+
+<!-- RESULTADO -->
+<div class="modal-overlay" id="modal-result">
+  <div class="modal">
+    <button class="modal-close" data-close="modal-result" aria-label="Fechar">&times;</button>
+    <h2 id="result-title">Resultado</h2>
+    <div class="champion" id="result-champion" hidden><div class="champion-title">🏆 Venceu a partida</div><div class="champion-name" id="champion-name"></div></div>
+    <p class="result-word">A palavra era</p>
+    <div class="result-answer" id="result-answer"></div>
+    <p class="result-me" id="result-me"></p>
+    <div class="rank" id="result-rank"></div>
+    <button class="btn btn-gold btn-full" id="btn-rematch">Jogar novamente</button>
+    <button class="btn btn-ghost btn-full" id="btn-result-exit" style="margin-top:10px">Sair da sala</button>
+  </div>
+</div>
+
+<!-- COMO JOGAR -->
+<div class="modal-overlay" id="modal-how">
+  <div class="modal how">
+    <button class="modal-close" data-close="modal-how" aria-label="Fechar">&times;</button>
+    <h2>Como jogar</h2>
+    <p>Todos os jogadores da sala tentam descobrir <strong>a mesma palavra</strong> de 5 letras ao mesmo tempo. Você vê as cores dos tabuleiros dos outros, mas não as letras.</p>
+    <div class="divider"></div>
+    <div class="how-example"><div class="how-cell correct">T</div><div class="how-cell">U</div><div class="how-cell">R</div><div class="how-cell">M</div><div class="how-cell">A</div></div>
+    <p><strong>Verde:</strong> a letra está na palavra e na posição certa.</p>
+    <div class="how-example"><div class="how-cell">V</div><div class="how-cell present">I</div><div class="how-cell">O</div><div class="how-cell">L</div><div class="how-cell">A</div></div>
+    <p><strong>Amarelo:</strong> a letra está na palavra, mas em outra posição.</p>
+    <div class="how-example"><div class="how-cell">P</div><div class="how-cell">U</div><div class="how-cell">L</div><div class="how-cell absent">G</div><div class="how-cell">A</div></div>
+    <p><strong>Azul escuro:</strong> a letra não está na palavra.</p>
+    <div class="divider"></div>
+    <p><strong>Pontuação</strong></p>
+    <ul>
+      <li><strong>Modo Tentativas:</strong> ganha mais pontos quem acertar com menos tentativas (empates dividem a posição).</li>
+      <li><strong>Modo Tempo:</strong> ganha mais pontos quem acertar primeiro.</li>
+      <li>Quem não acerta a palavra não pontua na rodada.</li>
+      <li><strong>Meta:</strong> se a sala tiver meta (ex.: 30 pontos), quem chegar nela primeiro vence a partida. Sem meta, dá para jogar quantas rodadas quiser.</li>
+      <li>Fechou a janela de resultado sem querer? Aperte <strong>Enter</strong> ou clique em “Ver resultado”.</li>
+    </ul>
+    <p>Os acentos são preenchidos sozinhos e não contam nas dicas. Mantenha esta aba aberta durante a partida — se o dono da sala fechar a página, a sala acaba.</p>
+  </div>
+</div>
+
+<script src="https://unpkg.com/mqtt@5.10.1/dist/mqtt.min.js"></script>
+<script>
+/* ═════════════════════════════════════════════════════════════
+   MULTI CHARADA — UrsusMan
+   Sem servidor próprio: quem cria a sala é o "juiz" da partida
+   (escolhe a palavra, confere os palpites e conta os pontos).
+   Os jogadores conversam por um servidor MQTT público, com as
+   mensagens criptografadas com o código da sala.
+   ═════════════════════════════════════════════════════════════ */
+
+const ANSWERS = ["ABRIR", "ABUSO", "ACASO", "ACENO", "ACIMA", "ACRES", "ADEUS", "ADIAR", "ADOTE", "AFETO", "AGORA", "AGUDA", "AGUDO", "AINDA", "AJUDA", "ALADO", "ÁLAMO", "ALEGA", "ALETA", "ALGAS", "ALGUM", "ALIAR", "ALMAS", "ALOJA", "ALTOS", "ALUNO", "AMADO", "ÂMAGO", "AMARA", "AMARO", "AMENO", "AMIGO", "AMORA", "AMPLO", "ANDAR", "ANÉIS", "ANGEL", "ANGRA", "ANIMA", "ANJOS", "ANTES", "ANZOL", "AONDE", "APITO", "APOIA", "ARARA", "ARCAR", "ARCOS", "ARDOR", "AREIA", "ARMAR", "ARTES", "ASSAR", "ASSIM", "ATADO", "ATEAR", "ATIRA", "ATLAS", "ATROZ", "ÁUDIO", "AUDAZ", "AVIÃO", "AZEDO", "BABAR", "BAGRE", "BAILE", "BAIXO", "BANCO", "BANDO", "BANHA", "BANHO", "BARÃO", "BARCO", "BARRO", "BATER", "BEBER", "BEIJO", "BELOS", "BESTA", "BICHO", "BIRRA", "BISPO", "BOLAS", "BOLSA", "BRAÇO", "BRAVO", "BREJO", "BREVE", "BRISA", "BUCHO", "BURRO", "BUSCA", "BÚZIO", "CACAU", "CACHE", "CACOS", "CAFÉS", "CALDO", "CALMA", "CALOR", "CAMPO", "CANAL", "CANTO", "CAPAZ", "CARGO", "CARMA", "CARNE", "CARRO", "CARTA", "CASAL", "CASCA", "CASPA", "CAUSA", "CEDER", "CELTA", "CENAS", "CERCO", "CERNE", "CERTO", "CHAVE", "CHEIO", "CHUVA", "CINCO", "CISNE", "CITAR", "CLARO", "COBRA", "COÇAR", "COISA", "COLOR", "COMBO", "COMES", "CONTO", "CÓPIA", "CORES", "CORPO", "CORTE", "CRISE", "CUECA", "CULPA", "CUPIM", "CURTO", "DANÇA", "DATAR", "DECOR", "DENTE", "DESSA", "DEVER", "DICAS", "DIZER", "DOCAS", "DOCES", "DOIDO", "DORSO", "DRAMA", "DUELO", "DUQUE", "DUROS", "ELEVE", "ENCHE", "ENTRE", "ERRAR", "ESTOU", "ETAPA", "FACÃO", "FACHO", "FÁCIL", "FALHA", "FALTA", "FARDO", "FATIA", "FATOR", "FAVOR", "FEBRE", "FEDER", "FEITO", "FELIZ", "FÊMEA", "FENDA", "FERIA", "FESTA", "FIAPO", "FILHO", "FILME", "FINOS", "FIRME", "FIXAR", "FLOCO", "FLUIR", "FLUXO", "FOBIA", "FOCAR", "FOLHA", "FONTE", "FORÇA", "FORMA", "FOSCO", "FRACO", "FRADE", "FREIO", "FRETE", "FRIOS", "FRUTO", "FUMAR", "FUNDO", "FUNIL", "FÚRIA", "FUSÃO", "FUZUÊ", "GARRA", "GATOS", "GERAL", "GIRAR", "GLOBO", "GOLPE", "GORDO", "GRAÇA", "GRAMA", "GRITO", "GRUPO", "GUIAS", "HERÓI", "HIENA", "HONRA", "HORTA", "HOTEL", "HUMOR", "IDEIA", "IGUAL", "IMAGO", "INOVA", "JARDA", "JOGAR", "JORRA", "JUDEU", "JUÍZO", "JUNTO", "JURAR", "LAÇAR", "LADRA", "LADRO", "LAICO", "LANCE", "LARGO", "LARVA", "LAZER", "LATÃO", "LAVAR", "LEGAL", "LEITE", "LENHA", "LEQUE", "LEVAR", "LIÇÃO", "LIDAR", "LINHA", "LIVRO", "LONGE", "LONGA", "LOUVA", "LUCRO", "LUTAR", "MACIO", "MACRO", "MAGRO", "MAIOR", "MALHA", "MANGA", "MANHÃ", "MANOS", "MARCA", "MARES", "MATAR", "MEDIR", "MEIGA", "MEIOS", "MENOR", "MESES", "METAL", "METRO", "MINHA", "MIRAR", "MODAL", "MOEDA", "MOGNO", "MOLDE", "MORAR", "MOTOR", "MUNDO", "MURRO", "NAÇÃO", "NADAR", "NARIZ", "NAVIO", "NEVAR", "NOBRE", "NOITE", "NORMA", "NOTAR", "NOVOS", "NUVEM", "OBRAS", "OCASO", "OLHAR", "OMBRO", "ONTEM", "OPERA", "OPTAR", "ORDEM", "ÓRGÃO", "PARAR", "PARDO", "PARES", "PARIS", "PARTO", "PASTA", "PATOS", "PAGAR", "PAUTA", "PAVIO", "PEDAL", "PEDRA", "PELES", "PENAS", "PENSO", "PLENO", "PERDA", "PERTO", "PESAR", "PILAR", "PILHA", "PIRAR", "PISTA", "PIXEL", "PLANO", "PLENA", "PODER", "POEMA", "POLVO", "PONTE", "PORTA", "POSSE", "POSTO", "POTRO", "POUPO", "PRATA", "PRECE", "PRETO", "PRIMA", "PROVA", "PULSO", "PUNHA", "QUASE", "POLPA", "QUEDA", "RADAR", "RALAR", "RAMOS", "RAPAZ", "RASTO", "RAZÃO", "RETOS", "REFAZ", "REGRA", "REMAR", "RENAL", "REPOR", "REZAR", "RITMO", "RIVAL", "ROCHA", "ROLHA", "RONCO", "ROSTO", "RUÍDO", "SABRE", "SAFRA", "SANAR", "SAÚDE", "SEARA", "SECAS", "SERVO", "SECAR", "SEGUE", "SELVA", "SENHA", "SENSO", "SIGLA", "SERVA", "SISAL", "MEIAS", "SOBRE", "SÓCIO", "SOLAR", "SOLDO", "SOPRO", "SORTE", "SUAVE", "SURGE", "TÁBUA", "TALCO", "TANTO", "TAPAR", "TARDE", "TELHA", "TEMPO", "TERRA", "LERDO", "LENTO", "TEXTO", "TINTA", "TIRAR", "TOCAR", "TOLDO", "TOMAR", "TOPAR", "TORTO", "TOTAL", "TOUCA", "TRAGO", "TRAMA", "TRAPO", "TROCO", "TROVA", "TURBO", "TURMA", "ULTRA", "ÚNICA", "UNIDO", "URRAR", "USINA", "USUAL", "VALER", "VALOR", "VALSA", "VELHA", "VELHO", "VENTO", "VERBO", "VERDE", "VERSO", "VILAS", "VIOLA", "VIRAR", "VISÃO", "VISTA", "VIVOS", "VOCAL", "VOTAR", "VULTO", "ZUNIR", "URSUS", "SÓSIA", "RUSSO", "RUSSA", "URSOS", "ABALO", "ABATE", "ABRIL", "ACABA", "ÁCARO", "ODIAR", "AÇÕES", "ACUSA", "ADEGA", "ADORO", "AFETA", "AFIAR", "AFINS", "ÁGUAS", "ÁGUIA", "AJUDE", "ÁLBUM", "ALEMÃ", "ALGOZ", "ALIÁS", "ALPES", "ALTAR", "ALTAS", "AMADA", "AMBAS", "AMBOS", "AMENA", "AMIGA", "AMPLA", "ANIME", "ANEXO", "ANUAL", "APELO", "APOIO", "ÁRABE", "ARAME", "AREAL", "ARENA", "AROMA", "ARROZ", "ASTRO", "ATRÁS", "ATRIZ", "ATUAR", "ATUAL", "AUTOR", "AUTOS", "ÁVIDA", "AVISA", "ÁVIDO", "AVISO", "AVISE", "BACIA", "BAIXA", "BALÃO", "BALAS", "BALDE", "BANCA", "BANDA", "BARBA", "BARCA", "BASTA", "BATOM", "BEBEM", "BEIRA", "BELAS", "BENTO", "BERÇO", "DIQUE", "BLOCO", "BLUSA", "BOCAS", "BOCAL", "BODAS", "BOIAR", "BOLHA", "BOLSO", "BOMBA", "BÔNUS", "BORDA", "BORDO", "BOTAS", "BOTÃO", "BOTAR", "BRAGA", "BRASA", "BRAVA", "BRIGA", "BRUTO", "BUCAL", "CABOS", "CABRA", "CACHA", "CACTO", "CAIAR", "CAÍDA", "CAÍDO", "CAIXA", "CALÇA", "CALDA", "CALMO", "CAMPA", "CANIL", "CANTA", "CAPAS", "CAPIM", "CARAS", "CARGA", "CASAS", "CASCO", "CASAR", "CASOS", "CAUDA", "CAVAR", "CENSO", "CENTO", "CERCA", "CERTA", "CESTA", "CHAMA", "CHAPA", "CHATA", "CHATO", "CHEFE", "CHEIA", "CHORO", "CHUTE", "CICLO", "CIFRA", "CINTA", "CINTO", "CINZA", "CIRCO", "CISCO", "CÍVEL", "CIVIL", "CLARA", "CLIMA", "CLIPE", "CLUBE", "COBRE", "COFRE", "COLAR", "COLAS", "COMER", "COMUM", "CONDE", "COPOS", "CORAL", "CORDA", "COROA", "CORRA", "CORRE", "CORSA", "COSTA", "COTAR", "COTAS", "COURO", "COUTO", "COUVE", "CRAVO", "CREIO", "CREME", "CRIME", "CRUEL", "CUBRA", "CUIDA", "CUIDE", "CULTO", "CUPOM", "CURAR", "CURTA", "CURTE", "CURTI", "CURVA", "DADOS", "DAQUI", "DATAS", "DEDOS", "DELAS", "DELES", "DELTA", "DEMOS", "DEPOR", "DESCE", "DESSE", "DESTA", "DESTE", "DETÉM", "DETER", "DEUSA", "DEVEM", "DEVIA", "DIABO", "DIETA", "DIGAM", "DIGNO", "DIGNA", "DIREI", "DIRIA", "DISCO", "DISSE", "DISSO", "DITAR", "DITAS", "DITOS", "DIZEM", "DIZIA", "DOBRA", "DOBRO", "DOIDA", "DÓLAR", "DORES", "DORME", "DOSES", "DOURA", "DOURO", "DUCHA", "DUETO", "DUPLA", "DUPLO", "DURAR", "DURAS", "DÚZIA", "EDUCA", "ELEVA", "ELITE", "ENTRA", "ENTRO", "ENTÃO", "ENVIA", "ENVIE", "ENVIO", "ÉPOCA", "ERETO", "ERROS", "ESSAS", "ESSES", "ESTAR", "ESTAS", "ESTES", "ÉTICA", "ÉTICO", "EVITA", "EVITE", "EXAME", "EXATO", "EXIGE", "EXPOR", "EXTRA", "JEANS", "FADAS", "FAIXA", "FALAI", "FALAM", "FALAS", "FALSO", "FALSA", "FARÃO", "FARIA", "FAROL", "FASES", "FATAL", "FATOS", "FAUNA", "FAZEM", "FAZIA", "FECHA", "FECHE", "FECHO", "FEITA", "FEZES", "FERRO", "FERVO", "FIBRA", "FICAM", "FICAR", "FICHA", "FIQUE", "FIÉIS", "FILAS", "FILHA", "FINCA", "FINCO", "FINAL", "FIRMA", "FITAS", "FLORA", "FOICE", "FOGÃO", "FOGOS", "FOLGA", "FOLIA", "FOMOS", "FOREM", "FORNO", "FORRÓ", "FORTE", "FÓRUM", "FOSSE", "FRACA", "FRASE", "FRIAS", "FROTA", "FRUTA", "FUGIR", "FUNDA", "FURTO", "FUZIL", "GANHA", "GANHE", "GANHO", "GARFO", "GAROA", "GASES", "GASTA", "GASTO", "GATAS", "GÊNIO", "GENTE", "GERAM", "GERAR", "GERIR", "GESSO", "GESTO", "GOIÁS", "GOLFE", "GORDA", "GOSTO", "GRADE", "GRANA", "GRAUS", "GRAVA", "GRAVE", "GREVE", "GRIFE", "GRIPE", "GRITA", "GRUDE", "GRUTA", "GUARÁ", "GUIAI", "GUINA", "HAVER", "HAVIA", "HOMEM", "HORAS", "ÍCONE", "IDEAL", "ÍDOLO", "IDOSO", "ILHAS", "IMITA", "IMPOR", "ÍNDIA", "ÍNDIO", "INDUZ", "IRIAM", "IRMÃS", "GENRO", "IRMÃO", "CRINA", "ITENS", "JARRA", "JATOS", "JEITO", "JOIAS", "JOGAM", "JOGOS", "JOGUE", "JOVEM", "JULGA", "JULHO", "JUNTA", "JUNTE", "JUNHO", "JUSTA", "JUSTO", "JUÍZA", "LÁBIO", "LAÇOS", "LACRA", "LAGOA", "LAGOS", "LANÇA", "LÁPIS", "LAPSO", "LARGA", "LATAS", "LATIM", "LATIR", "LEBRE", "LEIAM", "LEITO", "LEMOS", "LENDA", "LENTE", "LERDA", "LESTE", "LETRA", "LEVES", "LÍDER", "LIDAS", "LIGAR", "LIGUE", "LILÁS", "LIMPA", "LIMPO", "LINDA", "LINDO", "LÍRIO", "LISTA", "LITRO", "LIVRE", "LIXAR", "LOIRA", "LOBOS", "LOCAL", "LONGO", "LOUCA", "LOUCO", "LOUSA", "SKATE", "LUGAR", "LUTAM", "LUTAS", "LUVAS", "LUZES", "LUZIR", "MACHO", "MADRE", "MAGIA", "MAGRA", "MAJOR", "MALAS", "MALTA", "MAMÃE", "MANDE", "MANIA", "MANSO", "MANTO", "MANTA", "MARÇO", "MARTE", "MASSA", "MATOS", "MÉDIA", "MÉDIO", "KIWIS", "MENTE", "MESMA", "MESMO", "METAS", "METER", "MEXER", "MICRO", "MÍDIA", "MILHA", "MILHO", "MINAS", "MIRRA", "MISSA", "MISTO", "MISTA", "MOCHO", "MOLHA", "MOLHE", "MOLHO", "MONTE", "MORAL", "MORAM", "MORRE", "MORRO", "MORTA", "MORTO", "MOSCA", "MÓVEL", "MOVER", "MUDAM", "MUDAS", "MUDAR", "MUITA", "MUITO", "MULTA", "MULTI", "MURAL", "MUSEU", "MUSGO", "NATAL", "NAVAL", "NEGAR", "NEGRA", "NELES", "NELAS", "NERVO", "NEVES", "NICHO", "NINHO", "NINJA", "NISSO", "NISTO", "NOÇÃO", "NOIVA", "NOIVO", "NORTE", "NOSSA", "NOSSO", "NOTAS", "NOVAS", "NOZES", "NUNCA", "OBTER", "ÓBVIO", "OCUPA", "ODEIA", "ODEIO", "OESTE", "OLHAI", "OLHOS", "ONDAS", "OPÇÃO", "ORNAR", "OSSOS", "ÓTICA", "ÓTIMO", "OUVIA", "OUVIR", "PACTO", "PADRE", "PAGAM", "PAGUE", "PAIOL", "PALCO", "PALHA", "PALMA", "PALMO", "PANOS", "PAPAI", "PAPEL", "PARAM", "PARDA", "PARTE", "PASSA", "PASSE", "PASSO", "PASTO", "PATAS", "PÁTIO", "PAULA", "PAUSA", "PAVÃO", "PEÇAS", "PEDEM", "PEDIA", "PEDIR", "PEGAR", "PEGUE", "PEITO", "PEIXE", "PENAL", "PENHA", "PENSA", "PENSE", "PERCA", "PERCO", "PERDE", "PERNA", "PESCA", "PIADA", "PIANO", "PIQUE", "PIRES", "PIZZA", "INVÉS", "ENFIM", "PLACA", "PLANA", "POBRE", "PODAR", "PODEM", "PODES", "PODIA", "POETA", "POLIR", "PONTA", "PONTO", "PORCO", "PORTO", "PORTE", "PORÉM", "POSAR", "POSSO", "POSTE", "POUCA", "POUCO", "POUSO", "POVOS", "PRAÇA", "PRADO", "PRAGA", "PRAIA", "PRATO", "PRAZO", "PREÇO", "PRESA", "PRESO", "PRETA", "PREVÊ", "PRIMO", "PROSA", "PROVE", "PROVI", "PULAR", "PUNHO", "PUXAR", "QUERO", "RAÇÃO", "RAÇAS", "RACHA", "RÁDIO", "RAIOS", "RAIVA", "RAMPA", "RASGO", "RATOS", "REAIS", "RECÉM", "REDES", "REDOR", "REGER", "REINO", "RENDA", "RENDE", "RESTA", "RESTO", "REÚNE", "REVER", "RICAS", "RIFAR", "RIGOR", "RIMAR", "RINDO", "RIPAS", "RISCA", "RISCO", "RODAS", "RODAR", "ROLAM", "ROLAR", "ROMBO", "ROMPE", "RONCA", "ROSAS", "ROSCA", "ROUBO", "ROUPA", "RUBRO", "RUGAS", "RUÍNA", "RUINS", "RUIVA", "RUIVO", "RURAL", "SABEM", "SABER", "SABES", "SABIA", "SÁBIO", "SABÃO", "SAIAS", "SAÍDA", "SAÍDO", "SAIBA", "SAIRÁ", "SALÃO", "SALMO", "SALSA", "SALTO", "SALVA", "SALVE", "SALVO", "SAMBA", "SANTA", "SANTO", "SARNA", "SAUNA", "SEÇÃO", "SECOS", "SEGUI", "SEJAM", "SEIOS", "SEIVA", "SENÃO", "SENTA", "SENTE", "SENTI", "SERÃO", "SEREI", "SERES", "SERIA", "SÉRIE", "SERRA", "SÉRIO", "SETOR", "SEXOS", "SEXTO", "SIGNO", "SILVA", "SINAL", "SINTA", "SINTO", "SIRVA", "SÍTIO", "SOBRA", "SOCAR", "SÓDIO", "SOFRE", "SOGRA", "SOGRO", "SOLDA", "SOLTA", "SOLTO", "SOMAR", "SOMOS", "SONHA", "SONHO", "SORRI", "SORVO", "SUBIR", "SUGAR", "SULCO", "SUPER", "SUPRA", "SURJA", "SURRA", "SUSTO", "SUTIL", "TAIPA", "TAMPA", "TARJA", "TAXAR", "TAXAS", "TECLA", "TEMAS", "TEMER", "TEMOR", "TEMOS", "TENAZ", "TENDA", "TENDE", "TENHA", "TENHO", "TÊNIS", "TENTO", "TERÃO", "TERÇO", "TEREI", "TEREM", "TERÇA", "TERNO", "TESTA", "TESTE", "TCHAU", "TINTO", "TIRAS", "TIROS", "TOQUE", "TOLAS", "TOMAM", "TONTO", "TORCE", "TORNA", "TORRE", "TORNO", "TORTA", "TOURO", "TRAVA", "TRAVE", "TRAVO", "TRAÇO", "TRAGA", "TRARÁ", "TREPA", "TREVO", "TREZE", "TRIBO", "TRIGO", "TRONO", "TROCA", "TUMOR", "TURNO", "TÚNEL", "UNGIR", "UNHAS", "UNIÃO", "UNTAR", "URINA", "USADO", "USAVA", "USURA", "ÚTEIS", "ÚTERO", "VÁCUO", "VAGAS", "VALEM", "VALES", "VALEU", "VALIA", "VAMOS", "VAPOR", "VARIA", "VASCO", "VASTA", "VASTO", "VEIAS", "VEJAM", "VELAR", "VELAS", "VENAL", "VENDA", "VENDE", "VENHA", "VENHO", "VERBA", "VEREM", "VERME", "VERÃO", "VERSA", "VESPA", "VESTE", "VETOR", "VEZES", "VIAJA", "VIBRA", "VÍCIO", "VÍDEO", "VIDAS", "VIDRO", "VIGAS", "VIGOR", "VILÃO", "VIMOS", "VINCO", "VINDA", "VINDE", "VINHA", "VINHO", "VINIL", "VINTE", "VÍRUS", "VISAM", "VISTO", "VIVAM", "VIVAS", "VIVEM", "VIVER", "VIVIA", "VIÚVA", "VOCÊS", "VODCA", "VÔLEI", "VOLTA", "VOLTE", "VOLTO", "VOTOS", "VOSSA", "VOSSO", "VOZES", "ZONAS", "ZANGA", "ZARPA", "ZONAL", "ZUMBI", "CIÚME", "DAMAS", "FILOS", "CUSTO", "SURDO", "RITOS", "FITOS", "TIPOS", "REVÉS", "LEMES", "REFÉM", "FÊMUR", "UIVOS", "SUMIR", "RUGIR", "TETRA", "RETAS", "ACHAR", "TRIPA", "CALVO", "PESTO", "TRENS", "PODAM", "MITOS", "GELAR", "GEMAS", "PENTE", "PRAXE", "CLAME", "HASTE", "LACRE", "CARPA", "URUBU", "NATAS", "NULAS", "INATA", "PUROS", "FUROR", "FUROS", "DÓCIL", "MODOS", "RODOS", "BALSA", "PÓDIO", "SELAR", "MELAR", "VAIAR", "PURAS", "BOLOS", "ROLOS", "COCOS", "MOÇOS", "SOCOS", "FOCOS", "PESTE", "PERSA", "TELAS", "MESAS", "RAIAR", "CURAU", "PUDOR", "FÚTIL", "BURCA", "RUMOR", "BICOS", "PICOS", "LINHO", "CURAS", "GIROS", "RICOS", "QUIÇÁ", "TOSCO", "POLAR", "CRIAR", "CUSPE", "NAVES", "ÍMPAR", "MOLAS", "FINAS", "SUNGA", "LICOR", "PINOS", "PINHO", "SETAS", "TACOS", "TACHO", "VIRIL", "RÉGUA", "BOIAS", "TRICÔ", "TRENÓ", "PELOS", "NETOS", "TETOS", "TALAS", "ATEUS", "LETAL", "FUNDE", "GRATA", "FINGE", "ÁTOMO", "LAUDO", "TRATO", "SALAS", "RABOS", "GEMER", "LEMAS", "RUMOS", "CALHA", "BAMBU", "BAÍAS", "AMEBA", "ADUBO", "BANAL", "BRUXA", "CURSO", "CESTO", "BOSSA", "BEATO", "BONDE", "CEDRO", "BOTES", "BIOMA", "CORVO", "PODAS", "FANHA", "VAZIO", "FUGAS", "FRISO", "MIOLO", "POSTA", "LAVEI", "BIFES", "FEIAS", "CANOS", "MOÍDO", "TOSCA", "FOSCA", "POMBO", "DÉBIL", "GAFES", "GALÉS", "PANES", "APEGO", "LONAS", "PUDIM", "CHEGA", "LESMA", "FAVAS", "ÁPICE", "COLHE", "ÁUREO", "FUREI", "MORTE", "RISOS", "VISAR", "PISCA", "CISCA", "BISPA", "VIGIA", "VAIAS", "CISMA", "CLONE", "DRONE", "FALHO", "GALHO", "NESSE", "IMUNE", "JEGUE", "FEIXE", "PESAM", "MALES", "MEROS", "CEROL", "TORPE", "VELOZ", "TROPA", "BARRA", "JARRO", "RANÇO", "TRUFA", "LIMÃO", "LIMAS", "VAIAM", "PUNIR", "TODOS", "AÇUDE", "ÁCIDA", "ÁRIDA", "SOPAS", "GOMAS", "NESTA", "REINA", "RELVA", "FUSCA", "SURDA", "BURRA", "ACESO", "TAPAS", "AVEIA", "CETIM", "FERIR", "LESÃO", "MOÍDA", "CASTA", "LISAS", "SÓTÃO", "DEIXO", "BRUTA", "POLOS", "POROS", "PERAS", "FERAS", "GURIA", "LINCE", "RAPTO", "BUCHA", "IRADA", "MODAS", "DONAS", "CONTA", "MONTA", "TONTA", "MÚMIA", "SUMIA", "POMBA", "NÍVEL", "POUSA", "MUSAS", "FARSA", "TÊNUE", "LENÇO", "ANTAS", "NABOS", "VETOS", "GAMAR", "MÁGOA", "MAPAS", "FISGA", "GÍRIA", "SÓCIA", "PESOS", "GELOS", "FEIOS", "DIVAS", "GULAS", "PEDIU", "SALDO", "REMOS", "FEUDO", "COSMO", "VINDO", "DINDO", "TOPAM", "MAGOS", "TIRAM", "CORJA", "CORTA", "LEIGA", "TITIO", "COVAS", "FALAR", "SACAR", "BAZAR", "CAÇAR", "TÉDIO", "DUNAS", "JAULA", "TORAS", "TÓRAX", "SABOR", "MENOS", "EUROS", "DEIXA", "RASPA", "RASGA", "NAIPE", "UREIA", "DUBLÊ", "AFOGA", "GOLAS", "CHEGO", "SUÍÇO", "RELER", "RETER", "FITAR", "PÁRIA", "PARIU", "FAZER", "VALAS", "FACAS", "VITAL", "CALOS", "ASILO", "BULAS", "LUPAS", "BUSTO", "TUMBA", "LOIRO", "FRITA", "PAGOS", "PAVOR", "FUJAM", "PILÃO", "SOMAS", "USADA", "SOLOS", "ÁCIDO", "ÁRIDO", "CASTO", "SAQUE", "LAMBE", "GUIAR", "LISOS", "RIMAS", "CALAR", "BURLA", "GOSMA", "BULES", "GORRO", "BOLAR", "MENTA", "SAGAZ", "NESTE", "CHUPA", "CUSPO", "CHUTA", "PISAR", "VIAJE", "SALGA", "SALTA", "ÁTRIO", "COESA", "PICAR", "BICAR", "VIRAL", "MACIA", "VÊNUS", "URANO", "MIGRA", "ASPAS", "JUROS", "CUJOS", "SUPOR", "CUBOS", "SUJOS", "TRENA", "TRELA", "ALVOS", "ALUGO", "CAPUZ", "PULOS", "SUÍNO", "LIBRA", "CUSTE", "ÓVNIS", "AGUAR", "HORTO", "MEIGO", "VARAL", "VARÃO", "DEDAL", "DANDO", "MANDO", "ZINCO", "MELÃO", "TELÃO", "MOFOS", "MOTOS", "FOTOS", "ÓSCAR", "PINGO", "BINGO", "TACÃO", "OPACO", "OUTRA", "GRATO", "FEROZ", "TIMES", "LOMBO", "ILESA", "SUECA", "CHIAR", "LEIGO", "PROLE", "CAULE", "BLEFE", "GRÃOS", "ARADO", "ÓBITO", "NITRO", "CRIVO"];
+const VALID_GUESSES = new Set("AARUS AATAS ABABA ABACA ABACO ABADA ABADE ABADO ABAFA ABAFE ABAFO ABAIA ABAJU ABALA ABALE ABALO ABAMA ABANA ABANE ABANO ABAPA ABAPO ABARA ABARE ABATA ABATE ABATI ABATO ABDAL ABEBE ABECE ABEDA ABEDE ABEDO ABETA ABETE ABETO ABEXI ABIAS ABIBE ABICO ABIES ABIGA ABIOS ABITA ABITO ABIUS ABLUA ABLUI ABLUO ABOAR ABOBO ABOCA ABOCO ABOFE ABOHM ABOIA ABOIO ABOIZ ABOLA ABOLE ABOLI ABONA ABONO ABRAM ABRAS ABREM ABRES ABREU ABRIA ABRIL ABRIR ABRIS ABRIU ABROS ABRUS ABUBE ABUDA ABUDO ABUNA ABUSA ABUSE ABUSO ABUTA ABUXO ACAAS ACABA ACABE ACABO ACACA ACACU ACADE ACAEM ACAES ACAIA ACAIO ACAIS ACAJA ACAJU ACALA ACALO ACAMA ACAME ACAMO ACANA ACAOS ACAPU ACARA ACARI ACARO ACASA ACASO ACATA ACATE ACATO ACAUA ACAUS ACAVA ACAVE ACAVO ACECA ACEDA ACEJA ACEJO ACELA ACELO ACENA ACENE ACENO ACERA ACERO ACESA ACESO ACETA ACETO ACHAI ACHAM ACHAR ACHAS ACHEI ACHEM ACHES ACHIM ACHOS ACHOU ACIBE ACICA ACIDA ACIDO ACIES ACILA ACILO ACIMA ACINA ACINO ACIOA ACLIS ACMES ACNES ACOAR ACOAS ACOBA ACODE ACOES ACOLA ACOOS ACOPA ACOPO ACORA ACORI ACORO ACRAL ACRAS ACRES ACREU ACROA ACRON ACROS ACTAS ACTIA ACTUE ACUAI ACUAM ACUAR ACUAS ACUDA ACUDE ACUDI ACUDO ACUEI ACUEM ACUES ACULA ACULO ACUMA ACUME ACUMI ACUNA ACUOS ACUOU ACURE ACURI ACUSA ACUSE ACUSO ACUTA ACUTI ADAAS ADAGA ADAGE ADAIL ADALI ADAMA ADAMO ADANA ADANO ADAOS ADEGA ADEJA ADEJE ADEJO ADELA ADELO ADEMA ADERE ADERI ADESA ADESO ADEUS ADIAI ADIAM ADIAR ADIAS ADIBE ADICA ADIDA ADIDO ADIEI ADIEM ADIES ADION ADIOS ADIOU ADIPA ADIPE ADIPO ADIRA ADIRO ADITA ADITE ADITO ADIUS ADJAS ADOBA ADOBE ADOBO ADOCA ADOCE ADOCO ADOLA ADOLO ADORA ADORE ADORO ADOTA ADOTE ADOTO ADOVA ADOXA ADRAS ADROS ADUAR ADUAS ADUBA ADUBE ADUBO ADUFA ADUFE ADUFO ADULA ADULE ADULO ADVEM ADVIM ADVIR AEDAS AEDES AEDOS AERAR AEREA AEREO AFAGA AFAGO AFANA AFANE AFANO AFEAR AFEFE AFEGA AFERE AFERI AFETA AFETE AFETO AFIAI AFIAM AFIAR AFIAS AFIEI AFIEM AFIES AFIFE AFILA AFILO AFINA AFINE AFINO AFINS AFIOS AFIOU AFIRA AFIRO AFITA AFITO AFIXA AFIXE AFIXO AFLAR AFLUA AFLUI AFLUO AFOBA AFOBE AFOBO AFODA AFODO AFOFA AFOFE AFOFO AFOGA AFOGO AFONA AFONO AFORA AFORE AFORO AFOXE AFRAS AFROS AFTAS AFURA AGACE AGADA AGAIS AGALA AGAMA AGAMI AGAMO AGAPA AGAPE AGARA AGARO AGATA AGATE AGATI AGAUS AGAVE AGEIS AGENA AGENO AGIAM AGIAS AGIDO AGINA AGINO AGIOS AGIRA AGITA AGITE AGITO AGIUS AGLAS AGLIA AGMAS AGNAS AGNOS AGOGE AGOGO AGONA AGONO AGORA AGRAR AGRAS AGRAZ AGRES AGRIA AGROR AGROS AGUAI AGUAM AGUAR AGUAS AGUCA AGUCE AGUCO AGUDA AGUDE AGUDO AGUEI AGUEM AGUES AGUIA AGUOS AGUOU AGUTI AIACA AIAIA AIAIS AIARA AIBIS AICAS AIDAS AIDOS AIGUE AINAS AINDA AINOS AINSA AINUS AIOCA AIPAS AIPES AIPIM AIPIS AIPOS AIRAA AIRAO AIRAR AIRAS AIRES AIRIS AIROL AIROS AISES AITAS AITES AIUAS AIUBA AIUCA AIUES AIUIU AIVAA AIVAO AIVAS AIXES AJABO AJAIS AJAJA AJAPA AJARA AJARE AJERU AJUBA AJUDA AJUDE AJUDO AJUGA AJUPA AJUPE AJURI AJURU AKITA ALAAS ALABA ALABE ALADA ALADO ALAGA ALAGO ALALA ALALO ALAMA ALAMO ALANA ALANO ALAOS ALARA ALARE ALBAS ALBOI ALBOR ALBUM ALCAI ALCAM ALCAR ALCAS ALCEA ALCEI ALCEM ALCES ALCOS ALCOU ALCUZ ALDAS ALDEA ALDOL ALDOS ALEAR ALEAS ALEFE ALEGA ALEGO ALEIA ALELA ALELI ALELO ALEMA ALENA ALENO ALEOS ALEPO ALETA ALETO ALEUS ALFAR ALFAS ALFIL ALFIM ALFIR ALFOL ALFOZ ALGAL ALGAR ALGAS ALGAZ ALGIA ALGOL ALGOR ALGOS ALGOZ ALGUM ALHAL ALHAS ALHOS ALIAI ALIAM ALIAR ALIAS ALIBI ALICA ALICE ALIEI ALIEM ALIES ALIFE ALIJA ALIJE ALIJO ALILA ALILO ALIME ALIOS ALIOU ALISA ALISE ALISO ALITA ALIVE ALJUZ ALMAS ALMOS ALMUZ ALNAS ALNOS ALOCA ALOCO ALODE ALOES ALOJA ALOJE ALOJO ALOSE ALOTE ALPES ALTAR ALTAS ALTER ALTOR ALTOS ALUAR ALUAS ALUDA ALUDE ALUDI ALUDO ALUFA ALUGA ALUGO ALUIR ALUJA ALULA ALUME ALUNA ALUNO ALVAA ALVAO ALVAR ALVAS ALVEA ALVEO ALVOR ALVOS AMADA AMADO AMAGA AMAGO AMAIS AMALA AMAME AMANA AMAPA AMARA AMARE AMARO AMATO AMAVA AMBAA AMBAO AMBAR AMBAS AMBES AMBIA AMBIS AMBOM AMBOS AMBRE AMBUA AMBUI AMBUS AMEAR AMEBA AMEIA AMEIS AMEJU AMELA AMELE AMELO AMENA AMENO AMIAL AMIAS AMIBA AMIDA AMIDO AMIGA AMIGO AMILA AMILO AMIMA AMIME AMIMO AMINA AMINO AMIOS AMISH AMITA AMITO AMNIA AMNIO AMOJA AMOJO AMOLA AMOLE AMOLO AMOMA AMOMO AMORA AMORE AMOTA AMOUS AMPLA AMPLO AMUAR AMUAS AMUOS AMURA AMURE AMURI AMUSA AMUSO ANAAS ANABI ANACA ANACE ANACO ANAFA ANAFE ANAGE ANAHY ANAIA ANAIS ANAJA ANAJE ANAMA ANANA ANANI ANANO ANAOS ANAPU ANARI ANATA ANATE ANATO ANAUE ANCAS ANCES ANCHA ANCHO ANCIA ANCIL ANCOS ANDAI ANDAM ANDAR ANDAS ANDEI ANDEM ANDES ANDOR ANDOS ANDOU ANDRE ANDUA ANDUS ANEBA ANEBO ANEIS ANEJA ANEJO ANELA ANELE ANELO ANETA ANETE ANETO ANEXA ANEXE ANEXO ANGAS ANGAU ANGEL ANGLA ANGLO ANGOR ANGRA ANGUS ANHAS ANHOS ANIBA ANIBU ANIMA ANIME ANIMO ANINA ANION ANIXA ANIXI ANIXO ANJAA ANJAO ANJAS ANJOS ANODA ANODO ANOJA ANOJO ANONA ANORI ANOSA ANOSO ANOTA ANOTE ANOTO ANSAS ANSIA ANSOS ANTAA ANTAO ANTAR ANTAS ANTES ANTRA ANTRE ANTRO ANUAI ANUAL ANUAM ANUAS ANUEM ANUIA ANUIR ANUIS ANUIU ANUJA ANULA ANULE ANULO ANUOS ANURA ANURI ANURO ANUUS ANZOL AONDE AORTA AOSES AOTAS AOTOS APAGA APAGE APAGO APAIS APAPA APARA APARE APARO APART APEAI APEAR APECU APEEI APEGA APEGO APEIA APEIE APEIO APELA APELE APELO APENA APENE APENO APEOU APERA APERO APIAA APIAI APIAO APIAS APICE APICU APIOL APIOS APIRA APIRO APITA APITE APITO APITU APOAS APOCA APODA APODE APODI APODO APOIA APOIE APOIO APOIS APOJA APOJO APOLA APOLO APORA APORE APORO APOTA APOTO APRAZ APREA APRES APTAR APTAS APTOS APUAR APUAS APUIS APUPA APUPO APURA APURE APURO AQUEA AQUEM AQUEO AQUEU AQUIS ARAAS ARABE ARABI ARABU ARACA ARACI ARACU ARADA ARADO ARAES ARAIS ARAIU ARALE ARAMA ARAME ARAOS ARARA ARARI ARATU ARAUA ARAUE ARAUS ARAVA ARAXA ARBIM ARBIS ARCAA ARCAI ARCAL ARCAM ARCAO ARCAR ARCAS ARCAZ ARCHA ARCOS ARCOU ARDAM ARDAS ARDEA ARDEI ARDEM ARDER ARDES ARDEU ARDIA ARDIL ARDIS ARDOR ARDOS ARDRA ARDUA ARDUO AREAA AREAL AREAO AREAR AREAS ARECA AREDE AREIA AREIS AREJA AREJE AREJO ARENA AREOU AREPA ARERE AREUS ARFAI ARFAM ARFAR ARFAS ARFEI ARFEM ARFES ARFIL ARFOS ARFOU ARGAA ARGAL ARGAO ARGAS ARGAU ARGEL ARGOL ARGON ARGOS ARGOT ARGUA ARGUI ARGUO ARIAS ARIBE ARICA ARICO ARIDA ARIDO ARIES ARIFE ARIGO ARILA ARILO ARIMA ARIMO ARINA ARINO ARIPA ARIPO ARIRI ARITI ARJAA ARJAO ARMAA ARMAI ARMAM ARMAO ARMAR ARMAS ARMEI ARMEM ARMES ARMEU ARMIM ARMOS ARMOU ARMUR ARNAL ARNES AROCA AROLA AROMA AROUS ARPAA ARPAO ARPAR ARPEU ARPOA ARPOE ARPOO ARQUE ARQUI ARRAS ARRES ARRIA ARRIE ARRIO ARROZ ARRUA ARSES ARSIS ARTAA ARTAO ARTES ARTUR ARUAI ARUAS ARUBA ARUBE ARUCA ARUGA ARUJA ARUJO ARULA ARUMA ARURA ARURU ARVAL ARVAS ARXAR ASADA ASADO ASANA ASARA ASARO ASCAS ASCIA ASCIO ASCON ASCOS ASCUA ASELA ASELO ASIAS ASILA ASILE ASILO ASIOS ASMAS ASMOS ASNAL ASNAS ASNIL ASNOS ASPAR ASPAS ASPES ASSAI ASSAM ASSAR ASSAS ASSAZ ASSEI ASSEM ASSES ASSIM ASSIS ASSOA ASSOE ASSOO ASSOS ASSOU ASSUA ASTER ASTRA ASTRE ASTRO ATACA ATACO ATADA ATADO ATAIS ATANA ATAPU ATARA ATARE ATAVA ATEAI ATEAR ATEEI ATEIA ATEIE ATEIO ATEIS ATELE ATENS ATEOU ATERA ATEUS ATEVE ATICA ATICE ATICO ATICU ATIDA ATIDO ATIMA ATIMO ATINA ATINE ATINO ATIRA ATIRE ATIRO ATITA ATITO ATIVA ATIVE ATIVO ATLAS ATLED ATMAS ATOAR ATOBA ATOCA ATOCO ATOIS ATOLA ATOLE ATOLO ATOMA ATOMO ATONA ATONO ATORA ATOTO ATOUS ATRAI ATRAS ATRIA ATRIL ATRIO ATRIZ ATROA ATROO ATROS ATROZ ATUAI ATUAL ATUAM ATUAR ATUAS ATUEI ATUEM ATUES ATUIR ATUOS ATUOU ATURA ATURE ATURO ATXIM AUACU AUAIS AUARI AUATI AUCAA AUCAO AUCAS AUDAZ AUDES AUDIA AUDIO AUETI AUGES AUGIR AUIBA AULAS AULIR AULOS AUNAR AURAL AURAS AUREA AUREO AURIR AUSAS AUSIA AUSIO AUSOS AUSTE AUTAS AUTOR AUTOS AUTUA AUTUE AUTUO AUUVA AVARA AVARE AVARI AVARO AVATI AVEAA AVEAL AVEAO AVEIA AVEIO AVELA AVENA AVENS AVIAA AVIAI AVIAM AVIAO AVIAR AVIAS AVIDA AVIDO AVIEI AVIEM AVIER AVIES AVILA AVIOS AVIOU AVIRA AVISA AVISE AVISO AVITA AVITO AVIUS AVIVA AVIVE AVIVO AVOAR AVOEI AXEXE AXIAL AXILA AXILO AXIXA AXONE AXOXO AXUAS AZADA AZADO AZALA AZARA AZARE AZARO AZEAS AZEDA AZEDE AZEDO AZEOS AZERI AZIAR AZIAS AZIDA AZIGA AZIGO AZIMA AZIMO AZINA AZOAR AZOLA AZOTA AZOTE AZOTO AZULA AZULE AZULO BABAA BABAI BABAL BABAM BABAO BABAR BABAS BABAU BABEI BABEL BABEM BABES BABIS BABOS BABOU BABUL BABUS BACAS BACIA BACIO BACON BACOS BACUS BADAL BADAS BADEM BADES BADIA BADIL BADIO BADOS BADUR BAECA BAECO BAETA BAFAR BAFAS BAFIA BAFIO BAFOS BAFUM BAGAR BAGAS BAGEL BAGEM BAGOS BAGRE BAGUA BAHIA BAIAA BAIAO BAIAR BAIAS BAILA BAILE BAILO BAIOS BAIRA BAIRU BAITA BAITE BAIXA BAIXE BAIXO BAJAR BAJOS BAJUS BALAA BALAO BALAR BALAS BALBA BALBO BALCA BALDA BALDE BALDO BALEM BALES BALHA BALHO BALIA BALIM BALIO BALIR BALIS BALIU BALSA BALSO BAMBA BAMBE BAMBO BAMBU BANAL BANCA BANCO BANDA BANDO BANEM BANES BANGA BANGO BANGU BANHA BANHE BANHO BANIA BANIR BANIS BANIU BANJA BANJO BANTA BANTO BANTU BANZA BANZE BANZO BAOBA BAPAS BAPOS BAQUE BARAA BARAO BARAS BARAU BARBA BARBO BARCA BARCO BARDA BARDO BARES BARGA BARIA BARIO BAROA BARRA BARRE BARRO BARUS BASAL BASCA BASCO BASES BASIA BASIC BASIM BASIO BASSE BASTA BASTE BASTO BATAM BATAS BATCH BATEI BATEL BATEM BATER BATES BATEU BATIA BATIK BATIS BATOM BATOS BAUAS BAULE BAUNA BAURU BAXAS BAZAR BAZES BEABA BEATA BEATO BEBAM BEBAS BEBEI BEBEM BEBER BEBES BEBEU BEBIA BEBIS BEBOP BEBOS BEBUM BECAS BECOS BEDEL BEDEM BEDUI BEDUM BEGES BEGUE BEICA BEICO BEIJA BEIJE BEIJO BEIJU BEIRA BEIRE BEIRO BEIRU BEJES BELAA BELAO BELAS BELAZ BELEM BELFA BELFO BELGA BELHA BELHO BELIS BELIZ BELOS BEMAS BEMBA BEMBE BEMOL BENCA BENGA BENGO BENIM BENTA BENTO BENZA BENZE BENZI BENZO BEQUE BERAS BERBA BERCA BERCO BEREU BERIS BERMA BERNA BERNE BERNO BEROE BEROS BERRA BERRE BERRO BERTA BESPA BESSA BESTA BETAA BETAO BETAR BETAS BETEL BETES BETIM BETIS BETLE BETOS BETRE BETUS BIABA BIANA BIARA BIARI BIARO BIBAS BIBES BIBIO BIBIS BIBLA BIBOS BICAA BICAI BICAL BICAM BICAO BICAR BICAS BICHA BICHO BICOS BICOU BIDAA BIDAO BIDES BIDUA BIDUO BIDUS BIELA BIENA BIENO BIFAR BIFAS BIFES BIGAS BIGLA BIGLE BIGUA BIGUS BIJOU BIJUI BIJUS BILAC BILAU BILES BILHA BILHO BILIS BILRA BILRO BIMAR BIMAS BIMBA BIMBO BIMOS BINAR BINAS BINDA BINGA BINGO BINIU BIOCA BIOCO BIOMA BIOSE BIOTA BIPAR BIPES BIQUE BIRAS BIRIS BIRMA BIROS BIRRA BIRRO BIRUS BISAA BISAO BISAR BISCA BISCO BISEL BISES BISPA BISPO BISSA BISSO BITAR BITAS BITER BITES BITOS BITRE BITUS BIVAS BIVIA BIVIO BIXAS BIZUS BLACK BLASE BLAST BLATA BLAUS BLEFA BLEFE BLEFO BLEND BLESA BLESO BLICA BLINI BLITZ BLOCA BLOCO BLOCS BLOGA BLUCA BLUCO BLUES BLUFF BLUSA BLUSH BOABA BOANA BOATA BOATE BOATO BOAVA BOBAL BOBAR BOBAS BOBES BOBOS BOCAL BOCAR BOCAS BOCEL BOCHA BOCHE BOCIA BOCIO BOCOS BOCUE BOCUS BODAR BODAS BODES BODOS BODUM BOFAR BOFES BOGAR BOGAS BOGOS BOGUE BOIAA BOIAI BOIAM BOIAO BOIAR BOIAS BOICA BOICU BOIEI BOIEM BOIES BOIME BOINA BOIOS BOIOU BOIRU BOJAR BOJAS BOJOS BOJUI BOLAA BOLAI BOLAM BOLAO BOLAR BOLAS BOLBA BOLBO BOLDA BOLDO BOLEI BOLEM BOLES BOLEU BOLHA BOLIM BOLOR BOLOS BOLOU BOLSA BOLSO BOMBA BOMBO BONDE BONES BONGA BONGO BONUS BONZA BONZO BOOKS BOQUE BORAL BORAS BORAX BORBA BORCA BORCO BORDA BORDE BORDO BORES BORGA BORGO BORIS BORLA BORNA BORNE BORNO BORNU BOROA BOROS BORRA BORRE BORRO BOSCA BOSON BOSSA BOSTA BOTAA BOTAI BOTAM BOTAO BOTAR BOTAS BOTEI BOTEM BOTES BOTIM BOTON BOTOS BOTOU BOTOX BOUBA BOUCA BOXAR BOXER BOXES BOZOS BPSES BRABA BRABO BRACA BRACO BRADA BRADE BRADO BRAGA BRALA BRAMA BRAME BRAMI BRAMO BRASA BRAVA BRAVO BREAK BREAR BRECA BRECO BREDA BREDO BREGA BREJA BREJO BREMA BRETE BREUS BREVE BRIAL BRIAS BRIBA BRICA BRIDA BRIES BRIGA BRIGO BRIOL BRIOS BRISA BRISE BRITA BRIZA BROAS BROCA BROCO BROMA BROMO BROTA BROTE BROTO BROXA BRUAA BRUCA BRUCO BRUMA BRUNA BRUNO BRUTA BRUTO BRUXA BRUXO BUBAA BUBAO BUBAS BUBOS BUBUS BUCAL BUCAS BUCHA BUCHO BUCIM BUCLE BUCOS BUCRE BUCUI BUCUS BUDAS BUENO BUFAA BUFAI BUFAM BUFAO BUFAR BUFAS BUFEI BUFEM BUFES BUFIR BUFOS BUFOU BUGGY BUGIA BUGIO BUGLE BUGRE BUGUE BUIDA BUIDO BUJAA BUJAO BUJES BUJIS BULAM BULAR BULAS BULBA BULBO BULES BULHA BULIA BULIR BULIS BULIU BULOS BUMBA BUMBO BUNDA BUNDO BUNHA BUNHO BUQUE BURCA BURDA BURDO BUREL BURES BURGA BURGO BURIL BURIS BURLA BURLE BURLO BURNU BURRA BURRO BURSA BUSAO BUSAS BUSCA BUSCO BUSES BUSOS BUSTA BUSTO BUTAO BUTAS BUTEA BUTEO BUTES BUTIA BUTIM BUTIO BUTOS BUTRE BUTUA BUVAR BUVAS BUXAL BUXAS BUXOS BUZAS BUZIA BUZIO BUZOS BYTES CAABA CAACO CAACU CAAEE CAAMA CAAMI CAAPI CAAXI CABAL CABAS CABAU CABAZ CABEI CABEM CABER CABES CABIA CABIU CABOS CABOZ CABRA CABRE CABRO CABUL CABUS CACAA CACAI CACAM CACAO CACAR CACAS CACAU CACEA CACEI CACEM CACES CACHA CACHE CACHO CACHU CACIM CACIZ CACOA CACOE CACOO CACOS CACOU CACTA CACTO CACUA CADAS CADDY CADES CADIS CADOS CADOZ CAETE CAFES CAFIZ CAFRA CAFRE CAFTA CAFUA CAFUS CAFUZ CAGAA CAGAI CAGAM CAGAO CAGAR CAGAS CAGOA CAGOS CAGOU CAGUE CAIAI CAIAM CAIAR CAIAS CAIBA CAIBO CAICA CAICO CAIDA CAIDO CAIEI CAIEM CAIES CAIOS CAIOU CAIRA CAIRE CAIRI CAIRO CAIRU CAITE CAIUA CAIUS CAIVA CAIXA CAJAA CAJAO CAJAS CAJUI CAJUS CALAA CALAI CALAM CALAO CALAR CALAS CALAU CALCA CALCE CALCO CALDA CALDO CALEI CALEM CALES CALHA CALHE CALHO CALIM CALIS CALIX CALIZ CALMA CALMO CALOM CALOR CALOS CALOU CALPA CALTA CALVA CALVO CAMAA CAMAL CAMAO CAMAR CAMAS CAMAU CAMBA CAMBE CAMBO CAMES CAMPA CAMPE CAMPI CAMPO CAMUA CANAA CANAL CANAS CANAZ CANCA CANDA CANDE CANDI CANDO CANGA CANGO CANHA CANHO CANIL CANIS CANJA CANOA CANOE CANON CANOS CANSA CANSE CANSO CANTA CANTE CANTO CANZA CANZO CAOBA CAPAA CAPAI CAPAM CAPAO CAPAR CAPAS CAPAZ CAPEI CAPEM CAPES CAPIA CAPIM CAPOS CAPOT CAPOU CAPRA CAPRO CAPSA CAPTA CAPTE CAPTO CAPUT CAPUZ CAQUI CARAA CARAI CARAO CARAS CARBO CARDA CARDO CAREU CARGA CARGO CARIE CARIL CARIS CARIU CARIZ CARMA CARME CARMO CARNE CAROA CAROS CARPA CARPE CARPI CARPO CARRA CARRE CARRO CARTA CARTE CARTO CARUA CARUS CASAA CASAI CASAL CASAM CASAO CASAR CASAS CASBA CASCA CASCO CASEI CASEM CASES CASOS CASOU CASPA CASSA CASSE CASSO CASTA CASTO CASUS CATAA CATAI CATAM CATAO CATAR CATAS CATAU CATCH CATEI CATEM CATES CATIS CATOS CATOU CATRE CATUA CATUR CAUAS CAUBA CAUBI CAUDA CAUIM CAUIS CAULE CAUNA CAUPI CAURE CAURI CAUSA CAUSE CAUSO CAUTA CAUTO CAUXI CAVAA CAVAI CAVAM CAVAO CAVAR CAVAS CAVEA CAVEI CAVEM CAVES CAVIA CAVOS CAVOU CAVUS CAXAS CAXIM CAZUS CEADA CEADO CEAIS CEARA CEATA CEAVA CEBAS CEBOS CECAL CECAS CECEM CECES CECOS CECUM CEDAM CEDAS CEDEI CEDEM CEDER CEDES CEDEU CEDIA CEDIS CEDOS CEDRA CEDRO CEEIS CEFAS CEFOS CEGAI CEGAM CEGAR CEGAS CEGOS CEGOU CEGUE CEIAM CEIAS CEIBA CEIEM CEIES CEIFA CEIFE CEIFO CEIOS CEIRA CEITA CEIVA CEIVE CELAS CELGA CELHA CELIA CELIO CELLA CELLO CELOS CELSA CELSO CELTA CELTE CENAS CENHA CENHO CENOS CENRA CENSA CENSO CENTA CENTO CEOUS CEPAS CEPOS CERAR CERAS CERCA CERCE CERCO CERDA CERDO CEREA CEREO CERES CERIA CERIO CERNE CERNI CEROL CEROS CERRA CERRE CERRO CERTA CERTO CERVA CERVO CERZI CESAR CESIA CESIO CESSA CESSE CESSO CESTA CESTO CETAL CETAS CETIL CETIM CETOS CETRA CETRO CEVAA CEVAO CEVAR CEVAS CEVOS CHAAS CHABA CHABO CHABU CHACA CHACO CHADE CHAGA CHAGO CHAJA CHALA CHALE CHALO CHAMA CHAME CHAMO CHANA CHAOS CHAPA CHAPE CHAPO CHARA CHARO CHATA CHATO CHAUA CHAUS CHAVA CHAVE CHAVO CHEBE CHECA CHECK CHECO CHEDA CHEFA CHEFE CHEFS CHEGA CHEGO CHEIA CHEIO CHELA CHENA CHETA CHEVA CHIAI CHIAM CHIAR CHIAS CHIBA CHIBE CHIBI CHIBO CHICA CHICO CHIEI CHIEM CHIES CHILA CHILE CHILI CHINA CHINO CHIOS CHIOU CHIPA CHIPO CHIPS CHIRA CHIRU CHITA CHIUS CHOCA CHOCO CHOLA CHONA CHOPA CHOPE CHORA CHORE CHORO CHOTA CHOVA CHOVE CHOVI CHOVO CHUAN CHUAS CHUCA CHUCO CHUES CHUFA CHULA CHULE CHULO CHUNA CHUPA CHUPE CHUPO CHURI CHUTA CHUTE CHUTO CHUVA CHUXA CHUXO CIAAS CIADA CIADO CIAMA CIAMO CIANA CIANO CIAOS CIATA CIATO CIBAR CIBAS CIBOS CICAS CICIA CICIO CICLA CICLO CIDAO CIDES CIDRA CIDRO CIENA CIESE CIFAR CIFAS CIFES CIFRA CIFRE CIFRO CILAS CILHA CILIA CILIO CIMAS CIMBA CIMOS CINAS CINCA CINCO CINDA CINDE CINDI CINDO CINES CINGE CINGI CINJA CINJO CINOR CINTA CINTO CINZA CIOBA CIOSA CIOSO CIPAS CIPOS CIRAS CIRCA CIRCO CIRIA CIRIO CIRNE CIRPA CIRPO CIRRA CIRRO CIRZA CIRZE CIRZO CISAA CISAO CISAR CISCA CISCO CISEL CISMA CISME CISMO CISNE CISSA CISSO CISTA CISTO CITAI CITAM CITAR CITAS CITEI CITEM CITES CITOS CITOU CITRA CITRO CIUME CIURA CIURO CIVEL CIVIL CLADE CLADO CLAMA CLAME CLAMO CLARA CLARO CLAVA CLAVE CLEAN CLERA CLERO CLICK CLIMA CLINA CLINE CLIPE CLISE CLIVA CLIVO CLONA CLONE CLONO CLORA CLORO CLOSE CLOUS CLOWN CLUBE CNICO CNUTE COACH COADA COADO COAGE COAGI COAIS COAJA COAJO COALA COAMO COANA COANO COARA COARI COATA COATI COATO COAVA COAXA COAXE COAXI COAXO COBOL COBRA COBRE COBRI COBRO COBUS COCAA COCAI COCAL COCAM COCAO COCAR COCAS COCEI COCEM COCES COCHA COCHE COCHO COCOA COCOS COCOU COCRE COCTA COCTO CODAA CODAO CODAS CODEA CODEX CODIA CODIO CODON CODOS COEIS COESA COESO COEVA COEVO COFAS COFEA COFOS COFRE COIAS COIBA COIBE COIBI COIBO COICE COIFA COIMA COINA COINE COIOS COIRA COIRO COISA COISO COITA COITE COITO COLAI COLAM COLAR COLAS COLEA COLEI COLEM COLEO COLES COLHA COLHE COLHI COLHO COLIA COLIM COLIO COLIS COLMA COLMO COLOM COLON COLOR COLOS COLOU COLPA COLPO COLZA COMAA COMAM COMAO COMAS COMBA COMBI COMBO COMEI COMEM COMER COMES COMEU COMIA COMIS COMOS COMUA COMUM CONAS CONCA CONDE CONDI CONES CONFA CONGA CONGO CONHA CONHO CONIA CONIO CONOS CONSE CONTA CONTE CONTO CONTR COOUS COPAL COPAR COPAS COPEL COPES COPIA COPIE COPIO COPLA COPOS COPRA COPTA COPTO COQUE CORAA CORAI CORAL CORAM CORAO CORAR CORAS CORCA CORCO CORDA CORDO COREI COREM CORES COREU CORGA CORGO CORIA CORIO CORIS CORJA CORMA CORMO CORNA CORNE CORNO COROA COROE COROO COROS COROU CORPA CORPO CORRA CORRE CORRI CORRO CORSA CORSO CORTA CORTE CORTO CORVA CORVO COSAM COSAS COSCA COSCO COSEC COSEI COSEM COSER COSES COSEU COSIA COSIS COSMA COSMO COSOS COSPE COSSA COSSO COSTA COSTO COTAA COTAI COTAM COTAO COTAR COTAS COTEI COTEM COTES COTIA COTIL COTIM COTIO COTOS COTOU COTRA COUBE COUCA COUCE COUMA COUPE COURA COURO COURT COUSA COUSO COUTA COUTO COUVE COVAA COVAL COVAO COVAS COVER COVID COVIL COVOA COVOS COXAA COXAL COXAO COXAS COXES COXIA COXIM COXOS COZAM COZAS COZEI COZEM COZER COZES COZEU COZIA COZIS COZOS CRACA CRACK CRAOS CRAPO CRASE CRASH CRATA CRATO CRAUA CRAVA CRAVE CRAVO CRAWL CRECA CREDA CREDE CREDO CREEK CREEM CREIA CREIO CREJE CREMA CREME CREMO CRENA CREPE CRERA CRETA CREUS CRIAI CRIAM CRIAR CRIAS CRICA CRICO CRIDA CRIDO CRIEI CRIEM CRIES CRILA CRIME CRINA CRINO CRIOS CRIOU CRISA CRISE CRISO CRIVA CRIVE CRIVO CROAS CROCA CROCO CROIA CROMA CROME CROMO CRONA CRONO CROSS CRUAS CRUCA CRUDE CRUEL CRUGA CRUME CRUOR CRUOS CRUPE CRUSH CRUTA CRUZA CRUZE CRUZO CUADA CUAGA CUATA CUBAR CUBAS CUBEA CUBEO CUBES CUBIA CUBIO CUBIS CUBIU CUBOS CUBRA CUBRE CUBRO CUCAR CUCAS CUCHE CUCIS CUCOS CUCUS CUDAS CUDOS CUECA CUERA CUFEA CUFIA CUIAS CUICA CUIDA CUIDE CUIDO CUIRA CUITA CUITE CUJAS CUJOS CULES CULIS CULPA CULPE CULPO CULTA CULTO CUMAI CUMAS CUMBA CUMBE CUMBO CUMBU CUMEL CUMES CUMIM CUMIS CUNAS CUNAU CUNCA CUNCO CUNEA CUNEO CUNHA CUNHE CUNHO CUPAA CUPAI CUPAO CUPAS CUPES CUPEZ CUPIA CUPIM CUPIO CUPIS CUPOM CUPUS CUQUE CURAI CURAM CURAR CURAS CURAU CURDA CURDO CUREI CUREM CURES CURIA CURIE CURIO CURIS CUROS CUROU CURRA CURRO CURRY CURSA CURSE CURSO CURTA CURTE CURTI CURTO CURUA CURUL CURUS CURVA CURVE CURVO CUSCA CUSCO CUSPA CUSPE CUSPI CUSPO CUSSA CUSSO CUSTA CUSTE CUSTO CUTER CUTES CUTIA CUTIS CUVAS CUVUS CUXAS CUXIU CUZAO DABAS DABOM DABOS DABUA DACAA DACAO DACAR DACAS DACHA DACIA DACIO DACMA DACOS DADAS DADOR DADOS DAFNE DAGAS DAIAA DAIAO DAIME DAIRA DAIRO DALAI DALAS DALEM DALIA DALIS DAMAA DAMAO DAMAR DAMAS DAMBA DAMOS DANAI DANAM DANAR DANAS DANCA DANCE DANCO DANDA DANDI DANDO DANDY DANEI DANEM DANES DANIA DANIO DANOS DANOU DANTE DAQUI DARAF DARAO DARAS DARDA DARDO DAREI DAREM DARES DARGA DARIA DARIS DARMA DARTA DARTO DASES DATAI DATAL DATAM DATAR DATAS DATEI DATEM DATES DATIL DATOS DATOU DATUM DAUCA DAUCO DAVAM DAVAS DEAAS DEADA DEADO DEAOS DEBAR DEBAS DEBIL DEBOS DEBYE DECAI DECAS DECHA DECHO DECIL DECKS DECOR DECOS DEDAA DEDAL DEDAO DEDAR DEDAS DEDEU DEDOS DEDUZ DEGAS DEIAS DEITA DEITE DEITO DEIXA DEIXE DEIXO DEJUA DELAS DELAY DELEM DELES DELIA DELIO DELIR DELIS DELIU DELTA DEMAA DEMAO DEMAS DEMBA DEMBE DEMBO DEMOS DENDA DENDE DENDI DENDO DENGA DENGO DENIS DENSA DENSO DENTE DEPOE DEPOR DEPOS DEPRE DEPUS DEQUE DERAM DERAS DERBI DERBY DEREM DERES DERMA DERME DESAR DESCA DESCE DESCI DESCO DESDE DESES DESNU DESPE DESPI DESSA DESSE DESTA DESTE DETEM DETER DETOX DEUSA DEVAM DEVAS DEVEI DEVEM DEVER DEVES DEVEU DEVIA DEVIM DEVIO DEVIR DEVIS DEVOS DEZES DIABA DIABO DIADA DIADE DIAFA DIALE DIANA DIAUS DIAZA DIAZO DIBAS DICAA DICAO DICAR DICAS DICAZ DICHA DICHO DICIO DIDAL DIDIA DIDIS DIDOT DIECA DIECO DIENA DIENO DIESE DIETA DIGAM DIGAS DIGNA DIGNE DIGNO DIGOS DILDO DILUA DILUI DILUO DINAR DINAS DINDA DINDO DINGA DINGO DINOS DIODA DIODO DIOGA DIOGO DIOLA DIORE DIOSA DIOSO DIPAS DIPLE DIPLO DIPOS DIQUE DIRAO DIRAS DIREI DIREM DIRIA DIROS DIRRA DISCA DISCO DISGA DISNA DISSA DISSE DISSO DISTA DISTE DISTO DITAI DITAM DITAR DITAS DITEI DITEM DITES DITOS DITOU DIULA DIVAS DIVOS DIXES DIXIS DIZEI DIZEM DIZER DIZES DIZIA DOADA DOADO DOAIS DOARA DOAVA DOBAR DOBLA DOBLE DOBRA DOBRE DOBRO DOCAL DOCAR DOCAS DOCES DOCIL DOCTA DOCTO DODOI DODOS DOEIS DOERA DOEUS DOGAL DOGES DOGMA DOGUE DOIAM DOIAS DOIDA DOIDO DOLAR DOLAS DOLBY DOLES DOLLY DOLMA DOLOR DOLOS DOMAI DOMAM DOMAR DOMAS DOMEI DOMEM DOMES DOMOS DOMOU DONAS DONDA DONDE DONDO DONGA DONGO DONOS DONUT DOOUS DOPAI DOPAM DOPAR DOPAS DOPEI DOPEM DOPES DOPOS DOPOU DOQUE DORAS DORES DORIA DORIO DORIS DORME DORMI DORNA DORSA DORSO DOSAI DOSAM DOSAR DOSAS DOSEI DOSEM DOSES DOSOS DOSOU DOTAI DOTAL DOTAM DOTAR DOTAS DOTEI DOTEM DOTES DOTOS DOTOU DOUDA DOUDO DOULA DOURA DOURE DOURO DOUTA DOUTO DOXAS DOZAA DOZAO DOZES DRACO DRAFT DRAGA DRAGO DRAMA DRAPE DREAD DRENA DRENE DRENO DRIAS DRIBA DRIBO DRICA DRILA DRILO DRINK DRIVE DROGA DROGO DROMA DROMO DRONE DROPE DROPS DRUPA DRUSA DRUSO DUALA DUBAS DUBIA DUBIO DUBLA DUBLE DUBLO DUBUS DUCAL DUCHA DUCHE DUCTA DUCTO DUELA DUELE DUELO DUETA DUETO DUGAA DUGAO DULIA DUMAS DUMBA DUMOS DUNAS DUNDU DUNFA DUNGA DUNIA DUPLA DUPLO DUQUE DURAA DURAI DURAL DURAM DURAO DURAR DURAS DURAZ DUREI DUREM DURES DUREX DUREZ DURIA DURIO DURMA DURMO DUROS DUROU DUTAS DUTOS DUZIA DUZUS DZETA EAGLE EBANA EBANO EBIAS EBIRI EBOLA EBOME EBOOK EBRIA EBRIO EBULA EBULO ECESE ECLER ECOAI ECOAM ECOAR ECOAS ECOEI ECOEM ECOES ECOOS ECOOU ECRAN ECRAS ECULA ECULO ECURU EDACE EDEIA EDEMA EDERE EDIPA EDIPO EDITA EDITE EDITO EDUCA EDUCO EDULA EDULE EDULO EFEBA EFEBO EFETA EFODE EFORA EFORO EFUSA EFUSO EGBAS EGEUS EGIDE EGIPA EGITA EGITO EGRAS EGRIA EGRIO EGROS EGUAR EGUAS EIDAS EIDER EIDOS EIRAS EIROS EIRUS EISES EITAS EITOS EIVAR EIVAS EIXAR EIXAS EIXES EIXOS EIXUS EJETA EJETE EJETO ELATE ELCHE ELEDA ELEDE ELEGE ELEGI ELEJA ELEJO ELEMI ELENA ELEPE ELEVA ELEVE ELEVO ELFAS ELFOS ELISA ELITE ELMAS ELMOS ELUIR ELUOS ELURA ELURO EMAIL EMANA EMANE EMANO EMBAI EMBES EMBIA EMBIU EMBUA EMBUI EMEIA EMEIO EMERA EMERO EMESE EMFIM EMICA EMICO EMITA EMITE EMITI EMITO EMOJI EMPAR EMPAS EMPOS EMULA EMULE EMULO ENAAS ENAOS ENASE ENCHA ENCHE ENCHI ENCHO ENDAS ENDES ENDEZ ENDOS ENDRA ENDRO ENDUA ENEAS ENEMA ENEOS ENFIA ENFIE ENFIM ENFIO ENGAR ENGAS ENGOS ENGRA ENHAS ENHOS ENITA ENITO ENJOA ENJOE ENJOO ENODA ENODO ENOJA ENOJE ENOJO ENORA ENQUE ENTAA ENTAO ENTAS ENTER ENTES ENTEU ENTOA ENTOE ENTOO ENTRA ENTRE ENTRO ENULA ENVES ENVIA ENVIE ENVIO ENXOS ENXUI ENXUS EOLAS EOLIA EOLIO EOLOS EPICA EPICO EPOCA EPODA EPODO EPOXI EPURA EPUXA EQUAS EQUES EQUIA EQUIO EQUOS ERADA ERADO ERAMA ERBIA ERBIO EREAS EREBA EREBO EREIS EREOS ERETA ERETO ERGAM ERGAS ERGIA ERGIO ERGOL ERGOS ERGUE ERGUI ERICA ERICE ERICO ERIGE ERIGI ERIJA ERIJO ERINA ERINO ERMAR ERMAS ERMOS EROCA ERODA ERODE ERODI ERODO EROSA EROSO ERPES ERRAI ERRAM ERRAR ERRAS ERREI ERREM ERRES ERROR ERROS ERROU ERSES ERUCA ERUGA ERUIR ERVAA ERVAL ERVAO ERVAR ERVAS ESCOA ESCOE ESCOL ESCOO ESERE ESGAR ESIPA ESIPO ESMAR ESMAS ESMOS ESPIA ESPIE ESPIM ESPIO ESPRU ESQUI ESSAS ESSES ESTAI ESTAO ESTAR ESTAS ESTAU ESTER ESTES ESTIA ESTIO ESTOL ESTOS ESTOU ESTRA ESTRO ESULA ESVAA ESVAI ESVAO ETANA ETANO ETAPA ETENA ETENO ETEUS ETHOS ETICA ETICO ETILA ETILO ETIMA ETIMO ETINA ETINO ETNIA EUBAS EUBEU EUGES EURAS EUROS EVADA EVADE EVADI EVADO EVASE EVITA EVITE EVITO EVOCA EVOCO EVOES EXALA EXALE EXALO EXAME EXARA EXARE EXARO EXATA EXATO EXIBA EXIBE EXIBI EXIBO EXIDA EXIDO EXIGE EXIGI EXIJA EXIJO EXILA EXILE EXILO EXIMA EXIME EXIMI EXIMO EXINA EXITA EXITO EXODA EXODO EXPAS EXPIA EXPIE EXPIO EXPOE EXPOR EXPOS EXPUS EXTAR EXTRA EXULE EXUMA EXUME EXUMO FABRA FABRO FACAA FACAM FACAO FACAS FACES FACHA FACHO FACIL FACOS FACTA FACTO FADAR FADAS FADES FADOS FAGAS FAGOS FAIAA FAIAL FAIAO FAIAR FAIAS FAINA FAIOS FAIRE FAIXA FAJAU FAKES FALAI FALAM FALAR FALAS FALAZ FALCA FALCO FALDA FALEI FALEM FALES FALHA FALHE FALHO FALIA FALIR FALIS FALIU FALOS FALOU FALSA FALSO FALTA FALTE FALTO FALUA FALUM FALUS FALUZ FAMAS FAMES FANAA FANAL FANAO FANAR FANAS FANCA FANDA FANDO FANFA FANGA FANHA FANHO FANNY FANOS FANTA FANTE FANTI FAQUI FARAD FARAO FARAR FARAS FARDA FARDO FAREI FARIA FARMA FARNA FARNE FARNO FAROL FAROS FARPA FARRA FARRO FARSA FARSI FARTA FARTE FARTO FARUM FASCA FASCO FASES FASOR FASTA FASTO FATAA FATAL FATAO FATAS FATES FATIA FATIE FATIO FATOR FATOS FATUA FATUO FAUCE FAULA FAUNA FAUNO FAUTA FAVAL FAVAR FAVAS FAVOR FAVOS FAZEI FAZEM FAZER FAZES FAZIA FEBAS FEBEU FEBOS FEBRA FEBRE FECAL FECHA FECHE FECHO FECIA FECIO FEDAM FEDAS FEDEI FEDEM FEDER FEDES FEDEU FEDIA FEDIS FEDOR FEDOS FEIAS FEIJO FEILA FEIOS FEIRA FEITA FEITO FEIXE FELAS FELEA FELEO FELGA FELIS FELIX FELIZ FELOS FELPA FELPO FEMEA FEMEO FEMUR FENAR FENAS FENDA FENDE FENDI FENDO FENES FENIL FENIM FENIX FENOL FENOS FENTA FENTO FEOFO FERAL FERAS FERAZ FEREM FERES FERIA FERIR FERIS FERIU FERMI FEROS FEROZ FERPA FERRA FERRE FERRO FERRY FERVA FERVE FERVI FERVO FESTA FESTO FETAA FETAL FETAO FETAS FETOS FEUDA FEUDO FEVRA FEZES FIADA FIADO FIAIS FIAPA FIAPO FIARA FIAUS FIAVA FIBRA FICAA FICAI FICAM FICAO FICAR FICAS FICHA FICHE FICHO FICHU FICOS FICOU FICTA FICTO FICUS FIDAS FIDEU FIDOS FIEIS FIEZA FIFIA FIFOS FIGAS FIGLE FIGOS FILAA FILAI FILAM FILAO FILAR FILAS FILEI FILEM FILER FILES FILHA FILHO FILIA FILIE FILIO FILMA FILME FILMO FILOS FILOU FIMAS FIMBA FIMBO FINAL FINAR FINAS FINCA FINCO FINDA FINDE FINDO FINES FINFA FINGE FINGI FINJA FINJO FINOS FINTA FINTE FINTO FIOFO FIOTA FIOTE FIOTO FIOUS FIQUE FIRAM FIRAS FIRMA FIRME FIRMO FIROS FISCA FISCO FISGA FISGO FITAI FITAM FITAR FITAS FITEI FITEM FITES FITOL FITOS FITOU FIUSA FIUZA FIXAI FIXAM FIXAR FIXAS FIXEI FIXEM FIXES FIXOS FIXOU FIZER FIZES FLACA FLACO FLAMA FLAME FLAPE FLARE FLASH FLATA FLATO FLAVA FLAVO FLEME FLETE FLEXA FLEXO FLINT FLIRT FLOCA FLOCO FLORA FLORI FLOSA FLOSO FLOSS FLOUS FLOXA FLOXO FLOZO FLUAM FLUAS FLUEM FLUIA FLUIR FLUIS FLUIU FLUME FLUOR FLUOS FLUSH FLUTE FLUXA FLUXO FOBAR FOBAS FOBIA FOBOS FOCAI FOCAL FOCAM FOCAR FOCAS FOCIA FOCIO FOCOS FOCOU FODAS FODER FODEU FOFAA FOFAO FOFAR FOFAS FOFOS FOGAA FOGAL FOGAO FOGAR FOGAS FOGEM FOGES FOGOS FOIAS FOICE FOILA FOINA FOIOS FOITA FOITO FOJAS FOJOS FOLAA FOLAO FOLAR FOLAS FOLES FOLGA FOLGO FOLHA FOLHO FOLIA FOLIO FOMAS FOMES FOMOS FONAS FONES FONIA FONJA FONJO FONON FONOS FONTE FOODS FOPAS FOQUE FORAL FORAM FORAS FORCA FORCE FORCO FORDA FORDE FORDO FOREM FORES FORIA FORJA FORJE FORJO FORMA FORME FORMI FORMO FORNA FORNO FOROS FORRA FORRE FORRO FORTE FORUM FOSCA FOSCO FOSSA FOSSE FOSSO FOSTE FOTAS FOTON FOTOS FOUCE FOVEA FOYER FOZES FRACA FRACO FRADE FRAGA FRAGO FRASE FREAI FREAR FREEI FREGA FREGE FREIA FREIE FREIO FREIS FREME FREMI FREON FREOU FRESA FRESE FRESO FRETA FRETE FRETO FREVA FREVO FRIAS FRIEZ FRIGI FRIJA FRIJO FRILA FRIMA FRIOS FRISA FRISE FRISO FRITA FRITE FRITO FRIUL FROCA FROCO FROLA FROLO FRONT FROTA FRUEM FRUIA FRUIR FRUIS FRUIU FRUTA FRUTO FRUXU FUAAS FUAOS FUBAS FUCAI FUCAM FUCAR FUCAS FUCEI FUCEM FUCES FUCOS FUCOU FUDER FUDGE FUETA FUFIA FUFIO FUGAR FUGAS FUGAZ FUGIA FUGIR FUGIS FUGIU FUJAA FUJAM FUJAO FUJAS FUJOS FULAA FULAO FULAR FULAS FULDA FULGE FULGI FULOS FULVA FULVO FUMAA FUMAI FUMAL FUMAM FUMAO FUMAR FUMAS FUMEA FUMEI FUMEM FUMEO FUMES FUMOS FUMOU FUNCA FUNCE FUNDA FUNDE FUNDI FUNDO FUNES FUNEU FUNGA FUNGO FUNGU FUNHA FUNHO FUNIL FUNJE FURAA FURAI FURAM FURAO FURAR FURAS FURCA FURCO FURDA FUREI FUREM FURES FURIA FURNA FUROR FUROS FUROU FURTA FURTE FURTO FUSAA FUSAO FUSAS FUSCA FUSCO FUSIL FUSOS FUSTA FUSTE FUSTO FUTES FUTIL FUTON FUTRE FUTUM FUZAS FUZIL FUZIS FUZOS FUZUE GABAA GABAI GABAM GABAO GABAR GABAS GABEI GABEM GABES GABIA GABOS GABOU GABRA GABRO GACHA GACHO GADAA GADAO GADAR GADAS GADES GADOS GAFAR GAFAS GAFEM GAFES GAFIA GAFIO GAFOS GAGAA GAGAO GAGAS GAGAU GAGES GAGOS GAGUE GAIAL GAIAR GAIAS GAIOS GAIPA GAIPO GAITA GAIVA GAJAA GAJAO GAJAR GAJAS GAJOS GALAA GALAO GALAR GALAS GALBA GALBO GALEA GALES GALGA GALGO GALHA GALHO GALIA GALIO GALOS GALRA GAMAA GAMAM GAMAO GAMAR GAMAS GAMBA GAMER GAMES GAMOS GANAS GANAU GANCA GANDA GANDU GANEM GANES GANGA GANGO GANHA GANHE GANHO GANIA GANIR GANIS GANIU GANJA GANOS GANSA GANSO GANTA GANZA GANZE GANZI GAPES GAPOS GARAA GARAO GARAS GARBA GARBO GARCA GARCO GARES GARFA GARFE GARFO GARIS GAROA GAROE GAROO GAROS GARRA GARRO GARUA GASES GASPA GASTA GASTE GASTO GATAA GATAL GATAO GATAR GATAS GATIL GATOS GATUM GAUDA GAUGE GAULA GAULO GAURA GAURO GAUSS GAVAR GAVEA GAZAA GAZAL GAZAO GAZAS GAZEA GAZEL GAZEO GAZES GAZEU GAZIA GAZIL GAZIO GAZOS GAZUA GEADA GEADO GEAIS GEARA GEAVA GEBAR GEBAS GEBOS GEBRE GECAS GECOS GEEIS GEEKS GEENA GEIAM GEIAS GEIEM GEIES GEIOS GELAI GELAM GELAR GELAS GELBA GELEI GELEM GELES GELFA GELHA GELOS GELOU GEMAM GEMAR GEMAS GEMEA GEMEI GEMEM GEMEO GEMER GEMES GEMEU GEMIA GEMIS GEMOS GENAL GENES GENIA GENIO GENOA GENRA GENRO GENTE GENUS GEODA GEODE GEODO GEOSA GEOSO GEOUS GERAI GERAL GERAM GERAR GERAS GERBA GERBO GEREI GEREM GERES GERIA GERIR GERIS GERIU GERME GEROS GEROU GERRA GESAS GESOS GESSA GESSO GESTA GESTO GETAS GIAUR GIBAA GIBAO GIBAS GIBIS GIBOS GICAA GICAO GICLE GIDAS GIDOS GIGAS GIGIA GIGOS GILAS GILES GILIA GIMBA GIMBO GINCA GINCO GINGA GINGE GINGO GINJA GIPSA GIPSO GIRAA GIRAI GIRAM GIRAO GIRAR GIRAS GIREI GIREM GIRES GIRIA GIRIO GIROS GIROU GIRUA GIZAR GIZES GLAAS GLACE GLAOS GLEBA GLENA GLIAL GLIAS GLIDE GLIFA GLIFO GLOBA GLOBO GLOMA GLOMO GLOSA GLOSE GLOSO GLOTE GLUMA GLUON GLUTE GNETA GNETO GNOMA GNOME GNOMO GNOSE GOANA GOANO GOBAS GOBOS GODAA GODAO GODAS GODES GODOS GOELA GOETE GOFES GOGAS GOGOS GOIAS GOITI GOIVA GOIVO GOLAS GOLDA GOLES GOLFA GOLFE GOLFO GOLOS GOLPE GOMAL GOMAR GOMAS GOMBA GOMBO GOMES GOMIA GOMIL GOMOR GOMOS GONDA GONDO GONGA GONGO GONIA GONIO GONIS GONUS GONZA GONZO GORAI GORAL GORAM GORAR GORAS GORAZ GORDA GORDO GOREI GOREM GORES GORGA GORJA GORNE GOROS GOROU GORRA GORRO GOSMA GOSTA GOSTE GOSTO GOTAS GOTES GOTOS GOUDA GOUVE GOZAI GOZAM GOZAR GOZAS GOZEI GOZEM GOZES GOZOS GOZOU GRAAL GRAAS GRACA GRADA GRADE GRADO GRAFA GRAFE GRAFO GRAMA GRANA GRANO GRAOS GRAPA GRATA GRATO GRAUS GRAVA GRAVE GRAVO GRAXA GRAXO GREDA GREDE GREEN GREGA GREGE GREGO GREIS GREJO GRELA GRELO GRENA GRETA GREVA GREVE GRIFA GRIFE GRIFO GRIJO GRILA GRILE GRILL GRILO GRIMA GRIOS GRIPE GRISA GRISE GRISO GRISU GRITA GRITE GRITO GRODE GROIR GROLO GROMA GROOM GROSA GROTA GROUS GRUAS GRUAU GRUDA GRUDE GRUDO GRUIM GRUIR GRUJA GRUMA GRUMO GRUNA GRUPA GRUPO GRUTA GUACA GUACO GUACU GUAIA GUAIS GUAIU GUAJA GUANA GUANO GUAPA GUAPE GUAPO GUARA GUARE GUARI GUARU GUATO GUAXA GUAXE GUAXI GUAXO GUDES GUEBA GUEBO GUEDE GUEIS GUEJA GUERE GUERI GUETA GUETE GUETO GUEXA GUIAA GUIAI GUIAM GUIAO GUIAR GUIAS GUIBA GUIBO GUIEI GUIEM GUIES GUIGA GUIGO GUINA GUINE GUIOS GUIOU GUIPA GUIRA GUISA GUITA GUITO GUIZA GUIZO GULAG GULAR GULAS GUMES GUNAS GUNDA GUNDU GUNES GUNGA GURAS GURDE GURES GURIA GURIS GURMA GURUS GUSAS GUSLA GUTAS GUTES GUTOS GUZAS GUZOS HABES HABIL HACAS HACER HADJI HAIKU HAITI HAJAM HAJAS HAJES HAJIS HALAL HALAS HALOS HALUX HANGA HANGO HANSA HAPAX HAPPY HARAS HARDA HAREM HARLA HARLO HARPA HARPE HARTA HARTO HASES HASHI HASTA HASTE HATCH HAUCA HAURE HAURI HAVEI HAVER HAVIA HEAVY HEDGE HEDRA HELIA HELIO HELIX HEMAL HEMES HENAS HENRY HEPAR HEPTA HERAS HERDA HERDE HERDO HEREU HERIL HERMA HEROA HEROI HEROO HERTZ HETEU HEVEA HEXAS HEXIL HIATA HIATO HIDRA HIDRO HIENA HIFAS HIFEN HIGGS HIGRA HIJAB HILAR HILAS HILOS HIMBA HIMEN HINAS HINDI HINDU HINIR HINOS HIPAS HIPER HIPOS HIRCA HIRCO HIRTA HIRTO HOBBY HOJES HOLAS HOLOS HOMAA HOMAO HOMAS HOMBA HOMBO HOMEM HOMOS HOMUM HOMUS HONOR HONRA HONRE HONRO HOPIS HORAL HORAR HORAS HORDA HORSA HORTA HORTO HOSCA HOSCO HOSTE HOTEL HOUVE HOVAS HOVEA HTTPS HUARI HULHA HUMAS HUMIL HUMOR HUMOS HUMUS HUNAS HUNGA HUNGO HUNOS HURAS HURIS HURRA HUSKY HUTUS IABAS IACAS IACUS IAGAS IAGOS IAGUA IAIAS IAMBA IAMBO IAMIS IAMOS IANSA IAPUS IAQUE IARAS IASES IATAI IATAS IATES IAVES IBARO IBATE IBEJI IBERA IBERO IBIRA IBIRI IBOGA IBOPE ICACA ICACO ICADO ICAIS ICARA ICARO ICATU ICAVA ICEIS ICHOS ICICA ICIPO ICONE ICORE ICOUS ICTAS ICTOS ICTUS IDADE IDEAL IDEAR IDEIA IDOLA IDOLO IDOSA IDOSO IEMEN IENES IETIM IGACI IGAPO IGARA IGBAS IGBIM IGBOS IGLUS IGNEA IGNEO IGUAI IGUAL IGUPA IIABA IJEBU IJEXA ILEAL ILEAS ILEOS ILESA ILESO ILHAI ILHAL ILHAM ILHAR ILHAS ILHEI ILHEM ILHES ILHEU ILHOA ILHOS ILHOU ILIAS ILION ILIOS ILITA ILOTA ILUDA ILUDE ILUDI ILUDO ILUSA ILUSO IMAGA IMAGO IMAMA IMAME IMAMO IMANA IMANE IMANO IMBAS IMBES IMBUS IMENE IMIDA IMIDO IMIGA IMIGO IMINA IMITA IMITE IMITO IMOLA IMOLE IMOLO IMOTA IMOTO IMPAR IMPAS IMPIA IMPIO IMPOE IMPOR IMPOS IMPUS IMUNE IMUNO INAES INAIA INAJA INAJE INALA INALE INALO INAMU INANA INANE INATA INATO INCAR INCAS INCHA INCHE INCHO INCOA INCOE INCOO INCOS INDAS INDEX INDEZ INDIA INDIE INDIO INDOL INDOS INDRI INDUZ INFLA INFLE INFLO INFRA INGAI INGAS INGRE INGUA INGUS INIAS INIBA INIBE INIBI INIBO INION INIOS INOVA INOVE INOVO INPUT INSTA INSTE INSTO INSUA INTAS INTER INTES INTRA INTUA INTUI INTUO INUBA INUBE INUBO INULA INVAR INVES INVIA INVIO IOBOS IODAR IODAS IODES IODOL IODOS IOGAS IOGUE IOIOS IOLES IONIA IONIO IONTE IOPES IOTAS IPADU IPECA IPECU IPERO IPETE IPIAU IPIRA IPORA IPPON IPUAS IPUBI IPUCA IRADA IRADO IRAIS IRANI IRAOS IRARA IRATI IRDES IRECE IREIS IRENE IRERE IRIAL IRIAM IRIAR IRIAS IRINA IRITE IRMAA IRMAO IRMAS IRMOS IROCA IROCO IRONA IROSA IROSO IRRAS IRRES IRUCU IRURI ISATE ISBAS ISCAR ISCAS ISCOS ISLAA ISLAO ISLAS ISMAS ISMOS ISOLA ISOLE ISOLO ISSAS ISSEI ISSES ISSOS ISTAS ISTMA ISTMO ISTOS ITAJA ITAJU ITALA ITALO ITAPU ITAUA ITENS ITERA ITERE ITERO ITRIA ITRIO ITUAS ITUIS IUANE IUCAS IUDJA IUIUS IURIS IURTA IURTE IVAIS IVOTI IXIAS IXODA IXODO IXORA JABAS JABES JABOS JABRE JACAS JACEA JACIS JACOS JACRA JACRE JACTA JACTO JACUI JACUS JADES JAGAS JAGRA JAGRE JAIBA JAICO JAJAS JALAA JALAO JALDE JALES JALNE JAMBA JAMBE JAMBO JAMBU JANAU JANDA JANGA JANGO JANJA JANTA JANTE JANTO JAPAA JAPAO JAPAS JAPIM JAPIS JAPOA JAPUE JAPUI JAPUS JAQUE JARAS JARDA JARES JAROS JARRA JARRO JARUS JASPE JATAI JATAS JATIS JATOR JATOS JAUAS JAULA JAUNA JAURU JAVAE JAVAS JAVES JAVRE JAZAM JAZAS JAZEI JAZEM JAZER JAZES JAZEU JAZIA JAZIS JAZOS JEANS JEBAS JEBUS JECAS JEGUE JEIRA JEITA JEITO JEJAS JEJES JEJUA JEJUE JEJUM JEJUO JEJUS JEMBE JEOVA JEQUE JEQUI JERAS JEROS JERRA JERUS JESUS JETAI JETOM JETON JIBAS JICUI JIGAS JIGUE JIHAD JIJUS JILOS JIMBA JIMBO JINGA JINGO JIPAA JIPAO JIPES JIPIA JIPIO JIPIS JIQUE JIQUI JIRAS JIRAU JITAS JITOS JITSU JOAAS JOANA JOANE JOAOS JOCAL JOCAS JOCOS JOGAA JOGAI JOGAM JOGAO JOGAR JOGAS JOGOS JOGOU JOGUE JOIAS JOINA JOINT JOIOS JOKER JOLDA JOLIZ JONGA JONGO JONIA JONIO JORGE JORNA JORNE JORRA JORRE JORRO JOTAS JOULE JOVEM JUARA JUATI JUBAA JUBAI JUBAO JUBAS JUCAS JUCUS JUDAS JUDEU JUDIA JUDIE JUDIO JUDOS JUGAL JUGAR JUGAS JUGOS JUINA JUIZA JUIZO JUJUS JULAS JULGA JULGO JULHA JULHO JULIA JULIO JUMAS JUMBA JUMBO JUNCA JUNCO JUNDU JUNGA JUNGO JUNHA JUNHO JUNTA JUNTE JUNTO JUPIA JURAA JURAI JURAM JURAO JURAR JURAS JUREI JUREM JURES JURIS JUROS JUROU JURUA JURUS JUSAA JUSAO JUSES JUSTA JUSTO JUTAI JUTAS JUTOS JUUNA JUVAS JUVIA KANAS KANJI KANSA KARMA KAYAK KEBAB KEFIR KENDA KENDO KHMER KILAS KILOS KIRES KIWIS KOALA KODAK KOMBI KOTAS KOTOS KRAFT KRILL KYRIE LABAO LABEU LABIA LABIL LABIO LABOR LABRA LABRO LACAA LACAI LACAM LACAO LACAR LACAS LACEI LACEM LACES LACHA LACIO LACOS LACOU LACRA LACRE LACRO LADAS LADOS LADRA LADRE LADRO LAGAA LAGAO LAGAR LAGAS LAGES LAGOA LAGOS LAIAS LAICA LAICO LAIDA LAIDO LAITU LAIVA LAIVO LAJAA LAJAO LAJAS LAJEA LAJEM LAJES LALAU LAMAS LAMBA LAMBE LAMBI LAMBO LAMBU LAMES LAMIA LAMIO LAMPA LAMPO LANAR LANCA LANCE LANCO LANDA LANDE LANDI LANDO LANHA LANHO LANTI LAPAA LAPAO LAPAS LAPIM LAPIS LAPOS LAPSA LAPSO LAPUZ LAQUE LARDA LARDO LARES LAREU LARGA LARGO LARIM LARIS LARIX LAROS LAROZ LARVA LASCA LASCO LASER LASSA LASSO LATAA LATAO LATAS LATEA LATEM LATEO LATER LATES LATEX LATIA LATIM LATIR LATIS LATIU LATOS LAUDA LAUDE LAUDO LAURA LAURO LAUTA LAUTO LAUZA LAVAI LAVAM LAVAR LAVAS LAVEI LAVEM LAVES LAVOR LAVOS LAVOU LAVRA LAVRE LAVRO LAXAR LAXAS LAXOS LAZAA LAZAO LAZER LAZZA LAZZO LEAAS LEAOS LEBAS LEBRE LECAS LECOS LECRE LECTO LEDAS LEDES LEDOR LEDOS LEGAI LEGAL LEGAM LEGAR LEGAS LEGBA LEGIS LEGOS LEGOU LEGRA LEGRE LEGUA LEGUE LEIAM LEIAS LEIGA LEIGO LEINA LEINO LEIOS LEIRA LEITA LEITE LEITO LEIVA LELES LELIA LEMAS LEMBA LEMBO LEMES LEMNA LEMOS LEMPA LEMUR LENAS LENCA LENCO LENDA LENDO LENEA LENEO LENES LENEU LENGA LENHA LENHO LENIR LENTA LENTE LENTO LEOAS LEOBA LEONE LEPAS LEPES LEPRA LEQUE LERAM LERAO LERAS LERCA LERDA LERDO LEREI LEREM LERES LERIA LERNA LEROS LERUE LESAA LESAI LESAM LESAO LESAR LESAS LESEI LESEM LESES LESIM LESMA LESOS LESOU LESSE LESTA LESTE LESTO LETAA LETAL LETAO LETAS LETEU LETOS LETRA LEVAI LEVAM LEVAR LEVAS LEVEI LEVEM LEVES LEVEZ LEVOS LEVOU LEXIA LHAMA LHANA LHANO LHASA LIABA LIABO LIACA LIAME LIANA LIASE LIBAR LIBER LIBIA LIBIO LIBRA LIBRE LIBRO LICAA LICAO LICAS LICES LICEU LICHI LICIA LICIO LICOR LICOS LIDAI LIDAM LIDAR LIDAS LIDEI LIDEM LIDER LIDES LIDIA LIDIO LIDOS LIDOU LIEIS LIFAS LIFOS LIGAI LIGAL LIGAM LIGAR LIGAS LIGEA LIGEO LIGHT LIGIA LIGIO LIGOS LIGOU LIGRE LIGUE LILAS LILIA LILIO LILIS LIMAA LIMAI LIMAM LIMAO LIMAR LIMAS LIMBA LIMBO LIMEI LIMEM LIMES LIMOS LIMOU LIMPA LIMPE LIMPO LINAS LINCE LINDA LINDE LINDO LINEA LINEO LINES LINFA LINGA LINHA LINHO LINKE LINOS LIPAS LIPES LIPOS LIRAS LIRIA LIRIO LIROS LISAS LISES LISIA LISIM LISIO LISMA LISMO LISOL LISOS LISSA LISTA LISTE LISTO LITAA LITAO LITAR LITES LITIA LITIO LITOR LITRA LITRO LITUA LITUO LIVEL LIVES LIVIA LIVOR LIVRA LIVRE LIVRO LIXAA LIXAI LIXAM LIXAO LIXAR LIXAS LIXEI LIXEM LIXES LIXOS LIXOU LIZAR LOASA LOBAA LOBAL LOBAO LOBAR LOBAS LOBAZ LOBBY LOBES LOBIS LOBOS LOCAA LOCAI LOCAL LOCAM LOCAO LOCAR LOCAS LOCES LOCOS LOCOU LOCRA LOCRO LOCUS LODAA LODAO LODAS LODOS LOESS LOFAS LOFIA LOFIO LOFOS LOFTS LOGAR LOGAS LOGIA LOGIN LOGON LOGOS LOGRA LOGRE LOGRO LOIAS LOICA LOIOS LOIRA LOIRO LOISA LOJAS LOJES LOLIA LOLIO LOLOS LOMBA LOMBO LONAS LONCA LONGA LONGE LONGO LOOKS LOPES LOQUE LORAN LORAS LORCA LORDE LORES LORGA LORIS LOROS LORPA LORTA LORTO LOSNA LOTAI LOTAM LOTAR LOTAS LOTEI LOTEM LOTES LOTOS LOTOU LOTUS LOUCA LOUCO LOURA LOURO LOUSA LOUVA LOUVE LOUVO LOXIA LUADA LUADO LUAUS LUBAS LUCAA LUCAO LUCAS LUCIA LUCIO LUCOS LUCRA LUCRE LUCRO LUDAS LUDIA LUDIO LUDOS LUDRA LUDRO LUENA LUETA LUFAR LUFAS LUGAR LUGRE LUITA LULAS LULUS LUMAS LUMEN LUMES LUNAR LUNAS LUNDA LUNDU LUNGA LUPAR LUPAS LUPIA LUPOS LUPUS LUQUE LURAR LURAS LUREX LURIA LURTA LUSAS LUSCA LUSCO LUSOS LUTAI LUTAM LUTAR LUTAS LUTEA LUTEI LUTEM LUTEO LUTES LUTOS LUTOU LUVAS LUXAR LUXAS LUXOS LUZAM LUZAS LUZEM LUZES LUZIA LUZIO LUZIR LUZIS LUZIU LUZOS LYCRA MABAS MABUS MACAA MACAE MACAL MACAO MACAR MACAS MACAU MACEA MACES MACHA MACHE MACHO MACIA MACIO MACIS MACLA MACOM MACOS MACRA MACRO MACUA MACUS MADAS MADIA MADIS MADRE MAFIA MAFRA MAFUA MAGAL MAGAS MAGDA MAGIA MAGIS MAGMA MAGNA MAGNO MAGOA MAGOE MAGOO MAGOS MAGRA MAGRO MAIAS MAINA MAIOR MAIOS MAIRA MAIRI MAIRU MAITA MAJOR MALAR MALAS MALES MALGA MALHA MALHE MALHO MALIA MALIM MALOS MALTA MALTE MALVA MALVO MAMAA MAMAE MAMAI MAMAL MAMAM MAMAO MAMAR MAMAS MAMBA MAMBO MAMEI MAMEM MAMES MAMOA MAMOS MAMOU MANAA MANAI MANAO MANAR MANAS MANAU MANCA MANCO MANDA MANDE MANDI MANDO MANDU MANEL MANES MANGA MANGO MANHA MANHO MANIA MANIF MANIR MANJA MANJE MANJO MANJU MANOS MANSA MANSO MANTA MANTE MANTO MANUE MANUL MAORI MAPAS MAPLE MAPUA MAQUE MAQUI MARAA MARAO MARAR MARAS MARAU MARCA MARCO MAREL MARES MARGA MARGO MARIA MARIM MARIO MARIS MARMA MARMO MARNA MAROA MAROO MAROS MARRA MARSA MARSO MARTA MARTE MARTO MARUA MARUI MASCA MASCO MASER MASES MASSA MATAA MATAI MATAM MATAO MATAR MATAS MATCH MATEI MATEM MATER MATES MATIS MATIZ MATOS MATOU MATSE MAUBA MAUES MAUJA MAUJO MAULA MAURA MAURO MAXIM MAXIS MAZAS MAZES MAZIA MBUIS MEAAS MEACA MEACO MEADA MEADO MEANA MEANO MEAOS MEATA MEATO MECAM MECAS MECES MECHA MECOS MECRU MEDAA MEDAO MEDAS MEDEM MEDES MEDIA MEDIO MEDIR MEDIS MEDIU MEDOS MEDRA MEDRE MEDRO MEGAS MEIAA MEIAO MEIAS MEIGA MEIGO MEIOS MELAA MELAI MELAM MELAO MELAR MELAS MELCA MELEA MELEI MELEM MELEO MELES MELEZ MELGA MELIA MELOA MELOS MELOU MELRA MELRO MEMBE MEMBI MEMES MEMIS MENGA MENGO MENHA MENIR MENOR MENOS MENSA MENSO MENTA MENTE MENTI MENTO MENUS MERAS MERCA MERCE MERDA MERLA MERLO MERLU MERMA MEROS MERUA MERUI MERUS MESAO MESAS MESES MESMA MESMO MESON MESOS MESSE MESTA MESTO METAL METAM METAS METEI METEM METER METES METEU METIA METIE METIL METIM METIS METOS METRA METRO MEUAS MEXAA MEXAM MEXAO MEXAS MEXEI MEXEM MEXER MEXES MEXEU MEXIA MEXIS MEXOS MIAAS MIADA MIADO MIAIS MIANA MIAOS MIARA MIAUS MIAVA MIBAS MIBUS MICAR MICAS MICHA MICHE MICHO MICOS MICRA MICRO MIDAS MIDIA MIDIS MIEIS MIGAR MIGAS MIGOS MIGRA MIGRE MIGRO MIINA MIITE MIJAA MIJAI MIJAM MIJAO MIJAR MIJAS MIJEI MIJEM MIJES MIJOS MIJOU MIJUI MILAA MILAO MILDE MILHA MILHO MIMAI MIMAM MIMAR MIMAS MIMEI MIMEM MIMES MIMIS MIMOS MIMOU MINAI MINAM MINAR MINAS MINAZ MINEI MINEM MINES MINGA MINGO MINGU MINHA MINIA MINIO MINIS MINOS MINOU MINTA MINTO MIOLA MIOLO MIOMA MIOPE MIOSE MIOTA MIOTO MIOUS MIQUE MIRAA MIRAI MIRAM MIRAO MIRAR MIRAS MIREI MIREM MIRES MIRIM MIRIS MIROS MIROU MIRRA MIRTA MIRTO MISES MISSA MISSE MISSO MISTA MISTO MITAR MITAS MITOS MITRA MIUAS MIUCA MIUDA MIUDE MIUDO MIULA MIULO MIURA MIURO MIUVA MIVAS MIXAR MIXAS MIXER MIXES MIXIA MIXIO MIXOS MIXTO MOADA MOADI MOADO MOAFA MOAIS MOBIL MOCAA MOCAO MOCAR MOCAS MOCHA MOCHE MOCHO MOCOA MOCOS MOCSA MODAL MODAS MODEL MODEM MODIA MODIO MODOS MODUS MOEDA MOEGA MOEIS MOELA MOEMA MOERA MOETA MOEUS MOFAI MOFAM MOFAR MOFAS MOFEI MOFEM MOFES MOFOS MOFOU MOGAA MOGAO MOGAS MOGNA MOGNO MOGOL MOGOS MOIAM MOIAS MOIDA MOIDO MOIOS MOIRA MOIRE MOIRO MOITA MOLAL MOLAR MOLAS MOLDA MOLDE MOLDO MOLES MOLHA MOLHE MOLHO MOLIM MOLIS MOLOS MOMAS MOMOS MONAS MONCA MONCO MONDA MONDE MONDO MONGA MONGE MONGO MONGU MONHA MONHE MONHO MONIR MONJA MONOS MONTA MONTE MONTO MORAI MORAL MORAM MORAR MORAS MORBA MORBO MORCA MORDA MORDE MORDI MORDO MOREI MOREM MORES MORFA MORFE MORFO MORIA MORIM MORMA MORMO MORNA MORNO MOROS MOROU MORRA MORRE MORRI MORRO MORSA MORSE MORSO MORTA MORTE MORTO MOSAS MOSCA MOSCO MOSSA MOSSI MOSSO MOSTA MOSTO MOTAS MOTEL MOTES MOTIM MOTIS MOTOR MOTOS MOTUS MOUCA MOUCO MOURA MOURO MOUSE MOUTA MOVAM MOVAS MOVEI MOVEL MOVEM MOVER MOVES MOVEU MOVIA MOVIS MOVOS MOXAR MOXAS MUAFA MUAFO MUAMA MUANA MUANE MUAVE MUBES MUCAS MUCHA MUCOL MUCOR MUCOS MUCRA MUCRO MUCUA MUCUM MUCUS MUDAI MUDAM MUDAR MUDAS MUDEI MUDEM MUDES MUDEZ MUDOS MUDOU MUDRA MUELE MUENE MUFAS MUFLA MUFTI MUGAS MUGEM MUGES MUGIA MUGIL MUGIR MUGIS MUGIU MUGOS MUGRE MUIAS MUITA MUITO MUJAM MUJAS MUJES MUJOS MULAS MULES MULOS MULSA MULSO MULTA MULTE MULTI MULTO MUMIA MUMUS MUNAS MUNDA MUNDE MUNDI MUNDO MUNEM MUNES MUNGA MUNGO MUNHA MUNIA MUNIR MUNIS MUNIU MUNTA MUNTO MUNUS MUPAS MUQUE MUQUI MURAI MURAL MURAM MURAR MURAS MURCA MURCO MUREI MUREM MURES MUREX MURIA MURIS MUROS MUROU MURRA MURRO MURTA MURUA MURUI MURUS MURZA MUSAL MUSAS MUSCA MUSCO MUSES MUSEU MUSGA MUSGO MUSME MUSSE MUSSO MUTAR MUTAS MUTUA MUTUM MUTUO MUUBA NAALI NABAL NABAS NABIS NABLA NABLO NABOS NACAA NACAO NACAR NACAS NACHA NACHO NACOS NACRE NADAI NADAM NADAR NADAS NADEI NADEM NADES NADIR NADOS NADOU NAFAS NAFES NAFIL NAFIR NAFOS NAFTA NAGAA NAGAO NAGAR NAGAS NAGOR NAGOS NAGUA NAIAS NAIBE NAIDE NAIFA NAIFE NAIFO NAIPE NAIRA NAIRE NAJAS NAJIS NALGA NAMAS NAMAZ NAMBI NAMBU NANAI NANAL NANAM NANAR NANAS NANDI NANDU NANEI NANEM NANES NANIS NANJA NANOS NANOU NAPAS NARAS NARAZ NARCO NARDA NARDO NARIZ NARRA NARRE NARRO NASAL NASCA NASCE NASCI NASCO NASES NASIA NASIO NASSA NATAL NATAS NATIA NATIO NATOS NATRA NATRO NAUAS NAURU NAUTA NAVAL NAVAS NAVES NAVIA NAVIO NAXIA NAXIO NAZIR NAZIS NDAUS NEBRI NECAS NECRO NECTA NECTO NEDIA NEDIO NEFAS NEFRA NEFRO NEGAI NEGAM NEGAR NEGAS NEGOS NEGOU NEGRA NEGRO NEGUE NEGUS NELAS NELES NELIA NEMBA NEMBO NEMEU NENAS NENEM NENEN NENES NENHA NENHO NENIA NENOS NENTE NEPAL NEPER NERDS NERES NERIA NERIO NEROL NERVA NERVO NESGA NESSA NESSE NESTA NESTE NETAS NETOS NEUMA NEURA NEURO NEVAA NEVAI NEVAM NEVAO NEVAR NEVAS NEVEI NEVEM NEVES NEVOA NEVOS NEVOU NEXAS NEXOS NGOLA NHACA NHATA NHATO NIAIA NICAR NICAS NICHA NICHO NICOL NICOS NICTA NICTO NIDOR NIELA NIELO NIFES NIGER NIGUA NILAS NILGO NILOS NIMBA NIMBO NIMIA NIMIO NINAI NINAM NINAR NINAS NINEI NINEM NINES NINFA NINHA NINHO NINIS NINJA NINOS NINOU NIOPO NIPAS NIPLE NIQAB NIQUE NISAS NISCA NISCO NISEI NISSA NISSO NISTA NISTO NITRA NITRO NIVEA NIVEL NIVEO NIZAS NOBEL NOBRE NOCAA NOCAO NOCAS NOCHA NODAL NODAR NODAS NODOA NODOS NOEMA NOESE NOETE NOGAA NOGAI NOGAL NOGAO NOIAS NOIRA NOITE NOIVA NOIVE NOIVO NOJAS NOJOS NOLAS NOMAS NOMEA NOMES NOMOS NONAS NONES NONIA NONIO NONOS NOPAL NOQUE NORAS NORCA NORES NORIA NORIO NORMA NORTE NOSCA NOSCO NOSES NOSSA NOSSO NOTAI NOTAM NOTAR NOTAS NOTEI NOTEM NOTES NOTOS NOTOU NOUTE NOVAL NOVAR NOVAS NOVEL NOVES NOVOS NOXAL NOXAS NOXIA NOXIO NOZES NUBAS NUBIA NUBIL NUBIO NUCAA NUCAL NUCAO NUCAS NUDAS NUDES NUDEZ NUDOS NUELA NUELO NUEZA NUFAR NUGAS NULAS NULOS NUMAS NUMBU NUMES NUMOS NUNCA NUNES NUPES NURSE NUTAR NUTAS NUTOS NUTRA NUTRE NUTRI NUTRO NUVEA NUVEM NUVEO NUXIA NYLON OASIS OBEBA OBELA OBELO OBESA OBESO OBICE OBITA OBITO OBOES OBOLA OBOLO OBORI OBRAR OBRAS OBSTA OBSTE OBSTO OBTEM OBTER OBVEM OBVIA OBVIE OBVIM OBVIO OBVIR OCADA OCADO OCAES OCAIM OCAPI OCARA OCASA OCASO OCELA OCELO OCHAS OCIAS OCIMA OCIMO OCIOS OCNAS OCRAS OCREA OCREM OCRES OCTAL OCTAS OCTIL OCULA OCULO OCUPA OCUPE OCUPO ODARA ODEAA ODEAO ODEIA ODEIE ODEIO ODEON ODIAI ODIAR ODIAS ODIEI ODILO ODIOS ODIOU ODORA ODORO ODRES OESTE OFAIE OFEGA OFEGO OFITA OFITE OFITO OFRIA OFRIO OFRIS OFURO OGAMA OGAMO OGANA OGANO OGEAS OGIVA OGRAS OGRES OGROS OICAS OIDIA OIDIO OIGAR OIRAR OIRAS OIROS OITAA OITAO OITAS OITIS OITOS OLADA OLAIA OLEAR OLEAS OLEOL OLEOS OLEUM OLGAS OLHAI OLHAL OLHAM OLHAR OLHAS OLHEI OLHEM OLHES OLHOS OLHOU OLIAS OLIOS OLIVA OLIVO OLMAS OLMOS OLORI OMALA OMANI OMASA OMASO OMBRA OMBRO OMBUS OMEGA OMELE OMIAS OMIOS OMIRI OMITA OMITE OMITI OMITO OMNIA OMOLU ONCAS ONDAR ONDAS ONDES ONERA ONERE ONERO ONETA ONFUA ONIXE ONTEM ONZES OPABA OPACA OPACO OPADA OPADO OPALA OPCAA OPCAO OPERA OPERE OPERO OPIAR OPIAS OPIDA OPIDO OPIMA OPIMO OPINA OPINE OPINO OPIOS OPOEM OPOES OPORA OPTAI OPTAM OPTAR OPTAS OPTEI OPTEM OPTES OPTOS OPTOU OQUIM ORACA ORADA ORADO ORAGA ORAGO ORAIS ORARA ORATE ORAVA ORBES ORCAI ORCAM ORCAR ORCAS ORCAZ ORCEI ORCEM ORCES ORCOS ORCOU ORDAS ORDEM ORDOS OREAR OREIA OREIS ORFAA ORFAO ORFAS ORFIA ORGAA ORGAO ORGAS ORGIA ORGIO ORIAS ORIBI ORION ORIXA ORIZA ORLAI ORLAM ORLAR ORLAS ORLEA ORLEI ORLEM ORLES ORLOS ORLOU ORNAI ORNAM ORNAR ORNAS ORNEI ORNEM ORNES ORNIS ORNOS ORNOU OROBA OROBO OROPA OROUS ORTAS ORTOS OSANA OSCAR OSCAS OSCOS OSGAS OSMAR OSMIA OSMIO OSMOL OSRAM OSSAS OSSEA OSSEO OSSOS OSTAI OSTES OSTIA OSTIO OSTRA OSTRO OTICA OTICO OTIMA OTIMO OTITE OTOSE OUCAA OUCAM OUCAO OUCAS OUCOS OUGAR OURAR OURAS OUREM OUROS OUSAI OUSAM OUSAR OUSAS OUSEI OUSEM OUSES OUSIA OUSIO OUSOS OUSOU OUTAA OUTAO OUTAR OUTAS OUTOS OUTRA OUTRO OUVEM OUVES OUVIA OUVIR OUVIS OUVIU OVADA OVADO OVALA OVALO OVANA OVANO OVEAS OVEOS OVEVA OVINA OVINO OVNIS OVULA OVULO OXALA OXEOL OXIDA OXIDE OXIDO OXIMA OXINA OXOCE OZENA OZONA OZONE OZONO PACAI PACAS PACAU PACHA PACHO PACOS PACTA PACTO PACUS PADAS PADEL PADES PADOS PADRE PADUS PAETE PAFAS PAFIA PAFOS PAGAA PAGAI PAGAM PAGAO PAGAR PAGAS PAGER PAGOS PAGOU PAGUE PAIAA PAIAO PAIAS PAIBA PAICA PAINA PAINS PAIOL PAIOS PAIRA PAIRE PAIRO PAIVA PAIXA PAJAA PAJAO PAJEM PAJES PAJEU PALAA PALAO PALAS PALAU PALCA PALCO PALEA PALHA PALIA PALIO PALIS PALMA PALMO PALOP PALOR PALOS PALPA PALPO PALRA PAMAS PAMOA PAMPA PAMPO PANAA PANAL PANAO PANAR PANAS PANAX PANCA PANCO PANDA PANDO PANES PANGA PANGO PANHA PANJA PANOS PAPAA PAPAI PAPAL PAPAM PAPAO PAPAR PAPAS PAPEI PAPEL PAPEM PAPER PAPES PAPOS PAPOU PAPUA PAPUS PAQUE PARAI PARAM PARAR PARAS PARAU PARCA PARCO PARDA PARDO PAREA PAREI PAREM PAREO PARES PARGA PARGO PARIA PARIR PARIS PARIU PARKA PARLA PARMA PAROL PAROS PAROU PARRA PARSE PARSI PARTA PARTE PARTI PARTO PARUS PARVA PARVO PASES PASMA PASME PASMO PASSA PASSE PASSO PASTA PASTE PASTO PATAA PATAO PATAS PATAU PATAZ PATEL PATES PATIA PATIM PATIO PATIS PATOA PATOS PATUA PAULA PAULO PAUNA PAURA PAUSA PAUSO PAUTA PAUTE PAUTO PAVAA PAVAO PAVES PAVIA PAVIO PAVOA PAVOR PAVOS PAXAS PAZAA PAZAO PAZES PEAAS PEACA PEADA PEADO PEALA PEALO PEAOS PEBAS PECAI PECAM PECAR PECAS PECEM PECHA PECOS PECOU PEDAL PEDEM PEDES PEDIA PEDIR PEDIS PEDIU PEDRA PEGAA PEGAI PEGAM PEGAO PEGAR PEGAS PEGMA PEGOS PEGOU PEGUE PEIAS PEIDA PEIDE PEIDO PEINA PEITA PEITE PEITO PEIUS PEIXE PEJAR PEJAS PEJIS PEJOS PELAA PELAI PELAM PELAO PELAR PELAS PELEI PELEM PELES PELOR PELOS PELOU PELTA PELVE PEMAS PEMBA PENAA PENAI PENAL PENAM PENAO PENAR PENAS PENCA PENCE PENCO PENDA PENDE PENDI PENDO PENEI PENEM PENES PENGO PENHA PENIS PENNE PENNY PENOL PENOS PENOU PENSA PENSE PENSO PENTA PENTE PEOAS PEOES PEONA PEPEL PEPES PEPLA PEPLO PEQUE PEQUI PERAL PERAS PERAU PERCA PERCE PERCO PERDA PERDE PERDI PERES PERIS PERLA PERNA PERNE PERNO PEROL PEROS PERRA PERRO PERSA PERTA PERTO PERUA PERUM PERUS PESAI PESAM PESAR PESAS PESCA PESCO PESEI PESEM PESES PESGA PESOS PESOU PESTE PESTO PETAR PETAS PETES PETIA PETIZ PETOS PETRA PETUM PEUGA PEULE PEUVA PEVAS PEXAA PEXAO PEZES PIAAS PIABA PIACA PIACO PIADA PIADO PIAFE PIAGA PIAIS PIALA PIALO PIANA PIANO PIAOS PIAPE PIARA PIATA PIAUI PIAUS PIAVA PICAA PICAI PICAM PICAO PICAR PICAS PICAU PICEA PICEO PICHA PICHE PICHI PICHO PICOS PICOU PICTA PICTO PICUA PICUI PICUM PIDAA PIDAO PIDAS PIEGA PIEGO PIEIS PIELA PIEZA PIEZO PIFAA PIFAI PIFAM PIFAO PIFAR PIFAS PIFEI PIFEM PIFES PIFIA PIFIO PIFOS PIFOU PIFRE PIGRA PIGRO PIINA PIJIN PILAA PILAO PILAR PILAS PILEA PILEO PILES PILEU PILHA PILHE PILHO PILOS PIMBA PIMBO PINAR PINAS PINCA PINCE PINCO PINDA PINEA PINEL PINEO PINEU PINGA PINGO PINHA PINHE PINHO PINOS PINTA PINTE PINTO PINUP PINUS PIOCA PIOLA PIORA PIORE PIORO PIOUS PIPAL PIPAS PIPER PIPIA PIPIO PIPIS PIPIU PIPOS PIPRA PIQUE PIQUI PIRAA PIRAI PIRAM PIRAO PIRAR PIRAS PIRAU PIREI PIREM PIRES PIREU PIREX PIRGA PIRGO PIRIA PIRIS PIRIZ PIROS PIROU PIRRO PIRUA PISAA PISAI PISAM PISAO PISAR PISAS PISCA PISCO PISEA PISEI PISEM PISEO PISES PISIN PISOS PISOU PISTA PITAA PITAO PITAR PITAS PITEM PITES PITEU PITIA PITIO PITIS PITIU PITOM PITON PITOS PITUA PITUI PITUS PIUBA PIUCA PIUMA PIUNA PIVOS PIVOT PIXAS PIXEL PIXES PIXEU PIXIS PIXUA PIZZA PLACA PLACE PLAGA PLANA PLANE PLANO PLATO PLEBE PLENA PLENO PLEXA PLEXO PLICA PLOTA PLOTE PLOTO PLUGA PLUGO PLUMA PLUSH PLUTA PLUTO PNEUS POACU POAIA POBRA POBRE POCAA POCAL POCAO POCAR POCAS POCHA POCHE POCOS PODAA PODAI PODAL PODAM PODAO PODAR PODAS PODEI PODEM PODER PODES PODIA PODIO PODOA PODOI PODOS PODOU PODRE POEJA POEJO POEMA POETA POIAL POIAR POIAS POIOS POISA POISE POISO POITA POJAR POJAS POJOS POKER POLAR POLAS POLCA POLEM POLEN POLES POLEX POLHA POLHO POLIA POLIO POLIR POLIS POLIU POLMA POLME POLMO POLOS POLPA POLVA POLVO POMAR POMAS POMBA POMBE POMBO POMES POMOS POMPA PONCA PONCO PONDA PONDE PONDO PONEI PONGA PONGO PONHA PONHO PONJE PONOM PONTA PONTE PONTO POPAA POPAO POPAS POPES POPOS PORAA PORAO PORAS PORCA PORCO POREI POREM PORES PORIA PORNA PORNO POROS PORRA PORRE PORRO PORTA PORTE PORTO POSAI POSAM POSAR POSAS POSEI POSEM POSER POSES POSOS POSOU POSSA POSSE POSSO POSTA POSTE POSTO POSTS POTAS POTEM POTES POTIM POTIN POTIS POTOS POTRA POTRO POUCA POUCO POULA POULE POUND POUPA POUPE POUPO POUSA POUSE POUSO POUTA POVAA POVAO POVAS POVOA POVOE POVOO POVOS POXAS PRACA PRADA PRADO PRAGA PRAIA PRAJA PRANA PRASE PRATA PRATO PRAVA PRAVO PRAXE PRAZA PRAZO PREAR PREAS PRECA PRECE PRECO PREGA PREGO PREIA PREJU PRELA PRELO PREMA PREME PREMI PREON PRESA PRESO PRETA PRETO PREVE PREVI PREZA PREZE PREZO PRIMA PRIME PRIMO PRINA PRINO PRION PRIOR PRISA PRISE PRIVA PRIVE PRIVO PROAR PROAS PROBA PROBO PROCA PROFE PROIZ PROLE PRONA PRONO PROSA PROTA PROTO PROVA PROVE PROVI PROVO PRUAS PRUCA PRUIR PRUMA PRUMO PRUNA PRUNO PSECA PSICO PSILA PSILO PSIUS PSOAS PSORA PTOSE PUACA PUACO PUACU PUADA PUADO PUAVA PUBAR PUBAS PUBES PUBIS PUBOS PUCAS PUCHA PUCHO PUCOS PUDER PUDES PUDIM PUDOR PUDUS PUELA PUERA PUFAS PUFES PUFOS PUGIL PUGNA PUIAM PUIAS PUIDA PUIDO PUIRA PUITA PUIUS PUJAR PULAI PULAM PULAR PULAS PULEI PULEM PULES PULEX PULGA PULGO PULHA PULOS PULOU PULSA PULSE PULSO PUMAS PUMBA PUNAM PUNAS PUNCH PUNEM PUNES PUNGA PUNHA PUNHO PUNIA PUNIR PUNIS PUNIU PUNOS PUNTO PUPAS PUPUS PURAS PURES PUREU PURGA PURGO PURIS PUROS PURUI PUSER PUSES PUSSY PUTAL PUTAS PUTIS PUTOS PUTTA PUTTO PUVIS PUXAA PUXAI PUXAM PUXAO PUXAR PUXAS PUXEI PUXEM PUXES PUXOS PUXOU QATAR QUAAS QUADA QUADO QUAGA QUAIS QUALE QUAOS QUARK QUARO QUART QUASE QUATA QUATI QUEBA QUECA QUECE QUEDA QUEDE QUEDO QUEEN QUEER QUELA QUELE QUENA QUEPE QUEPI QUERA QUERE QUERI QUERO QUETA QUETO QUEZA QUIAZ QUIBA QUIBE QUICA QUICE QUICO QUILA QUILO QUIMA QUIME QUIMO QUINA QUINO QUIPA QUIPO QUIRI QUITA QUITE QUITI QUITO QUIUI QUIVI QUIXO QUOTA QUOTE RABAA RABAO RABAS RABAZ RABEL RABIA RABIL RABIS RABOS RACAA RACAO RACAS RACHA RACHE RACHO RACIA RACIO RACKS RACLE RACUM RADAR RADAS RADIA RADIE RADIO RAFAR RAFAS RAFES RAFIA RAGLA RAGUS RAIAI RAIAL RAIAM RAIAR RAIAS RAIDE RAIEI RAIEM RAIES RAIOM RAIOS RAIOU RAIVA RAJAA RAJAI RAJAM RAJAO RAJAR RAJAS RAJEI RAJEM RAJES RAJOS RAJOU RALAA RALAI RALAM RALAO RALAR RALAS RALEI RALEM RALES RALHA RALHE RALHO RALIS RALLY RALOS RALOU RAMAL RAMAS RAMEA RAMEN RAMEO RAMES RAMIS RAMNA RAMNO RAMOS RAMPA RANAS RANCA RANCO RANES RANGA RANGE RANGI RANGO RANHA RANHO RANIS RANJA RANJO RANUS RAPAA RAPAI RAPAM RAPAO RAPAR RAPAS RAPAZ RAPEI RAPEL RAPEM RAPES RAPOS RAPOU RAPTA RAPTE RAPTO RAQUE RAQUI RARAR RARAS RAROS RASAA RASAO RASAR RASAS RASCA RASCO RASES RASGA RASGO RASOS RASPA RASPE RASPO RASTA RASTO RATAA RATAO RATAR RATAS RATEL RATES RATIA RATIO RATOS RAVES RAXAS RAYON RAZAA RAZAO RAZIA REACA REAGE REAGI REAIS REAJA REAJO REATA REATE REATO REBAR REBAS REBEL REBEM REBOA REBOE REBOO REBOS REBUS RECAI RECAS RECEM RECHA RECOS RECRU RECTA RECTO RECUA RECUE RECUO REDAR REDAS REDEA REDES REDIA REDIL REDOR REDOX REDRA REDUZ REFAZ REFEM REFEZ REFIL REFIZ REFLE REFRI REGAI REGAL REGAM REGAR REGAS REGEI REGEM REGER REGES REGEU REGIA REGIO REGIS REGMA REGOS REGOU REGRA REGRE REGRO REGUA REGUE REIAS REICH REIDE REIKI REIMA REINA REINE REINO REIOS REIRA REIXA REJAM REJAS REJOS RELAR RELAS RELAX RELER RELES RELEU RELHA RELHO RELIA RELIS RELOU RELVA REMAI REMAM REMAR REMAS REMEI REMEM REMES REMIA REMIR REMIS REMIU REMIX REMOA REMOI REMOO REMOS REMOU RENAA RENAL RENAO RENAS RENDA RENDE RENDI RENDO RENGA RENGO RENHI RENIA RENIO RENTE REPAS REPES REPOE REPOR REPOS REPTA REPTO REPUS REQUE RERES RESAS RESES RESMA RESOS RESPA RESPE RESPO RESSA RESTA RESTE RESTO RETAL RETAR RETAS RETEM RETER RETOR RETOS RETRA RETRE RETRO REUMA REUNA REUNE REUNI REUNO REUSA REUSO REVEL REVEM REVER REVES REVIA REVIM REVIR REVIS REVIU REVOA REVOO REXIA REXIO REZAA REZAI REZAM REZAO REZAR REZAS REZEI REZEM REZES REZOS REZOU RIAIS RIBAS RIBES RICAR RICAS RICIA RICIO RICOS RICTA RICTO RIDES RIDOR RIDOS RIEIS RIFAA RIFAI RIFAM RIFAO RIFAR RIFAS RIFEI RIFEM RIFES RIFLE RIFOS RIFOU RIFTE RIGAS RIGOR RIJAL RIJAR RIJAS RIJOS RIMAI RIMAM RIMAR RIMAS RIMEI RIMEL RIMEM RIMES RIMOS RIMOU RINAL RINDO RINHA RIPAL RIPAR RIPAS RIPIA RIPIO RIPOS RIQUE RIRAM RIRAO RIRAS RIREI RIREM RIRES RIRIA RISAA RISAO RISAS RISCA RISCO RISES RISOS RISSE RISSO RISTE RITAA RITAO RITAS RITMA RITMO RITON RITOS RIUTA RIVAL RIXAR RIXAS RIZAR RIZES ROAIS ROBER ROBES ROBLE ROBOS ROBOT ROBUR ROCAA ROCAI ROCAL ROCAM ROCAO ROCAR ROCAS ROCAZ ROCEI ROCEM ROCES ROCHA ROCIA ROCIM ROCIO ROCLO ROCOS ROCOU RODAI RODAM RODAO RODAR RODAS RODEI RODEM RODEO RODES RODIA RODIM RODIO RODOS RODOU ROEIS ROERA ROEUS ROFAS ROFOS ROGAI ROGAL ROGAM ROGAR ROGAS ROGOS ROGOU ROGUE ROIAM ROIAS ROIDA ROIDO ROJAA ROJAO ROJAR ROJAS ROJOS ROLAA ROLAI ROLAM ROLAO ROLAR ROLAS ROLDA ROLEI ROLEM ROLES ROLHA ROLHO ROLIM ROLOS ROLOU ROMAA ROMAO ROMAS ROMBA ROMBO ROMEU ROMPA ROMPE ROMPI ROMPO RONCA RONCO RONDA RONDE RONDO RONGA RONGO RONHA ROPIA ROQUE RORAR RORES ROSAA ROSAL ROSAO ROSAR ROSAS ROSCA ROSEA ROSEO ROSES ROSNA ROSNE ROSNO ROSTA ROSTO ROTAR ROTAS ROTIM ROTOR ROTOS ROUBA ROUBE ROUBO ROUCA ROUCO ROUGE ROUND ROUPA ROXAS ROXOS RUAAS RUACA RUANA RUANO RUAOS RUBAS RUBEA RUBEO RUBIA RUBIM RUBIS RUBLA RUBLO RUBOR RUBOS RUBRA RUBRO RUCAR RUCAS RUCHE RUCOS RUDAS RUDES RUDEZ RUDOS RUELA RUFAI RUFAM RUFAR RUFAS RUFEI RUFEM RUFES RUFIA RUFIO RUFLA RUFLO RUFOS RUFOU RUGAI RUGAM RUGAR RUGAS RUGBI RUGBY RUGEM RUGES RUGIA RUGIR RUGIS RUGIU RUGOS RUGOU RUGUE RUIAM RUIAS RUIDA RUIDO RUINA RUINS RUIRA RUIUS RUIVA RUIVO RUJAM RUJAS RUJOS RULAR RULAS RULES RULOS RUMAI RUMAM RUMAR RUMAS RUMBA RUMEI RUMEM RUMEN RUMES RUMIS RUMOR RUMOS RUMOU RUMPI RUNAS RUNDA RUNDO RUPAR RUPIA RURAL RUSCA RUSCO RUSES RUSGA RUSMA RUSSA RUSSO RUSTA RUSTE RUSTO RUTAS RUTOS SABAA SABAL SABAO SABAS SABEI SABEM SABER SABES SABEU SABIA SABIN SABIO SABIR SABIU SABLE SABOR SABRA SABRE SACAA SACAI SACAL SACAM SACAO SACAR SACAS SACHA SACHE SACHO SACIA SACIE SACIO SACIS SACOS SACOU SACRA SACRE SACRO SACUE SADAS SADIA SADIO SADRA SAETA SAFAI SAFAM SAFAR SAFAS SAFEI SAFEM SAFES SAFIA SAFIO SAFOS SAFOU SAFRA SAFRE SAFRO SAFUS SAGAS SAGAZ SAGES SAGEZ SAGOS SAGRA SAGRE SAGRO SAGUA SAGUI SAGUM SAGUS SAIAA SAIAL SAIAM SAIAO SAIAS SAIBA SAIBO SAIDA SAIDO SAIGA SAIJE SAINA SAINO SAIOS SAIPE SAIRA SAIRE SAITE SAIUS SAIVA SAIXE SAJUS SALAA SALAO SALAS SALAZ SALDA SALDE SALDO SALEM SALES SALGA SALGO SALIA SALIO SALIX SALMA SALMO SALOA SALOL SALPA SALSA SALSO SALTA SALTE SALTO SALUS SALVA SALVE SALVO SAMAA SAMAO SAMAS SAMBA SAMBE SAMBO SAMIA SAMIO SAMOA SAMOS SAMPA SANAI SANAM SANAR SANAS SANCA SANCO SANDE SANDI SANEI SANEM SANES SANGA SANGO SANHA SANIE SANJA SANOS SANOU SANSA SANTA SANTO SANZA SAPAA SAPAL SAPAO SAPAR SAPAS SAPES SAPIA SAPOS SAPUA SAPUS SAQUE SARAI SARAM SARAR SARAS SARAU SARCA SARDA SARDO SAREI SAREM SARES SARGA SARGO SARIN SARIS SARJA SARNA SAROS SAROU SARRA SARRO SARTA SARUA SARUE SARUS SATAS SATES SATIS SAUAS SAUBA SAUCA SAUCO SAUDA SAUDE SAUDI SAUDO SAUIA SAUIM SAUIS SAUNA SAUNI SAURA SAUTE SAUVA SAVAL SAVEL SAXAA SAXAO SAXEA SAXEO SAZAA SAZAO SAZAS SAZOS SAZUS SCORE SCRUM SCUBA SEARA SEBAS SEBES SEBOS SECAA SECAI SECAM SECAO SECAR SECAS SECIA SECIO SECOS SECOU SECTA SECTO SEDAL SEDAN SEDAR SEDAS SEDEM SEDER SEDES SEDIA SEDIE SEDIO SEDUZ SEFIA SEGAA SEGAO SEGAR SEGAS SEGES SEGRE SEGUE SEGUI SEIAS SEIBA SEIBO SEICA SEICE SEIMA SEIOS SEIRA SEITA SEIVA SEIVO SEIXA SEIXO SEJAM SEJAS SELAI SELAM SELAR SELAS SELEI SELEM SELES SELHA SELIA SELIM SELIO SELOS SELOU SELVA SEMAS SEMBA SEMEA SEMEL SEMEN SEMIS SENAA SENAL SENAO SENAS SENDA SENDO SENES SENGA SENGO SENHA SENHO SENIA SENIL SENIO SENOS SENRA SENSA SENSO SENSU SENTA SENTE SENTI SENTO SEPIA SEPSE SEPTA SEPTO SEQUE SEQUI SERAA SERAL SERAO SERAS SEREI SEREM SERES SERIA SERIE SERIO SERNA SEROS SERPA SERPE SERRA SERRE SERRO SERTA SERUM SERVA SERVE SERVI SERVO SESGA SESGO SESMA SESMO SESSA SESSO SESTA SESTO SETAS SETES SETIA SETOR SETOS SETRA SETUP SEVAR SEVAS SEVOS SEXAR SEXAS SEXOS SEXTA SEXTO SEZAA SEZAO SHAKE SHAPE SHARE SHEIK SHELL SHORT SHOYO SHOYU SHUNT SIAAS SIAME SIAOS SIBAR SIBAS SICAS SICLA SICLO SICON SICOS SIDAS SIDIS SIDOS SIDRA SIENA SIFAA SIFAO SIGAM SIGAS SIGLA SIGMA SIGNA SIGNO SIGOS SIGRA SIGRO SILAS SILEX SILFA SILFO SILHA SILOS SILTE SILVA SILVE SILVO SIMAA SIMAO SIMAS SIMIA SIMIL SIMIO SIMUM SINAL SINAS SINDI SINHA SINHO SINIS SINOP SINOS SINTA SINTO SINUS SIOBA SIOUX SIPAI SIPES SIPIA SIQUE SIRAS SIRES SIRGA SIRGO SIRIA SIRIO SIRIS SIRIU SIROS SIRTE SIRVA SIRVO SISAA SISAL SISAO SISAR SISAS SISMA SISMO SISOS SISSO SITAR SITAS SITES SITIA SITIE SITIO SITOS SITUA SITUE SITUO SIUBA SIUSI SIVAN SIVAS SKANK SKATE SKIFF SKYPE SLACK SLICE SLIDE SLING SMILE SNIPE SOAAS SOADA SOADO SOAIS SOAOS SOARA SOAVA SOBAS SOBEM SOBES SOBPE SOBRA SOBRE SOBRO SOCAI SOCAM SOCAR SOCAS SOCIA SOCIO SOCLA SOCLO SOCOI SOCOS SOCOU SODAR SODAS SODIA SODIO SODRA SOEIS SOFAS SOFIA SOFRA SOFRE SOFRI SOFRO SOFTA SOGAR SOGAS SOGRA SOGRO SOGUA SOIDA SOIDO SOITA SOITO SOJAS SOLAA SOLAI SOLAM SOLAO SOLAR SOLAS SOLAU SOLAZ SOLDA SOLDE SOLDO SOLEA SOLEI SOLEM SOLES SOLFA SOLHA SOLHO SOLIA SOLIO SOLOS SOLOU SOLTA SOLTE SOLTO SOMAI SOMAM SOMAR SOMAS SOMEI SOMEM SOMES SOMIE SOMOS SOMOU SONAR SONAS SONDA SONDE SONDO SONES SONGA SONHA SONHE SONHO SONOS SONSA SONSO SOOUS SOPAO SOPAS SOPES SOPOR SOPRA SOPRE SOPRO SOQUE SORAL SORAR SORAS SORBO SORCA SORDA SORES SORGA SORGO SORNA SOROR SOROS SORRA SORRI SORRO SORTE SORTI SORVA SORVE SORVI SORVO SOSIA SOSSA SOSSO SOTAA SOTAO SOTAS SOTIA SOTIL SOTOS SOUBE SOURE SOUSA SOUTA SOUTO SOVAI SOVAM SOVAR SOVAS SOVEI SOVEM SOVES SOVEU SOVIS SOVOS SOVOU SPLIT SPORT SPRAY SQUID STAFF STAND STATU STEAK STENT STICK STILB STILL STOCK STOLL STOUT STRIP SUAAS SUACU SUADA SUADO SUAIS SUAOS SUARA SUAVA SUAVE SUAZI SUBAM SUBAS SUBER SUBIA SUBIR SUBIS SUBIU SUBOS SUCAA SUCAO SUCAR SUCAS SUCIA SUCIO SUCOS SUCRE SUDAO SUDRA SUDRO SUECA SUECO SUEDE SUEIS SUETA SUETO SUEVA SUEVO SUFIS SUFLE SUGAI SUGAM SUGAR SUGAS SUGOS SUGOU SUGUE SUIAS SUICA SUICO SUINA SUINO SUITE SUJAI SUJAM SUJAR SUJAS SUJEI SUJEM SUJES SUJOS SUJOU SULAA SULAO SULAS SULCA SULCO SULFA SULOS SUMAM SUMAS SUMBA SUMBO SUMES SUMIA SUMIR SUMIS SUMIU SUMOS SUNAS SUNDA SUNDO SUNES SUNFA SUNGA SUNTA SUNTO SUOUS SUPAS SUPER SUPIS SUPOE SUPOR SUPOS SUPRA SUPRE SUPRI SUPRO SUPUS SURAL SURAS SURCA SURDA SURDO SURFE SURGE SURGI SURIM SURIS SURJA SURJO SUROS SURRA SURRE SURRO SURTA SURTE SURTO SURUS SUSAA SUSAO SUSAS SUSES SUSHI SUSOS SUSSA SUSTA SUSTE SUSTO SUTAR SUTAS SUTIA SUTIL SUTRA SUXAR SUXAS SUXOS SWELL SWING SYRAH TABAA TABAO TABAS TABES TABIS TABLA TABOA TABOS TABUA TABUS TACAA TACAI TACAM TACAO TACAR TACAS TACHA TACHE TACHO TACIS TACOS TACOU TACTA TACTO TACUA TAFIA TAFUL TAGAL TAGAZ TAGMA TAGRA TAGUA TAIAS TAIBU TAIFA TAIGA TAIKO TAINA TAINO TAIPA TAIPU TAIRA TAITA TAIXI TAJAL TAJAS TAKES TALAA TALAO TALAR TALAS TALCA TALCO TALER TALHA TALHE TALHO TALIA TALIM TALIO TALIS TALMA TALOL TALOS TALPA TALUS TAMAS TAMBA TAMBI TAMBO TAMBU TAMEM TAMIA TAMIL TAMIS TAMOM TAMOS TAMPA TAMPE TAMPO TAMUL TAMUZ TANAR TANAS TANCA TANDO TANGA TANGE TANGI TANGO TANHA TANHO TANIS TANJA TANJO TANOA TANOS TANSA TANSO TANTA TANTO TAOCA TAPAA TAPAI TAPAM TAPAO TAPAR TAPAS TAPEI TAPEM TAPES TAPIA TAPIR TAPIU TAPIZ TAPOS TAPOU TAPUA TAQUE TARAR TARAS TARCA TARDA TARDE TARDO TARIA TARIS TARJA TAROL TAROS TAROT TARRA TARRO TARSA TARSO TARTE TASCA TASCO TASER TASES TASNA TASTA TASTO TATAS TATES TATIL TATOS TATUA TATUE TATUI TATUO TATUS TAUAS TAURA TAURO TAVAA TAVAO TAVAS TAVUA TAXAI TAXAM TAXAR TAXAS TAXEI TAXEM TAXES TAXIA TAXIS TAXON TAXOS TAXOU TCHAS TCHAU TEADA TEALE TEAME TEBAS TECAL TECAM TECAR TECAS TECEI TECEM TECER TECES TECEU TECIA TECIS TECLA TECLE TECLO TECNA TECNO TECOS TECTA TECTO TECUM TEDAS TEDEU TEDIA TEDIO TEGAA TEGAO TEGAS TEGME TEGOS TEGUI TEIAS TEIGA TEIMA TEIME TEIMO TEINA TEIPE TEIRA TEIRO TEIRU TEITE TEIUS TEIXA TEIXE TEIXO TEJAS TEJOS TEJUS TELAA TELAO TELAR TELAS TELES TELEX TELHA TELHO TELIM TELIZ TELSA TELSO TEMAA TEMAM TEMAO TEMAS TEMBA TEMBE TEMEI TEMEM TEMER TEMES TEMEU TEMIA TEMIS TEMOR TEMOS TEMPA TEMPE TEMPO TENAR TENAZ TENCA TENDA TENDE TENDI TENDO TENHA TENHO TENIA TENIS TENOR TENRA TENRO TENSA TENSE TENSO TENTA TENTE TENTO TENUE TEORA TEORO TEOSE TEPES TEPOR TEQUE TERAO TERAS TERCA TERCO TEREI TEREM TERES TERGA TERGO TERIA TERIO TERMA TERME TERMO TERNA TERNO TEROL TERRA TERSA TERSO TESAA TESAO TESAR TESAS TESES TESIS TESLA TESOS TESTA TESTE TESTO TETAS TETEU TETIM TETIS TETOS TETRA TETRO TETUM TEUBA TEUDA TEUDO TEUTA TEUTO TEVES TEVET TEXTA TEXTO TEZAO TEZES TIADE TIARA TIATA TIBAR TIBAS TIBAU TIBES TIBIA TIBIO TIBIS TIBUM TICAA TICAL TICAO TICAR TICAS TICOS TICUM TIDAS TIDOS TIETE TIFAA TIFAO TIFAS TIFOS TIGRE TIJUS TILAR TILAS TILEA TILHA TILHO TILIA TILOS TIMAA TIMAO TIMAS TIMBA TIMBE TIMBO TIMBU TIMER TIMES TIMOL TIMON TIMOR TIMOS TINAS TINCA TINEA TINEM TINER TINES TINGA TINGE TINGI TINHA TINIA TINIR TINIS TINIU TINJA TINJO TINOS TINTA TINTE TINTO TIOCA TIOCO TIOTE TIPAA TIPAO TIPAS TIPIO TIPIS TIPLE TIPOI TIPOS TIPUS TIQUE TIRAA TIRAI TIRAM TIRAO TIRAR TIRAS TIRAZ TIREI TIREM TIRES TIRIA TIRIO TIROS TIROU TIRRI TIRSA TIRSO TISCA TISCO TISNA TISNE TISSA TISSO TITAS TITIA TITIO TITIS TITOR TITOS TIUBA TIUPA TIVER TIVES TIZAS TIZIA TIZIO TIZIU TLENA TMESE TOADA TOAST TOBAS TOBOS TOCAI TOCAM TOCAR TOCAS TOCHA TOCHO TOCOS TOCOU TODAS TODOS TOESA TOFAS TOFEL TOFOS TOFUS TOGAS TOICA TOINA TOINO TOIRA TOIRO TOITA TOJAL TOJAS TOJOS TOKEN TOLAR TOLAS TOLAZ TOLDA TOLDO TOLES TOLHA TOLHE TOLHI TOLHO TOLOS TOLUS TOMAI TOMAM TOMAR TOMAS TOMBA TOMBE TOMBO TOMEI TOMEM TOMES TOMIA TOMIO TOMOS TOMOU TONAL TONAR TONAS TONCA TONEL TONER TONES TONGA TONGO TONHA TONHO TONIA TONIS TONOA TONOS TONTA TONTO TONUS TOPAI TOPAM TOPAR TOPAS TOPAZ TOPEI TOPEM TOPES TOPOS TOPOU TOQUE TORAI TORAL TORAR TORAS TORAX TORBA TORCA TORCE TORCI TORCO TORDA TORDO TOREM TORES TORGA TORGO TORIA TORIO TORIS TORNA TORNE TORNO TOROS TORPE TORRA TORRE TORRO TORSA TORSO TORTA TORTO TORVA TORVO TOSAA TOSAI TOSAM TOSAO TOSAR TOSAS TOSCA TOSCO TOSEI TOSEM TOSES TOSOS TOSOU TOSSE TOSSI TOSTA TOSTE TOSTO TOTAL TOTAS TOTEM TOTOS TOTUM TOUCA TOUCH TOURA TOURI TOURO TOURS TOUTA TRACA TRACE TRACO TRADA TRADO TRAEM TRAGA TRAGO TRAIA TRAIN TRAIO TRAIR TRAIS TRAIU TRAJA TRAJE TRAJO TRAMA TRAMO TRANS TRAPA TRAPE TRAPO TRARA TRATA TRATE TRATO TRAVA TRAVE TRAVO TRAZE TRECA TRECO TREDA TREDO TREFA TREFO TRELA TREMA TREME TREMI TREMO TRENA TRENO TRENS TREPA TREPE TREPO TRESA TRESO TRETA TREUS TREVA TREVO TREZE TRIAL TRIAR TRIAS TRIBA TRIBO TRICA TRICO TRIDI TRIGA TRIGO TRILA TRILO TRINA TRINO TRIOS TRIPA TRIPE TRIPO TRIPS TROAR TROCA TROCE TROCO TROFA TROIA TROLE TROLL TRONA TRONO TROPA TROPO TROTA TROTE TROTO TROVA TRUAA TRUAO TRUCA TRUCO TRUDE TRUFA TRUPE TRUST TRUTA TUACA TUAIA TUBAR TUBAS TUBEL TUBIM TUBIS TUBOS TUCAA TUCAO TUCAS TUCHA TUCHO TUCOS TUCUM TUDAS TUDEL TUDOS TUFAA TUFAO TUFAR TUFAS TUFOS TUGIR TUGUE TUIAS TUIRA TUITE TUIUS TUJAS TUJUS TULES TULHA TULIA TULIO TUMBA TUMOR TUNAL TUNAR TUNAS TUNCA TUNCO TUNDA TUNDO TUNEL TUNGA TUNOS TUPAS TUPES TUPIA TUPIR TUPIS TUQUE TURAS TURBA TURBE TURBO TURCA TURCO TURDA TURDO TURFA TURFE TURIS TURMA TURNA TURNE TURNO TURRA TURUS TURVA TURVE TURVO TUSSA TUSSO TUSTA TUTIA TUTOR TUTSI TUTTI TUTUS TUVIS TUXAS TUZAS TWEED TWEEN TWEET TWIST UACAI UACAS UACUS UADAS UADES UADIS UADOS UAFES UAIAS UAICA UAIOS UAIPI UAITA UAIUA UALES UALIS UALUA UANAS UAPES UAPIS UARIA UARIS UARUS UASSU UAUAS UAURA UAXUA UBAIA UBARI UBATA UBEBA UBERE UBRES UBUCU UCHAA UCHAO UCHAS UCHOA UEDIS UFANA UFANE UFANO UGRAS UGROS UHULL UIAIS UIARA UIQUE UIRAS UISTE UIVAI UIVAM UIVAR UIVAS UIVEI UIVEM UIVES UIVOS UIVOU UJICA ULANA ULANO ULEMA ULITE ULMAS ULMOS ULNAL ULNAR ULNAS ULOMA ULREI ULTOR ULTRA ULULA ULULE ULULO ULVAS UMAMI UMARI UMBAS UMBES UMBLA UMBOS UMBRA UMBRO UMBUS UMERA UMERO UMIDA UMIDO UMIRI UNAIS UNAUS UNCAA UNCAO UNCAS UNCIA UNCOS UNCUS UNDAR UNDAS UNDOS UNGEM UNGES UNGIA UNGIR UNGIS UNGIU UNGUE UNGUI UNHAA UNHAO UNHAR UNHAS UNIAA UNIAM UNIAO UNIAS UNICA UNICO UNIDA UNIDO UNIRA UNIUS UNSES UNTAI UNTAM UNTAR UNTAS UNTEI UNTEM UNTES UNTOS UNTOU URACA URACO URACU URALI URANA URANO URATA URATO URBES URCAS URCOS URDAM URDAS URDEM URDES URDIA URDIR URDIS URDIU URDOS URDUS UREDA UREDO UREIA URGEM URGES URGIA URGIR URGIU URICA URICO URINA URINE URINO URJAM URJAS URNAS UROSE URRAI URRAM URRAR URRAS URREI URREM URRES URROS URROU URSAS URSOS URSUS URUAS URUBA URUBU URUCU URUMA URUMI URUPA URUPE URURI URUTU URUXI URZAL URZES USADA USADO USAIS USARA USAVA USEIS USERS USINA USMAR USNEA USOUS USQUE USSAS USTAA USTAO USTES USUAL USURA UTEIS UTENA UTERA UTERO UVACA UVADA UVAIA UVEAS UVICA UVICO UVIDA UVIDO UVULA VACAA VACAL VACAO VACAR VACAS VACES VACUA VACUM VACUO VACUS VADES VADIA VADIE VADIO VAFRA VAFRO VAGAA VAGAI VAGAL VAGAM VAGAO VAGAR VAGAS VAGEM VAGES VAGIA VAGIR VAGIS VAGIU VAGOS VAGOU VAGUE VAIAI VAIAM VAIAR VAIAS VAIEI VAIEM VAIES VAIOS VAIOU VAIXA VAJAS VALAA VALAO VALAR VALAS VALDA VALDO VALEI VALEM VALER VALES VALEU VALGA VALGO VALHA VALHO VALIA VALIS VALOR VALOS VALSA VALVA VAMOS VAMPE VAMPI VANCE VANDA VANTE VAPOR VARAA VARAI VARAL VARAM VARAO VARAR VARAS VAREI VAREM VARES VARGA VARIA VARIE VARIO VARIZ VARJA VAROA VAROS VAROU VARRA VARRE VARRI VARRO VARVE VASAS VASCA VASCO VASES VASOS VASTA VASTO VATES VATIA VATIO VAZAA VAZAI VAZAM VAZAO VAZAR VAZAS VAZEI VAZEM VAZES VAZIA VAZIO VAZOS VAZOU VEADA VEADO VEDAI VEDAM VEDAR VEDAS VEDEI VEDEM VEDES VEDOR VEDOS VEDOU VEDRA VEDRO VEIAR VEIAS VEIGA VEIOS VEIRA VEIRO VEJAM VEJAS VEJOS VELAI VELAM VELAR VELAS VELEI VELEM VELES VELGA VELHA VELHO VELOS VELOU VELOZ VELUM VEMOS VENAL VENCA VENCE VENCI VENCO VENDA VENDE VENDI VENDO VENHA VENHO VENIA VENTA VENTE VENTO VENUS VERAA VERAO VERAS VERAZ VERBA VERBO VERCA VERDE VEREI VEREM VERES VERGA VERGE VERIA VERME VERNA VERNO VEROS VERSA VERSE VERSO VERTA VERTE VERTI VERTO VERVE VESCA VESCO VESES VESGA VESGO VESPA VESTE VESTI VETAI VETAM VETAR VETAS VETEI VETEM VETES VETOR VETOS VETOU VEXAI VEXAM VEXAR VEXAS VEXEI VEXEM VEXES VEXOS VEXOU VEZAR VEZAS VEZES VEZOS VIADA VIADO VIAGE VIAJA VIAJE VIAJO VIANA VIBAS VIBES VIBRA VIBRE VIBRO VICAR VICAS VICES VICHI VICIA VICIE VICIO VICOS VIDAA VIDAO VIDAR VIDAS VIDEA VIDEO VIDES VIDIA VIDOS VIDRA VIDRE VIDRO VIEIS VIELA VIELO VIERA VIGAR VIGAS VIGER VIGES VIGIA VIGIE VIGIL VIGIO VIGNA VIGOR VILAA VILAO VILAR VILAS VILOA VILTA VIMAR VIMAS VIMES VIMOS VINAS VINCA VINCO VINDA VINDE VINDO VINEA VINEO VINGA VINGO VINHA VINHO VINIL VINTE VIOLA VIOLE VIOLO VIRAI VIRAL VIRAM VIRAO VIRAR VIRAS VIREI VIREM VIRES VIRGA VIRGO VIRIA VIRIL VIROS VIROU VIRUS VISAA VISAI VISAM VISAO VISAR VISAS VISCA VISCO VISEI VISEM VISES VISEU VISGA VISGO VISOM VISON VISOR VISOS VISOU VISSE VISTA VISTE VISTO VITAL VITES VITEX VITIS VITOR VITRE VITRO VITUS VIUVA VIUVE VIUVO VIVAM VIVAR VIVAS VIVAZ VIVEI VIVEM VIVER VIVES VIVEU VIVIA VIVIS VIVOS VIXES VIXIT VIXNU VIZIR VLOGS VOADA VOADO VOAIS VOARA VOAVA VOCAL VOCES VODAS VODCA VODKA VODUM VODUS VOEIS VOEJA VOEJO VOGAL VOGAR VOGAS VOGUE VOGUL VOILA VOILE VOLAR VOLAS VOLEI VOLOS VOLTA VOLTE VOLTO VOLVA VOLVE VOLVI VOLVO VOMER VONCE VOOUS VORAS VORAZ VOSCA VOSCO VOSES VOSSA VOSSO VOTAI VOTAM VOTAR VOTAS VOTEI VOTEM VOTES VOTOS VOTOU VOUVE VOVOS VOZAA VOZAO VOZES VUBAS VUDUS VULGA VULGO VULTA VULTO VULVA VUNJE VURMA VURMO VUVUS WAFER WEBER WICCA WINAS WINOS XABAS XACRA XADOR XAIAS XAILE XAJAS XALES XAMAS XAMPU XANAS XANGO XANTA XANTO XAORO XAQUE XARAS XARDA XAREM XAREU XARIA XARUS XAUAL XAUAS XAUIM XAXIM XEBAS XELIM XELMA XENIA XENIO XENON XEPAS XEQUE XERAS XEREM XERES XEREU XEREZ XERGA XEROS XEROX XERVA XETAS XEURA XEVAS XEXAS XEXES XEXEU XEXOS XIBAS XIBIA XIBIO XIBIU XICUS XIITA XILAS XILOL XILON XILOS XIMAA XIMAO XIMBA XIMBE XIMBO XINGA XINGO XINTO XIPAS XIPOS XIRAS XIRIS XIROS XISES XISTA XISTO XIVAS XIXAS XIXIS XOCOS XODOS XOGUM XONAS XORCA XOTAR XOTAS XOTES XOXAS XOXOS XUATE XUCRA XUCRO XUPES XURIS XURUS XUXAS XUXOS YACHT YAGIS YETIS YIELD YOGAS ZABRA ZACAS ZACOS ZAGAL ZAGAS ZAGUE ZAIBA ZAIBO ZAIDA ZAINA ZAINO ZAIRA ZAIRE ZAMBA ZAMBE ZAMBI ZAMBO ZANGA ZANGO ZANHA ZANHO ZANNI ZANZA ZANZE ZANZO ZAPES ZARCA ZARCO ZARES ZARGA ZARGO ZARPA ZARPE ZARPO ZARRA ZARRO ZARZA ZASES ZEBRA ZEBUS ZEFIR ZEGRI ZEIAS ZELAI ZELAM ZELAR ZELAS ZELEI ZELEM ZELES ZELHA ZELOS ZELOU ZENDA ZENDE ZENER ZENIR ZERAI ZERAM ZERAR ZERAS ZEREI ZEREM ZERES ZEROS ZEROU ZESTA ZESTO ZETAS ZEUGA ZEUGO ZICAS ZIGUE ZIMBA ZIMBO ZINAS ZINCA ZINCO ZINGA ZINHA ZINHO ZINIA ZINIR ZIPAR ZIPER ZIPES ZIRBA ZIRBO ZIRRA ZIRRO ZITAS ZITOS ZIZIA ZIZIO ZOADA ZOEIA ZOGOS ZOICA ZOICO ZOIDE ZOILA ZOILO ZOINA ZOMBA ZOMBE ZOMBO ZONAL ZONAR ZONAS ZONZA ZONZO ZOOSE ZOPAS ZOPOS ZOROS ZORRA ZORRO ZOTES ZUAVA ZUAVO ZUCHE ZUIDA ZUIDO ZULAS ZULOS ZULUS ZUMBA ZUMBE ZUMBI ZUMBO ZUNAM ZUNAS ZUNDA ZUNEM ZUNES ZUNGA ZUNGU ZUNHI ZUNIA ZUNIR ZUNIS ZUNIU ZUNOS ZUPAR ZUPAS ZURAS ZURNA ZURRA ZURRE ZURRO ZURUO".split(" "));
+const normalizeWord = w => w.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toUpperCase();
+ANSWERS.forEach(a => VALID_GUESSES.add(normalizeWord(a)));
+
+const ACCENTED = {};
+ANSWERS.forEach(a => { ACCENTED[normalizeWord(a)] = a; });
+
+const BROKERS = [
+  'wss://broker.hivemq.com:8884/mqtt',
+  'wss://broker.emqx.io:8084/mqtt'
+];
+const PARAMS = new URLSearchParams(location.search);
+if (PARAMS.get('broker')) BROKERS.unshift(PARAMS.get('broker')); // só para testes
+const TOPIC_ROOT = 'ursusman/multicharada/v1/';
+const HEARTBEAT_MS = 4000;
+const PLAYER_TIMEOUT_MS = 15000;
+const HOST_TIMEOUT_MS = 20000;
+const DISCONNECT_REMOVE_MS = 30000;
+const MAX_PLAYERS = 20;
+
+/* ───────────── utilidades ───────────── */
+const $ = id => document.getElementById(id);
+const store = {
+  get(k, d) { try { const v = localStorage.getItem(k); return v === null ? d : v; } catch (e) { return d; } },
+  set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+};
+function toast(msg) {
+  const t = document.createElement('div');
+  t.className = 'toast'; t.textContent = msg;
+  $('toast-container').appendChild(t);
+  setTimeout(() => t.remove(), 3000);
+}
+function randomId(n) {
+  const a = new Uint8Array(n); crypto.getRandomValues(a);
+  return [...a].map(x => 'abcdefghijkmnpqrstuvwxyz23456789'[x % 32]).join('');
+}
+function myPlayerId() {
+  // um id por aba: recarregar a página mantém o lugar na sala,
+  // e dá para abrir duas abas como jogadores diferentes
+  let id = '';
+  try { id = sessionStorage.getItem('mtPlayerId') || ''; } catch (e) {}
+  if (!id) { id = randomId(12); try { sessionStorage.setItem('mtPlayerId', id); } catch (e) {} }
+  return id;
+}
+const ME = myPlayerId();
+function cleanName(s) { return (s || '').replace(/\s+/g, ' ').trim().slice(0, 16); }
+function getName() { return cleanName($('username').value) || cleanName(store.get('mtUsername', '')); }
+
+/* ───────────── regras do jogo (roda no "juiz") ───────────── */
+function evaluateGuess(guess, word) {
+  const res = Array(5); const freq = {};
+  for (const ch of word) freq[ch] = (freq[ch] || 0) + 1;
+  for (let i = 0; i < 5; i++) if (guess[i] === word[i]) { res[i] = { l: guess[i], r: 'correct' }; freq[guess[i]]--; }
+  for (let i = 0; i < 5; i++) {
+    if (res[i]) continue;
+    if (freq[guess[i]] > 0) { res[i] = { l: guess[i], r: 'present' }; freq[guess[i]]--; }
+    else res[i] = { l: guess[i], r: 'absent' };
+  }
+  return res;
+}
+
+class Room {
+  constructor(hostId, config) {
+    this.hostId = hostId;
+    this.config = {
+      maxPlayers: Math.max(1, Math.min(MAX_PLAYERS, config.maxPlayers | 0)),
+      maxGuesses: Math.max(3, Math.min(9, config.maxGuesses | 0)),
+      mode: config.mode === 'timed' ? 'timed' : 'guesses',
+      target: config.target ? Math.max(1, Math.min(999, config.target | 0)) : null
+    };
+    this.champions = [];
+    this.players = {};
+    this.order = [];
+    this.status = 'waiting';
+    this.word = '';
+    this.round = 0;
+    this.startedAt = 0;
+    this.usedWords = new Set();
+  }
+  newPlayer(name) {
+    return { name, guesses: [], score: { round: 0, total: 0 }, win: null, voted: false, connected: true, lastSeen: Date.now() };
+  }
+  join(id, name) {
+    const p = this.players[id];
+    if (p) { p.connected = true; p.lastSeen = Date.now(); if (name) p.name = name; return 'ok'; }
+    if (this.order.length >= this.config.maxPlayers) return 'full';
+    if (this.status !== 'waiting') return 'already_started';
+    this.players[id] = this.newPlayer(name || ('Jogador' + (this.order.length + 1)));
+    this.order.push(id);
+    if (this.order.length >= this.config.maxPlayers) this.start();
+    return 'ok';
+  }
+  pickWord() {
+    let w, tries = 0;
+    do { w = normalizeWord(ANSWERS[Math.floor(Math.random() * ANSWERS.length)]); tries++; }
+    while (this.usedWords.has(w) && tries < 50);
+    this.usedWords.add(w);
+    return w;
+  }
+  start() {
+    this.order.forEach(id => {
+      const p = this.players[id];
+      p.guesses = []; p.win = null; p.voted = false; p.score.round = 0;
+    });
+    this.word = this.pickWord();
+    this.round++;
+    this.startedAt = Date.now();
+    this.status = 'playing';
+  }
+  isDone(p) { return !p.connected || p.win !== null || p.guesses.length >= this.config.maxGuesses; }
+  guess(id, raw) {
+    const p = this.players[id];
+    if (!p) return { status: 'not_in_room' };
+    if (this.status !== 'playing') return { status: 'not_playing' };
+    if (p.win !== null || p.guesses.length >= this.config.maxGuesses) return { status: 'done' };
+    const g = normalizeWord(raw || '');
+    if (!/^[A-Z]{5}$/.test(g)) return { status: 'length' };
+    if (!VALID_GUESSES.has(g)) return { status: 'invalid' };
+    p.guesses.push(evaluateGuess(g, this.word));
+    if (g === this.word) p.win = Date.now();
+    this.checkEnd();
+    return { status: 'ok' };
+  }
+  setConnected(id, on) {
+    const p = this.players[id]; if (!p) return;
+    p.connected = on;
+    if (on) { p.lastSeen = Date.now(); return; }
+    if (this.status === 'waiting') { delete this.players[id]; this.order = this.order.filter(x => x !== id); return; }
+    this.checkEnd();
+    if (this.status === 'finished') this.checkRematch();
+  }
+  checkEnd() {
+    if (this.status !== 'playing') return;
+    const list = this.order.map(id => this.players[id]);
+    if (!list.every(p => this.isDone(p))) return;
+    this.score(list);
+    this.status = 'finished';
+  }
+  score(list) {
+    const winners = list.filter(p => p.win !== null);
+    list.forEach(p => { p.score.round = 0; });
+    if (!winners.length) return;
+    let pts = Math.max(1, list.length - 1);
+    if (this.config.mode === 'timed') {
+      winners.sort((a, b) => a.win - b.win).forEach(p => { p.score.round = Math.max(1, pts--); });
+    } else {
+      winners.sort((a, b) => a.guesses.length - b.guesses.length);
+      let prev = winners[0].guesses.length;
+      winners.forEach(p => {
+        if (p.guesses.length !== prev) { pts--; prev = p.guesses.length; }
+        p.score.round = Math.max(1, pts);
+      });
+    }
+    winners.forEach(p => { p.score.total += p.score.round; });
+    // alguém bateu a meta? quem tiver mais pontos leva a partida (empate = campeões dividem)
+    const t = this.config.target;
+    if (t && list.some(p => p.score.total >= t)) {
+      const best = Math.max(...list.map(p => p.score.total));
+      this.champions = this.order.filter(id => this.players[id].score.total === best);
+    }
+  }
+  vote(id) {
+    const p = this.players[id]; if (!p || this.status !== 'finished') return;
+    p.voted = true;
+    this.checkRematch();
+  }
+  checkRematch() {
+    const conn = this.order.filter(id => this.players[id].connected);
+    if (conn.length && conn.every(id => this.players[id].voted)) {
+      // quem saiu de vez sai da sala antes da próxima rodada
+      this.order.filter(id => !this.players[id].connected).forEach(id => delete this.players[id]);
+      this.order = conn;
+      if (this.champions.length) {         // partida decidida: placar volta a zero
+        this.order.forEach(id => { this.players[id].score.total = 0; });
+        this.champions = [];
+      }
+      this.start();
+    }
+  }
+  viewFor(viewerId) {
+    const playing = this.status === 'playing';
+    return {
+      config: this.config, status: this.status, round: this.round, startedAt: this.startedAt,
+      hostId: this.hostId,
+      champions: this.champions,
+      word: this.status === 'finished' ? this.word : '',
+      players: this.order.map(id => {
+        const p = this.players[id];
+        const showLetters = !playing || id === viewerId;
+        return {
+          id, name: p.name, connected: p.connected, voted: p.voted,
+          score: p.score, win: p.win, time: p.win ? p.win - this.startedAt : null,
+          guesses: p.guesses.map(g => g.map(c => ({ l: showLetters ? c.l : '', r: c.r })))
+        };
+      })
+    };
+  }
+}
+
+/* ───────────── rede (MQTT + criptografia com o código da sala) ───────────── */
+const enc = new TextEncoder(), dec = new TextDecoder();
+async function deriveRoom(code) {
+  const h = new Uint8Array(await crypto.subtle.digest('SHA-256', enc.encode('ursus-multicharada:' + code)));
+  const topicHash = [...h.slice(0, 12)].map(b => b.toString(16).padStart(2, '0')).join('');
+  const key = await crypto.subtle.importKey('raw', h, 'AES-GCM', false, ['encrypt', 'decrypt']);
+  return { base: TOPIC_ROOT + topicHash + '/', key };
+}
+async function seal(key, obj) {
+  const iv = crypto.getRandomValues(new Uint8Array(12));
+  const ct = new Uint8Array(await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, key, enc.encode(JSON.stringify(obj))));
+  const out = new Uint8Array(12 + ct.length); out.set(iv); out.set(ct, 12);
+  return out;
+}
+async function open_(key, buf) {
+  const u = new Uint8Array(buf);
+  if (u.length < 13) return null;
+  try {
+    const pt = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: u.slice(0, 12) }, key, u.slice(12));
+    return JSON.parse(dec.decode(pt));
+  } catch (e) { return null; }
+}
+
+function connectBroker(url, opts) {
+  return new Promise((resolve, reject) => {
+    if (!window.mqtt) return reject(new Error('mqtt'));
+    const c = mqtt.connect(url, Object.assign({ connectTimeout: 9000, reconnectPeriod: 2000, keepalive: 20, clean: true }, opts));
+    const fail = setTimeout(() => { try { c.end(true); } catch (e) {} reject(new Error('timeout')); }, 10000);
+    c.once('connect', () => { clearTimeout(fail); resolve(c); });
+    c.once('error', () => {});
+  });
+}
+
+/* ───────────── estado da tela ───────────── */
+const S = {
+  role: null,        // 'host' | 'guest' | 'solo'
+  code: '', brokerIdx: 0,
+  client: null, room: null, key: null, base: '',
+  view: null,        // última visão recebida/gerada
+  current: '', cursor: 0,
+  lastRound: 0, lastStatus: '',
+  hostSeen: 0, timers: [],
+  waitDismissed: false, resultDismissedRound: 0,
+  pendingGuess: false, closed: false
+};
+
+/* ───────────── HOST ───────────── */
+async function hostCreate(config) {
+  showStatus('Criando sala…', 'Preparando a conexão.');
+  const code = randomId(6).toUpperCase();
+  const r = await deriveRoom(code);
+  let client = null, idx = 0;
+  const willTopic = r.base + 'info';
+  for (idx = 0; idx < BROKERS.length; idx++) {
+    try {
+      client = await connectBroker(BROKERS[idx], { will: { topic: willTopic, payload: new Uint8Array(0), qos: 1, retain: true } });
+      break;
+    } catch (e) {}
+  }
+  if (!client) return showError('Não consegui conectar', 'Verifique sua internet e tente de novo. Se continuar, jogue no modo sozinho por enquanto.');
+
+  Object.assign(S, { role: 'host', code, brokerIdx: idx, client, key: r.key, base: r.base, closed: false });
+  S.room = new Room(ME, config);
+  S.room.join(ME, getName());
+  client.subscribe(r.base + 'h', { qos: 1 });
+  client.on('message', async (topic, payload) => {
+    if (topic !== S.base + 'h') return;
+    const msg = await open_(S.key, payload);
+    if (msg) hostHandle(msg);
+  });
+  client.on('connect', () => publishInfo());
+  publishInfo();
+  hideModal('modal-status');
+  history.replaceState(null, '', roomUrl());
+  enterGame();
+  hostBroadcast();
+  S.timers.push(setInterval(hostTick, HEARTBEAT_MS));
+}
+function publishInfo() {
+  if (!S.client || S.role !== 'host') return;
+  seal(S.key, { t: 'info', hostId: ME, at: Date.now() }).then(b => S.client.publish(S.base + 'info', b, { qos: 1, retain: true }));
+}
+function hostTick() {
+  const room = S.room; const now = Date.now();
+  room.order.forEach(id => {
+    if (id === ME) return;
+    const p = room.players[id];
+    if (p && p.connected && now - p.lastSeen > PLAYER_TIMEOUT_MS) room.setConnected(id, false);
+  });
+  hostBroadcast();
+}
+function hostHandle(msg) {
+  const room = S.room; const id = msg.id;
+  if (!id || id === ME) return;
+  const p = room.players[id];
+  if (p) p.lastSeen = Date.now();
+  switch (msg.t) {
+    case 'join': {
+      const res = room.join(id, cleanName(msg.name));
+      hostSend(id, { t: 'joined', res });
+      if (res === 'ok') hostBroadcast();
+      break;
+    }
+    case 'ping':
+      if (p && !p.connected) { room.setConnected(id, true); hostBroadcast(); }
+      else if (!p) hostSend(id, { t: 'kicked' });
+      break;
+    case 'guess': {
+      const res = room.guess(id, msg.word);
+      hostSend(id, { t: 'guessRes', res: res.status, n: msg.n });
+      if (res.status === 'ok') hostBroadcast();
+      break;
+    }
+    case 'vote': room.vote(id); hostBroadcast(); break;
+    case 'bye': room.setConnected(id, false); hostBroadcast(); break;
+  }
+}
+function hostSend(id, obj) {
+  const c = S.client, base = S.base;
+  if (!c) return;
+  seal(S.key, obj).then(b => c.publish(base + 'c/' + id, b, { qos: 1 }));
+}
+function hostBroadcast() {
+  const room = S.room;
+  room.order.forEach(id => { if (id !== ME && room.players[id].connected) hostSend(id, { t: 'state', v: room.viewFor(id) }); });
+  applyView(room.viewFor(ME));
+}
+
+/* ───────────── CONVIDADO ───────────── */
+async function guestJoin(code, brokerIdx) {
+  code = (code || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
+  if (code.length !== 6) return toast('O código da sala tem 6 caracteres');
+  const name = getName();
+  if (!name) { $('username').focus(); return toast('Escolha um nome primeiro'); }
+  store.set('mtUsername', name);
+  showStatus('Entrando na sala…', 'Procurando a sala ' + code + '.');
+  const r = await deriveRoom(code);
+  const order = [];
+  if (brokerIdx != null && BROKERS[brokerIdx]) order.push(brokerIdx);
+  BROKERS.forEach((_, i) => { if (!order.includes(i)) order.push(i); });
+
+  for (const idx of order) {
+    let client;
+    try {
+      const bye = await seal(r.key, { t: 'bye', id: ME });
+      client = await connectBroker(BROKERS[idx], { will: { topic: r.base + 'h', payload: bye, qos: 1, retain: false } });
+    } catch (e) { continue; }
+    let retry = null;
+    const res = await new Promise(resolve => {
+      const timeout = setTimeout(() => resolve('not_found'), 12000);
+      client.on('message', async (topic, payload) => {
+        if (topic === r.base + 'c/' + ME) {
+          const msg = await open_(r.key, payload);
+          if (!msg) return;
+          if (msg.t === 'joined') { clearTimeout(timeout); resolve(msg.res); }
+          else guestHandle(msg);
+        } else if (topic === r.base + 'info') {
+          const msg = payload.length ? await open_(r.key, payload) : null;
+          if (!msg && S.role === 'guest' && !S.closed) roomClosed();
+        }
+      });
+      client.subscribe([r.base + 'c/' + ME, r.base + 'info'], { qos: 1 }, async () => {
+        const joinMsg = async () => client.publish(r.base + 'h', await seal(r.key, { t: 'join', id: ME, name }), { qos: 1 });
+        joinMsg();
+        retry = setInterval(joinMsg, 2500); // se a mensagem se perder, tenta de novo
+      });
+    });
+    clearInterval(retry);
+    if (res === 'ok') {
+      Object.assign(S, { role: 'guest', code, brokerIdx: idx, client, key: r.key, base: r.base, hostSeen: Date.now(), closed: false });
+      client.on('connect', () => guestSend({ t: 'join', name }));
+      hideModal('modal-status');
+      history.replaceState(null, '', roomUrl());
+      enterGame();
+      S.timers.push(setInterval(guestTick, HEARTBEAT_MS));
+      return;
+    }
+    try { client.end(true); } catch (e) {}
+    if (res !== 'not_found') {
+      const msgs = { full: 'A sala está cheia.', already_started: 'A partida já começou. Espere a rodada acabar e tente de novo.' };
+      return showError('Não deu para entrar', msgs[res] || 'Tente de novo.');
+    }
+    return showError('Sala não encontrada', 'Confira o código. A sala só existe enquanto quem criou estiver com a página aberta.');
+  }
+  showError('Não consegui conectar', 'Verifique sua internet e tente de novo.');
+}
+function guestSend(obj) {
+  const c = S.client, base = S.base;
+  if (!c) return;
+  seal(S.key, Object.assign({ id: ME }, obj)).then(b => c.publish(base + 'h', b, { qos: 1 }));
+}
+function guestTick() {
+  if (S.closed) return;
+  guestSend({ t: 'ping' });
+  if (Date.now() - S.hostSeen > HOST_TIMEOUT_MS) roomClosed();
+}
+function guestHandle(msg) {
+  S.hostSeen = Date.now();
+  if (msg.t === 'state') applyView(msg.v);
+  else if (msg.t === 'guessRes') onGuessResult(msg.res);
+  else if (msg.t === 'kicked') roomClosed();
+}
+function roomClosed() {
+  if (S.closed) return;
+  S.closed = true;
+  hideModal('modal-wait'); hideModal('modal-result');
+  showError('A sala foi encerrada', 'O dono da sala saiu ou perdeu a conexão. Crie uma sala nova para continuar jogando.');
+}
+
+/* ───────────── SOLO ───────────── */
+function soloStart(config) {
+  S.role = 'solo'; S.code = '';
+  S.room = new Room(ME, Object.assign({}, config, { maxPlayers: 1 }));
+  S.room.join(ME, getName() || 'Você');
+  enterGame();
+  applyView(S.room.viewFor(ME));
+}
+
+/* ───────────── ações do jogador ───────────── */
+function submitGuess() {
+  const v = S.view; if (!v || v.status !== 'playing' || S.pendingGuess) return;
+  const me = v.players.find(p => p.id === ME);
+  if (!me || me.win || me.guesses.length >= v.config.maxGuesses) return;
+  const g = S.current.padEnd(5, ' ');
+  if (g.includes(' ')) return rejectGuess('A palavra precisa ter 5 letras');
+  if (!VALID_GUESSES.has(g)) return rejectGuess('Essa palavra não está na lista');
+  if (S.role === 'guest') {
+    S.pendingGuess = true;
+    guestSend({ t: 'guess', word: g, n: me.guesses.length });
+    setTimeout(() => { S.pendingGuess = false; }, 6000);
+  } else {
+    const res = S.room.guess(ME, g);
+    onGuessResult(res.status);
+    if (S.role === 'host') hostBroadcast(); else applyView(S.room.viewFor(ME));
+  }
+}
+function onGuessResult(status) {
+  S.pendingGuess = false;
+  if (status === 'ok') { S.current = ''; S.cursor = 0; S.justGuessed = true; return; }
+  const msgs = { length: 'A palavra precisa ter 5 letras', invalid: 'Essa palavra não está na lista', not_playing: 'A rodada não está em andamento', done: 'Você já terminou esta rodada' };
+  rejectGuess(msgs[status] || 'Não deu para enviar');
+}
+function rejectGuess(msg) {
+  toast(msg);
+  const b = $('board'); b.classList.remove('shake'); void b.offsetWidth; b.classList.add('shake');
+}
+function vote() {
+  if (S.role === 'guest') guestSend({ t: 'vote' });
+  else { S.room.vote(ME); if (S.role === 'host') hostBroadcast(); else applyView(S.room.viewFor(ME)); }
+  $('btn-rematch').disabled = true;
+  $('btn-rematch').textContent = S.role === 'solo' ? 'Jogar novamente' : 'Esperando os outros…';
+}
+function leaveRoom() {
+  if (S.role === 'host' && S.client) {
+    S.client.publish(S.base + 'info', new Uint8Array(0), { qos: 1, retain: true });
+  }
+  if (S.role === 'guest' && S.client) guestSend({ t: 'bye' });
+  S.timers.forEach(clearInterval); S.timers = [];
+  const c = S.client;
+  setTimeout(() => { try { c && c.end(); } catch (e) {} }, 600);
+  Object.assign(S, { role: null, client: null, room: null, view: null, code: '', current: '', cursor: 0, lastRound: 0, lastStatus: '', closed: true, waitDismissed: false, resultDismissedRound: 0 });
+  history.replaceState(null, '', location.pathname);
+  ['modal-wait', 'modal-result', 'modal-status'].forEach(hideModal);
+  $('game').hidden = true; $('keyboard').hidden = true; $('lobby').hidden = false;
+  $('btn-exit').hidden = true; $('btn-room').hidden = true;
+}
+window.addEventListener('pagehide', () => {
+  if (S.role === 'host' && S.client) S.client.publish(S.base + 'info', new Uint8Array(0), { qos: 1, retain: true });
+  if (S.role === 'guest' && S.client) guestSend({ t: 'bye' });
+});
+
+/* ───────────── render ───────────── */
+function roomUrl() {
+  if (!S.code) return location.origin + location.pathname;
+  return location.origin + location.pathname + '?sala=' + S.code + (S.brokerIdx ? '&b=' + S.brokerIdx : '');
+}
+function enterGame() {
+  $('lobby').hidden = true; $('game').hidden = false; $('keyboard').hidden = false;
+  $('btn-exit').hidden = false; $('btn-room').hidden = S.role === 'solo';
+  S.current = ''; S.cursor = 0; S.lastRound = 0; S.lastStatus = ''; S.waitDismissed = false; S.resultDismissedRound = 0;
+}
+
+function cellEl(c, extra) {
+  const d = document.createElement('div');
+  d.className = 'cell' + (c && c.r ? ' ' + c.r : '') + (extra || '');
+  d.textContent = c && c.l ? c.l : '';
+  return d;
+}
+function renderBoard(el, guesses, max, opts) {
+  el.innerHTML = '';
+  for (let r = 0; r < max; r++) {
+    const row = document.createElement('div'); row.className = 'board-row';
+    const g = guesses[r];
+    for (let i = 0; i < 5; i++) {
+      if (g) {
+        const flip = opts && opts.flipRow === r;
+        const c = cellEl(g[i], flip ? ' flip' : '');
+        if (flip) c.style.animationDelay = (i * 0.12) + 's';
+        row.appendChild(c);
+      } else if (opts && opts.activeRow === r) {
+        const ch = (opts.current || '')[i];
+        const c = cellEl(ch && ch !== ' ' ? { l: ch } : null, ' active-row' + (ch && ch !== ' ' ? ' filled' : '') + (opts.cursor === i ? ' cursor' : ''));
+        c.addEventListener('click', () => { S.cursor = i; renderMe(); });
+        row.appendChild(c);
+      } else row.appendChild(cellEl(null));
+    }
+    el.appendChild(row);
+  }
+}
+function renderMe(flipRow) {
+  const v = S.view; if (!v) return;
+  $('game').style.setProperty('--rows', v.config.maxGuesses);
+  const me = v.players.find(p => p.id === ME); if (!me) return;
+  const canType = v.status === 'playing' && !me.win && me.guesses.length < v.config.maxGuesses;
+  renderBoard($('board'), me.guesses, v.config.maxGuesses, {
+    activeRow: canType ? me.guesses.length : -1, current: S.current, cursor: S.cursor, flipRow
+  });
+  $('me-tag').innerHTML = '';
+  const name = document.createElement('span'); name.textContent = (S.role === 'solo' ? 'Treino' : me.name) + ' ';
+  const pts = document.createElement('span'); pts.className = 'pts'; pts.textContent = S.role === 'solo' ? '' : '(' + me.score.total + (me.score.total === 1 ? ' pt)' : ' pts)');
+  $('me-tag').append(name, pts);
+  updateKeyboard(me.guesses);
+}
+function renderOpponents() {
+  const v = S.view;
+  const opps = v.players.filter(p => p.id !== ME);
+  $('opp-col').hidden = opps.length === 0;
+  $('game').classList.toggle('no-opp', opps.length === 0);
+  const grid = $('opp-grid'); grid.innerHTML = '';
+  opps.forEach(p => {
+    const card = document.createElement('div');
+    const done = p.win || p.guesses.length >= v.config.maxGuesses;
+    card.className = 'opp-card' + (p.win ? ' won' : done ? ' done' : '') + (p.connected ? '' : ' off');
+    const nm = document.createElement('div'); nm.className = 'opp-name';
+    const s1 = document.createElement('span'); s1.textContent = p.name + (p.connected ? '' : ' (saiu)') + ' ';
+    const s2 = document.createElement('span'); s2.className = 'pts'; s2.textContent = p.score.total;
+    nm.append(s1, s2);
+    const b = document.createElement('div'); b.className = 'board';
+    renderBoard(b, p.guesses, v.config.maxGuesses);
+    card.append(nm, b);
+    grid.appendChild(card);
+  });
+}
+function renderInfo() {
+  const v = S.view; const el = $('round-info');
+  if (S.role === 'solo') { el.textContent = 'Modo treino — a palavra muda a cada rodada'; return; }
+  const mode = v.config.mode === 'timed' ? 'Tempo' : 'Tentativas';
+  el.innerHTML = '';
+  const t = document.createElement('span');
+  if (v.status === 'waiting') t.textContent = 'Sala ' + S.code + ' · aguardando jogadores (' + v.players.length + '/' + v.config.maxPlayers + ')';
+  else {
+    const left = v.players.filter(p => !(p.win || p.guesses.length >= v.config.maxGuesses) && p.connected).length;
+    t.textContent = 'Sala ' + S.code + ' · Rodada ' + v.round + ' · ' + mode + (v.config.target ? ' · meta ' + v.config.target + ' pts' : '') + (v.status === 'playing' ? ' · ' + left + ' jogando' : '');
+  }
+  el.appendChild(t);
+}
+
+function applyView(v) {
+  const prev = S.view;
+  S.view = v;
+  const me = v.players.find(p => p.id === ME);
+  if (!me) { if (S.role === 'guest') roomClosed(); return; }
+  if (v.round !== S.lastRound) { S.current = ''; S.cursor = 0; $('btn-rematch').disabled = false; $('btn-rematch').textContent = 'Jogar novamente'; }
+  const prevMe = prev && prev.players.find(p => p.id === ME);
+  const grew = prevMe && prev.round === v.round && me.guesses.length > prevMe.guesses.length;
+  renderMe(grew ? me.guesses.length - 1 : undefined);
+  renderOpponents();
+  renderInfo();
+  $('btn-show-result').classList.toggle('show', v.status === 'finished');
+
+  // sala de espera
+  if (v.status === 'waiting' && S.role !== 'solo' && !S.waitDismissed) showWait(); else hideModal('modal-wait');
+  if (v.status === 'waiting' && $('modal-wait').classList.contains('open')) fillWait();
+
+  // fim de rodada
+  if (v.status === 'finished') {
+    if (S.lastStatus !== 'finished' || $('modal-result').classList.contains('open')) {
+      if (S.resultDismissedRound !== v.round) setTimeout(() => showResult(), grew ? 1100 : 0);
+    }
+  } else hideModal('modal-result');
+
+  if (v.status === 'playing' && S.lastStatus === 'finished') toast('Nova rodada! Valendo!');
+  if (v.status === 'playing' && S.lastStatus === 'waiting') toast('A partida começou!');
+  if (grew && me.win) setTimeout(() => toast('Acertou! 🎉'), 700);
+  S.lastRound = v.round; S.lastStatus = v.status;
+}
+
+function showWait() { fillWait(); openModal('modal-wait'); }
+function fillWait() {
+  const v = S.view;
+  $('wait-title').textContent = 'Aguardando jogadores… ' + v.players.length + '/' + v.config.maxPlayers;
+  $('wait-code').textContent = S.code;
+  $('wait-link').textContent = roomUrl();
+  const chips = $('wait-chips'); chips.innerHTML = '';
+  v.players.forEach(p => {
+    const c = document.createElement('span');
+    c.className = 'chip' + (p.id === v.hostId ? ' host' : '') + (p.id === ME ? ' me' : '');
+    c.textContent = (p.id === v.hostId ? '👑 ' : '') + p.name + (p.id === ME ? ' (você)' : '');
+    chips.appendChild(c);
+  });
+  const isHost = S.role === 'host';
+  $('btn-start').hidden = !isHost;
+  $('btn-start').disabled = v.players.length < 2;
+  $('btn-start').textContent = v.players.length < 2 ? 'Esperando alguém entrar…' : 'Começar agora (' + v.players.length + ' jogadores)';
+  $('wait-guest-note').hidden = isHost;
+}
+function fmtTime(ms) { return (ms / 1000).toFixed(1).replace('.', ',') + 's'; }
+function showResult() {
+  const v = S.view; if (!v || v.status !== 'finished') return;
+  const me = v.players.find(p => p.id === ME);
+  $('result-answer').textContent = ACCENTED[v.word] || v.word;
+  const r = $('result-me');
+  if (me.win) {
+    r.className = 'result-me win';
+    r.textContent = 'Você acertou em ' + me.guesses.length + (me.guesses.length === 1 ? ' tentativa' : ' tentativas') + (v.config.mode === 'timed' && me.time != null ? ' e ' + fmtTime(me.time) : '') + (S.role === 'solo' ? '!' : ' · +' + me.score.round + ' pts');
+  } else {
+    r.className = 'result-me lose';
+    r.textContent = 'Não foi dessa vez. Você não pontuou na rodada.';
+  }
+  const champs = (v.champions || []).map(id => v.players.find(p => p.id === id)).filter(Boolean);
+  $('result-champion').hidden = !champs.length;
+  if (champs.length) {
+    $('champion-name').textContent = champs.map(p => p.id === ME ? 'Você' : p.name).join(' e ') + ' · ' + champs[0].score.total + ' pts';
+    $('result-title').textContent = 'Fim de partida';
+  } else $('result-title').textContent = 'Resultado';
+  const rank = $('result-rank'); rank.innerHTML = '';
+  rank.hidden = S.role === 'solo';
+  [...v.players].sort((a, b) => b.score.total - a.score.total || b.score.round - a.score.round).forEach((p, i) => {
+    const row = document.createElement('div');
+    row.className = 'rank-row' + (p.id === ME ? ' me' : '') + (p.voted ? ' voted' : '');
+    const left = document.createElement('div'); left.className = 'rank-left';
+    const pos = document.createElement('span'); pos.className = 'rank-pos'; pos.textContent = i + 1;
+    const nm = document.createElement('div');
+    const n1 = document.createElement('div'); n1.className = 'rank-name'; n1.textContent = (p.id === ME ? 'Você' : p.name) + (p.connected ? '' : ' (saiu)');
+    const n2 = document.createElement('div'); n2.className = 'rank-detail';
+    n2.textContent = p.win ? (p.guesses.length + ' tent.' + (v.config.mode === 'timed' && p.time != null ? ' · ' + fmtTime(p.time) : '')) : 'não acertou';
+    if (p.voted) n2.textContent += ' · quer jogar de novo';
+    nm.append(n1, n2); left.append(pos, nm);
+    const right = document.createElement('div'); right.className = 'rank-right';
+    const rr = document.createElement('span'); rr.className = 'rank-round'; rr.textContent = '+' + p.score.round;
+    const tt = document.createElement('span'); tt.className = 'rank-total'; tt.textContent = p.score.total;
+    right.append(rr, tt);
+    row.append(left, right); rank.appendChild(row);
+  });
+  if (me.voted) { $('btn-rematch').disabled = true; $('btn-rematch').textContent = 'Esperando os outros…'; }
+  else { $('btn-rematch').disabled = false; $('btn-rematch').textContent = champs.length ? 'Nova partida (placar zerado)' : 'Jogar novamente'; }
+  openModal('modal-result');
+}
+
+/* ───────────── teclado ───────────── */
+const KB_ROWS = [
+  ['Q','W','E','R','T','Y','U','I','O','P'],
+  ['A','S','D','F','G','H','J','K','L'],
+  ['ENTER','Z','X','C','V','B','N','M','DEL']
+];
+function buildKeyboard() {
+  KB_ROWS.forEach((row, i) => {
+    const el = $('kb-row-' + (i + 1)); el.innerHTML = '';
+    row.forEach(k => {
+      const b = document.createElement('button');
+      b.className = 'key' + (k.length > 1 ? ' wide' : '');
+      b.textContent = k === 'DEL' ? '←' : k;
+      b.dataset.key = k;
+      b.setAttribute('aria-label', k === 'DEL' ? 'Apagar' : k === 'ENTER' ? 'Enviar' : k);
+      b.addEventListener('click', () => pressKey(k));
+      el.appendChild(b);
+    });
+  });
+}
+function updateKeyboard(guesses) {
+  const rank = { absent: 1, present: 2, correct: 3 };
+  const best = {};
+  guesses.forEach(g => g.forEach(c => { if (c.l && (!best[c.l] || rank[c.r] > rank[best[c.l]])) best[c.l] = c.r; }));
+  document.querySelectorAll('.key').forEach(k => {
+    k.classList.remove('correct', 'present', 'absent');
+    if (best[k.dataset.key]) k.classList.add(best[k.dataset.key]);
+  });
+}
+function reopenResult() {
+  if (!S.view || S.view.status !== 'finished') return false;
+  S.resultDismissedRound = 0;
+  showResult();
+  return true;
+}
+function pressKey(k) {
+  const v = S.view;
+  if (k === 'ENTER' && v && v.status === 'finished' && !document.querySelector('.modal-overlay.open')) { reopenResult(); return; }
+  if (!v || v.status !== 'playing') return;
+  if (document.querySelector('.modal-overlay.open')) return;
+  const me = v.players.find(p => p.id === ME);
+  if (!me || me.win || me.guesses.length >= v.config.maxGuesses) return;
+  const arr = S.current.padEnd(5, ' ').split('');
+  if (k === 'ENTER') return submitGuess();
+  if (k === 'DEL') {
+    let i = S.cursor;
+    if (arr[i] === ' ' && i > 0) i--;
+    arr[i] = ' '; S.cursor = i;
+  } else if (k === 'LEFT') S.cursor = Math.max(0, S.cursor - 1);
+  else if (k === 'RIGHT') S.cursor = Math.min(4, S.cursor + 1);
+  else if (/^[A-Z]$/.test(k)) {
+    arr[S.cursor] = k;
+    let n = S.cursor + 1;
+    while (n < 5 && arr[n] !== ' ') n++;
+    S.cursor = n < 5 ? n : Math.min(4, S.cursor + 1);
+  }
+  S.current = arr.join('').replace(/\s+$/, '');
+  renderMe();
+}
+document.addEventListener('keydown', e => {
+  if (e.ctrlKey || e.metaKey || e.altKey) return;
+  if (e.key === 'Escape') {
+    ['modal-how', 'modal-create'].forEach(hideModal);
+    if ($('modal-result').classList.contains('open') && S.view) { S.resultDismissedRound = S.view.round; hideModal('modal-result'); }
+    return;
+  }
+  if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')) return;
+  if ($('game').hidden) return;
+  if (e.key === 'Enter') { e.preventDefault(); pressKey('ENTER'); }
+  else if (e.key === 'Backspace') pressKey('DEL');
+  else if (e.key === 'ArrowLeft') pressKey('LEFT');
+  else if (e.key === 'ArrowRight') pressKey('RIGHT');
+  else {
+    const k = normalizeWord(e.key);
+    if (/^[A-Z]$/.test(k)) pressKey(k);
+  }
+});
+
+/* ───────────── modais ───────────── */
+function openModal(id) { $(id).classList.add('open'); }
+function hideModal(id) { $(id).classList.remove('open'); }
+function showStatus(title, text) {
+  $('status-spinner').hidden = false; $('status-title').textContent = title; $('status-text').textContent = text;
+  $('status-btn').hidden = true; openModal('modal-status');
+}
+function showError(title, text) {
+  $('status-spinner').hidden = true; $('status-title').textContent = title; $('status-text').textContent = text;
+  $('status-btn').hidden = false; openModal('modal-status');
+}
+document.querySelectorAll('[data-close]').forEach(b => b.addEventListener('click', () => {
+  hideModal(b.dataset.close);
+  if (b.dataset.close === 'modal-result' && S.view) S.resultDismissedRound = S.view.round;
+}));
+document.querySelectorAll('.modal-overlay').forEach(o => o.addEventListener('click', e => {
+  if (e.target !== o) return;
+  if (['modal-how', 'modal-create'].includes(o.id)) hideModal(o.id);
+  if (o.id === 'modal-result' && S.view) { S.resultDismissedRound = S.view.round; hideModal(o.id); }
+}));
+
+/* ───────────── lobby ───────────── */
+const createCfg = { maxPlayers: 2, maxGuesses: 6, mode: 'guesses' };
+document.querySelectorAll('.stepper').forEach(st => {
+  const out = st.querySelector('output');
+  st.querySelectorAll('button').forEach(b => b.addEventListener('click', () => {
+    const f = st.dataset.field;
+    createCfg[f] = Math.max(+st.dataset.min, Math.min(+st.dataset.max, createCfg[f] + +b.dataset.d));
+    out.textContent = createCfg[f];
+  }));
+});
+document.querySelectorAll('#mode-tabs .mode-tab').forEach(b => b.addEventListener('click', () => {
+  document.querySelectorAll('#mode-tabs .mode-tab').forEach(x => x.classList.toggle('active', x === b));
+  createCfg.mode = b.dataset.mode;
+  $('mode-sub').textContent = b.dataset.mode === 'timed' ? 'Ganha quem acertar primeiro' : 'Ganha quem acertar com menos tentativas';
+}));
+function needName() {
+  const n = getName();
+  if (!n) { $('username').focus(); toast('Escolha um nome primeiro'); return null; }
+  store.set('mtUsername', n); return n;
+}
+$('btn-create').addEventListener('click', () => { if (needName()) openModal('modal-create'); });
+$('btn-create-confirm').addEventListener('click', () => {
+  const t = parseInt($('target-input').value, 10);
+  createCfg.target = t > 0 ? Math.min(999, t) : null;
+  hideModal('modal-create'); hostCreate(createCfg);
+});
+$('btn-join').addEventListener('click', () => guestJoin($('join-code').value));
+$('join-code').addEventListener('keydown', e => { if (e.key === 'Enter') guestJoin($('join-code').value); });
+$('btn-solo').addEventListener('click', () => soloStart({ maxGuesses: 6, mode: 'guesses' }));
+$('username').value = store.get('mtUsername', '');
+$('username').addEventListener('input', () => store.set('mtUsername', cleanName($('username').value)));
+
+$('btn-start').addEventListener('click', () => {
+  if (S.role !== 'host' || S.room.status !== 'waiting' || S.room.order.length < 2) return;
+  S.room.start(); hostBroadcast();
+});
+$('btn-close-room').addEventListener('click', () => { S.waitDismissed = true; hideModal('modal-wait'); });
+$('btn-room').addEventListener('click', () => { if (S.view) { S.waitDismissed = false; fillWait(); openModal('modal-wait');
+  if (S.view.status !== 'waiting') { $('wait-title').textContent = 'Convide para a próxima rodada'; $('btn-start').hidden = true; $('wait-guest-note').hidden = true; $('wait-sub').textContent = 'Quem entrar agora joga a partir da próxima sala nova. Código:'; } else $('wait-sub').textContent = 'Mande o link ou o código para seus amigos:'; } });
+async function copyLink() {
+  try { await navigator.clipboard.writeText(roomUrl()); toast('Link copiado!'); }
+  catch (e) { toast('Não deu para copiar — selecione o link'); }
+}
+$('btn-copy-link').addEventListener('click', copyLink);
+$('wait-link').addEventListener('click', copyLink);
+$('btn-share-link').addEventListener('click', async () => {
+  const text = 'Bora jogar Multi Charada no site do Ursusman! Sala ' + S.code;
+  if (navigator.share) { try { await navigator.share({ title: 'Multi Charada', text, url: roomUrl() }); } catch (e) {} }
+  else copyLink();
+});
+$('btn-rematch').addEventListener('click', vote);
+$('btn-show-result').addEventListener('click', reopenResult);
+$('btn-result-exit').addEventListener('click', leaveRoom);
+$('btn-exit').addEventListener('click', () => {
+  if (S.role === 'host' && S.view && S.view.players.length > 1 && !confirmLeave()) return;
+  leaveRoom();
+});
+function confirmLeave() { return window.confirm('Se você sair, a sala acaba para todo mundo. Sair mesmo?'); }
+$('status-btn').addEventListener('click', () => { hideModal('modal-status'); if (S.closed && S.role) leaveRoom(); });
+$('btn-how').addEventListener('click', () => openModal('modal-how'));
+
+buildKeyboard();
+document.querySelector('#keyboard .social-bar').innerHTML = document.querySelector('#lobby .social-bar').innerHTML;
+
+// entrou por link de convite?
+if (PARAMS.get('sala')) {
+  const code = PARAMS.get('sala').toUpperCase();
+  $('join-code').value = code;
+  if (getName()) guestJoin(code, PARAMS.get('b') ? +PARAMS.get('b') : null);
+  else toast('Escolha seu nome e clique em Entrar');
+}
+</script>
+</body>
+</html>
