@@ -1328,7 +1328,9 @@
         fetch(`https://www.googleapis.com/youtube/v3/channels?part=statistics&id=${YT_CH}&key=${YT_KEY}`)
           .then(r => r.json()).then(j => { const n = Number(j.items[0].statistics.subscriberCount); if (n) dados.youtube = n; }).catch(() => {}),
         fetch('https://decapi.me/twitch/followcount/ursusmanoficial')
-          .then(r => r.ok ? r.text() : '').then(t => { const n = parseInt(String(t).replace(/\D/g, ''), 10); if (n) dados.twitch = n; }).catch(() => {})
+          .then(r => r.ok ? r.text() : '').then(t => { const n = parseInt(String(t).replace(/\D/g, ''), 10); if (n) dados.twitch = n; }).catch(() => {}),
+        fetch('https://instastatistics.com/api/user/ursusmanoficial')
+          .then(r => r.json()).then(j => { const n = Number(j.followers); if (n) dados.instagram = n; }).catch(() => {})
       ]);
       render();
     }
