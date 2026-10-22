@@ -115,7 +115,7 @@
       </div>
 
       <div class="grid" id="grid"></div>
-      <p class="note">YouTube e Twitch atualizam sozinhos. As demais redes são atualizadas diariamente.</p>
+      <p class="note">YouTube, Twitch e Instagram atualizam ao vivo. TikTok e Facebook são atualizados diariamente.</p>
     </section>
 
     <aside class="foto" id="foto" aria-label="Foto do Ursus">
@@ -214,8 +214,16 @@
     } catch (e) {}
   }
 
+  async function instagramAoVivo() {
+    try {
+      const r = await fetch('https://instastatistics.com/api/user/ursusmanoficial');
+      const n = Number((await r.json()).followers);
+      if (r.ok && n) dados.instagram = n;
+    } catch (e) {}
+  }
+
   async function atualizar() {
-    await Promise.all([youtubeAoVivo(), twitchAoVivo()]);
+    await Promise.all([youtubeAoVivo(), twitchAoVivo(), instagramAoVivo()]);
     render();
   }
 
