@@ -722,15 +722,17 @@
       display: grid;
       grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
       align-items: center;
-      gap: clamp(16px, 4vw, 56px);
-      max-width: 1180px;
+      gap: clamp(16px, 3vw, 32px);
+      max-width: 980px; /* mesma grade das outras seções */
       margin: 0 auto;
       padding: clamp(40px, 7vh, 72px) 22px 0;
     }
     .intro .hero { max-width: none; margin: 0; padding: 0; min-height: 0; gap: 18px; }
     .intro #bem-vindo { max-width: none; margin: 0; padding: 0; }
     .intro #bem-vindo .section-head { margin: 0; }
-    .intro #bem-vindo .section-lede { max-width: 520px; }
+    .intro #bem-vindo .section-lede { max-width: none; }
+    .intro #bem-vindo .section-title { font-size: clamp(22px, 2.6vw, 30px); white-space: nowrap; }
+    @media (max-width: 860px) { .intro #bem-vindo .section-title { font-size: clamp(24px, 6vw, 32px); white-space: normal; } }
     @media (max-width: 860px) {
       .intro { grid-template-columns: 1fr; padding-top: 58px; gap: 8px; }
       .intro .hero { padding-bottom: clamp(30px, 6vh, 50px); }
