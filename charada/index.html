@@ -852,6 +852,24 @@ function pickNewWord() {
   state.won = false;
 }
 
+// Partida salva embaralhada: a resposta não fica legível na aba "Aplicativo" do Inspecionar
+const _OFK = 'u7#Rs!k2Qz@m9Lp';
+function ofuscar(obj) {
+  const s = unescape(encodeURIComponent(JSON.stringify(obj)));
+  let o = '';
+  for (let i = 0; i < s.length; i++) o += String.fromCharCode(s.charCodeAt(i) ^ _OFK.charCodeAt(i % _OFK.length));
+  return btoa(o);
+}
+function desofuscar(str) {
+  if (!str) return null;
+  try {
+    const b = atob(str);
+    let o = '';
+    for (let i = 0; i < b.length; i++) o += String.fromCharCode(b.charCodeAt(i) ^ _OFK.charCodeAt(i % _OFK.length));
+    return JSON.parse(decodeURIComponent(escape(o)));
+  } catch (e) { return null; }
+}
+
 function loadState() {
   try {
     const saved = localStorage.getItem('ursuscharada');
@@ -886,7 +904,10 @@ function loadState() {
   // (de 1 a 5 palpites). Se não havia palpites ou a partida já tinha
   // terminado, sorteia uma palavra nova.
   try {
-    const g = JSON.parse(localStorage.getItem('ursusGame') || 'null');
+    // versão antiga guardava a palavra aberta em 'ursusGame': lê uma última vez e apaga
+    const antigo = JSON.parse(localStorage.getItem('ursusGame') || 'null');
+    localStorage.removeItem('ursusGame');
+    const g = desofuscar(localStorage.getItem('ursusPartida')) || antigo;
     if (g && g.word && g.wordDisplay && !g.gameOver &&
         Array.isArray(g.guesses) && g.guesses.length > 0 && g.guesses.length < 6) {
       state.word = g.word;
@@ -918,7 +939,7 @@ function saveState() {
         won: state.won
       }));
     } else {
-      localStorage.setItem('ursusGame', JSON.stringify({
+      localStorage.setItem('ursusPartida', ofuscar({
         word: state.word,
         wordDisplay: state.wordDisplay,
         wordIndex: state.wordIndex,
