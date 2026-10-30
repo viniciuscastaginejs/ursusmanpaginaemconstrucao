@@ -225,15 +225,38 @@
 <script src="palavras.js"></script>
 <script src="comum.js"></script>
 <script>
+// Partida salva embaralhada: a resposta não fica legível na aba "Aplicativo" do Inspecionar
+const _OFK = 'u7#Rs!k2Qz@m9Lp';
+function ofuscar(obj) {
+  const s = unescape(encodeURIComponent(JSON.stringify(obj)));
+  let o = '';
+  for (let i = 0; i < s.length; i++) o += String.fromCharCode(s.charCodeAt(i) ^ _OFK.charCodeAt(i % _OFK.length));
+  return btoa(o);
+}
+function desofuscar(str) {
+  if (!str) return null;
+  try {
+    const b = atob(str);
+    let o = '';
+    for (let i = 0; i < b.length; i++) o += String.fromCharCode(b.charCodeAt(i) ^ _OFK.charCodeAt(i % _OFK.length));
+    return JSON.parse(decodeURIComponent(escape(o)));
+  } catch (e) { return null; }
+}
+
 /* ═══════════════ CAMPEONATO (fica salvo neste navegador) ═══════════════ */
-const LS_KEY = 'copa_charada_v1';
+const LS_KEY = 'copa_charada_v2';
 let T = null;               // campeonato
 let openId = null;          // partida aberta no pop-up
 let showCode = false;
 const H = { client: null, brokerIdx: 0, matchId: null, key: null, base: '', watchers: {} };
 
-function saveT() { store.set(LS_KEY, JSON.stringify(T)); }
-function loadT() { try { T = JSON.parse(store.get(LS_KEY, 'null')); } catch (e) { T = null; } }
+function saveT() { store.set(LS_KEY, ofuscar(T)); }
+function loadT() {
+  T = desofuscar(store.get(LS_KEY, ''));
+  // versão antiga salvava aberto em 'copa_charada_v1': migra e apaga
+  const antigo = store.get('copa_charada_v1', null);
+  if (antigo) { if (!T) { try { T = JSON.parse(antigo); } catch (e) {} } store.del('copa_charada_v1'); if (T) saveT(); }
+}
 function M(id) { return T.matches.find(m => m.id === id); }
 function rounds() { return Math.log2(T.size); }
 function phaseName(r) {
