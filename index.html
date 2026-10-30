@@ -509,11 +509,13 @@
     /* ── JOGOS ── */
     .games-grid {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(6, minmax(0, 1fr));
       gap: 14px;
     }
-    /* 4º jogo sozinho na segunda linha, centralizado */
-    .games-grid > .game-card:nth-child(4):last-child { grid-column: 2; }
+    /* 3 jogos por linha; a segunda linha fica centralizada */
+    .games-grid > .game-card { grid-column: span 2; }
+    .games-grid > .game-card:nth-child(4):last-child { grid-column: 3 / span 2; }
+    .games-grid > .game-card:nth-child(4):nth-last-child(2) { grid-column: 2 / span 2; }
     @media (max-width: 560px) {
       .games-grid { gap: 10px; }
       .games-grid .game-card { padding: 18px 8px; }
@@ -1066,6 +1068,10 @@
       </a>
       <a class="game-card active" href="conexao/">
         <div class="game-name">Conexão</div>
+        <span class="game-status" data-i18n="games.play">Jogar</span>
+      </a>
+      <a class="game-card active" href="multiconexao/">
+        <div class="game-name">Multi Conexão</div>
         <span class="game-status" data-i18n="games.play">Jogar</span>
       </a>
     </div>
