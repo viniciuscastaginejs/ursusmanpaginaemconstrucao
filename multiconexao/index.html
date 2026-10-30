@@ -1,0 +1,1866 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-7NSPWGP17W"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-7NSPWGP17W');
+  </script>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>Multi Conexão — UrsusMan</title>
+  <meta name="description" content="Conexão multiplayer do UrsusMan: crie uma sala, chame os amigos e veja quem forma os 4 grupos primeiro." />
+  <meta name="theme-color" content="#060f1e" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Multi Conexão — UrsusMan" />
+  <meta property="og:description" content="Crie uma sala e dispute o Conexão com seus amigos em tempo real." />
+  <meta property="og:url" content="https://ursusman.com/multiconexao/" />
+  <meta property="og:image" content="https://res.cloudinary.com/dtdomrtyp/image/upload/w_1200,h_630,c_pad,b_rgb:060f1e/v1781116238/UrsusMan_transparente_jnsn6c.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" type="image/png" sizes="32x32" href="https://res.cloudinary.com/dtdomrtyp/image/upload/w_32,h_32,c_pad,b_transparent/v1781116238/UrsusMan_transparente_jnsn6c.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="https://res.cloudinary.com/dtdomrtyp/image/upload/w_180,h_180,c_pad,b_rgb:060f1e/v1781116238/UrsusMan_transparente_jnsn6c.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    [hidden] { display: none !important; }
+    :root {
+      --blue-dark: #060f1e; --blue-mid: #0d1f3c; --blue-light: #1a3a6e;
+      --blue-accent: #2d6bc4; --blue-bright: #4a90e2;
+      --gold: #f5c842; --white: #ffffff;
+      --gray-light: #e8edf5; --gray-mid: #9baac4; --gray-dark: #3d5070;
+      --green: #4caf82; --danger: #ff8a8a;
+      --font: 'Poppins', sans-serif; --radius: 10px; --shadow: 0 8px 32px rgba(0,0,0,0.4);
+      --g1: #f5c842; --g1-text: #0d1f3c;
+      --g2: #4caf82; --g3: #4a90e2; --g4: #9b6bd6;
+    }
+    html, body {
+      min-height: 100%; font-family: var(--font); color: var(--white);
+      background: linear-gradient(160deg, var(--blue-dark) 0%, var(--blue-mid) 40%, var(--blue-light) 100%);
+      background-attachment: fixed;
+    }
+
+    header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 16px; border-bottom: 1px solid rgba(255,255,255,0.08);
+      background: rgba(6,15,30,0.6); backdrop-filter: blur(12px);
+      position: sticky; top: 0; z-index: 100;
+    }
+    .header-logo { display: flex; align-items: center; gap: 10px; }
+    .header-logo img { height: 44px; object-fit: contain; filter: drop-shadow(0 2px 8px rgba(74,144,226,0.5)); }
+    .header-actions { display: flex; gap: 8px; }
+    .icon-btn {
+      width: 38px; height: 38px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.06); color: var(--white); cursor: pointer;
+      display: flex; align-items: center; justify-content: center; transition: background 0.2s, transform 0.1s;
+    }
+    .icon-btn:hover { background: rgba(255,255,255,0.12); transform: scale(1.05); }
+    .icon-btn svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+    #toast-container {
+      position: fixed; top: 80px; left: 50%; transform: translateX(-50%); z-index: 999;
+      display: flex; flex-direction: column; gap: 8px; align-items: center; pointer-events: none;
+    }
+    .toast {
+      background: rgba(255,255,255,0.95); color: #0d1f3c; padding: 10px 20px; border-radius: 100px;
+      font-size: 14px; font-weight: 600; text-align: center; white-space: nowrap;
+      animation: toastIn 0.3s ease, toastOut 0.4s 2.5s ease forwards; box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+    @keyframes toastIn { from { opacity:0; transform:translateY(-8px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes toastOut { from { opacity:1; } to { opacity:0; } }
+
+    /* ── LOBBY ── */
+    #lobby { max-width: 440px; margin: 0 auto; padding: 36px 18px 40px; display: flex; flex-direction: column; align-items: center; gap: 22px; }
+    .logo-bars { display: flex; flex-direction: column; gap: 6px; width: 100%; max-width: 300px; }
+    .logo-bar { border-radius: 10px; padding: 10px; text-align: center; font-size: 22px; font-weight: 900; letter-spacing: 4px; }
+    .logo-bar.l1 { background: var(--g1); color: var(--g1-text); }
+    .logo-bar.l4 { background: var(--g4); }
+    .logo-mini { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+    .logo-mini span { height: 14px; border-radius: 4px; background: rgba(255,255,255,0.1); }
+    .logo-mini span:nth-child(2) { background: var(--g2); } .logo-mini span:nth-child(3) { background: var(--g3); }
+    .lobby-lede { text-align: center; font-size: 14px; color: var(--gray-mid); line-height: 1.6; max-width: 340px; }
+    .lobby-lede strong { color: #fff; }
+    .lobby-card { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 18px; display: flex; flex-direction: column; gap: 12px; }
+    .lobby-or { display: flex; align-items: center; gap: 10px; font-size: 11px; color: var(--gray-mid); text-transform: uppercase; letter-spacing: 2px; }
+    .lobby-or::before, .lobby-or::after { content: ""; flex: 1; height: 1px; background: rgba(255,255,255,0.1); }
+    .join-row { display: flex; gap: 8px; }
+    .join-row .field-input { text-transform: uppercase; letter-spacing: 4px; font-weight: 700; text-align: center; }
+    .join-row .btn { flex: none; padding: 12px 18px; }
+
+    .field-label { display: block; font-size: 12px; color: var(--gray-mid); margin-bottom: 6px; font-weight: 500; }
+    .field-input {
+      width: 100%; padding: 12px 14px; border-radius: var(--radius); border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.06); color: var(--white); font-family: var(--font); font-size: 16px; outline: none;
+    }
+    .field-input:focus { border-color: var(--gold); }
+    .btn {
+      padding: 13px 16px; border-radius: var(--radius); border: none; font-family: var(--font); font-size: 14px; font-weight: 700;
+      cursor: pointer; transition: transform 0.1s, opacity 0.2s, background 0.2s;
+      display: flex; align-items: center; justify-content: center; gap: 8px; color: #fff; text-decoration: none;
+    }
+    .btn:active { transform: scale(0.97); }
+    .btn:disabled { opacity: .45; cursor: not-allowed; }
+    .btn-primary { background: var(--blue-accent); }
+    .btn-primary:hover:not(:disabled) { background: var(--blue-bright); }
+    .btn-gold { background: var(--gold); color: #0d1f3c; }
+    .btn-gold:hover:not(:disabled) { background: #f7d454; }
+    .btn-ghost { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.14); }
+    .btn-ghost:hover:not(:disabled) { background: rgba(255,255,255,0.14); }
+    .btn svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .btn-full { width: 100%; }
+    .btn-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+    .stepper { display: flex; align-items: center; gap: 8px; }
+    .stepper button { width: 36px; height: 36px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.18); background: rgba(255,255,255,0.06); color: #fff; font-size: 18px; font-weight: 700; cursor: pointer; }
+    .stepper output { min-width: 32px; text-align: center; font-size: 20px; font-weight: 800; color: var(--gold); }
+    .setting-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.07); }
+    .setting-row:last-of-type { border-bottom: none; }
+    .setting-label { font-size: 15px; font-weight: 600; }
+    .setting-sub { font-size: 12px; color: var(--gray-mid); margin-top: 2px; }
+    .mode-tabs { display: flex; gap: 6px; }
+    .mode-tab { padding: 7px 12px; border-radius: var(--radius); border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.05); color: var(--gray-mid); font-family: var(--font); font-size: 13px; font-weight: 600; cursor: pointer; }
+    .mode-tab.active { background: var(--blue-accent); border-color: var(--blue-accent); color: #fff; }
+    .target-input { width: 104px; flex: none; text-align: center; font-weight: 700; padding: 9px 8px; }
+    .target-input::placeholder { font-size: 12px; font-weight: 500; }
+
+    /* ── JOGO ── */
+    #game { max-width: 1180px; margin: 0 auto; padding: 18px 16px 30px; display: flex; gap: 32px; justify-content: center; align-items: flex-start; }
+    .me-col { order: 0; display: flex; flex-direction: column; align-items: center; gap: 12px; flex: none; width: min(500px, 100%); }
+    .player-tag { font-size: 15px; font-weight: 700; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .player-tag .pts { color: var(--gold); }
+    .round-info { font-size: 12px; color: var(--gray-mid); text-align: center; min-height: 18px; }
+    .clock { font-size: 22px; font-weight: 800; font-variant-numeric: tabular-nums; color: var(--white); text-align: center; line-height: 1.1; }
+    .clock small { display: block; font-size: 11px; font-weight: 600; color: var(--danger); letter-spacing: .3px; }
+
+    .board { width: 100%; display: flex; flex-direction: column; gap: 8px; }
+    .grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+    .tile {
+      aspect-ratio: 1.25; min-width: 0; overflow: hidden;
+      border-radius: var(--radius); border: 2px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.07);
+      color: var(--white); font-family: var(--font); font-weight: 800; font-size: 14px; text-transform: uppercase;
+      line-height: 1.1; padding: 4px; display: flex; align-items: center; justify-content: center; text-align: center;
+      cursor: pointer; user-select: none; overflow-wrap: normal; word-break: normal;
+      transition: background 0.15s, border-color 0.15s, transform 0.1s;
+    }
+    .tile:hover { background: rgba(255,255,255,0.12); }
+    .tile:active { transform: scale(0.95); }
+    .tile.selected { background: var(--blue-accent); border-color: var(--blue-bright); box-shadow: 0 0 14px rgba(74,144,226,0.45); }
+    .tile.locked { cursor: default; opacity: .55; }
+    .tile.shake { animation: shake 0.4s ease; }
+    .tile.jump { animation: jump 0.35s ease; }
+    @keyframes shake { 20%{transform:translateX(-6px)} 40%{transform:translateX(6px)} 60%{transform:translateX(-4px)} 80%{transform:translateX(4px)} }
+    @keyframes jump { 45% { transform: translateY(-8px); } }
+
+    .solved { border-radius: var(--radius); padding: 10px; text-align: center; animation: reveal 0.4s ease; min-height: 78px; display: flex; flex-direction: column; justify-content: center; }
+    .solved .cat { font-size: 14px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.4px; }
+    .solved .words { font-size: 12.5px; font-weight: 500; margin-top: 2px; opacity: .92; text-transform: uppercase; }
+    .solved.l1 { background: var(--g1); color: var(--g1-text); } .solved.l2 { background: var(--g2); }
+    .solved.l3 { background: var(--g3); } .solved.l4 { background: var(--g4); }
+    .solved.missed { opacity: .7; }
+    @keyframes reveal { from { transform: scale(0.94); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+    .lives { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--gray-mid); }
+    .dots { display: flex; gap: 6px; }
+    .dot { width: 12px; height: 12px; border-radius: 50%; background: var(--gold); transition: background .3s, transform .3s; }
+    .dot.used { background: rgba(255,255,255,0.12); transform: scale(.8); }
+    .controls { display: flex; gap: 8px; width: 100%; }
+    .controls .btn { flex: 1; }
+    .my-done { text-align: center; font-size: 14px; font-weight: 600; color: var(--gray-light); }
+    .my-done.win { color: #8fe0b8; } .my-done.lose { color: var(--danger); }
+    .result-again { display: none; padding: 8px 16px; border-radius: 999px; background: var(--gold); color: #0d1f3c; border: none; font-family: var(--font); font-size: 13px; font-weight: 800; cursor: pointer; }
+    .result-again.show { display: inline-flex; align-items: center; gap: 6px; }
+
+    /* adversários */
+    .opp-col { order: 1; flex: 1; min-width: 0; max-width: 620px; }
+    .opp-title { font-size: 11px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--blue-bright); margin-bottom: 12px; }
+    .opp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 14px; }
+    .opp-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 10px; display: flex; flex-direction: column; gap: 8px; transition: opacity .2s, border-color .2s; }
+    .opp-card.won { border-color: rgba(76,175,130,.7); }
+    .opp-card.lost { opacity: .55; }
+    .opp-card.off .opp-name { color: var(--danger); }
+    .opp-name { font-size: 12px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .opp-name .pts { color: var(--gold); }
+    .slots { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; }
+    .slot { height: 12px; border-radius: 3px; background: rgba(255,255,255,0.1); }
+    .slot.l1 { background: var(--g1); } .slot.l2 { background: var(--g2); } .slot.l3 { background: var(--g3); } .slot.l4 { background: var(--g4); }
+    .opp-meta { display: flex; align-items: center; justify-content: space-between; gap: 6px; font-size: 11px; color: var(--gray-mid); }
+    .opp-meta .dots { gap: 3px; } .opp-meta .dot { width: 7px; height: 7px; }
+    .hist { display: flex; flex-direction: column; gap: 2px; }
+    .hist-row { display: flex; gap: 2px; }
+    .hist-row i { width: 10px; height: 10px; border-radius: 2px; }
+    .hist-row i.l0 { background: var(--g1); } .hist-row i.l1 { background: var(--g2); } .hist-row i.l2 { background: var(--g3); } .hist-row i.l3 { background: var(--g4); }
+
+    /* redes */
+    .social-bar { display: flex; justify-content: center; align-items: center; gap: 20px; padding: 10px 0 18px; width: 100%; }
+    .social-link {
+      display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%;
+      border: 1.5px solid rgba(74,144,226,0.4); background: rgba(74,144,226,0.08); color: #4a90e2; text-decoration: none;
+      transition: transform 0.2s, border-color 0.2s, background 0.2s; box-shadow: 0 0 8px rgba(74,144,226,0.2);
+    }
+    .social-link:hover { transform: scale(1.12); border-color: rgba(74,144,226,0.9); background: rgba(74,144,226,0.18); color: #7ab8ff; }
+    .social-link svg { width: 18px; height: 18px; fill: currentColor; }
+
+    /* modais */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(6,15,30,0.85); backdrop-filter: blur(8px); z-index: 200; display: flex; align-items: center; justify-content: center; padding: 20px; opacity: 0; pointer-events: none; transition: opacity 0.25s; }
+    .modal-overlay.open { opacity: 1; pointer-events: all; }
+    .modal { position: relative; background: linear-gradient(135deg, #0f2040 0%, #1a3060 100%); border: 1px solid rgba(255,255,255,0.12); border-radius: 20px; padding: 28px 24px; width: 100%; max-width: 420px; max-height: calc(100vh - 40px); overflow-y: auto; box-shadow: var(--shadow); transform: translateY(20px); transition: transform 0.25s; }
+    .modal-overlay.open .modal { transform: translateY(0); }
+    .modal h2 { font-size: 20px; font-weight: 800; margin-bottom: 18px; text-align: center; }
+    .modal-close { position: absolute; top: 16px; right: 16px; background: none; border: none; color: var(--gray-mid); cursor: pointer; font-size: 22px; line-height: 1; }
+    .modal-sub { font-size: 13px; color: var(--gray-mid); text-align: center; margin-bottom: 14px; line-height: 1.5; }
+    .room-code { font-size: 34px; font-weight: 900; letter-spacing: 10px; text-align: center; color: var(--gold); margin: 4px 0 10px; }
+    .room-link { word-break: break-all; font-size: 12px; color: var(--gray-light); background: rgba(255,255,255,0.06); border-radius: var(--radius); padding: 10px 12px; margin-bottom: 12px; text-align: center; cursor: pointer; }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin: 14px 0 18px; }
+    .chip { font-size: 12px; font-weight: 600; padding: 6px 12px; border-radius: 999px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); }
+    .chip.host { border-color: rgba(245,200,66,.6); color: var(--gold); }
+    .chip.me { background: rgba(45,107,196,.35); }
+    .champion { text-align: center; margin-bottom: 14px; padding: 12px; border-radius: 12px; background: linear-gradient(135deg, rgba(245,200,66,.22), rgba(245,200,66,.08)); border: 1px solid rgba(245,200,66,.55); }
+    .champion-title { font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); }
+    .champion-name { font-size: 22px; font-weight: 900; margin-top: 2px; }
+    .result-me { text-align: center; font-size: 14px; margin-bottom: 16px; }
+    .result-me.win { color: #8fe0b8; } .result-me.lose { color: var(--danger); }
+    .result-groups { display: flex; flex-direction: column; gap: 5px; margin-bottom: 16px; }
+    .result-groups .solved { min-height: 0; padding: 7px 8px; }
+    .result-groups .solved .cat { font-size: 12px; } .result-groups .solved .words { font-size: 11px; }
+    .rank { display: flex; flex-direction: column; gap: 8px; margin-bottom: 18px; }
+    .rank-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 14px; border-radius: 10px; background: rgba(255,255,255,0.06); border: 1px solid transparent; }
+    .rank-row.me { border-color: rgba(255,255,255,0.5); }
+    .rank-row.voted { background: rgba(76,175,130,.22); }
+    .rank-left { display: flex; align-items: center; gap: 10px; min-width: 0; }
+    .rank-pos { width: 22px; text-align: center; font-weight: 800; color: var(--gray-mid); }
+    .rank-name { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .rank-detail { font-size: 11px; color: var(--gray-mid); }
+    .rank-right { display: flex; align-items: baseline; gap: 6px; flex: none; }
+    .rank-round { font-size: 12px; color: #8fe0b8; }
+    .rank-total { font-size: 20px; font-weight: 800; color: var(--gold); }
+    .how p, .how li { font-size: 14px; color: var(--gray-light); line-height: 1.55; }
+    .how p { margin-bottom: 10px; }
+    .how ul { padding-left: 18px; margin: 8px 0 14px; }
+    .how strong { color: #fff; }
+    .divider { width: 100%; height: 1px; background: rgba(255,255,255,0.08); margin: 14px 0; }
+    .spinner { width: 34px; height: 34px; border-radius: 50%; margin: 6px auto 14px; border: 4px solid rgba(255,255,255,.15); border-top-color: var(--gold); animation: spin .8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    @media (max-width: 760px) {
+      #game { flex-direction: column; align-items: center; gap: 12px; padding: 12px 10px 24px; }
+      .opp-col { order: 0; width: 100%; max-width: none; }
+      .opp-title { display: none; }
+      .opp-grid { display: flex; overflow-x: auto; gap: 10px; padding-bottom: 4px; scroll-snap-type: x proximity; }
+      .opp-card { flex: 0 0 120px; padding: 8px; gap: 6px; scroll-snap-align: start; }
+      .opp-card .hist { display: none; }
+      .opp-name { font-size: 11px; }
+      .me-col { order: 1; gap: 10px; }
+    }
+    @media (max-width: 480px) {
+      .grid, .board { gap: 6px; }
+      .tile { font-size: 12px; }
+      .solved { min-height: 64px; padding: 8px; }
+      .solved .cat { font-size: 12.5px; } .solved .words { font-size: 11px; }
+      .btn { font-size: 13px; padding: 12px 8px; }
+      .clock { font-size: 19px; }
+    }
+    @media (prefers-reduced-motion: reduce) { .tile.shake, .tile.jump, .solved, .spinner { animation: none; } }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-logo">
+    <a href="https://ursusman.com" aria-label="Ir para a página inicial do UrsusMan" title="Página inicial">
+      <img src="https://res.cloudinary.com/dtdomrtyp/image/upload/v1781116238/UrsusMan_transparente_jnsn6c.png" alt="Ursusman" />
+    </a>
+  </div>
+  <div class="header-actions">
+    <button class="icon-btn" id="btn-room" title="Convidar amigos" aria-label="Convidar amigos" hidden>
+      <svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6"/><path d="M22 11h-6"/></svg>
+    </button>
+    <button class="icon-btn" id="btn-how" title="Como jogar" aria-label="Como jogar">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.82 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+    </button>
+    <button class="icon-btn" id="btn-exit" title="Sair da sala" aria-label="Sair da sala" hidden>
+      <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>
+    </button>
+  </div>
+</header>
+
+<div id="toast-container"></div>
+
+<!-- ══════════ LOBBY ══════════ -->
+<section id="lobby">
+  <div class="logo-bars" aria-label="Multi Conexão">
+    <div class="logo-bar l1">MULTI</div>
+    <div class="logo-bar l4">CONEXÃO</div>
+    <div class="logo-mini"><span></span><span></span><span></span><span></span></div>
+  </div>
+  <p class="lobby-lede">Crie uma sala, mande o link e dispute o Conexão com seus amigos <strong>em tempo real</strong>. Todo mundo recebe as mesmas 16 palavras!</p>
+
+  <div class="lobby-card">
+    <div>
+      <label class="field-label" for="username">Seu nome</label>
+      <input class="field-input" id="username" maxlength="16" autocomplete="nickname" placeholder="Como quer aparecer?" />
+    </div>
+    <button class="btn btn-gold btn-full" id="btn-create">
+      <svg viewBox="0 0 24 24"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+      Criar sala
+    </button>
+    <div class="lobby-or">ou entre numa sala</div>
+    <div class="join-row">
+      <input class="field-input" id="join-code" maxlength="6" placeholder="CÓDIGO" autocomplete="off" />
+      <button class="btn btn-primary" id="btn-join">Entrar</button>
+    </div>
+    <div class="lobby-or">ou treine</div>
+    <button class="btn btn-ghost btn-full" id="btn-solo">Jogar sozinho</button>
+  </div>
+
+  <div class="social-bar"><a class="social-link" href="https://www.twitch.tv/ursusmanoficial" target="_blank" rel="noopener" aria-label="Twitch">
+      <svg viewBox="0 0 24 24"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z"/></svg>
+    </a>
+    <a class="social-link" href="https://www.instagram.com/ursusmanoficial/" target="_blank" rel="noopener" aria-label="Instagram">
+      <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+    </a>
+    <a class="social-link" href="https://www.youtube.com/@ursusmanoficial" target="_blank" rel="noopener" aria-label="YouTube">
+      <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+    </a>
+    <a class="social-link" href="https://tiktok.com/@ursusmanoficial" target="_blank" rel="noopener" aria-label="TikTok">
+      <svg viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
+    </a></div>
+</section>
+
+<!-- ══════════ JOGO ══════════ -->
+<section id="game" hidden>
+  <div class="opp-col" id="opp-col">
+    <p class="opp-title">Adversários</p>
+    <div class="opp-grid" id="opp-grid"></div>
+  </div>
+  <div class="me-col">
+    <div class="player-tag" id="me-tag"></div>
+    <div class="round-info" id="round-info"></div>
+    <div class="clock" id="clock" hidden></div>
+    <div class="board">
+      <div id="solved-area" style="display:flex;flex-direction:column;gap:inherit;"></div>
+      <div class="grid" id="grid"></div>
+    </div>
+    <div class="lives" id="lives-row"><span>Erros restantes:</span><div class="dots" id="lives"></div></div>
+    <div class="controls" id="controls">
+      <button class="btn btn-ghost" id="btn-shuffle">Embaralhar</button>
+      <button class="btn btn-ghost" id="btn-clear">Limpar</button>
+      <button class="btn btn-gold" id="btn-submit" disabled>Enviar</button>
+    </div>
+    <div class="my-done" id="my-done" hidden></div>
+    <button class="result-again" id="btn-show-result" type="button">Ver resultado <span style="opacity:.6;font-weight:600">(Enter)</span></button>
+    <div class="social-bar"><a class="social-link" href="https://www.twitch.tv/ursusmanoficial" target="_blank" rel="noopener" aria-label="Twitch">
+      <svg viewBox="0 0 24 24"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z"/></svg>
+    </a>
+    <a class="social-link" href="https://www.instagram.com/ursusmanoficial/" target="_blank" rel="noopener" aria-label="Instagram">
+      <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+    </a>
+    <a class="social-link" href="https://www.youtube.com/@ursusmanoficial" target="_blank" rel="noopener" aria-label="YouTube">
+      <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+    </a>
+    <a class="social-link" href="https://tiktok.com/@ursusmanoficial" target="_blank" rel="noopener" aria-label="TikTok">
+      <svg viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
+    </a></div>
+  </div>
+</section>
+
+<!-- CRIAR SALA -->
+<div class="modal-overlay" id="modal-create">
+  <div class="modal">
+    <button class="modal-close" data-close="modal-create" aria-label="Fechar">&times;</button>
+    <h2>Criar sala</h2>
+    <div class="setting-row">
+      <div><div class="setting-label">Jogadores</div><div class="setting-sub">A partida começa quando a sala enche (ou quando você mandar)</div></div>
+      <div class="stepper" data-field="maxPlayers" data-min="2" data-max="20"><button type="button" data-d="-1">−</button><output>2</output><button type="button" data-d="1">+</button></div>
+    </div>
+    <div class="setting-row">
+      <div><div class="setting-label">Erros permitidos</div><div class="setting-sub">De 2 a 8 erros por rodada</div></div>
+      <div class="stepper" data-field="maxMistakes" data-min="2" data-max="8"><button type="button" data-d="-1">−</button><output>4</output><button type="button" data-d="1">+</button></div>
+    </div>
+    <div class="setting-row">
+      <div><div class="setting-label">Modo</div><div class="setting-sub" id="mode-sub">Ganha quem fechar os 4 grupos com menos tentativas</div></div>
+      <div class="mode-tabs" id="mode-tabs">
+        <button type="button" class="mode-tab active" data-mode="guesses">Tentativas</button>
+        <button type="button" class="mode-tab" data-mode="timed">Tempo</button>
+      </div>
+    </div>
+    <div class="setting-row">
+      <div><div class="setting-label">Meta de pontos</div><div class="setting-sub">Quem chegar primeiro vence a partida. Deixe em branco para jogar sem fim.</div></div>
+      <input class="field-input target-input" id="target-input" type="number" inputmode="numeric" min="1" max="999" placeholder="Sem meta" />
+    </div>
+    <button class="btn btn-gold btn-full" id="btn-create-confirm" style="margin-top:16px">Criar sala</button>
+  </div>
+</div>
+
+<!-- SALA DE ESPERA -->
+<div class="modal-overlay" id="modal-wait">
+  <div class="modal">
+    <h2 id="wait-title">Aguardando jogadores…</h2>
+    <p class="modal-sub" id="wait-sub">Mande o link ou o código para seus amigos:</p>
+    <div class="room-code" id="wait-code">------</div>
+    <div class="room-link" id="wait-link" title="Copiar link"></div>
+    <div class="btn-row">
+      <button class="btn btn-primary" id="btn-copy-link">
+        <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        Copiar link
+      </button>
+      <button class="btn btn-ghost" id="btn-share-link">
+        <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.59 13.51l6.83 3.98"/><path d="M15.41 6.51l-6.82 3.98"/></svg>
+        Compartilhar
+      </button>
+    </div>
+    <div class="chips" id="wait-chips"></div>
+    <button class="btn btn-gold btn-full" id="btn-start" hidden>Começar agora</button>
+    <p class="modal-sub" id="wait-guest-note" style="margin:12px 0 0" hidden>A partida começa quando o dono da sala mandar ou quando a sala encher.</p>
+    <button class="btn btn-ghost btn-full" id="btn-close-room" style="margin-top:10px">Fechar</button>
+  </div>
+</div>
+
+<!-- CONECTANDO / ERRO -->
+<div class="modal-overlay" id="modal-status">
+  <div class="modal">
+    <div class="spinner" id="status-spinner"></div>
+    <h2 id="status-title">Conectando…</h2>
+    <p class="modal-sub" id="status-text"></p>
+    <button class="btn btn-primary btn-full" id="status-btn" hidden>Voltar</button>
+  </div>
+</div>
+
+<!-- RESULTADO -->
+<div class="modal-overlay" id="modal-result">
+  <div class="modal">
+    <button class="modal-close" data-close="modal-result" aria-label="Fechar">&times;</button>
+    <h2 id="result-title">Resultado</h2>
+    <div class="champion" id="result-champion" hidden><div class="champion-title">🏆 Venceu a partida</div><div class="champion-name" id="champion-name"></div></div>
+    <p class="result-me" id="result-me"></p>
+    <div class="result-groups" id="result-groups"></div>
+    <div class="rank" id="result-rank"></div>
+    <button class="btn btn-gold btn-full" id="btn-rematch">Jogar novamente</button>
+    <button class="btn btn-ghost btn-full" id="btn-result-exit" style="margin-top:10px">Sair da sala</button>
+  </div>
+</div>
+
+<!-- COMO JOGAR -->
+<div class="modal-overlay" id="modal-how">
+  <div class="modal how">
+    <button class="modal-close" data-close="modal-how" aria-label="Fechar">&times;</button>
+    <h2>Como jogar</h2>
+    <p>Todo mundo da sala recebe <strong>as mesmas 16 palavras</strong>. Forme os 4 grupos de 4 palavras que têm algo em comum: selecione 4 e toque em <strong>Enviar</strong>.</p>
+    <p>Você vê o progresso dos adversários (cores dos grupos fechados e erros), mas não as palavras.</p>
+    <div class="divider"></div>
+    <p><strong>Pontuação</strong></p>
+    <ul>
+      <li><strong>Modo Tentativas:</strong> ganha mais pontos quem fechar os 4 grupos com menos tentativas (empates dividem a posição).</li>
+      <li><strong>Modo Tempo:</strong> ganha quem terminar mais rápido. Cada erro soma <strong>5 segundos</strong> de penalidade ao seu tempo.</li>
+      <li>Quem estoura o limite de erros não pontua na rodada.</li>
+      <li><strong>Meta:</strong> se a sala tiver meta (ex.: 30 pontos), quem chegar nela primeiro vence a partida.</li>
+      <li>Fechou a janela de resultado sem querer? Aperte <strong>Enter</strong> ou clique em “Ver resultado”.</li>
+    </ul>
+    <p>Mantenha esta aba aberta durante a partida — se o dono da sala fechar a página, a sala acaba.</p>
+  </div>
+</div>
+
+<script src="https://unpkg.com/mqtt@5.10.1/dist/mqtt.min.js"></script>
+<script>
+/* ═════════════════════════════════════════════════════════════
+   MULTI CONEXÃO — UrsusMan
+   Mesma estrutura do Multi Charada: quem cria a sala é o "juiz"
+   (sorteia o desafio, confere os palpites e conta os pontos).
+   Os jogadores conversam por um servidor MQTT público, com as
+   mensagens criptografadas com o código da sala.
+   ═════════════════════════════════════════════════════════════ */
+
+/* Desafios — mesmos do Conexão (4 grupos em ordem de dificuldade) */
+const PUZZLES = [
+  [ ['Frutas', ['UVA','PERA','KIWI','CAJU']],
+    ['Peças de xadrez', ['REI','RAINHA','TORRE','BISPO']],
+    ['Partes de uma camisa', ['GOLA','MANGA','BOLSO','PUNHO']],
+    ['Cartas do baralho', ['ÁS','VALETE','DAMA','CORINGA']] ],
+
+  [ ['Planetas', ['MARTE','VÊNUS','SATURNO','JÚPITER']],
+    ['Cores', ['VERDE','ROXO','LARANJA','ROSA']],
+    ['Flores', ['CRAVO','LÍRIO','TULIPA','MARGARIDA']],
+    ['Instrumentos musicais', ['VIOLÃO','BATERIA','FLAUTA','PIANO']] ],
+
+  [ ['Comidas de festa junina', ['PAMONHA','CANJICA','QUENTÃO','PAÇOCA']],
+    ['Animais da fazenda', ['VACA','CABRA','OVELHA','CAVALO']],
+    ['Signos', ['LEÃO','TOURO','CÂNCER','VIRGEM']],
+    ['Mascotes de times brasileiros', ['PORCO','URUBU','PEIXE','GALO']] ],
+
+  [ ['Jogos famosos', ['FORTNITE','MINECRAFT','ROBLOX','VALORANT']],
+    ['Teclas do teclado', ['ENTER','ESPAÇO','SHIFT','TAB']],
+    ['Formas geométricas', ['LOSANGO','HEXÁGONO','PENTÁGONO','TRAPÉZIO']],
+    ['Botões do controle de PlayStation', ['TRIÂNGULO','QUADRADO','CÍRCULO','XIS']] ],
+
+  [ ['Moedas', ['REAL','EURO','DÓLAR','IENE']],
+    ['Partes da mão', ['DEDO','UNHA','PULSO','POLEGAR']],
+    ['Feriados', ['PÁSCOA','CARNAVAL','FINADOS','TIRADENTES']],
+    ['Capitais brasileiras', ['NATAL','VITÓRIA','PALMAS','BELÉM']] ],
+
+  [ ['Notas musicais', ['DÓ','RÉ','MI','SOL']],
+    ['Esportes olímpicos', ['JUDÔ','SURFE','VÔLEI','ESGRIMA']],
+    ['Itens de festa de aniversário', ['BOLO','BALÃO','BRIGADEIRO','VELA']],
+    ['Partes de um barco', ['LEME','PROA','ÂNCORA','REMO']] ],
+
+  [ ['Ferramentas', ['MARTELO','SERROTE','ALICATE','CHAVE']],
+    ['Peixes', ['ATUM','SALMÃO','TILÁPIA','SARDINHA']],
+    ['Coisas da praia', ['AREIA','ONDA','CANGA','GUARDA-SOL']],
+    ['Utensílios de cozinha', ['PANELA','CONCHA','ESPÁTULA','FRIGIDEIRA']] ],
+
+  [ ['Pratos típicos', ['FEIJOADA','MOQUECA','ACARAJÉ','COXINHA']],
+    ['Louça', ['COPO','XÍCARA','TIGELA','PIRES']],
+    ['Tipos de queijo', ['MINAS','PRATO','COALHO','PARMESÃO']],
+    ['Pão de ___', ['QUEIJO','AÇÚCAR','FORMA','MEL']] ],
+
+  [ ['Fases da lua', ['CHEIA','NOVA','MINGUANTE','CRESCENTE']],
+    ['Insetos', ['FORMIGA','BARATA','GRILO','PULGA']],
+    ['Brinquedos', ['PIÃO','BONECA','IOIÔ','BAMBOLÊ']],
+    ['Coisas que voam', ['PIPA','DRONE','HELICÓPTERO','FOGUETE']] ],
+
+  [ ['Peças de roupa', ['CALÇA','SAIA','BLUSA','MEIA']],
+    ['Partes do corpo', ['OMBRO','JOELHO','COTOVELO','TORNOZELO']],
+    ['Fenômenos do clima', ['NEVE','GRANIZO','NEBLINA','GEADA']],
+    ['Guarda-___', ['CHUVA','ROUPA','SOL','COSTAS']] ],
+
+  [ ['Termos de futebol', ['GOL','PÊNALTI','ESCANTEIO','IMPEDIMENTO']],
+    ['Coisas de academia', ['SUPINO','AGACHAMENTO','ESTEIRA','HALTER']],
+    ['Coisas de live', ['CLIPE','RAID','SUB','EMOTE']],
+    ['Gêneros de jogos', ['RPG','FPS','MOBA','CORRIDA']] ],
+
+  [ ['Cômodos da casa', ['SALA','QUARTO','COZINHA','BANHEIRO']],
+    ['Profissões', ['PEDREIRO','DENTISTA','PADEIRO','BOMBEIRO']],
+    ['Aves', ['GALINHA','PATO','PAPAGAIO','TUCANO']],
+    ['Países da América do Sul', ['CHILE','PERU','BOLÍVIA','URUGUAI']] ],
+
+  [ ['Gêneros musicais brasileiros', ['SAMBA','FORRÓ','PAGODE','SERTANEJO']],
+    ['Cores de cabelo', ['RUIVO','MORENO','GRISALHO','CASTANHO']],
+    ['Danças', ['VALSA','TANGO','BALÉ','SAPATEADO']],
+    ['Temperos', ['SALSA','ORÉGANO','COMINHO','LOURO']] ],
+
+  [ ['Corpos d’água', ['RIO','LAGO','MAR','OCEANO']],
+    ['Animais marinhos', ['POLVO','ÁGUA-VIVA','BALEIA','GOLFINHO']],
+    ['Fenômenos naturais', ['TSUNAMI','TERREMOTO','FURACÃO','VULCÃO']],
+    ['Coisas de pirata', ['TESOURO','MAPA','TAPA-OLHO','NAVIO']] ],
+
+  [ ['Matérias da escola', ['HISTÓRIA','GEOGRAFIA','QUÍMICA','FÍSICA']],
+    ['Material escolar', ['LÁPIS','CADERNO','RÉGUA','ESTOJO']],
+    ['Tipos de texto', ['CONTO','POEMA','CRÔNICA','FÁBULA']],
+    ['Materiais', ['MADEIRA','VIDRO','AÇO','BORRACHA']] ],
+
+  [ ['Eletrodomésticos', ['GELADEIRA','FOGÃO','MICRO-ONDAS','LIQUIDIFICADOR']],
+    ['Órgãos do corpo', ['CORAÇÃO','PULMÃO','FÍGADO','RIM']],
+    ['Naipes do baralho', ['COPAS','ESPADAS','OUROS','PAUS']],
+    ['Metais', ['OURO','PRATA','COBRE','FERRO']] ],
+
+  [ ['Doces brasileiros', ['BRIGADEIRO','BEIJINHO','QUINDIM','COCADA']],
+    ['Coisas de Natal', ['PANETONE','RENA','PRESÉPIO','PISCA-PISCA']],
+    ['Legumes', ['CENOURA','CHUCHU','BETERRABA','BERINJELA']],
+    ['Coisas de Halloween', ['ABÓBORA','BRUXA','FANTASMA','MORCEGO']] ],
+
+  [ ['Meios de transporte', ['METRÔ','ÔNIBUS','TREM','BALSA']],
+    ['Árvores', ['IPÊ','PINHEIRO','JATOBÁ','EUCALIPTO']],
+    ['Partes do carro', ['PNEU','MOTOR','CAPÔ','PORTA-MALAS']],
+    ['Posições no futebol', ['ZAGUEIRO','GOLEIRO','LATERAL','VOLANTE']] ],
+
+  [ ['___-feira', ['SEGUNDA','TERÇA','QUARTA','SEXTA']],
+    ['Partes de um livro', ['CAPÍTULO','PÁGINA','ÍNDICE','PREFÁCIO']],
+    ['Itens de disfarce', ['MÁSCARA','PERUCA','CHAPÉU','ÓCULOS']],
+    ['Pelos do rosto', ['BIGODE','BARBA','CAVANHAQUE','COSTELETA']] ],
+
+  [ ['Cortes de carne', ['PICANHA','MAMINHA','FRALDINHA','ALCATRA']],
+    ['Bebidas', ['CAIPIRINHA','GUARANÁ','CHIMARRÃO','SUCO']],
+    ['Acompanhamentos de churrasco', ['FAROFA','VINAGRETE','PÃO DE ALHO','MAIONESE']],
+    ['A mesma raiz com outro nome', ['AIPIM','MACAXEIRA','MANDIOCA','CASSAVA']] ],
+
+  [ ['Gírias para dinheiro', ['GRANA','BUFUNFA','TUTU','DINDIM']],
+    ['Gírias para amigo', ['PARÇA','BROTHER','MANO','CHAPA']],
+    ['Gírias para bobo', ['MANÉ','TROUXA','OTÁRIO','PATETA']],
+    ['Gírias para bagunça', ['ZONA','BADERNA','ZORRA','FUZUÊ']] ],
+
+  [ ['Coisas com tela', ['TV','MONITOR','TABLET','SMARTWATCH']],
+    ['Coisas com ponteiros', ['RELÓGIO','BÚSSOLA','VELOCÍMETRO','BALANÇA']],
+    ['Coisas com teclas', ['PIANO','TECLADO','CONTROLE REMOTO','CALCULADORA']],
+    ['Coisas com cordas', ['VIOLINO','HARPA','RAQUETE','VARAL']] ],
+
+  [ ['Tons de verde', ['OLIVA','MUSGO','LIMA','MENTA']],
+    ['Pedras preciosas', ['RUBI','ESMERALDA','SAFIRA','DIAMANTE']],
+    ['Tons de vermelho', ['BORDÔ','CARMIM','VINHO','ESCARLATE']],
+    ['Tons de azul', ['MARINHO','CELESTE','TURQUESA','ANIL']] ],
+
+  [ ['Roupas de frio', ['CACHECOL','LUVA','GORRO','CASACO']],
+    ['Aves', ['PAVÃO','CEGONHA','AVESTRUZ','GAIVOTA']],
+    ['Outras palavras para criança', ['GURI','PIÁ','PIVETE','CURUMIM']],
+    ['Pé de ___', ['MOLEQUE','MEIA','PATO','GALINHA']] ],
+
+  [ ['Coisas do espaço', ['COMETA','GALÁXIA','ASTEROIDE','NEBULOSA']],
+    ['Animais peçonhentos', ['ESCORPIÃO','ARANHA','COBRA','LACRAIA']],
+    ['Lutas', ['BOXE','CARATÊ','JIU-JÍTSU','CAPOEIRA']],
+    ['Superpoderes', ['VOAR','TELEPATIA','INVISIBILIDADE','TELETRANSPORTE']] ],
+
+  [ ['Calçados', ['CHINELO','BOTA','SANDÁLIA','MOCASSIM']],
+    ['Jogos de cartas', ['TRUCO','PÔQUER','BURACO','PACIÊNCIA']],
+    ['Esportes com raquete', ['TÊNIS','BADMINTON','SQUASH','PINGUE-PONGUE']],
+    ['Virtudes', ['HUMILDADE','CORAGEM','HONESTIDADE','GENEROSIDADE']] ],
+
+  [ ['Emoções', ['RAIVA','MEDO','ALEGRIA','TRISTEZA']],
+    ['Esportes radicais', ['SKATE','PARAPENTE','RAPEL','ESCALADA']],
+    ['Fenômenos do tempo', ['TROVÃO','RELÂMPAGO','VENTANIA','GAROA']],
+    ['Para-___', ['CHOQUE','QUEDAS','RAIOS','BRISA']] ],
+
+  [ ['Joias', ['ANEL','COLAR','PULSEIRA','BRINCO']],
+    ['Maquiagem', ['BATOM','RÍMEL','BLUSH','DELINEADOR']],
+    ['Partes do olho', ['ÍRIS','PUPILA','CÍLIOS','PÁLPEBRA']],
+    ['Penteados', ['TRANÇA','COQUE','RABO DE CAVALO','MOICANO']] ],
+
+  [ ['Criaturas mitológicas', ['DRAGÃO','UNICÓRNIO','FÊNIX','MINOTAURO']],
+    ['Monstros de terror', ['VAMPIRO','LOBISOMEM','ZUMBI','MÚMIA']],
+    ['Folclore brasileiro', ['SACI','CURUPIRA','IARA','BOITATÁ']],
+    ['Heróis gregos', ['HÉRCULES','AQUILES','ULISSES','PERSEU']] ],
+
+  [ ['Tamanhos de roupa', ['PP','P','M','GG']],
+    ['Unidades de medida', ['KG','KM','ML','CM']],
+    ['Elementos químicos', ['AU','FE','AG','NA']],
+    ['Siglas de estados', ['SP','RJ','MG','BA']] ],
+
+  [ ['Coletivos', ['CARDUME','MATILHA','ENXAME','ALCATEIA']],
+    ['Filhotes', ['BEZERRO','POTRO','CORDEIRO','LEITÃO']],
+    ['Sons de animais', ['LATIDO','MIADO','RELINCHO','MUGIDO']],
+    ['Casas de animais', ['TOCA','NINHO','COLMEIA','FORMIGUEIRO']] ],
+
+  [ ['Operações matemáticas', ['SOMA','DIVISÃO','SUBTRAÇÃO','MULTIPLICAÇÃO']],
+    ['Tipos de ângulo', ['AGUDO','OBTUSO','RETO','RASO']],
+    ['Coisas do Egito', ['FARAÓ','ESFINGE','NILO','MÚMIA']],
+    ['Sólidos geométricos', ['CUBO','ESFERA','CILINDRO','PIRÂMIDE']] ],
+
+  [ ['Esportes com bola', ['FUTEBOL','BASQUETE','HANDEBOL','RÚGBI']],
+    ['Partes do computador', ['MOUSE','TECLADO','GABINETE','MONITOR']],
+    ['Animais do Pantanal', ['ONÇA','JACARÉ','CAPIVARA','TUIUIÚ']],
+    ['Coisas de circo', ['PALHAÇO','TRAPÉZIO','MALABARES','PICADEIRO']] ],
+
+  [ ['Bebidas quentes', ['CAFÉ','CHÁ','CHOCOLATE','CHIMARRÃO']],
+    ['Sobremesas', ['PUDIM','MOUSSE','PAVÊ','SORVETE']],
+    ['Idiomas', ['INGLÊS','ESPANHOL','ALEMÃO','ITALIANO']],
+    ['Tipos de pão', ['FRANCÊS','BAGUETE','CIABATTA','BRIOCHE']] ],
+
+  [ ['Partes da árvore', ['RAIZ','TRONCO','GALHO','FOLHA']],
+    ['Animais da savana', ['ZEBRA','GIRAFA','HIPOPÓTAMO','RINOCERONTE']],
+    ['Instrumentos de sopro', ['TROMPETE','SAXOFONE','CLARINETE','TROMBONE']],
+    ['Coisas de jardim', ['REGADOR','MANGUEIRA','ENXADA','VASO']] ],
+
+  [ ['Seleções campeãs do mundo', ['BRASIL','ALEMANHA','ITÁLIA','ARGENTINA']],
+    ['Clubes paulistas', ['PALMEIRAS','CORINTHIANS','SANTOS','SÃO PAULO']],
+    ['Clubes cariocas', ['FLAMENGO','FLUMINENSE','VASCO','BOTAFOGO']],
+    ['Clubes nordestinos', ['BAHIA','VITÓRIA','SPORT','FORTALEZA']] ],
+
+  [ ['Coisas de cinema', ['PIPOCA','INGRESSO','TELÃO','POLTRONA']],
+    ['Gêneros de filme', ['TERROR','COMÉDIA','DRAMA','FICÇÃO']],
+    ['Prêmios famosos', ['OSCAR','GRAMMY','EMMY','BOLA DE OURO']],
+    ['Funções no cinema', ['DIRETOR','ROTEIRISTA','DUBLÊ','FIGURANTE']] ],
+
+  [ ['Coisas de rede social', ['CURTIDA','STORY','REELS','HASHTAG']],
+    ['Partes de um e-mail', ['ASSUNTO','ANEXO','ASSINATURA','DESTINATÁRIO']],
+    ['Equipamento de streamer', ['WEBCAM','MICROFONE','CHROMA KEY','RING LIGHT']],
+    ['Termos de programação', ['CÓDIGO','BUG','LOOP','VARIÁVEL']] ],
+
+  [ ['Esportes de inverno', ['ESQUI','SNOWBOARD','PATINAÇÃO','CURLING']],
+    ['Esportes aquáticos', ['NATAÇÃO','POLO AQUÁTICO','MERGULHO','CANOAGEM']],
+    ['Jogos de mesa', ['SINUCA','PEBOLIM','PINGUE-PONGUE','XADREZ']],
+    ['Esportes de areia', ['FUTEVÔLEI','BEACH TENNIS','FRESCOBOL','ALTINHA']] ],
+
+  [ ['Partes do rosto', ['NARIZ','BOCA','QUEIXO','TESTA']],
+    ['Partes de uma fruta', ['CASCA','POLPA','CAROÇO','SEMENTE']],
+    ['Provas de atletismo', ['CORRIDA','ARREMESSO','MARATONA','REVEZAMENTO']],
+    ['Partes do sapato', ['SOLA','SALTO','CADARÇO','PALMILHA']] ],
+
+  [ ['Animais que pulam', ['CANGURU','SAPO','PULGA','COELHO']],
+    ['Animais com listras', ['ZEBRA','TIGRE','GAMBÁ','ABELHA']],
+    ['Animais com chifres', ['ALCE','BÚFALO','CERVO','BODE']],
+    ['Animais com casca ou carapaça', ['TARTARUGA','TATU','CARAMUJO','CARANGUEJO']] ],
+
+  [ ['Coisas de casamento', ['ALIANÇA','BUQUÊ','VÉU','PADRINHO']],
+    ['Coisas de chá de bebê', ['FRALDA','CHUPETA','MAMADEIRA','BABADOR']],
+    ['Coisas de formatura', ['BECA','CANUDO','CAPELO','DIPLOMA']],
+    ['Símbolos de sorte e azar', ['GATO PRETO','ESPELHO QUEBRADO','FERRADURA','TREVO']] ],
+
+  [ ['Estações do ano', ['VERÃO','INVERNO','OUTONO','PRIMAVERA']],
+    ['Meses do ano', ['MAIO','JUNHO','AGOSTO','ABRIL']],
+    ['Unidades de tempo', ['SEGUNDO','MINUTO','HORA','DÉCADA']],
+    ['Tipos de relógio', ['CUCO','AMPULHETA','DESPERTADOR','CRONÔMETRO']] ],
+
+  [ ['Partes da casa', ['TELHADO','PAREDE','PORTA','JANELA']],
+    ['Partes de uma música', ['REFRÃO','VERSO','PONTE','INTRO']],
+    ['Partes de um rio', ['FOZ','NASCENTE','MARGEM','LEITO']],
+    ['Símbolos nacionais', ['HINO','BANDEIRA','BRASÃO','SELO']] ],
+
+  [ ['Brincadeiras de rua', ['PEGA-PEGA','ESCONDE-ESCONDE','AMARELINHA','QUEIMADA']],
+    ['Jogos de tabuleiro', ['DAMA','LUDO','WAR','BANCO IMOBILIÁRIO']],
+    ['Jogos de bar', ['SINUCA','DARDOS','DOMINÓ','TRUCO']],
+    ['Brincadeiras de festa', ['MÍMICA','ESTÁTUA','TELEFONE SEM FIO','STOP']] ],
+
+  [ ['Coisas de viagem', ['MALA','PASSAPORTE','MOCHILA','VISTO']],
+    ['Partes do avião', ['ASA','CAUDA','TURBINA','CABINE']],
+    ['Coisas de aeroporto', ['PORTÃO','ESTEIRA','EMBARQUE','ALFÂNDEGA']],
+    ['Partes de um pássaro', ['BICO','PENA','GARRA','CRISTA']] ],
+
+  [ ['Massas', ['LASANHA','NHOQUE','ESPAGUETE','RAVIÓLI']],
+    ['Comidas japonesas', ['SUSHI','TEMAKI','GUIOZA','LÁMEN']],
+    ['Comidas de boteco', ['PASTEL','TORRESMO','CALABRESA','BATATA FRITA']],
+    ['Molhos', ['PESTO','BOLONHESA','BECHAMEL','BARBECUE']] ],
+
+  [ ['Coisas de escritório', ['GRAMPEADOR','CLIPE','CARIMBO','PASTA']],
+    ['Coisas de banheiro', ['ESCOVA','SABONETE','TOALHA','XAMPU']],
+    ['Utensílios de limpeza', ['VASSOURA','RODO','BALDE','ESPANADOR']],
+    ['Produtos de limpeza', ['DETERGENTE','ÁGUA SANITÁRIA','DESINFETANTE','AMACIANTE']] ],
+
+  [ ['Dinossauros', ['TIRANOSSAURO','VELOCIRAPTOR','TRICERÁTOPO','ESTEGOSSAURO']],
+    ['Coisas pré-históricas', ['MAMUTE','CAVERNA','FÓSSIL','METEORO']],
+    ['Coisas de detetive', ['PISTA','SUSPEITO','ÁLIBI','DIGITAL']],
+    ['Ferramentas de arqueólogo', ['PINCEL','PÁ','PENEIRA','LUPA']] ],
+
+  [ ['Frutas', ['AMORA','FIGO','CEREJA','AMEIXA']],
+    ['Capitais do mundo', ['LONDRES','TÓQUIO','CAIRO','LIMA']],
+    ['Estados do Norte', ['ACRE','AMAPÁ','RORAIMA','TOCANTINS']],
+    ['Rios famosos', ['AMAZONAS','NILO','TÂMISA','SENA']] ],
+
+  [ ['Profissões da saúde', ['MÉDICO','ENFERMEIRO','FARMACÊUTICO','FISIOTERAPEUTA']],
+    ['Coisas de hospital', ['MACA','SORO','SERINGA','ESTETOSCÓPIO']],
+    ['Coisas de farmácia', ['CURATIVO','POMADA','TERMÔMETRO','ALGODÃO']],
+    ['Gírias de gamer', ['NOOB','TRYHARD','CAMPER','SMURF']] ],
+
+  [ ['Coisas vermelhas', ['MORANGO','TOMATE','SANGUE','JOANINHA']],
+    ['Coisas brancas', ['NEVE','LEITE','ALGODÃO','NUVEM']],
+    ['Coisas verdes', ['ALFACE','SAPO','GRAMA','ABACATE']],
+    ['Coisas amarelas', ['GEMA','CANÁRIO','GIRASSOL','BANANA']] ],
+
+  [ ['Coisas de carnaval', ['CONFETE','SERPENTINA','ABADÁ','TRIO ELÉTRICO']],
+    ['Coisas de Páscoa', ['COELHO','OVO','COLOMBA','CHOCOLATE']],
+    ['Coisas de festa junina', ['FOGUEIRA','BANDEIRINHA','QUADRILHA','CORREIO ELEGANTE']],
+    ['Coisas de Réveillon', ['FOGOS','CHAMPANHE','ROUPA BRANCA','CONTAGEM']] ],
+
+  [ ['Deuses gregos', ['ZEUS','HERA','APOLO','POSEIDON']],
+    ['Deuses romanos', ['JÚPITER','MARTE','VÊNUS','NETUNO']],
+    ['Deuses nórdicos', ['THOR','ODIN','LOKI','FREYA']],
+    ['Deuses egípcios', ['RÁ','ANÚBIS','ÍSIS','OSÍRIS']] ],
+
+  [ ['Coisas com pés', ['MESA','CADEIRA','SOFÁ','BANQUETA']],
+    ['Coisas com dentes', ['PENTE','SERRA','ZÍPER','ENGRENAGEM']],
+    ['Coisas com pescoço', ['GARRAFA','VIOLÃO','GIRAFA','CISNE']],
+    ['Coisas com cabeça', ['ALFINETE','PREGO','ALHO','FÓSFORO']] ],
+
+  [ ['Gêneros musicais', ['ROCK','JAZZ','BLUES','REGGAE']],
+    ['Instrumentos de percussão', ['PANDEIRO','ZABUMBA','TRIÂNGULO','ATABAQUE']],
+    ['Elementos da música', ['RITMO','MELODIA','HARMONIA','TOM']],
+    ['Partes do violão', ['BRAÇO','CORDA','TRASTE','BOCA']] ],
+
+  [ ['Coisas que se acendem', ['LÂMPADA','FOGUEIRA','ISQUEIRO','LANTERNA']],
+    ['Coisas que estouram', ['PIPOCA','BALÃO','BOLHA','ESPINHA']],
+    ['Coisas que derretem', ['GELO','SORVETE','VELA','MANTEIGA']],
+    ['Coisas que se quebram', ['VIDRO','OSSO','PROMESSA','RECORDE']] ],
+
+  [ ['Materiais de pintura', ['TINTA','PINCEL','PALETA','CAVALETE']],
+    ['Tipos de foto', ['SELFIE','RETRATO','PAISAGEM','PANORAMA']],
+    ['Técnicas artísticas', ['GRAFITE','AQUARELA','MOSAICO','ESCULTURA']],
+    ['Movimentos artísticos', ['CUBISMO','BARROCO','IMPRESSIONISMO','SURREALISMO']] ],
+
+  [ ['Partes da bicicleta', ['GUIDÃO','PEDAL','SELIM','CORRENTE']],
+    ['Coisas de moto', ['CAPACETE','VISEIRA','ESCAPAMENTO','BAÚ']],
+    ['Coisas do trânsito', ['FAROL','FAIXA','LOMBADA','RADAR']],
+    ['Coisas de trem', ['VAGÃO','TRILHO','LOCOMOTIVA','ESTAÇÃO']] ],
+
+  [ ['Personagens de contos de fadas', ['BRUXA','PRÍNCIPE','FADA','OGRO']],
+    ['Partes de um castelo', ['TORRE','MURALHA','FOSSO','PONTE LEVADIÇA']],
+    ['Armas medievais', ['ESPADA','LANÇA','ARCO','CLAVA']],
+    ['Títulos de nobreza', ['REI','DUQUE','CONDE','BARÃO']] ],
+
+  [ ['Jeito nordestino', ['OXE','VIXE','ARRETADO','MAINHA']],
+    ['Jeito carioca', ['MERMÃO','CAÔ','PARADA','SINISTRO']],
+    ['Jeito gaúcho', ['BAH','TCHÊ','PILCHA','CUIA']],
+    ['Jeito mineiro', ['UAI','TREM','SÔ','NÓ']] ],
+
+  [ ['Raças de cachorro', ['POODLE','PUG','BEAGLE','LABRADOR']],
+    ['Raças de gato', ['SIAMÊS','PERSA','SPHYNX','MAINE COON']],
+    ['Raças de cavalo', ['MANGALARGA','ÁRABE','PURO-SANGUE','CRIOULO']],
+    ['Raças de gado', ['NELORE','HOLANDESA','GIR','ANGUS']] ],
+
+  [ ['Grãos', ['ARROZ','FEIJÃO','LENTILHA','GRÃO-DE-BICO']],
+    ['Coisas de fazenda', ['CURRAL','CELEIRO','TRATOR','ESPANTALHO']],
+    ['Sementes', ['CHIA','LINHAÇA','GERGELIM','QUINOA']],
+    ['Grandes lavouras do Brasil', ['SOJA','MILHO','CANA','CAFÉ']] ],
+
+  [ ['Profissões da escola', ['DIRETOR','PROFESSOR','INSPETOR','MERENDEIRA']],
+    ['Profissões do restaurante', ['GARÇOM','CHEF','MAÎTRE','SOMMELIER']],
+    ['Pessoas de um tribunal', ['ADVOGADO','PROMOTOR','RÉU','JÚRI']],
+    ['Funções no futebol', ['TÉCNICO','JUIZ','BANDEIRINHA','MASSAGISTA']] ],
+
+  [ ['Cumprimentos', ['OI','OLÁ','ALÔ','E AÍ']],
+    ['Despedidas', ['TCHAU','FALOU','ADEUS','ATÉ MAIS']],
+    ['Agradecimentos', ['OBRIGADO','VALEU','GRATO','BRIGADÃO']],
+    ['Pedidos de desculpa', ['FOI MAL','PERDÃO','DESCULPA','SINTO MUITO']] ],
+
+  [ ['Tipos de ovo', ['FRITO','COZIDO','MEXIDO','POCHÊ']],
+    ['Tipos de café', ['EXPRESSO','CAPUCHINO','PINGADO','COADO']],
+    ['Tipos de arroz', ['INTEGRAL','ARBÓRIO','BASMATI','PARBOILIZADO']],
+    ['Tipos de batata', ['FRITA','PALHA','RÚSTICA','SAUTÉ']] ],
+
+  [ ['Coisas de acampamento', ['BARRACA','LANTERNA','SACO DE DORMIR','FOGUEIRA']],
+    ['Coisas de piscina', ['BOIA','TOUCA','ÓCULOS','TRAMPOLIM']],
+    ['Brinquedos de parque', ['MONTANHA-RUSSA','RODA-GIGANTE','CARROSSEL','BATE-BATE']],
+    ['Coisas de festa infantil', ['PULA-PULA','PIÑATA','PESCARIA','ALGODÃO-DOCE']] ],
+
+  [ ['Os quatro elementos', ['FOGO','ÁGUA','TERRA','AR']],
+    ['Estados da matéria', ['SÓLIDO','LÍQUIDO','GASOSO','PLASMA']],
+    ['Partículas', ['ÁTOMO','ELÉTRON','PRÓTON','NÊUTRON']],
+    ['Forças da física', ['GRAVIDADE','ATRITO','EMPUXO','TENSÃO']] ],
+
+  [ ['Tipos de chapéu', ['BONÉ','BOINA','CARTOLA','SOMBRERO']],
+    ['Tipos de bolsa', ['MOCHILA','POCHETE','CARTEIRA','NECESSAIRE']],
+    ['Tipos de calça', ['JEANS','LEGGING','PANTALONA','CARGO']],
+    ['Tipos de casaco', ['JAQUETA','MOLETOM','BLAZER','PARKA']] ],
+
+  [ ['Coisas de padaria', ['SONHO','CROISSANT','ROSCA','BROA']],
+    ['Palavras para feliz', ['CONTENTE','RADIANTE','ALEGRE','EUFÓRICO']],
+    ['Palavras para cansado', ['EXAUSTO','ESGOTADO','MOÍDO','PREGADO']],
+    ['Coisas que acontecem dormindo', ['PESADELO','RONCO','SONAMBULISMO','BABA']] ],
+
+  [ ['Partes do celular', ['TELA','CÂMERA','BATERIA','CHIP']],
+    ['Coisas de teatro', ['PALCO','CORTINA','CAMARIM','PLATEIA']],
+    ['Cargos de empresa', ['CEO','GERENTE','ESTAGIÁRIO','SUPERVISOR']],
+    ['Seções de jornal', ['MANCHETE','EDITORIAL','CLASSIFICADOS','HORÓSCOPO']] ],
+
+  [ ['Animais de estimação', ['HAMSTER','CALOPSITA','PORQUINHO-DA-ÍNDIA','TARTARUGA']],
+    ['Animais do Ártico', ['URSO POLAR','MORSA','FOCA','RENA']],
+    ['Animais da Amazônia', ['BOTO','ARARA','SUCURI','PREGUIÇA']],
+    ['Pecados capitais', ['GULA','INVEJA','IRA','AVAREZA']] ],
+
+  [ ['Material escolar', ['MOCHILA','APONTADOR','COLA','TESOURA']],
+    ['Coisas da cama', ['TRAVESSEIRO','COLCHÃO','EDREDOM','FRONHA']],
+    ['Termos de xadrez', ['XEQUE','ROQUE','EMPATE','MATE']],
+    ['Dribles do futebol', ['CHAPÉU','CANETA','LENÇOL','ELÁSTICO']] ],
+
+  [ ['Partes do rosto', ['OLHO','BOCHECHA','SOBRANCELHA','LÁBIO']],
+    ['Coisas de churrasco', ['ESPETO','CARVÃO','GRELHA','SAL GROSSO']],
+    ['Coisas de obra', ['TIJOLO','CIMENTO','VIGA','ANDAIME']],
+    ['Bate-___', ['PAPO','BOCA','VOLTA','ESTACA']] ],
+
+  [ ['Instrumentos de medida', ['RÉGUA','TRENA','TERMÔMETRO','BALANÇA']],
+    ['Horóscopo chinês', ['RATO','DRAGÃO','MACACO','TIGRE']],
+    ['Moedas do mundo', ['PESO','RUPIA','FRANCO','YUAN']],
+    ['Signos', ['GÊMEOS','LIBRA','ESCORPIÃO','SAGITÁRIO']] ],
+
+  [ ['Coisas de correio', ['CARTA','SELO','ENVELOPE','ENCOMENDA']],
+    ['Coisas de banco', ['AGÊNCIA','BOLETO','EXTRATO','CHEQUE']],
+    ['Coisas de loja', ['VITRINE','PROVADOR','ETIQUETA','LIQUIDAÇÃO']],
+    ['Coisas de supermercado', ['CARRINHO','CESTA','CAIXA','GÔNDOLA']] ],
+
+  [ ['Expressões de surpresa', ['NOSSA','CARAMBA','EITA','CARACA']],
+    ['Risadas na internet', ['KKKK','HAHAHA','RSRS','HUEHUE']],
+    ['Abreviações de internet', ['VC','TB','BLZ','PQ']],
+    ['Onomatopeias', ['ATCHIM','CABUM','TOC-TOC','SPLASH']] ],
+
+  [ ['Pontos turísticos', ['CRISTO REDENTOR','PÃO DE AÇÚCAR','ELEVADOR LACERDA','MASP']],
+    ['Praias famosas', ['COPACABANA','IPANEMA','JERICOACOARA','PIPA']],
+    ['Cidades históricas', ['OURO PRETO','PARATY','OLINDA','TIRADENTES']],
+    ['Paraísos naturais', ['IGUAÇU','CHAPADA DIAMANTINA','LENÇÓIS MARANHENSES','BONITO']] ],
+
+  [ ['Equipamentos de futebol', ['CHUTEIRA','CANELEIRA','LUVA','APITO']],
+    ['Equipamentos de boxe', ['RINGUE','PROTETOR BUCAL','BANDAGEM','SACO DE PANCADA']],
+    ['Equipamentos de escalada', ['CORDA','MOSQUETÃO','CAPACETE','PICARETA']],
+    ['Equipamentos de mergulho', ['SNORKEL','NADADEIRA','CILINDRO','LASTRO']] ],
+
+  [ ['Coisas de mágico', ['CARTOLA','VARINHA','COELHO','BARALHO']],
+    ['Coisas de bruxa', ['VASSOURA','CALDEIRÃO','POÇÃO','FEITIÇO']],
+    ['Coisas de caubói', ['LAÇO','ESPORA','SALOON','XERIFE']],
+    ['Coisas de astronauta', ['TRAJE ESPACIAL','ESTAÇÃO ESPACIAL','GRAVIDADE ZERO','LUA']] ],
+
+  [ ['Coisas com asas', ['AVIÃO','ANJO','BORBOLETA','MOSCA']],
+    ['Coisas com rodinhas', ['SKATE','PATINETE','CARRINHO DE MÃO','MALA']],
+    ['Coisas com escamas', ['PEIXE','COBRA','JACARÉ','LAGARTIXA']],
+    ['Coisas com espinhos', ['CACTO','ROSA','OURIÇO','PORCO-ESPINHO']] ],
+
+  [ ['Profissões artísticas', ['ATOR','CANTOR','PINTOR','ESCULTOR']],
+    ['Profissões de TI', ['PROGRAMADOR','ANALISTA','DESIGNER','TESTER']],
+    ['Profissões do mar', ['PESCADOR','MARINHEIRO','SALVA-VIDAS','CAPITÃO']],
+    ['Profissões do campo', ['AGRÔNOMO','VETERINÁRIO','PEÃO','TRATORISTA']] ],
+
+  [ ['Sabores de suco', ['LARANJA','MARACUJÁ','ACEROLA','ABACAXI']],
+    ['Sabores de sorvete', ['FLOCOS','NAPOLITANO','PISTACHE','CREME']],
+    ['Sabores de pizza', ['MARGUERITA','PORTUGUESA','QUATRO QUEIJOS','MUÇARELA']],
+    ['Recheios de pastel', ['CARNE','PALMITO','CAMARÃO','FRANGO']] ],
+
+  [ ['Esportes americanos', ['BEISEBOL','FUTEBOL AMERICANO','HÓQUEI','LACROSSE']],
+    ['Termos de basquete', ['CESTA','LANCE LIVRE','TOCO','ASSISTÊNCIA']],
+    ['Termos de tênis', ['ACE','VOLEIO','SET','TIE-BREAK']],
+    ['Termos de vôlei', ['SAQUE','BLOQUEIO','CORTADA','MANCHETE']] ],
+
+  [ ['Monumentos famosos', ['TORRE EIFFEL','COLISEU','BIG BEN','TAJ MAHAL']],
+    ['Cidades italianas', ['ROMA','VENEZA','MILÃO','NÁPOLES']],
+    ['Cidades americanas', ['NOVA YORK','MIAMI','CHICAGO','LAS VEGAS']],
+    ['Cidades portuguesas', ['LISBOA','PORTO','BRAGA','COIMBRA']] ],
+
+  [ ['Coisas do céu', ['LUA','NUVEM','ARCO-ÍRIS','AURORA']],
+    ['Constelações', ['ÓRION','CRUZEIRO DO SUL','URSA MAIOR','CASSIOPEIA']],
+    ['Nacionalidades', ['FRANCESA','ALEMÃ','JAPONESA','ITALIANA']],
+    ['Tipos de chave', ['INGLESA','FENDA','ALLEN','ESTRELA']] ],
+
+  [ ['Coisas de Copa do Mundo', ['ÁLBUM','FIGURINHA','VUVUZELA','TAÇA']],
+    ['Coisas de Olimpíada', ['PIRA','MEDALHA','PÓDIO','ANÉIS']],
+    ['Coisas de Fórmula 1', ['PIT STOP','LARGADA','BOX','VOLTA RÁPIDA']],
+    ['Coisas do Oscar', ['TAPETE VERMELHO','ESTATUETA','INDICADOS','DISCURSO']] ],
+
+  [ ['Palavras vindas do inglês', ['FUTEBOL','SANDUÍCHE','BIFE','CLUBE']],
+    ['Palavras vindas do francês', ['ABAJUR','BALÉ','BUQUÊ','CROCHÊ']],
+    ['Palavras vindas do tupi', ['ABACAXI','JABUTI','PIPOCA','CAJU']],
+    ['Palavras vindas do árabe', ['ALFACE','AZEITE','ALMOFADA','AÇÚCAR']] ],
+
+  [ ['Medidas de distância', ['METRO','MILHA','LÉGUA','POLEGADA']],
+    ['Medidas de peso', ['QUILO','ARROBA','TONELADA','LIBRA']],
+    ['Medidas de volume', ['LITRO','GALÃO','BARRIL','PINTA']],
+    ['Medidas de informática', ['BYTE','MEGA','GIGA','TERA']] ],
+
+  [ ['Os sentidos', ['TATO','OLFATO','PALADAR','AUDIÇÃO']],
+    ['Sabores', ['DOCE','SALGADO','AZEDO','AMARGO']],
+    ['Temperaturas', ['GELADO','MORNO','QUENTE','FERVENDO']],
+    ['Texturas', ['ÁSPERO','LISO','MACIO','PEGAJOSO']] ],
+
+  [ ['Combustíveis', ['GASOLINA','ETANOL','DIESEL','GNV']],
+    ['Fontes de energia', ['SOLAR','EÓLICA','NUCLEAR','HIDRELÉTRICA']],
+    ['Coisas da parte elétrica', ['FIO','DISJUNTOR','TOMADA','INTERRUPTOR']],
+    ['Tipos de lâmpada', ['LED','FLUORESCENTE','HALÓGENA','INCANDESCENTE']] ],
+
+  [ ['Equipamento de banda de rock', ['GUITARRA','BATERIA','AMPLIFICADOR','PEDALEIRA']],
+    ['Tipos de show', ['ACÚSTICO','AO VIVO','TURNÊ','FESTIVAL']],
+    ['Coisas de orquestra', ['MAESTRO','BATUTA','PARTITURA','ESTANTE']],
+    ['Vozes de um coral', ['SOPRANO','CONTRALTO','TENOR','BAIXO']] ],
+
+  [ ['Partes da flor', ['PÉTALA','CAULE','PÓLEN','SÉPALA']],
+    ['Partes do vulcão', ['CRATERA','LAVA','MAGMA','CINZA']],
+    ['Partes da célula', ['MEMBRANA','CITOPLASMA','MITOCÔNDRIA','RIBOSSOMO']],
+    ['Camadas da Terra', ['CROSTA','MANTO','NÚCLEO','LITOSFERA']] ],
+
+  [ ['Bebidas de lanchonete', ['VITAMINA','MILK-SHAKE','REFRIGERANTE','SUCO']],
+    ['Cidades do interior paulista', ['CAMPINAS','SOROCABA','FRANCA','PIRACICABA']],
+    ['Capitais do Oriente Médio', ['DOHA','TEERÃ','BAGDÁ','AMÃ']],
+    ['Sanduíches', ['MISTO','BAURU','X-TUDO','BEIRUTE']] ],
+
+  [ ['Coisas de cabeleireiro', ['SECADOR','CHAPINHA','TESOURA','BABYLISS']],
+    ['Legumes e raízes', ['BATATA-DOCE','INHAME','NABO','RABANETE']],
+    ['Farinhas', ['TRIGO','MANDIOCA','ROSCA','AVEIA']],
+    ['Bolo de ___', ['CENOURA','FUBÁ','ROLO','POTE']] ],
+
+  [ ['Na fruteira', ['MAÇÃ','BANANA','LARANJA','MAMÃO']],
+    ['Na geladeira', ['LEITE','OVOS','MANTEIGA','IOGURTE']],
+    ['No freezer', ['GELO','SORVETE','PICOLÉ','HAMBÚRGUER']],
+    ['No armário da cozinha', ['ARROZ','MACARRÃO','ÓLEO','ENLATADO']] ],
+
+  [ ['Plataformas de live', ['TWITCH','YOUTUBE','TIKTOK','KICK']],
+    ['Formatos de arquivo', ['MP3','PDF','JPG','GIF']],
+    ['Formatos de vídeo', ['SHORTS','VLOG','UNBOXING','REACT']],
+    ['Coisas da internet', ['MEME','VIRAL','TREND','CANCELAMENTO']] ],
+
+  [ ['Coisas de banheiro', ['CHUVEIRO','PIA','ESPELHO','BANHEIRA']],
+    ['Primatas', ['GORILA','ORANGOTANGO','CHIMPANZÉ','BUGIO']],
+    ['Coisas de restaurante', ['CARDÁPIO','GORJETA','COUVERT','RESERVA']],
+    ['Pagar ___', ['MICO','PATO','PENITÊNCIA','CONTA']] ],
+
+  [ ['Coisas de abelha', ['COLMEIA','FAVO','ZANGÃO','RAINHA']],
+    ['Animais que hibernam', ['MARMOTA','MORCEGO','OURIÇO','ESQUILO']],
+    ['Tons de marrom', ['CARAMELO','CHOCOLATE','CAFÉ','TERRACOTA']],
+    ['Tipos de urso', ['PARDO','POLAR','PANDA','GRIZZLY']] ],
+
+  [ ['Sinônimos de vitória', ['TRIUNFO','CONQUISTA','ÊXITO','GLÓRIA']],
+    ['Sinônimos de fim', ['DESFECHO','TÉRMINO','CONCLUSÃO','ENCERRAMENTO']],
+    ['Sinônimos de enigma', ['CHARADA','MISTÉRIO','QUEBRA-CABEÇA','ADIVINHA']],
+    ['Sinônimos de ligação', ['CONEXÃO','VÍNCULO','ELO','LAÇO']] ],
+];
+
+const PENALTY_MS = 5000;           // cada erro soma 5s no modo Tempo
+const BROKERS = [
+  'wss://broker.hivemq.com:8884/mqtt',
+  'wss://broker.emqx.io:8084/mqtt'
+];
+const PARAMS = new URLSearchParams(location.search);
+if (PARAMS.get('broker')) BROKERS.unshift(PARAMS.get('broker')); // só para testes
+const TOPIC_ROOT = 'ursusman/multiconexao/v1/';
+const HEARTBEAT_MS = 4000;
+const PLAYER_TIMEOUT_MS = 15000;
+const HOST_TIMEOUT_MS = 20000;
+const MAX_PLAYERS = 20;
+
+/* ───────────── utilidades ───────────── */
+const $ = id => document.getElementById(id);
+const store = {
+  get(k, d) { try { const v = localStorage.getItem(k); return v === null ? d : v; } catch (e) { return d; } },
+  set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+};
+function toast(msg) {
+  const t = document.createElement('div');
+  t.className = 'toast'; t.textContent = msg;
+  $('toast-container').appendChild(t);
+  setTimeout(() => t.remove(), 3000);
+}
+function randomId(n) {
+  const a = new Uint8Array(n); crypto.getRandomValues(a);
+  return [...a].map(x => 'abcdefghijkmnpqrstuvwxyz23456789'[x % 32]).join('');
+}
+function shuffle(a) {
+  const arr = a.slice();
+  for (let i = arr.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [arr[i], arr[j]] = [arr[j], arr[i]]; }
+  return arr;
+}
+function myPlayerId() {
+  let id = '';
+  try { id = sessionStorage.getItem('mcPlayerId') || ''; } catch (e) {}
+  if (!id) { id = randomId(12); try { sessionStorage.setItem('mcPlayerId', id); } catch (e) {} }
+  return id;
+}
+const ME = myPlayerId();
+function cleanName(s) { return (s || '').replace(/\s+/g, ' ').trim().slice(0, 16); }
+function getName() { return cleanName($('username').value) || cleanName(store.get('mtUsername', '')); }
+function fmtTime(ms) {
+  if (ms == null) return '';
+  const s = ms / 1000;
+  if (s < 60) return s.toFixed(1).replace('.', ',') + 's';
+  const m = Math.floor(s / 60), r = s - m * 60;
+  return m + ':' + (r < 10 ? '0' : '') + r.toFixed(1).replace('.', ',');
+}
+
+/* ───────────── regras do jogo (roda no "juiz") ───────────── */
+class Room {
+  constructor(hostId, config) {
+    this.hostId = hostId;
+    this.config = {
+      maxPlayers: Math.max(1, Math.min(MAX_PLAYERS, config.maxPlayers | 0)),
+      maxMistakes: Math.max(2, Math.min(8, config.maxMistakes | 0 || 4)),
+      mode: config.mode === 'timed' ? 'timed' : 'guesses',
+      target: config.target ? Math.max(1, Math.min(999, config.target | 0)) : null
+    };
+    this.champions = [];
+    this.players = {};
+    this.order = [];
+    this.status = 'waiting';
+    this.puzzle = -1;
+    this.words = [];
+    this.round = 0;
+    this.startedAt = 0;
+    this.used = new Set();
+  }
+  newPlayer(name) {
+    return { name, solved: [], guesses: [], mistakes: 0, finished: null, score: { round: 0, total: 0 }, voted: false, connected: true, lastSeen: Date.now() };
+  }
+  join(id, name) {
+    const p = this.players[id];
+    if (p) { p.connected = true; p.lastSeen = Date.now(); if (name) p.name = name; return 'ok'; }
+    if (this.order.length >= this.config.maxPlayers) return 'full';
+    if (this.status !== 'waiting') return 'already_started';
+    this.players[id] = this.newPlayer(name || ('Jogador' + (this.order.length + 1)));
+    this.order.push(id);
+    if (this.order.length >= this.config.maxPlayers) this.start();
+    return 'ok';
+  }
+  pickPuzzle() {
+    if (this.used.size >= PUZZLES.length) this.used.clear();
+    let id;
+    do { id = Math.floor(Math.random() * PUZZLES.length); } while (this.used.has(id));
+    this.used.add(id);
+    return id;
+  }
+  start() {
+    this.order.forEach(id => {
+      const p = this.players[id];
+      Object.assign(p, { solved: [], guesses: [], mistakes: 0, finished: null, voted: false });
+      p.score.round = 0;
+    });
+    this.puzzle = this.pickPuzzle();
+    this.words = shuffle(PUZZLES[this.puzzle].flatMap(g => g[1]));
+    this.round++;
+    this.startedAt = Date.now();
+    this.status = 'playing';
+  }
+  levelOf(w) { return PUZZLES[this.puzzle].findIndex(g => g[1].includes(w)); }
+  lost(p) { return p.finished === null && p.mistakes >= this.config.maxMistakes; }
+  isDone(p) { return !p.connected || p.finished !== null || this.lost(p); }
+  penalized(p) { return p.finished === null ? null : (p.finished - this.startedAt) + p.mistakes * PENALTY_MS; }
+  guess(id, words) {
+    const p = this.players[id];
+    if (!p) return { status: 'not_in_room' };
+    if (this.status !== 'playing') return { status: 'not_playing' };
+    if (this.isDone(p)) return { status: 'done' };
+    if (!Array.isArray(words) || words.length !== 4) return { status: 'invalid' };
+    const w = [...new Set(words.map(x => String(x)))];
+    const solvedWords = p.solved.flatMap(l => PUZZLES[this.puzzle][l][1]);
+    if (w.length !== 4 || w.some(x => !this.words.includes(x) || solvedWords.includes(x))) return { status: 'invalid' };
+    const key = w.slice().sort().join('|');
+    if (p.guesses.some(g => g.key === key)) return { status: 'repeat' };
+    const lv = w.map(x => this.levelOf(x));
+    const counts = {}; lv.forEach(l => counts[l] = (counts[l] || 0) + 1);
+    const best = Math.max(...Object.values(counts));
+    p.guesses.push({ key, lv });
+    let correct = false;
+    if (best === 4) {
+      correct = true;
+      p.solved.push(lv[0]);
+      if (p.solved.length === 4) p.finished = Date.now();
+    } else p.mistakes++;
+    this.checkEnd();
+    return { status: 'ok', correct, near: best === 3 };
+  }
+  setConnected(id, on) {
+    const p = this.players[id]; if (!p) return;
+    p.connected = on;
+    if (on) { p.lastSeen = Date.now(); return; }
+    if (this.status === 'waiting') { delete this.players[id]; this.order = this.order.filter(x => x !== id); return; }
+    this.checkEnd();
+    if (this.status === 'finished') this.checkRematch();
+  }
+  checkEnd() {
+    if (this.status !== 'playing') return;
+    const list = this.order.map(id => this.players[id]);
+    if (!list.every(p => this.isDone(p))) return;
+    this.score(list);
+    this.status = 'finished';
+  }
+  score(list) {
+    const winners = list.filter(p => p.finished !== null);
+    list.forEach(p => { p.score.round = 0; });
+    if (!winners.length) return;
+    const metric = this.config.mode === 'timed' ? (p => this.penalized(p)) : (p => p.guesses.length);
+    winners.sort((a, b) => metric(a) - metric(b));
+    let pts = list.length, prev = metric(winners[0]);   // 1º lugar ganha N pontos, o próximo N-1…
+    winners.forEach(p => {
+      const m = metric(p);
+      if (m !== prev) { pts--; prev = m; }
+      p.score.round = Math.max(1, pts);
+    });
+    winners.forEach(p => { p.score.total += p.score.round; });
+    const t = this.config.target;
+    if (t && list.some(p => p.score.total >= t)) {
+      const best = Math.max(...list.map(p => p.score.total));
+      this.champions = this.order.filter(id => this.players[id].score.total === best);
+    }
+  }
+  vote(id) {
+    const p = this.players[id]; if (!p || this.status !== 'finished') return;
+    p.voted = true;
+    this.checkRematch();
+  }
+  checkRematch() {
+    const conn = this.order.filter(id => this.players[id].connected);
+    if (conn.length && conn.every(id => this.players[id].voted)) {
+      this.order.filter(id => !this.players[id].connected).forEach(id => delete this.players[id]);
+      this.order = conn;
+      if (this.champions.length) {
+        this.order.forEach(id => { this.players[id].score.total = 0; });
+        this.champions = [];
+      }
+      this.start();
+    }
+  }
+  viewFor(viewerId) {
+    const playing = this.status === 'playing';
+    const viewer = this.players[viewerId];
+    const viewerDone = viewer && this.isDone(viewer);
+    const P = this.puzzle >= 0 ? PUZZLES[this.puzzle] : null;
+    // grupos que este jogador pode ver: os que ele fechou, ou todos se ele já terminou / a rodada acabou
+    let groups = [];
+    if (P && viewer) {
+      const levels = (!playing || viewerDone) ? [0, 1, 2, 3] : viewer.solved;
+      groups = levels.map(l => ({ l, cat: P[l][0], words: P[l][1] }));
+    }
+    return {
+      config: this.config, status: this.status, round: this.round, startedAt: this.startedAt, now: Date.now(),
+      hostId: this.hostId, champions: this.champions,
+      puzzle: P ? { n: this.puzzle + 1, words: this.words } : null,
+      groups,
+      players: this.order.map(id => {
+        const p = this.players[id];
+        // durante a rodada, ninguém recebe as cores das próprias tentativas (seria dica)
+        const showHist = !playing || id !== viewerId || this.isDone(p);
+        return {
+          id, name: p.name, connected: p.connected, voted: p.voted, score: p.score,
+          solved: p.solved, mistakes: p.mistakes, tries: p.guesses.length,
+          finished: p.finished !== null, lost: this.lost(p),
+          time: p.finished !== null ? p.finished - this.startedAt : null,
+          penalized: this.penalized(p),
+          hist: showHist ? p.guesses.map(g => g.lv) : []
+        };
+      })
+    };
+  }
+}
+
+/* ───────────── rede (MQTT + criptografia com o código da sala) ───────────── */
+const enc = new TextEncoder(), dec = new TextDecoder();
+async function deriveRoom(code) {
+  const h = new Uint8Array(await crypto.subtle.digest('SHA-256', enc.encode('ursus-multiconexao:' + code)));
+  const topicHash = [...h.slice(0, 12)].map(b => b.toString(16).padStart(2, '0')).join('');
+  const key = await crypto.subtle.importKey('raw', h, 'AES-GCM', false, ['encrypt', 'decrypt']);
+  return { base: TOPIC_ROOT + topicHash + '/', key };
+}
+async function seal(key, obj) {
+  const iv = crypto.getRandomValues(new Uint8Array(12));
+  const ct = new Uint8Array(await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, key, enc.encode(JSON.stringify(obj))));
+  const out = new Uint8Array(12 + ct.length); out.set(iv); out.set(ct, 12);
+  return out;
+}
+async function open_(key, buf) {
+  const u = new Uint8Array(buf);
+  if (u.length < 13) return null;
+  try {
+    const pt = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: u.slice(0, 12) }, key, u.slice(12));
+    return JSON.parse(dec.decode(pt));
+  } catch (e) { return null; }
+}
+function connectBroker(url, opts) {
+  return new Promise((resolve, reject) => {
+    if (!window.mqtt) return reject(new Error('mqtt'));
+    const c = mqtt.connect(url, Object.assign({ connectTimeout: 9000, reconnectPeriod: 2000, keepalive: 20, clean: true }, opts));
+    const fail = setTimeout(() => { try { c.end(true); } catch (e) {} reject(new Error('timeout')); }, 10000);
+    c.once('connect', () => { clearTimeout(fail); resolve(c); });
+    c.once('error', () => {});
+  });
+}
+
+/* ───────────── estado da tela ───────────── */
+const S = {
+  role: null, code: '', brokerIdx: 0,
+  client: null, room: null, key: null, base: '',
+  view: null, skew: 0,
+  order: [], selected: [], orderRound: 0,
+  lastRound: 0, lastStatus: '',
+  hostSeen: 0, timers: [],
+  waitDismissed: false, resultDismissedRound: 0,
+  pending: false, closed: false
+};
+
+/* ───────────── HOST ───────────── */
+async function hostCreate(config) {
+  showStatus('Criando sala…', 'Preparando a conexão.');
+  const code = randomId(6).toUpperCase();
+  const r = await deriveRoom(code);
+  let client = null, idx = 0;
+  for (idx = 0; idx < BROKERS.length; idx++) {
+    try {
+      client = await connectBroker(BROKERS[idx], { will: { topic: r.base + 'info', payload: new Uint8Array(0), qos: 1, retain: true } });
+      break;
+    } catch (e) {}
+  }
+  if (!client) return showError('Não consegui conectar', 'Verifique sua internet e tente de novo. Se continuar, jogue no modo sozinho por enquanto.');
+
+  Object.assign(S, { role: 'host', code, brokerIdx: idx, client, key: r.key, base: r.base, closed: false });
+  S.room = new Room(ME, config);
+  S.room.join(ME, getName());
+  client.subscribe(r.base + 'h', { qos: 1 });
+  client.on('message', async (topic, payload) => {
+    if (topic !== S.base + 'h') return;
+    const msg = await open_(S.key, payload);
+    if (msg) hostHandle(msg);
+  });
+  client.on('connect', () => publishInfo());
+  publishInfo();
+  hideModal('modal-status');
+  history.replaceState(null, '', roomUrl());
+  enterGame();
+  hostBroadcast();
+  S.timers.push(setInterval(hostTick, HEARTBEAT_MS));
+}
+function publishInfo() {
+  if (!S.client || S.role !== 'host') return;
+  seal(S.key, { t: 'info', hostId: ME, at: Date.now() }).then(b => S.client.publish(S.base + 'info', b, { qos: 1, retain: true }));
+}
+function hostTick() {
+  const room = S.room; const now = Date.now();
+  room.order.forEach(id => {
+    if (id === ME) return;
+    const p = room.players[id];
+    if (p && p.connected && now - p.lastSeen > PLAYER_TIMEOUT_MS) room.setConnected(id, false);
+  });
+  hostBroadcast();
+}
+function hostHandle(msg) {
+  const room = S.room; const id = msg.id;
+  if (!id || id === ME) return;
+  const p = room.players[id];
+  if (p) p.lastSeen = Date.now();
+  switch (msg.t) {
+    case 'join': {
+      const res = room.join(id, cleanName(msg.name));
+      hostSend(id, { t: 'joined', res });
+      if (res === 'ok') hostBroadcast();
+      break;
+    }
+    case 'ping':
+      if (p && !p.connected) { room.setConnected(id, true); hostBroadcast(); }
+      else if (!p) hostSend(id, { t: 'kicked' });
+      break;
+    case 'guess': {
+      const res = room.guess(id, msg.words);
+      hostSend(id, { t: 'guessRes', res, n: msg.n });
+      if (res.status === 'ok') hostBroadcast();
+      break;
+    }
+    case 'vote': room.vote(id); hostBroadcast(); break;
+    case 'bye': room.setConnected(id, false); hostBroadcast(); break;
+  }
+}
+function hostSend(id, obj) {
+  const c = S.client, base = S.base;
+  if (!c) return;
+  seal(S.key, obj).then(b => c.publish(base + 'c/' + id, b, { qos: 1 }));
+}
+function hostBroadcast() {
+  const room = S.room;
+  room.order.forEach(id => { if (id !== ME && room.players[id].connected) hostSend(id, { t: 'state', v: room.viewFor(id) }); });
+  applyView(room.viewFor(ME));
+}
+
+/* ───────────── CONVIDADO ───────────── */
+async function guestJoin(code, brokerIdx) {
+  code = (code || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
+  if (code.length !== 6) return toast('O código da sala tem 6 caracteres');
+  const name = getName();
+  if (!name) { $('username').focus(); return toast('Escolha um nome primeiro'); }
+  store.set('mtUsername', name);
+  showStatus('Entrando na sala…', 'Procurando a sala ' + code + '.');
+  const r = await deriveRoom(code);
+  const order = [];
+  if (brokerIdx != null && BROKERS[brokerIdx]) order.push(brokerIdx);
+  BROKERS.forEach((_, i) => { if (!order.includes(i)) order.push(i); });
+
+  for (const idx of order) {
+    let client;
+    try {
+      const bye = await seal(r.key, { t: 'bye', id: ME });
+      client = await connectBroker(BROKERS[idx], { will: { topic: r.base + 'h', payload: bye, qos: 1, retain: false } });
+    } catch (e) { continue; }
+    let retry = null;
+    const res = await new Promise(resolve => {
+      const timeout = setTimeout(() => resolve('not_found'), 12000);
+      client.on('message', async (topic, payload) => {
+        if (topic === r.base + 'c/' + ME) {
+          const msg = await open_(r.key, payload);
+          if (!msg) return;
+          if (msg.t === 'joined') { clearTimeout(timeout); resolve(msg.res); }
+          else guestHandle(msg);
+        } else if (topic === r.base + 'info') {
+          const msg = payload.length ? await open_(r.key, payload) : null;
+          if (!msg && S.role === 'guest' && !S.closed) roomClosed();
+        }
+      });
+      client.subscribe([r.base + 'c/' + ME, r.base + 'info'], { qos: 1 }, async () => {
+        const joinMsg = async () => client.publish(r.base + 'h', await seal(r.key, { t: 'join', id: ME, name }), { qos: 1 });
+        joinMsg();
+        retry = setInterval(joinMsg, 2500);
+      });
+    });
+    clearInterval(retry);
+    if (res === 'ok') {
+      Object.assign(S, { role: 'guest', code, brokerIdx: idx, client, key: r.key, base: r.base, hostSeen: Date.now(), closed: false });
+      client.on('connect', () => guestSend({ t: 'join', name }));
+      hideModal('modal-status');
+      history.replaceState(null, '', roomUrl());
+      enterGame();
+      if (S.pendingView) { applyView(S.pendingView); S.pendingView = null; }
+      S.timers.push(setInterval(guestTick, HEARTBEAT_MS));
+      return;
+    }
+    try { client.end(true); } catch (e) {}
+    if (res !== 'not_found') {
+      const msgs = { full: 'A sala está cheia.', already_started: 'A partida já começou. Espere a rodada acabar e tente de novo.' };
+      return showError('Não deu para entrar', msgs[res] || 'Tente de novo.');
+    }
+    return showError('Sala não encontrada', 'Confira o código. A sala só existe enquanto quem criou estiver com a página aberta.');
+  }
+  showError('Não consegui conectar', 'Verifique sua internet e tente de novo.');
+}
+function guestSend(obj) {
+  const c = S.client, base = S.base;
+  if (!c) return;
+  seal(S.key, Object.assign({ id: ME }, obj)).then(b => c.publish(base + 'h', b, { qos: 1 }));
+}
+function guestTick() {
+  if (S.closed) return;
+  guestSend({ t: 'ping' });
+  if (Date.now() - S.hostSeen > HOST_TIMEOUT_MS) roomClosed();
+}
+function guestHandle(msg) {
+  S.hostSeen = Date.now();
+  if (msg.t === 'state') { if (S.role === 'guest') applyView(msg.v); else S.pendingView = msg.v; }
+  else if (msg.t === 'guessRes') onGuessResult(msg.res);
+  else if (msg.t === 'kicked') roomClosed();
+}
+function roomClosed() {
+  if (S.closed) return;
+  S.closed = true;
+  hideModal('modal-wait'); hideModal('modal-result');
+  showError('A sala foi encerrada', 'O dono da sala saiu ou perdeu a conexão. Crie uma sala nova para continuar jogando.');
+}
+
+/* ───────────── SOLO ───────────── */
+function soloStart() {
+  S.role = 'solo'; S.code = '';
+  S.room = new Room(ME, { maxPlayers: 1, maxMistakes: 4, mode: 'timed' });
+  S.room.join(ME, getName() || 'Você');
+  enterGame();
+  applyView(S.room.viewFor(ME));
+}
+
+/* ───────────── ações do jogador ───────────── */
+function myView() { return S.view && S.view.players.find(p => p.id === ME); }
+function canPlay() {
+  const v = S.view, me = myView();
+  return v && me && v.status === 'playing' && !me.finished && !me.lost;
+}
+function toggle(w) {
+  if (!canPlay() || S.pending) return;
+  const i = S.selected.indexOf(w);
+  if (i >= 0) S.selected.splice(i, 1);
+  else if (S.selected.length < 4) S.selected.push(w);
+  else return;
+  document.querySelectorAll('.tile').forEach(t => t.classList.toggle('selected', S.selected.includes(t.dataset.word)));
+  updateButtons();
+}
+function submitGuess() {
+  if (!canPlay() || S.pending || S.selected.length !== 4) return;
+  const words = S.selected.slice();
+  document.querySelectorAll('.tile.selected').forEach((t, i) => { t.style.animationDelay = (i * 0.06) + 's'; t.classList.add('jump'); });
+  if (S.role === 'guest') {
+    S.pending = true; updateButtons();
+    guestSend({ t: 'guess', words, n: myView().tries });
+    setTimeout(() => { if (S.pending) { S.pending = false; updateButtons(); } }, 6000);
+  } else {
+    const res = S.room.guess(ME, words);
+    onGuessResult(res);
+    if (S.role === 'host') hostBroadcast(); else applyView(S.room.viewFor(ME));
+  }
+}
+function onGuessResult(res) {
+  S.pending = false;
+  const tiles = [...document.querySelectorAll('.tile.selected')];
+  tiles.forEach(t => { t.classList.remove('jump'); t.style.animationDelay = ''; });
+  if (!res || res.status !== 'ok') {
+    const msgs = { repeat: 'Você já tentou esse grupo!', invalid: 'Palpite inválido', not_playing: 'A rodada não está em andamento', done: 'Você já terminou esta rodada' };
+    toast(msgs[res && res.status] || 'Não deu para enviar');
+    updateButtons();
+    return;
+  }
+  if (res.correct) { S.selected = []; renderMe(); return; }
+  if (res.near) toast('Falta só uma!');
+  else if (S.view && S.view.config.mode === 'timed') toast('Errou! +5s');
+  tiles.forEach(t => { t.classList.remove('shake'); void t.offsetWidth; t.classList.add('shake'); });
+  setTimeout(() => tiles.forEach(t => t.classList.remove('shake')), 450);
+  updateButtons();
+}
+function vote() {
+  if (S.role === 'guest') guestSend({ t: 'vote' });
+  else { S.room.vote(ME); if (S.role === 'host') hostBroadcast(); else applyView(S.room.viewFor(ME)); }
+  $('btn-rematch').disabled = true;
+  $('btn-rematch').textContent = S.role === 'solo' ? 'Jogar novamente' : 'Esperando os outros…';
+}
+function leaveRoom() {
+  if (S.role === 'host' && S.client) S.client.publish(S.base + 'info', new Uint8Array(0), { qos: 1, retain: true });
+  if (S.role === 'guest' && S.client) guestSend({ t: 'bye' });
+  S.timers.forEach(clearInterval); S.timers = [];
+  const c = S.client;
+  setTimeout(() => { try { c && c.end(); } catch (e) {} }, 600);
+  Object.assign(S, { role: null, client: null, room: null, view: null, code: '', order: [], selected: [], orderRound: 0, lastRound: 0, lastStatus: '', closed: true, waitDismissed: false, resultDismissedRound: 0, pending: false });
+  history.replaceState(null, '', location.pathname);
+  ['modal-wait', 'modal-result', 'modal-status'].forEach(hideModal);
+  $('game').hidden = true; $('lobby').hidden = false;
+  $('btn-exit').hidden = true; $('btn-room').hidden = true;
+}
+window.addEventListener('pagehide', () => {
+  if (S.role === 'host' && S.client) S.client.publish(S.base + 'info', new Uint8Array(0), { qos: 1, retain: true });
+  if (S.role === 'guest' && S.client) guestSend({ t: 'bye' });
+});
+
+/* ───────────── render ───────────── */
+function roomUrl() {
+  if (!S.code) return location.origin + location.pathname;
+  return location.origin + location.pathname + '?sala=' + S.code + (S.brokerIdx ? '&b=' + S.brokerIdx : '');
+}
+function enterGame() {
+  $('lobby').hidden = true; $('game').hidden = false;
+  $('btn-exit').hidden = false; $('btn-room').hidden = S.role === 'solo';
+  Object.assign(S, { order: [], selected: [], orderRound: 0, lastRound: 0, lastStatus: '', waitDismissed: false, resultDismissedRound: 0 });
+  if (!S.clockTimer) S.clockTimer = setInterval(renderClock, 100);
+}
+function tileFontClass(w) {
+  const len = Math.max(...w.split(/[\s-]/).map(p => p.length));
+  return len > 10 ? 'xs' : len > 8 ? 'sm' : '';
+}
+function fitTiles() {
+  document.querySelectorAll('.tile').forEach(t => {
+    t.style.fontSize = '';
+    let size = parseFloat(getComputedStyle(t).fontSize);
+    if (t.classList.contains('sm')) size = Math.min(size, 11.5);
+    if (t.classList.contains('xs')) size = Math.min(size, 10);
+    t.style.fontSize = size + 'px';
+    while ((t.scrollWidth > t.clientWidth || t.scrollHeight > t.clientHeight) && size > 7) {
+      size -= 0.5; t.style.fontSize = size + 'px';
+    }
+  });
+}
+window.addEventListener('resize', fitTiles);
+function groupEl(g, missed) {
+  const el = document.createElement('div');
+  el.className = 'solved l' + (g.l + 1) + (missed ? ' missed' : '');
+  const c = document.createElement('div'); c.className = 'cat'; c.textContent = g.cat;
+  const w = document.createElement('div'); w.className = 'words'; w.textContent = g.words.join(', ');
+  el.append(c, w);
+  return el;
+}
+function renderMe() {
+  const v = S.view; if (!v) return;
+  const me = myView(); if (!me) return;
+
+  const tag = $('me-tag'); tag.innerHTML = '';
+  const nm = document.createElement('span'); nm.textContent = (S.role === 'solo' ? 'Treino' : me.name) + ' ';
+  const pts = document.createElement('span'); pts.className = 'pts';
+  pts.textContent = S.role === 'solo' ? '' : '(' + me.score.total + (me.score.total === 1 ? ' pt)' : ' pts)');
+  tag.append(nm, pts);
+
+  // grupos fechados (na ordem em que fechou) + os revelados no fim
+  const sa = $('solved-area'); sa.innerHTML = '';
+  const byLevel = {}; v.groups.forEach(g => byLevel[g.l] = g);
+  me.solved.forEach(l => byLevel[l] && sa.appendChild(groupEl(byLevel[l], false)));
+  const showMissed = me.lost || v.status === 'finished';
+  if (showMissed) v.groups.filter(g => !me.solved.includes(g.l)).forEach(g => sa.appendChild(groupEl(g, true)));
+
+  // palavras restantes
+  const gone = new Set(v.groups.filter(g => me.solved.includes(g.l) || showMissed).flatMap(g => g.words));
+  if (v.puzzle && S.orderRound !== v.round) { S.order = shuffle(v.puzzle.words); S.orderRound = v.round; S.selected = []; }
+  S.order = S.order.filter(w => !gone.has(w));
+  S.selected = S.selected.filter(w => !gone.has(w));
+  const grid = $('grid'); grid.innerHTML = '';
+  const locked = !canPlay();
+  S.order.forEach(w => {
+    const b = document.createElement('button');
+    b.className = 'tile ' + tileFontClass(w) + (S.selected.includes(w) ? ' selected' : '') + (locked ? ' locked' : '');
+    b.textContent = w; b.dataset.word = w;
+    b.addEventListener('click', () => toggle(w));
+    grid.appendChild(b);
+  });
+  grid.hidden = !S.order.length;
+  fitTiles();
+
+  // vidas
+  const lives = $('lives'); lives.innerHTML = '';
+  for (let i = 0; i < v.config.maxMistakes; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i >= v.config.maxMistakes - me.mistakes ? ' used' : '');
+    lives.appendChild(d);
+  }
+  $('lives-row').hidden = v.status === 'waiting';
+
+  const done = me.finished || me.lost;
+  $('controls').hidden = !!done || v.status !== 'playing';
+  const md = $('my-done');
+  md.hidden = !(done && v.status === 'playing');
+  if (me.finished) {
+    md.className = 'my-done win';
+    md.textContent = 'Você fechou tudo em ' + me.tries + ' tentativas' + (v.config.mode === 'timed' ? ' · ' + fmtTime(me.penalized) : '') + '! Esperando os outros…';
+  } else if (me.lost) {
+    md.className = 'my-done lose';
+    md.textContent = 'Acabaram seus erros. Esperando os outros terminarem…';
+  }
+  if (S.role === 'solo' && done) md.hidden = true;
+  updateButtons();
+  renderClock();
+}
+function updateButtons() {
+  const ok = canPlay() && !S.pending;
+  $('btn-submit').disabled = !ok || S.selected.length !== 4;
+  $('btn-clear').disabled = !ok || !S.selected.length;
+  $('btn-shuffle').disabled = !ok;
+}
+function renderClock() {
+  const v = S.view, el = $('clock');
+  if (!v || v.config.mode !== 'timed' || v.status === 'waiting') { el.hidden = true; return; }
+  const me = myView(); if (!me) return;
+  el.hidden = false;
+  let ms;
+  if (me.finished) ms = me.time;
+  else if (v.status === 'playing' && !me.lost) ms = Date.now() - S.skew - v.startedAt;
+  else { el.textContent = me.lost ? '—' : ''; return; }
+  const pen = me.mistakes * PENALTY_MS;
+  el.innerHTML = '';
+  el.append(document.createTextNode('⏱ ' + fmtTime(Math.max(0, ms + pen))));
+  if (pen) { const s = document.createElement('small'); s.textContent = 'inclui +' + (pen / 1000) + 's de penalidade'; el.appendChild(s); }
+}
+function renderOpponents() {
+  const v = S.view;
+  const opps = v.players.filter(p => p.id !== ME);
+  $('opp-col').hidden = opps.length === 0;
+  const grid = $('opp-grid'); grid.innerHTML = '';
+  opps.forEach(p => {
+    const card = document.createElement('div');
+    card.className = 'opp-card' + (p.finished ? ' won' : p.lost ? ' lost' : '') + (p.connected ? '' : ' off');
+    const nm = document.createElement('div'); nm.className = 'opp-name';
+    const s1 = document.createElement('span'); s1.textContent = p.name + (p.connected ? '' : ' (saiu)') + ' ';
+    const s2 = document.createElement('span'); s2.className = 'pts'; s2.textContent = p.score.total;
+    nm.append(s1, s2);
+    const slots = document.createElement('div'); slots.className = 'slots';
+    for (let i = 0; i < 4; i++) { const s = document.createElement('div'); s.className = 'slot' + (p.solved[i] != null ? ' l' + (p.solved[i] + 1) : ''); slots.appendChild(s); }
+    const meta = document.createElement('div'); meta.className = 'opp-meta';
+    const dots = document.createElement('div'); dots.className = 'dots';
+    for (let i = 0; i < v.config.maxMistakes; i++) { const d = document.createElement('div'); d.className = 'dot' + (i >= v.config.maxMistakes - p.mistakes ? ' used' : ''); dots.appendChild(d); }
+    const st = document.createElement('span');
+    st.textContent = p.finished ? (v.config.mode === 'timed' ? fmtTime(p.penalized) : p.tries + ' tent.') : p.lost ? 'errou tudo' : v.status === 'playing' ? p.tries + ' tent.' : '';
+    meta.append(dots, st);
+    const hist = document.createElement('div'); hist.className = 'hist';
+    p.hist.forEach(row => {
+      const r = document.createElement('div'); r.className = 'hist-row';
+      row.forEach(l => { const i = document.createElement('i'); i.className = 'l' + l; r.appendChild(i); });
+      hist.appendChild(r);
+    });
+    card.append(nm, slots, meta, hist);
+    grid.appendChild(card);
+  });
+}
+function renderInfo() {
+  const v = S.view; const el = $('round-info');
+  const n = v.puzzle ? 'Desafio #' + v.puzzle.n : '';
+  if (S.role === 'solo') { el.textContent = 'Treino · ' + n + ' · cada erro soma 5s'; return; }
+  const mode = v.config.mode === 'timed' ? 'Tempo (+5s por erro)' : 'Tentativas';
+  if (v.status === 'waiting') el.textContent = 'Sala ' + S.code + ' · aguardando jogadores (' + v.players.length + '/' + v.config.maxPlayers + ')';
+  else {
+    const left = v.players.filter(p => !(p.finished || p.lost) && p.connected).length;
+    el.textContent = 'Sala ' + S.code + ' · Rodada ' + v.round + ' · ' + mode + (v.config.target ? ' · meta ' + v.config.target + ' pts' : '') + (v.status === 'playing' ? ' · ' + left + ' jogando' : '');
+  }
+}
+function applyView(v) {
+  const prev = S.view;
+  S.view = v;
+  if (v.now) S.skew = Date.now() - v.now;
+  const me = myView();
+  if (!me) { if (S.role === 'guest') roomClosed(); return; }
+  if (v.round !== S.lastRound) { $('btn-rematch').disabled = false; $('btn-rematch').textContent = 'Jogar novamente'; }
+  const prevMe = prev && prev.round === v.round && prev.players.find(p => p.id === ME);
+  renderMe();
+  renderOpponents();
+  renderInfo();
+  $('btn-show-result').classList.toggle('show', v.status === 'finished');
+
+  if (v.status === 'waiting' && S.role !== 'solo' && !S.waitDismissed) showWait(); else hideModal('modal-wait');
+  if (v.status === 'waiting' && $('modal-wait').classList.contains('open')) fillWait();
+
+  if (v.status === 'finished') {
+    if (S.lastStatus !== 'finished' || $('modal-result').classList.contains('open')) {
+      if (S.resultDismissedRound !== v.round) setTimeout(showResult, S.lastStatus === 'finished' ? 0 : 900);
+    }
+  } else hideModal('modal-result');
+
+  if (v.status === 'playing' && S.lastStatus === 'finished') toast('Nova rodada! Valendo!');
+  if (v.status === 'playing' && S.lastStatus === 'waiting') toast('A partida começou!');
+  if (prevMe && !prevMe.finished && me.finished && v.status === 'playing') toast('Fechou os 4 grupos! 🎉');
+  // avisa quando um adversário termina
+  if (prev && prev.round === v.round && S.role !== 'solo') {
+    v.players.forEach(p => {
+      if (p.id === ME) return;
+      const old = prev.players.find(x => x.id === p.id);
+      if (old && !old.finished && p.finished && v.status === 'playing') toast(p.name + ' fechou os 4 grupos!');
+    });
+  }
+  S.lastRound = v.round; S.lastStatus = v.status;
+}
+function showWait() { fillWait(); openModal('modal-wait'); }
+function fillWait() {
+  const v = S.view;
+  $('wait-title').textContent = 'Aguardando jogadores… ' + v.players.length + '/' + v.config.maxPlayers;
+  $('wait-code').textContent = S.code;
+  $('wait-link').textContent = roomUrl();
+  const chips = $('wait-chips'); chips.innerHTML = '';
+  v.players.forEach(p => {
+    const c = document.createElement('span');
+    c.className = 'chip' + (p.id === v.hostId ? ' host' : '') + (p.id === ME ? ' me' : '');
+    c.textContent = (p.id === v.hostId ? '👑 ' : '') + p.name + (p.id === ME ? ' (você)' : '');
+    chips.appendChild(c);
+  });
+  const isHost = S.role === 'host';
+  $('btn-start').hidden = !isHost;
+  $('btn-start').disabled = v.players.length < 2;
+  $('btn-start').textContent = v.players.length < 2 ? 'Esperando alguém entrar…' : 'Começar agora (' + v.players.length + ' jogadores)';
+  $('wait-guest-note').hidden = isHost;
+  $('wait-sub').textContent = 'Mande o link ou o código para seus amigos:';
+}
+function showResult() {
+  const v = S.view; if (!v || v.status !== 'finished') return;
+  const me = myView();
+  const timed = v.config.mode === 'timed';
+  const r = $('result-me');
+  if (me.finished) {
+    r.className = 'result-me win';
+    r.textContent = 'Você fechou os 4 grupos em ' + me.tries + ' tentativas' +
+      (me.mistakes ? ' (' + me.mistakes + (me.mistakes === 1 ? ' erro)' : ' erros)') : ' (sem erros!)') +
+      (timed ? ' · ' + fmtTime(me.penalized) : '') + (S.role === 'solo' ? '' : ' · +' + me.score.round + ' pts');
+  } else {
+    r.className = 'result-me lose';
+    r.textContent = 'Não foi dessa vez. Você não pontuou na rodada.';
+  }
+  const rg = $('result-groups'); rg.innerHTML = '';
+  [...v.groups].sort((a, b) => a.l - b.l).forEach(g => rg.appendChild(groupEl(g, false)));
+
+  const champs = (v.champions || []).map(id => v.players.find(p => p.id === id)).filter(Boolean);
+  $('result-champion').hidden = !champs.length;
+  if (champs.length) {
+    $('champion-name').textContent = champs.map(p => p.id === ME ? 'Você' : p.name).join(' e ') + ' · ' + champs[0].score.total + ' pts';
+    $('result-title').textContent = 'Fim de partida';
+  } else $('result-title').textContent = 'Desafio #' + v.puzzle.n;
+
+  const rank = $('result-rank'); rank.innerHTML = '';
+  rank.hidden = S.role === 'solo';
+  const perf = p => p.finished ? (timed ? p.penalized : p.tries) : Infinity;
+  [...v.players].sort((a, b) => b.score.total - a.score.total || b.score.round - a.score.round || perf(a) - perf(b) || b.solved.length - a.solved.length).forEach((p, i) => {
+    const row = document.createElement('div');
+    row.className = 'rank-row' + (p.id === ME ? ' me' : '') + (p.voted ? ' voted' : '');
+    const left = document.createElement('div'); left.className = 'rank-left';
+    const pos = document.createElement('span'); pos.className = 'rank-pos'; pos.textContent = i + 1;
+    const nm = document.createElement('div');
+    const n1 = document.createElement('div'); n1.className = 'rank-name'; n1.textContent = (p.id === ME ? 'Você' : p.name) + (p.connected ? '' : ' (saiu)');
+    const n2 = document.createElement('div'); n2.className = 'rank-detail';
+    if (p.finished) {
+      n2.textContent = timed
+        ? fmtTime(p.penalized) + (p.mistakes ? ' (' + fmtTime(p.time) + ' + ' + (p.mistakes * 5) + 's)' : '')
+        : p.tries + ' tent. · ' + p.mistakes + (p.mistakes === 1 ? ' erro' : ' erros');
+    } else n2.textContent = p.solved.length + '/4 grupos';
+    if (p.voted) n2.textContent += ' · quer jogar de novo';
+    nm.append(n1, n2); left.append(pos, nm);
+    const right = document.createElement('div'); right.className = 'rank-right';
+    const rr = document.createElement('span'); rr.className = 'rank-round'; rr.textContent = '+' + p.score.round;
+    const tt = document.createElement('span'); tt.className = 'rank-total'; tt.textContent = p.score.total;
+    right.append(rr, tt);
+    row.append(left, right); rank.appendChild(row);
+  });
+  if (me.voted) { $('btn-rematch').disabled = true; $('btn-rematch').textContent = 'Esperando os outros…'; }
+  else { $('btn-rematch').disabled = false; $('btn-rematch').textContent = champs.length ? 'Nova partida (placar zerado)' : 'Jogar novamente'; }
+  openModal('modal-result');
+}
+function reopenResult() {
+  if (!S.view || S.view.status !== 'finished') return false;
+  S.resultDismissedRound = 0;
+  showResult();
+  return true;
+}
+
+/* ───────────── teclado ───────────── */
+document.addEventListener('keydown', e => {
+  if (e.ctrlKey || e.metaKey || e.altKey) return;
+  if (e.key === 'Escape') {
+    ['modal-how', 'modal-create'].forEach(hideModal);
+    if ($('modal-result').classList.contains('open') && S.view) { S.resultDismissedRound = S.view.round; hideModal('modal-result'); }
+    return;
+  }
+  if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')) return;
+  if ($('game').hidden) return;
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    if (S.view && S.view.status === 'finished' && !document.querySelector('.modal-overlay.open')) reopenResult();
+    else if (!document.querySelector('.modal-overlay.open')) submitGuess();
+  }
+});
+
+/* ───────────── modais ───────────── */
+function openModal(id) { $(id).classList.add('open'); }
+function hideModal(id) { $(id).classList.remove('open'); }
+function showStatus(title, text) {
+  $('status-spinner').hidden = false; $('status-title').textContent = title; $('status-text').textContent = text;
+  $('status-btn').hidden = true; openModal('modal-status');
+}
+function showError(title, text) {
+  $('status-spinner').hidden = true; $('status-title').textContent = title; $('status-text').textContent = text;
+  $('status-btn').hidden = false; openModal('modal-status');
+}
+document.querySelectorAll('[data-close]').forEach(b => b.addEventListener('click', () => {
+  hideModal(b.dataset.close);
+  if (b.dataset.close === 'modal-result' && S.view) S.resultDismissedRound = S.view.round;
+}));
+document.querySelectorAll('.modal-overlay').forEach(o => o.addEventListener('click', e => {
+  if (e.target !== o) return;
+  if (['modal-how', 'modal-create'].includes(o.id)) hideModal(o.id);
+  if (o.id === 'modal-result' && S.view) { S.resultDismissedRound = S.view.round; hideModal(o.id); }
+}));
+
+/* ───────────── lobby ───────────── */
+const createCfg = { maxPlayers: 2, maxMistakes: 4, mode: 'guesses' };
+document.querySelectorAll('.stepper').forEach(st => {
+  const out = st.querySelector('output');
+  st.querySelectorAll('button').forEach(b => b.addEventListener('click', () => {
+    const f = st.dataset.field;
+    createCfg[f] = Math.max(+st.dataset.min, Math.min(+st.dataset.max, createCfg[f] + +b.dataset.d));
+    out.textContent = createCfg[f];
+  }));
+});
+document.querySelectorAll('#mode-tabs .mode-tab').forEach(b => b.addEventListener('click', () => {
+  document.querySelectorAll('#mode-tabs .mode-tab').forEach(x => x.classList.toggle('active', x === b));
+  createCfg.mode = b.dataset.mode;
+  $('mode-sub').textContent = b.dataset.mode === 'timed' ? 'Ganha quem terminar mais rápido — cada erro soma 5 segundos' : 'Ganha quem fechar os 4 grupos com menos tentativas';
+}));
+function needName() {
+  const n = getName();
+  if (!n) { $('username').focus(); toast('Escolha um nome primeiro'); return null; }
+  store.set('mtUsername', n); return n;
+}
+$('btn-create').addEventListener('click', () => { if (needName()) openModal('modal-create'); });
+$('btn-create-confirm').addEventListener('click', () => {
+  const t = parseInt($('target-input').value, 10);
+  createCfg.target = t > 0 ? Math.min(999, t) : null;
+  hideModal('modal-create'); hostCreate(createCfg);
+});
+$('btn-join').addEventListener('click', () => guestJoin($('join-code').value));
+$('join-code').addEventListener('keydown', e => { if (e.key === 'Enter') guestJoin($('join-code').value); });
+$('btn-solo').addEventListener('click', soloStart);
+$('username').value = store.get('mtUsername', '');
+$('username').addEventListener('input', () => store.set('mtUsername', cleanName($('username').value)));
+
+$('btn-submit').addEventListener('click', submitGuess);
+$('btn-clear').addEventListener('click', () => { S.selected = []; renderMe(); });
+$('btn-shuffle').addEventListener('click', () => { S.order = shuffle(S.order); renderMe(); });
+$('btn-start').addEventListener('click', () => {
+  if (S.role !== 'host' || S.room.status !== 'waiting' || S.room.order.length < 2) return;
+  S.room.start(); hostBroadcast();
+});
+$('btn-close-room').addEventListener('click', () => { S.waitDismissed = true; hideModal('modal-wait'); });
+$('btn-room').addEventListener('click', () => {
+  if (!S.view) return;
+  S.waitDismissed = false; fillWait(); openModal('modal-wait');
+  if (S.view.status !== 'waiting') {
+    $('wait-title').textContent = 'Convide para a próxima rodada';
+    $('btn-start').hidden = true; $('wait-guest-note').hidden = true;
+    $('wait-sub').textContent = 'A partida já começou. Código da sala:';
+  }
+});
+async function copyLink() {
+  try { await navigator.clipboard.writeText(roomUrl()); toast('Link copiado!'); }
+  catch (e) { toast('Não deu para copiar — selecione o link'); }
+}
+$('btn-copy-link').addEventListener('click', copyLink);
+$('wait-link').addEventListener('click', copyLink);
+$('btn-share-link').addEventListener('click', async () => {
+  const text = 'Bora jogar Multi Conexão no site do Ursusman! Sala ' + S.code;
+  if (navigator.share) { try { await navigator.share({ title: 'Multi Conexão', text, url: roomUrl() }); } catch (e) {} }
+  else copyLink();
+});
+$('btn-rematch').addEventListener('click', vote);
+$('btn-show-result').addEventListener('click', reopenResult);
+$('btn-result-exit').addEventListener('click', leaveRoom);
+$('btn-exit').addEventListener('click', () => {
+  if (S.role === 'host' && S.view && S.view.players.length > 1 && !window.confirm('Se você sair, a sala acaba para todo mundo. Sair mesmo?')) return;
+  leaveRoom();
+});
+$('status-btn').addEventListener('click', () => { hideModal('modal-status'); if (S.closed && S.role) leaveRoom(); });
+$('btn-how').addEventListener('click', () => openModal('modal-how'));
+
+if (PARAMS.get('sala')) {
+  const code = PARAMS.get('sala').toUpperCase();
+  $('join-code').value = code;
+  if (getName()) guestJoin(code, PARAMS.get('b') ? +PARAMS.get('b') : null);
+  else toast('Escolha seu nome e clique em Entrar');
+}
+</script>
+</body>
+</html>
