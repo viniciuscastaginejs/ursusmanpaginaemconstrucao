@@ -1038,7 +1038,8 @@ function render() {
   }
 
   // histórico
-  $('history').innerHTML = game.guesses.map(g => `<div class="history-row">${g.map(l => EMOJI[l]).join('')}</div>`).join('');
+  // o histórico de cores só aparece no fim (durante o jogo seria dica)
+  $('history').innerHTML = !game.over ? '' : game.guesses.map(g => `<div class="history-row">${g.map(l => EMOJI[l]).join('')}</div>`).join('');
 
   $('controls').hidden = game.over;
   $('controls-end').hidden = !game.over;
