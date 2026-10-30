@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-7NSPWGP17W"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-7NSPWGP17W');
+  </script>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>Conexão — UrsusMan</title>
+  <meta name="description" content="Jogo de palavras do UrsusMan: encontre 4 grupos de 4 palavras que têm algo em comum." />
+  <meta name="theme-color" content="#060f1e" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Conexão — UrsusMan" />
+  <meta property="og:description" content="Encontre 4 grupos de 4 palavras que têm algo em comum." />
+  <meta property="og:url" content="https://ursusman.com/conexao/" />
+  <meta property="og:image" content="https://res.cloudinary.com/dtdomrtyp/image/upload/w_1200,h_630,c_pad,b_rgb:060f1e/v1781116238/UrsusMan_transparente_jnsn6c.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Conexão — UrsusMan" />
+  <meta name="twitter:description" content="Encontre 4 grupos de 4 palavras que têm algo em comum." />
+  <meta name="twitter:image" content="https://res.cloudinary.com/dtdomrtyp/image/upload/w_1200,h_630,c_pad,b_rgb:060f1e/v1781116238/UrsusMan_transparente_jnsn6c.png" />
+
+  <link rel="icon" type="image/png" sizes="32x32"
+        href="https://res.cloudinary.com/dtdomrtyp/image/upload/w_32,h_32,c_pad,b_transparent/v1781116238/UrsusMan_transparente_jnsn6c.png" />
+  <link rel="apple-touch-icon" sizes="180x180"
+        href="https://res.cloudinary.com/dtdomrtyp/image/upload/w_180,h_180,c_pad,b_rgb:060f1e/v1781116238/UrsusMan_transparente_jnsn6c.png" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Game",
+    "name": "Conexão",
+    "description": "Jogo de palavras do UrsusMan. Encontre 4 grupos de 4 palavras que têm algo em comum.",
+    "url": "https://ursusman.com/conexao/",
+    "author": { "@type": "Person", "name": "UrsusMan", "url": "https://ursusman.com" },
+    "inLanguage": "pt-BR",
+    "image": "https://res.cloudinary.com/dtdomrtyp/image/upload/v1781116238/UrsusMan_transparente_jnsn6c.png"
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    [hidden] { display: none !important; }
+
+    :root {
+      --blue-dark: #060f1e;
+      --blue-mid: #0d1f3c;
+      --blue-light: #1a3a6e;
+      --blue-accent: #2d6bc4;
+      --blue-bright: #4a90e2;
+      --gold: #f5c842;
+      --gold-dark: #c9991a;
+      --white: #ffffff;
+      --gray-light: #e8edf5;
+      --gray-mid: #9baac4;
+      --gray-dark: #3d5070;
+      --green: #4caf82;
+      --green-dark: #2e7d5a;
+      --font: 'Poppins', sans-serif;
+      --radius: 10px;
+      --shadow: 0 8px 32px rgba(0,0,0,0.4);
+
+      /* cores dos grupos (fácil → difícil) */
+      --g1: #f5c842; --g1-text: #0d1f3c;
+      --g2: #4caf82; --g2-text: #ffffff;
+      --g3: #4a90e2; --g3-text: #ffffff;
+      --g4: #9b6bd6; --g4-text: #ffffff;
+    }
+
+    html, body {
+      min-height: 100%;
+      font-family: var(--font);
+      background: linear-gradient(160deg, var(--blue-dark) 0%, var(--blue-mid) 40%, var(--blue-light) 100%);
+      background-attachment: fixed;
+      color: var(--white);
+    }
+
+    header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      background: rgba(6,15,30,0.6);
+      backdrop-filter: blur(12px);
+      position: sticky; top: 0; z-index: 100;
+    }
+    .header-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .header-logo img { height: 44px; object-fit: contain; filter: drop-shadow(0 2px 8px rgba(74,144,226,0.5)); }
+    .header-actions { display: flex; gap: 8px; }
+    .icon-btn {
+      width: 38px; height: 38px; border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.06);
+      color: var(--white); cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s, transform 0.1s;
+    }
+    .icon-btn:hover { background: rgba(255,255,255,0.12); transform: scale(1.05); }
+    .icon-btn:active { transform: scale(0.95); }
+    .icon-btn svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+    main {
+      max-width: 540px; margin: 0 auto;
+      padding: 24px 16px 24px;
+      display: flex; flex-direction: column; align-items: center; gap: 18px;
+    }
+
+    .game-title {
+      font-size: 28px; font-weight: 900; letter-spacing: -0.5px; text-align: center; width: 100%;
+      background: linear-gradient(135deg, #ffffff 0%, #a8c8ff 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      margin-bottom: -10px;
+    }
+    .game-sub { font-size: 13px; color: var(--gray-mid); text-align: center; }
+    .game-sub b { color: var(--gold); font-weight: 700; }
+
+    .stats-bar { display: flex; gap: 16px; width: 100%; }
+    .stat-chip {
+      flex: 1; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--radius); padding: 10px 8px; text-align: center;
+    }
+    .stat-chip .value { font-size: 22px; font-weight: 800; color: var(--gold); line-height: 1; }
+    .stat-chip .label { font-size: 10px; font-weight: 500; color: var(--gray-mid); margin-top: 3px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+    /* ── TABULEIRO ── */
+    .board { width: 100%; display: flex; flex-direction: column; gap: 8px; }
+    .grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+    .tile { min-width: 0; overflow: hidden; }
+
+    .tile {
+      aspect-ratio: 1.25;
+      border-radius: var(--radius);
+      border: 2px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.07);
+      color: var(--white);
+      font-family: var(--font);
+      font-weight: 800;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.2px;
+      line-height: 1.1;
+      padding: 4px;
+      display: flex; align-items: center; justify-content: center; text-align: center;
+      cursor: pointer; user-select: none;
+      overflow-wrap: normal; word-break: normal; hyphens: none;
+      transition: background 0.15s, border-color 0.15s, transform 0.1s, color 0.15s;
+    }
+    .tile:hover { background: rgba(255,255,255,0.12); }
+    .tile:active { transform: scale(0.95); }
+    .tile.sm { font-size: 12px; }
+    .tile.xs { font-size: 10px; }
+    .tile.selected {
+      background: var(--blue-accent);
+      border-color: var(--blue-bright);
+      box-shadow: 0 0 14px rgba(74,144,226,0.45);
+    }
+    .tile.shake { animation: shake 0.4s ease; }
+    .tile.jump { animation: jump 0.35s ease; }
+    @keyframes shake {
+      0%,100% { transform: translateX(0); } 20% { transform: translateX(-6px); }
+      40% { transform: translateX(6px); } 60% { transform: translateX(-4px); } 80% { transform: translateX(4px); }
+    }
+    @keyframes jump { 0%,100% { transform: translateY(0); } 45% { transform: translateY(-8px); } }
+
+    .solved {
+      border-radius: var(--radius);
+      padding: 12px 10px;
+      text-align: center;
+      animation: reveal 0.4s ease;
+      min-height: calc((100vw - 32px - 24px) / 4 / 1.25);
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    @media (min-width: 540px) { .solved { min-height: 90px; } }
+    .solved .cat { font-size: 15px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.4px; }
+    .solved .words { font-size: 13px; font-weight: 500; margin-top: 2px; opacity: 0.92; text-transform: uppercase; }
+    .solved.l1 { background: var(--g1); color: var(--g1-text); }
+    .solved.l2 { background: var(--g2); color: var(--g2-text); }
+    .solved.l3 { background: var(--g3); color: var(--g3-text); }
+    .solved.l4 { background: var(--g4); color: var(--g4-text); }
+    .solved.missed { opacity: 0.75; }
+    @keyframes reveal { from { transform: scale(0.94); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+    .lives { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--gray-mid); }
+    .lives-dots { display: flex; gap: 6px; }
+    .dot { width: 12px; height: 12px; border-radius: 50%; background: var(--gold); transition: background 0.3s, transform 0.3s; }
+    .dot.used { background: rgba(255,255,255,0.12); transform: scale(0.8); }
+
+    .controls { display: flex; gap: 8px; width: 100%; }
+    .btn {
+      flex: 1;
+      padding: 13px 12px; border-radius: var(--radius); border: none;
+      font-family: var(--font); font-size: 14px; font-weight: 700; cursor: pointer;
+      transition: transform 0.1s, opacity 0.2s, background 0.2s;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .btn:active { transform: scale(0.97); }
+    .btn:disabled { opacity: 0.4; cursor: default; }
+    .btn-ghost { background: rgba(255,255,255,0.07); color: var(--white); border: 1px solid rgba(255,255,255,0.14); }
+    .btn-ghost:hover:not(:disabled) { background: rgba(255,255,255,0.12); }
+    .btn-primary { background: var(--blue-accent); color: #fff; }
+    .btn-primary:hover:not(:disabled) { background: var(--blue-bright); }
+    .btn-gold { background: var(--gold); color: #0d1f3c; }
+    .btn-gold:hover:not(:disabled) { background: #f7d454; }
+    .btn svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+    .history { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 3px; }
+    .history-row { font-size: 14px; letter-spacing: 2px; line-height: 1; }
+
+    /* ── TOAST ── */
+    #toast-container {
+      position: fixed; top: 80px; left: 50%; transform: translateX(-50%); z-index: 999;
+      display: flex; flex-direction: column; gap: 8px; align-items: center; pointer-events: none;
+    }
+    .toast {
+      background: rgba(255,255,255,0.95); color: #0d1f3c;
+      padding: 10px 20px; border-radius: 100px; font-size: 14px; font-weight: 600;
+      animation: toastIn 0.3s ease, toastOut 0.4s 2.2s ease forwards;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3); white-space: nowrap;
+    }
+    @keyframes toastIn { from { opacity:0; transform:translateY(-8px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes toastOut { from { opacity:1; } to { opacity:0; } }
+
+    /* ── SOCIAL ── */
+    .social-bar { display: flex; justify-content: center; align-items: center; gap: 20px; padding: 18px 0 28px; width: 100%; }
+    .social-link {
+      display: flex; align-items: center; justify-content: center;
+      width: 40px; height: 40px; border-radius: 50%;
+      border: 1.5px solid rgba(74,144,226,0.4); background: rgba(74,144,226,0.08);
+      color: #4a90e2; text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s, background 0.2s;
+      box-shadow: 0 0 8px rgba(74,144,226,0.2), inset 0 0 8px rgba(74,144,226,0.05);
+    }
+    .social-link:hover {
+      transform: scale(1.12); border-color: rgba(74,144,226,0.9); background: rgba(74,144,226,0.18);
+      box-shadow: 0 0 16px rgba(74,144,226,0.6), 0 0 32px rgba(74,144,226,0.25); color: #7ab8ff;
+    }
+    .social-link svg { width: 18px; height: 18px; fill: currentColor; }
+
+    /* ── MODAIS ── */
+    .modal-overlay {
+      position: fixed; inset: 0; background: rgba(6,15,30,0.85); backdrop-filter: blur(8px);
+      z-index: 200; display: flex; align-items: center; justify-content: center; padding: 20px;
+      opacity: 0; pointer-events: none; transition: opacity 0.25s;
+    }
+    .modal-overlay.open { opacity: 1; pointer-events: all; }
+    .modal {
+      position: relative;
+      background: linear-gradient(135deg, #0f2040 0%, #1a3060 100%);
+      border: 1px solid rgba(255,255,255,0.12); border-radius: 20px;
+      padding: 28px 24px; width: 100%; max-width: 400px; max-height: 90vh; overflow-y: auto;
+      box-shadow: var(--shadow); transform: translateY(20px); transition: transform 0.25s;
+    }
+    .modal-overlay.open .modal { transform: translateY(0); }
+    .modal h2 { font-size: 20px; font-weight: 800; margin-bottom: 18px; text-align: center; }
+    .modal-close { position: absolute; top: 16px; right: 16px; background: none; border: none; color: var(--gray-mid); cursor: pointer; font-size: 22px; line-height: 1; }
+    .modal p { font-size: 14px; color: var(--gray-light); line-height: 1.55; margin-bottom: 12px; }
+    .modal p strong { color: var(--white); }
+    .levels { display: flex; flex-direction: column; gap: 6px; margin: 6px 0 14px; }
+    .level { border-radius: 8px; padding: 6px 10px; font-size: 13px; font-weight: 700; }
+    .level.l1 { background: var(--g1); color: var(--g1-text); }
+    .level.l2 { background: var(--g2); }
+    .level.l3 { background: var(--g3); }
+    .level.l4 { background: var(--g4); }
+
+    .result-emoji { text-align: center; font-size: 40px; margin-bottom: 4px; }
+    .result-msg { text-align: center; font-size: 15px; color: var(--gray-mid); margin-bottom: 14px; }
+    .result-grid { display: flex; flex-direction: column; align-items: center; gap: 3px; margin-bottom: 20px; font-size: 20px; letter-spacing: 3px; line-height: 1; }
+    .result-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 22px; }
+    .rs-item { text-align: center; }
+    .rs-value { font-size: 24px; font-weight: 800; color: var(--gold); }
+    .rs-label { font-size: 10px; color: var(--gray-mid); text-transform: uppercase; letter-spacing: 0.5px; }
+    .result-share { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+    @media (max-width: 480px) {
+      .game-title { font-size: 22px; }
+      .stats-bar { gap: 8px; }
+      .stat-chip { padding: 8px 4px; }
+      .stat-chip .value { font-size: 18px; }
+      .stat-chip .label { font-size: 9px; }
+      main { padding: 16px 10px 16px; gap: 14px; }
+      .grid, .board { gap: 6px; }
+      .tile { font-size: 12px; }
+      .tile.sm { font-size: 10.5px; }
+      .tile.xs { font-size: 9px; }
+      .solved { min-height: calc((100vw - 20px - 18px) / 4 / 1.25); padding: 8px; }
+      .solved .cat { font-size: 13px; }
+      .solved .words { font-size: 11.5px; }
+      .btn { font-size: 13px; padding: 12px 8px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a class="header-logo" href="https://ursusman.com" aria-label="Página inicial do UrsusMan">
+    <img src="https://res.cloudinary.com/dtdomrtyp/image/upload/v1781116238/UrsusMan_transparente_jnsn6c.png" alt="Ursusman" />
+  </a>
+  <div class="header-actions">
+    <button class="icon-btn" id="btn-new" title="Novo jogo" aria-label="Novo jogo">
+      <svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 3v6h-6"/></svg>
+    </button>
+    <button class="icon-btn" id="btn-stats" title="Estatísticas" aria-label="Ver estatísticas">
+      <svg viewBox="0 0 24 24"><rect x="3" y="14" width="4" height="7" rx="1"/><rect x="10" y="9" width="4" height="12" rx="1"/><rect x="17" y="4" width="4" height="17" rx="1"/></svg>
+    </button>
+    <button class="icon-btn" id="btn-how" title="Como jogar" aria-label="Como jogar">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.82 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+    </button>
+  </div>
+</header>
+
+<div id="toast-container"></div>
+
+<main>
+  <div class="game-title">Conexão</div>
+  <div class="game-sub" id="game-sub">Forme <b>4 grupos</b> de 4 palavras</div>
+
+  <div class="stats-bar">
+    <div class="stat-chip"><div class="value" id="bar-wins">0</div><div class="label">Vitórias</div></div>
+    <div class="stat-chip"><div class="value" id="bar-streak">0</div><div class="label">Sequência</div></div>
+    <div class="stat-chip"><div class="value" id="bar-perfect">0</div><div class="label">Perfeitos</div></div>
+    <div class="stat-chip"><div class="value" id="bar-winpct">0%</div><div class="label">% Vitória</div></div>
+  </div>
+
+  <div class="board" id="board">
+    <div id="solved-area" style="display:flex;flex-direction:column;gap:inherit;"></div>
+    <div class="grid" id="grid"></div>
+  </div>
+
+  <div class="lives">
+    <span>Erros restantes:</span>
+    <div class="lives-dots" id="lives"></div>
+  </div>
+
+  <div class="controls" id="controls">
+    <button class="btn btn-ghost" id="btn-shuffle">
+      <svg viewBox="0 0 24 24"><path d="M16 3h5v5"/><path d="M4 20 21 3"/><path d="M21 16v5h-5"/><path d="M15 15l6 6"/><path d="M4 4l5 5"/></svg>
+      Embaralhar
+    </button>
+    <button class="btn btn-ghost" id="btn-clear">Limpar</button>
+    <button class="btn btn-gold" id="btn-submit" disabled>Enviar</button>
+  </div>
+  <div class="controls" id="controls-end" hidden>
+    <button class="btn btn-ghost" id="btn-see-result">Ver resultado</button>
+    <button class="btn btn-gold" id="btn-again">Jogar outra</button>
+  </div>
+
+  <div class="history" id="history"></div>
+
+  <div class="social-bar">
+    <a class="social-link" href="https://www.twitch.tv/ursusmanoficial" target="_blank" rel="noopener" aria-label="Twitch">
+      <svg viewBox="0 0 24 24"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z"/></svg>
+    </a>
+    <a class="social-link" href="https://www.instagram.com/ursusmanoficial/" target="_blank" rel="noopener" aria-label="Instagram">
+      <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+    </a>
+    <a class="social-link" href="https://www.youtube.com/@ursusmanoficial" target="_blank" rel="noopener" aria-label="YouTube">
+      <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+    </a>
+    <a class="social-link" href="https://tiktok.com/@ursusmanoficial" target="_blank" rel="noopener" aria-label="TikTok">
+      <svg viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.350 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.440-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.790.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
+    </a>
+  </div>
+</main>
+
+<!-- COMO JOGAR -->
+<div class="modal-overlay" id="modal-how">
+  <div class="modal">
+    <button class="modal-close" data-close="modal-how" aria-label="Fechar">&times;</button>
+    <h2>Como Jogar</h2>
+    <p>Encontre <strong>4 grupos de 4 palavras</strong> que têm algo em comum.</p>
+    <p>Selecione 4 palavras e toque em <strong>Enviar</strong>. Se acertar, o grupo é revelado. Você pode errar <strong>4 vezes</strong>.</p>
+    <p>Cuidado com as pegadinhas: algumas palavras parecem caber em mais de um grupo, mas cada uma pertence a só um.</p>
+    <p>Cada grupo tem uma cor de acordo com a dificuldade:</p>
+    <div class="levels">
+      <div class="level l1">Fácil</div>
+      <div class="level l2">Médio</div>
+      <div class="level l3">Difícil</div>
+      <div class="level l4">Casca grossa</div>
+    </div>
+    <p style="margin-bottom:0;">Ao terminar, compartilhe o resultado — o link leva seus amigos para o <strong>mesmo desafio</strong>.</p>
+  </div>
+</div>
+
+<!-- ESTATÍSTICAS -->
+<div class="modal-overlay" id="modal-stats">
+  <div class="modal">
+    <button class="modal-close" data-close="modal-stats" aria-label="Fechar">&times;</button>
+    <h2>Estatísticas</h2>
+    <div class="result-stats" id="stats-grid"></div>
+    <button class="btn btn-ghost" id="btn-reset-stats" style="width:100%;">Zerar estatísticas</button>
+  </div>
+</div>
+
+<!-- RESULTADO -->
+<div class="modal-overlay" id="modal-result">
+  <div class="modal">
+    <button class="modal-close" data-close="modal-result" aria-label="Fechar">&times;</button>
+    <div class="result-emoji" id="result-emoji"></div>
+    <h2 id="result-title" style="margin-bottom:4px;"></h2>
+    <div class="result-msg" id="result-msg"></div>
+    <div class="result-grid" id="result-grid"></div>
+    <div class="result-stats" id="result-stats"></div>
+    <div class="result-share">
+      <button class="btn btn-primary" id="btn-share">
+        <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4"/><path d="m15.4 6.5-6.8 4"/></svg>
+        Compartilhar
+      </button>
+      <button class="btn btn-gold" id="btn-again-modal">Jogar outra</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════
+   BANCO DE DESAFIOS
+   Cada desafio: 4 grupos em ordem de dificuldade (1 = fácil … 4 = casca grossa).
+   Para adicionar mais, basta copiar um bloco e trocar as palavras.
+   Regra: cada palavra só pode estar em um grupo do mesmo desafio.
+   ═══════════════════════════════════════════════ */
+const PUZZLES = [
+  [ ['Frutas', ['UVA','PERA','KIWI','CAJU']],
+    ['Peças de xadrez', ['REI','RAINHA','TORRE','BISPO']],
+    ['Partes de uma camisa', ['GOLA','MANGA','BOLSO','PUNHO']],
+    ['Cartas do baralho', ['ÁS','VALETE','DAMA','CORINGA']] ],
+
+  [ ['Planetas', ['MARTE','VÊNUS','SATURNO','JÚPITER']],
+    ['Cores', ['VERDE','ROXO','LARANJA','ROSA']],
+    ['Flores', ['CRAVO','LÍRIO','TULIPA','MARGARIDA']],
+    ['Instrumentos musicais', ['VIOLÃO','BATERIA','FLAUTA','PIANO']] ],
+
+  [ ['Comidas de festa junina', ['PAMONHA','CANJICA','QUENTÃO','PAÇOCA']],
+    ['Animais da fazenda', ['VACA','CABRA','OVELHA','CAVALO']],
+    ['Signos', ['LEÃO','TOURO','CÂNCER','VIRGEM']],
+    ['Mascotes de times brasileiros', ['PORCO','URUBU','PEIXE','GALO']] ],
+
+  [ ['Jogos famosos', ['FORTNITE','MINECRAFT','ROBLOX','VALORANT']],
+    ['Teclas do teclado', ['ENTER','ESPAÇO','SHIFT','TAB']],
+    ['Formas geométricas', ['LOSANGO','HEXÁGONO','PENTÁGONO','TRAPÉZIO']],
+    ['Botões do controle de PlayStation', ['TRIÂNGULO','QUADRADO','CÍRCULO','XIS']] ],
+
+  [ ['Moedas', ['REAL','EURO','DÓLAR','IENE']],
+    ['Partes da mão', ['DEDO','UNHA','PULSO','POLEGAR']],
+    ['Feriados', ['PÁSCOA','CARNAVAL','FINADOS','TIRADENTES']],
+    ['Capitais brasileiras', ['NATAL','VITÓRIA','PALMAS','BELÉM']] ],
+
+  [ ['Notas musicais', ['DÓ','RÉ','MI','SOL']],
+    ['Esportes olímpicos', ['JUDÔ','SURFE','VÔLEI','ESGRIMA']],
+    ['Itens de festa de aniversário', ['BOLO','BALÃO','BRIGADEIRO','VELA']],
+    ['Partes de um barco', ['LEME','PROA','ÂNCORA','REMO']] ],
+
+  [ ['Ferramentas', ['MARTELO','SERROTE','ALICATE','CHAVE']],
+    ['Peixes', ['ATUM','SALMÃO','TILÁPIA','SARDINHA']],
+    ['Coisas da praia', ['AREIA','ONDA','CANGA','GUARDA-SOL']],
+    ['Utensílios de cozinha', ['PANELA','CONCHA','ESPÁTULA','FRIGIDEIRA']] ],
+
+  [ ['Pratos típicos', ['FEIJOADA','MOQUECA','ACARAJÉ','COXINHA']],
+    ['Louça', ['COPO','XÍCARA','TIGELA','PIRES']],
+    ['Tipos de queijo', ['MINAS','PRATO','COALHO','PARMESÃO']],
+    ['Pão de ___', ['QUEIJO','AÇÚCAR','FORMA','MEL']] ],
+
+  [ ['Fases da lua', ['CHEIA','NOVA','MINGUANTE','CRESCENTE']],
+    ['Insetos', ['FORMIGA','BARATA','GRILO','PULGA']],
+    ['Brinquedos', ['PIÃO','BONECA','IOIÔ','BAMBOLÊ']],
+    ['Coisas que voam', ['PIPA','DRONE','HELICÓPTERO','FOGUETE']] ],
+
+  [ ['Peças de roupa', ['CALÇA','SAIA','BLUSA','MEIA']],
+    ['Partes do corpo', ['OMBRO','JOELHO','COTOVELO','TORNOZELO']],
+    ['Fenômenos do clima', ['NEVE','GRANIZO','NEBLINA','GEADA']],
+    ['Guarda-___', ['CHUVA','ROUPA','SOL','COSTAS']] ],
+
+  [ ['Termos de futebol', ['GOL','PÊNALTI','ESCANTEIO','IMPEDIMENTO']],
+    ['Coisas de academia', ['SUPINO','AGACHAMENTO','ESTEIRA','HALTER']],
+    ['Coisas de live', ['CLIPE','RAID','SUB','EMOTE']],
+    ['Gêneros de jogos', ['RPG','FPS','MOBA','CORRIDA']] ],
+
+  [ ['Cômodos da casa', ['SALA','QUARTO','COZINHA','BANHEIRO']],
+    ['Profissões', ['PEDREIRO','DENTISTA','PADEIRO','BOMBEIRO']],
+    ['Aves', ['GALINHA','PATO','PAPAGAIO','TUCANO']],
+    ['Países da América do Sul', ['CHILE','PERU','BOLÍVIA','URUGUAI']] ],
+
+  [ ['Gêneros musicais brasileiros', ['SAMBA','FORRÓ','PAGODE','SERTANEJO']],
+    ['Cores de cabelo', ['RUIVO','MORENO','GRISALHO','CASTANHO']],
+    ['Danças', ['VALSA','TANGO','BALÉ','SAPATEADO']],
+    ['Temperos', ['SALSA','ORÉGANO','COMINHO','LOURO']] ],
+
+  [ ['Corpos d’água', ['RIO','LAGO','MAR','OCEANO']],
+    ['Animais marinhos', ['POLVO','ÁGUA-VIVA','BALEIA','GOLFINHO']],
+    ['Fenômenos naturais', ['TSUNAMI','TERREMOTO','FURACÃO','VULCÃO']],
+    ['Coisas de pirata', ['TESOURO','MAPA','TAPA-OLHO','NAVIO']] ],
+
+  [ ['Matérias da escola', ['HISTÓRIA','GEOGRAFIA','QUÍMICA','FÍSICA']],
+    ['Material escolar', ['LÁPIS','CADERNO','RÉGUA','ESTOJO']],
+    ['Tipos de texto', ['CONTO','POEMA','CRÔNICA','FÁBULA']],
+    ['Materiais', ['MADEIRA','VIDRO','AÇO','BORRACHA']] ],
+
+  [ ['Eletrodomésticos', ['GELADEIRA','FOGÃO','MICRO-ONDAS','LIQUIDIFICADOR']],
+    ['Órgãos do corpo', ['CORAÇÃO','PULMÃO','FÍGADO','RIM']],
+    ['Naipes do baralho', ['COPAS','ESPADAS','OUROS','PAUS']],
+    ['Metais', ['OURO','PRATA','COBRE','FERRO']] ],
+
+  [ ['Doces brasileiros', ['BRIGADEIRO','BEIJINHO','QUINDIM','COCADA']],
+    ['Coisas de Natal', ['PANETONE','RENA','PRESÉPIO','PISCA-PISCA']],
+    ['Legumes', ['CENOURA','CHUCHU','BETERRABA','BERINJELA']],
+    ['Coisas de Halloween', ['ABÓBORA','BRUXA','FANTASMA','MORCEGO']] ],
+
+  [ ['Meios de transporte', ['METRÔ','ÔNIBUS','TREM','BALSA']],
+    ['Árvores', ['IPÊ','PINHEIRO','JATOBÁ','EUCALIPTO']],
+    ['Partes do carro', ['PNEU','MOTOR','CAPÔ','PORTA-MALAS']],
+    ['Posições no futebol', ['ZAGUEIRO','GOLEIRO','LATERAL','VOLANTE']] ],
+
+  [ ['___-feira', ['SEGUNDA','TERÇA','QUARTA','SEXTA']],
+    ['Partes de um livro', ['CAPÍTULO','PÁGINA','ÍNDICE','PREFÁCIO']],
+    ['Itens de disfarce', ['MÁSCARA','PERUCA','CHAPÉU','ÓCULOS']],
+    ['Pelos do rosto', ['BIGODE','BARBA','CAVANHAQUE','COSTELETA']] ],
+
+  [ ['Cortes de carne', ['PICANHA','MAMINHA','FRALDINHA','ALCATRA']],
+    ['Bebidas', ['CAIPIRINHA','GUARANÁ','CHIMARRÃO','SUCO']],
+    ['Acompanhamentos de churrasco', ['FAROFA','VINAGRETE','PÃO DE ALHO','MAIONESE']],
+    ['A mesma raiz com outro nome', ['AIPIM','MACAXEIRA','MANDIOCA','CASSAVA']] ],
+
+  [ ['Gírias para dinheiro', ['GRANA','BUFUNFA','TUTU','DINDIM']],
+    ['Gírias para amigo', ['PARÇA','BROTHER','MANO','CHAPA']],
+    ['Gírias para bobo', ['MANÉ','TROUXA','OTÁRIO','PATETA']],
+    ['Gírias para bagunça', ['ZONA','BADERNA','ZORRA','FUZUÊ']] ],
+
+  [ ['Coisas com tela', ['TV','MONITOR','TABLET','SMARTWATCH']],
+    ['Coisas com ponteiros', ['RELÓGIO','BÚSSOLA','VELOCÍMETRO','BALANÇA']],
+    ['Coisas com teclas', ['PIANO','TECLADO','CONTROLE REMOTO','CALCULADORA']],
+    ['Coisas com cordas', ['VIOLINO','HARPA','RAQUETE','VARAL']] ],
+
+  [ ['Tons de verde', ['OLIVA','MUSGO','LIMA','MENTA']],
+    ['Pedras preciosas', ['RUBI','ESMERALDA','SAFIRA','DIAMANTE']],
+    ['Tons de vermelho', ['BORDÔ','CARMIM','VINHO','ESCARLATE']],
+    ['Tons de azul', ['MARINHO','CELESTE','TURQUESA','ANIL']] ],
+
+  [ ['Roupas de frio', ['CACHECOL','LUVA','GORRO','CASACO']],
+    ['Aves', ['PAVÃO','CEGONHA','AVESTRUZ','GAIVOTA']],
+    ['Outras palavras para criança', ['GURI','PIÁ','PIVETE','CURUMIM']],
+    ['Pé de ___', ['MOLEQUE','MEIA','PATO','GALINHA']] ],
+
+  [ ['Coisas do espaço', ['COMETA','GALÁXIA','ASTEROIDE','NEBULOSA']],
+    ['Animais peçonhentos', ['ESCORPIÃO','ARANHA','COBRA','LACRAIA']],
+    ['Lutas', ['BOXE','CARATÊ','JIU-JÍTSU','CAPOEIRA']],
+    ['Superpoderes', ['VOAR','TELEPATIA','INVISIBILIDADE','TELETRANSPORTE']] ],
+
+  [ ['Calçados', ['CHINELO','BOTA','SANDÁLIA','MOCASSIM']],
+    ['Jogos de cartas', ['TRUCO','PÔQUER','BURACO','PACIÊNCIA']],
+    ['Esportes com raquete', ['TÊNIS','BADMINTON','SQUASH','PINGUE-PONGUE']],
+    ['Virtudes', ['HUMILDADE','CORAGEM','HONESTIDADE','GENEROSIDADE']] ],
+
+  [ ['Emoções', ['RAIVA','MEDO','ALEGRIA','TRISTEZA']],
+    ['Esportes radicais', ['SKATE','PARAPENTE','RAPEL','ESCALADA']],
+    ['Fenômenos do tempo', ['TROVÃO','RELÂMPAGO','VENTANIA','GAROA']],
+    ['Para-___', ['CHOQUE','QUEDAS','RAIOS','BRISA']] ],
+
+  [ ['Joias', ['ANEL','COLAR','PULSEIRA','BRINCO']],
+    ['Maquiagem', ['BATOM','RÍMEL','BLUSH','DELINEADOR']],
+    ['Partes do olho', ['ÍRIS','PUPILA','CÍLIOS','PÁLPEBRA']],
+    ['Penteados', ['TRANÇA','COQUE','RABO DE CAVALO','MOICANO']] ],
+
+  [ ['Criaturas mitológicas', ['DRAGÃO','UNICÓRNIO','FÊNIX','MINOTAURO']],
+    ['Monstros de terror', ['VAMPIRO','LOBISOMEM','ZUMBI','MÚMIA']],
+    ['Folclore brasileiro', ['SACI','CURUPIRA','IARA','BOITATÁ']],
+    ['Heróis gregos', ['HÉRCULES','AQUILES','ULISSES','PERSEU']] ],
+
+  [ ['Tamanhos de roupa', ['PP','P','M','GG']],
+    ['Unidades de medida', ['KG','KM','ML','CM']],
+    ['Elementos químicos', ['AU','FE','AG','NA']],
+    ['Siglas de estados', ['SP','RJ','MG','BA']] ],
+
+  [ ['Coletivos', ['CARDUME','MATILHA','ENXAME','ALCATEIA']],
+    ['Filhotes', ['BEZERRO','POTRO','CORDEIRO','LEITÃO']],
+    ['Sons de animais', ['LATIDO','MIADO','RELINCHO','MUGIDO']],
+    ['Casas de animais', ['TOCA','NINHO','COLMEIA','FORMIGUEIRO']] ],
+
+  [ ['Operações matemáticas', ['SOMA','DIVISÃO','SUBTRAÇÃO','MULTIPLICAÇÃO']],
+    ['Tipos de ângulo', ['AGUDO','OBTUSO','RETO','RASO']],
+    ['Coisas do Egito', ['FARAÓ','ESFINGE','NILO','MÚMIA']],
+    ['Sólidos geométricos', ['CUBO','ESFERA','CILINDRO','PIRÂMIDE']] ],
+
+  [ ['Esportes com bola', ['FUTEBOL','BASQUETE','HANDEBOL','RÚGBI']],
+    ['Partes do computador', ['MOUSE','TECLADO','GABINETE','MONITOR']],
+    ['Animais do Pantanal', ['ONÇA','JACARÉ','CAPIVARA','TUIUIÚ']],
+    ['Coisas de circo', ['PALHAÇO','TRAPÉZIO','MALABARES','PICADEIRO']] ],
+
+  [ ['Bebidas quentes', ['CAFÉ','CHÁ','CHOCOLATE','CHIMARRÃO']],
+    ['Sobremesas', ['PUDIM','MOUSSE','PAVÊ','SORVETE']],
+    ['Idiomas', ['INGLÊS','ESPANHOL','ALEMÃO','ITALIANO']],
+    ['Tipos de pão', ['FRANCÊS','BAGUETE','CIABATTA','BRIOCHE']] ],
+
+  [ ['Partes da árvore', ['RAIZ','TRONCO','GALHO','FOLHA']],
+    ['Animais da savana', ['ZEBRA','GIRAFA','HIPOPÓTAMO','RINOCERONTE']],
+    ['Instrumentos de sopro', ['TROMPETE','SAXOFONE','CLARINETE','TROMBONE']],
+    ['Coisas de jardim', ['REGADOR','MANGUEIRA','ENXADA','VASO']] ],
+
+  [ ['Seleções campeãs do mundo', ['BRASIL','ALEMANHA','ITÁLIA','ARGENTINA']],
+    ['Clubes paulistas', ['PALMEIRAS','CORINTHIANS','SANTOS','SÃO PAULO']],
+    ['Clubes cariocas', ['FLAMENGO','FLUMINENSE','VASCO','BOTAFOGO']],
+    ['Clubes nordestinos', ['BAHIA','VITÓRIA','SPORT','FORTALEZA']] ],
+
+  [ ['Coisas de cinema', ['PIPOCA','INGRESSO','TELÃO','POLTRONA']],
+    ['Gêneros de filme', ['TERROR','COMÉDIA','DRAMA','FICÇÃO']],
+    ['Prêmios famosos', ['OSCAR','GRAMMY','EMMY','BOLA DE OURO']],
+    ['Funções no cinema', ['DIRETOR','ROTEIRISTA','DUBLÊ','FIGURANTE']] ],
+
+  [ ['Coisas de rede social', ['CURTIDA','STORY','REELS','HASHTAG']],
+    ['Partes de um e-mail', ['ASSUNTO','ANEXO','ASSINATURA','DESTINATÁRIO']],
+    ['Equipamento de streamer', ['WEBCAM','MICROFONE','CHROMA KEY','RING LIGHT']],
+    ['Termos de programação', ['CÓDIGO','BUG','LOOP','VARIÁVEL']] ],
+
+  [ ['Esportes de inverno', ['ESQUI','SNOWBOARD','PATINAÇÃO','CURLING']],
+    ['Esportes aquáticos', ['NATAÇÃO','POLO AQUÁTICO','MERGULHO','CANOAGEM']],
+    ['Jogos de mesa', ['SINUCA','PEBOLIM','PINGUE-PONGUE','XADREZ']],
+    ['Esportes de areia', ['FUTEVÔLEI','BEACH TENNIS','FRESCOBOL','ALTINHA']] ],
+
+  [ ['Partes do rosto', ['NARIZ','BOCA','QUEIXO','TESTA']],
+    ['Partes de uma fruta', ['CASCA','POLPA','CAROÇO','SEMENTE']],
+    ['Provas de atletismo', ['CORRIDA','ARREMESSO','MARATONA','REVEZAMENTO']],
+    ['Partes do sapato', ['SOLA','SALTO','CADARÇO','PALMILHA']] ],
+
+  [ ['Animais que pulam', ['CANGURU','SAPO','PULGA','COELHO']],
+    ['Animais com listras', ['ZEBRA','TIGRE','GAMBÁ','ABELHA']],
+    ['Animais com chifres', ['ALCE','BÚFALO','CERVO','BODE']],
+    ['Animais com casca ou carapaça', ['TARTARUGA','TATU','CARAMUJO','CARANGUEJO']] ],
+
+  [ ['Coisas de casamento', ['ALIANÇA','BUQUÊ','VÉU','PADRINHO']],
+    ['Coisas de chá de bebê', ['FRALDA','CHUPETA','MAMADEIRA','BABADOR']],
+    ['Coisas de formatura', ['BECA','CANUDO','CAPELO','DIPLOMA']],
+    ['Símbolos de sorte e azar', ['GATO PRETO','ESPELHO QUEBRADO','FERRADURA','TREVO']] ],
+
+  [ ['Estações do ano', ['VERÃO','INVERNO','OUTONO','PRIMAVERA']],
+    ['Meses do ano', ['MAIO','JUNHO','AGOSTO','ABRIL']],
+    ['Unidades de tempo', ['SEGUNDO','MINUTO','HORA','DÉCADA']],
+    ['Tipos de relógio', ['CUCO','AMPULHETA','DESPERTADOR','CRONÔMETRO']] ],
+
+  [ ['Partes da casa', ['TELHADO','PAREDE','PORTA','JANELA']],
+    ['Partes de uma música', ['REFRÃO','VERSO','PONTE','INTRO']],
+    ['Partes de um rio', ['FOZ','NASCENTE','MARGEM','LEITO']],
+    ['Símbolos nacionais', ['HINO','BANDEIRA','BRASÃO','SELO']] ],
+
+  [ ['Brincadeiras de rua', ['PEGA-PEGA','ESCONDE-ESCONDE','AMARELINHA','QUEIMADA']],
+    ['Jogos de tabuleiro', ['DAMA','LUDO','WAR','BANCO IMOBILIÁRIO']],
+    ['Jogos de bar', ['SINUCA','DARDOS','DOMINÓ','TRUCO']],
+    ['Brincadeiras de festa', ['MÍMICA','ESTÁTUA','TELEFONE SEM FIO','STOP']] ],
+
+  [ ['Coisas de viagem', ['MALA','PASSAPORTE','MOCHILA','VISTO']],
+    ['Partes do avião', ['ASA','CAUDA','TURBINA','CABINE']],
+    ['Coisas de aeroporto', ['PORTÃO','ESTEIRA','EMBARQUE','ALFÂNDEGA']],
+    ['Partes de um pássaro', ['BICO','PENA','GARRA','CRISTA']] ],
+
+  [ ['Massas', ['LASANHA','NHOQUE','ESPAGUETE','RAVIÓLI']],
+    ['Comidas japonesas', ['SUSHI','TEMAKI','GUIOZA','LÁMEN']],
+    ['Comidas de boteco', ['PASTEL','TORRESMO','CALABRESA','BATATA FRITA']],
+    ['Molhos', ['PESTO','BOLONHESA','BECHAMEL','BARBECUE']] ],
+
+  [ ['Coisas de escritório', ['GRAMPEADOR','CLIPE','CARIMBO','PASTA']],
+    ['Coisas de banheiro', ['ESCOVA','SABONETE','TOALHA','XAMPU']],
+    ['Utensílios de limpeza', ['VASSOURA','RODO','BALDE','ESPANADOR']],
+    ['Produtos de limpeza', ['DETERGENTE','ÁGUA SANITÁRIA','DESINFETANTE','AMACIANTE']] ],
+
+  [ ['Dinossauros', ['TIRANOSSAURO','VELOCIRAPTOR','TRICERÁTOPO','ESTEGOSSAURO']],
+    ['Coisas pré-históricas', ['MAMUTE','CAVERNA','FÓSSIL','METEORO']],
+    ['Coisas de detetive', ['PISTA','SUSPEITO','ÁLIBI','DIGITAL']],
+    ['Ferramentas de arqueólogo', ['PINCEL','PÁ','PENEIRA','LUPA']] ],
+
+  [ ['Frutas', ['AMORA','FIGO','CEREJA','AMEIXA']],
+    ['Capitais do mundo', ['LONDRES','TÓQUIO','CAIRO','LIMA']],
+    ['Estados do Norte', ['ACRE','AMAPÁ','RORAIMA','TOCANTINS']],
+    ['Rios famosos', ['AMAZONAS','NILO','TÂMISA','SENA']] ],
+
+  [ ['Profissões da saúde', ['MÉDICO','ENFERMEIRO','FARMACÊUTICO','FISIOTERAPEUTA']],
+    ['Coisas de hospital', ['MACA','SORO','SERINGA','ESTETOSCÓPIO']],
+    ['Coisas de farmácia', ['CURATIVO','POMADA','TERMÔMETRO','ALGODÃO']],
+    ['Gírias de gamer', ['NOOB','TRYHARD','CAMPER','SMURF']] ],
+
+  [ ['Coisas vermelhas', ['MORANGO','TOMATE','SANGUE','JOANINHA']],
+    ['Coisas brancas', ['NEVE','LEITE','ALGODÃO','NUVEM']],
+    ['Coisas verdes', ['ALFACE','SAPO','GRAMA','ABACATE']],
+    ['Coisas amarelas', ['GEMA','CANÁRIO','GIRASSOL','BANANA']] ],
+
+  [ ['Coisas de carnaval', ['CONFETE','SERPENTINA','ABADÁ','TRIO ELÉTRICO']],
+    ['Coisas de Páscoa', ['COELHO','OVO','COLOMBA','CHOCOLATE']],
+    ['Coisas de festa junina', ['FOGUEIRA','BANDEIRINHA','QUADRILHA','CORREIO ELEGANTE']],
+    ['Coisas de Réveillon', ['FOGOS','CHAMPANHE','ROUPA BRANCA','CONTAGEM']] ],
+
+  [ ['Deuses gregos', ['ZEUS','HERA','APOLO','POSEIDON']],
+    ['Deuses romanos', ['JÚPITER','MARTE','VÊNUS','NETUNO']],
+    ['Deuses nórdicos', ['THOR','ODIN','LOKI','FREYA']],
+    ['Deuses egípcios', ['RÁ','ANÚBIS','ÍSIS','OSÍRIS']] ],
+
+  [ ['Coisas com pés', ['MESA','CADEIRA','SOFÁ','BANQUETA']],
+    ['Coisas com dentes', ['PENTE','SERRA','ZÍPER','ENGRENAGEM']],
+    ['Coisas com pescoço', ['GARRAFA','VIOLÃO','GIRAFA','CISNE']],
+    ['Coisas com cabeça', ['ALFINETE','PREGO','ALHO','FÓSFORO']] ],
+
+  [ ['Gêneros musicais', ['ROCK','JAZZ','BLUES','REGGAE']],
+    ['Instrumentos de percussão', ['PANDEIRO','ZABUMBA','TRIÂNGULO','ATABAQUE']],
+    ['Elementos da música', ['RITMO','MELODIA','HARMONIA','TOM']],
+    ['Partes do violão', ['BRAÇO','CORDA','TRASTE','BOCA']] ],
+
+  [ ['Coisas que se acendem', ['LÂMPADA','FOGUEIRA','ISQUEIRO','LANTERNA']],
+    ['Coisas que estouram', ['PIPOCA','BALÃO','BOLHA','ESPINHA']],
+    ['Coisas que derretem', ['GELO','SORVETE','VELA','MANTEIGA']],
+    ['Coisas que se quebram', ['VIDRO','OSSO','PROMESSA','RECORDE']] ],
+
+  [ ['Materiais de pintura', ['TINTA','PINCEL','PALETA','CAVALETE']],
+    ['Tipos de foto', ['SELFIE','RETRATO','PAISAGEM','PANORAMA']],
+    ['Técnicas artísticas', ['GRAFITE','AQUARELA','MOSAICO','ESCULTURA']],
+    ['Movimentos artísticos', ['CUBISMO','BARROCO','IMPRESSIONISMO','SURREALISMO']] ],
+
+  [ ['Partes da bicicleta', ['GUIDÃO','PEDAL','SELIM','CORRENTE']],
+    ['Coisas de moto', ['CAPACETE','VISEIRA','ESCAPAMENTO','BAÚ']],
+    ['Coisas do trânsito', ['FAROL','FAIXA','LOMBADA','RADAR']],
+    ['Coisas de trem', ['VAGÃO','TRILHO','LOCOMOTIVA','ESTAÇÃO']] ],
+
+  [ ['Personagens de contos de fadas', ['BRUXA','PRÍNCIPE','FADA','OGRO']],
+    ['Partes de um castelo', ['TORRE','MURALHA','FOSSO','PONTE LEVADIÇA']],
+    ['Armas medievais', ['ESPADA','LANÇA','ARCO','CLAVA']],
+    ['Títulos de nobreza', ['REI','DUQUE','CONDE','BARÃO']] ],
+
+  [ ['Jeito nordestino', ['OXE','VIXE','ARRETADO','MAINHA']],
+    ['Jeito carioca', ['MERMÃO','CAÔ','PARADA','SINISTRO']],
+    ['Jeito gaúcho', ['BAH','TCHÊ','PILCHA','CUIA']],
+    ['Jeito mineiro', ['UAI','TREM','SÔ','NÓ']] ],
+
+  [ ['Raças de cachorro', ['POODLE','PUG','BEAGLE','LABRADOR']],
+    ['Raças de gato', ['SIAMÊS','PERSA','SPHYNX','MAINE COON']],
+    ['Raças de cavalo', ['MANGALARGA','ÁRABE','PURO-SANGUE','CRIOULO']],
+    ['Raças de gado', ['NELORE','HOLANDESA','GIR','ANGUS']] ],
+
+  [ ['Grãos', ['ARROZ','FEIJÃO','LENTILHA','GRÃO-DE-BICO']],
+    ['Coisas de fazenda', ['CURRAL','CELEIRO','TRATOR','ESPANTALHO']],
+    ['Sementes', ['CHIA','LINHAÇA','GERGELIM','QUINOA']],
+    ['Grandes lavouras do Brasil', ['SOJA','MILHO','CANA','CAFÉ']] ],
+
+  [ ['Profissões da escola', ['DIRETOR','PROFESSOR','INSPETOR','MERENDEIRA']],
+    ['Profissões do restaurante', ['GARÇOM','CHEF','MAÎTRE','SOMMELIER']],
+    ['Pessoas de um tribunal', ['ADVOGADO','PROMOTOR','RÉU','JÚRI']],
+    ['Funções no futebol', ['TÉCNICO','JUIZ','BANDEIRINHA','MASSAGISTA']] ],
+
+  [ ['Cumprimentos', ['OI','OLÁ','ALÔ','E AÍ']],
+    ['Despedidas', ['TCHAU','FALOU','ADEUS','ATÉ MAIS']],
+    ['Agradecimentos', ['OBRIGADO','VALEU','GRATO','BRIGADÃO']],
+    ['Pedidos de desculpa', ['FOI MAL','PERDÃO','DESCULPA','SINTO MUITO']] ],
+
+  [ ['Tipos de ovo', ['FRITO','COZIDO','MEXIDO','POCHÊ']],
+    ['Tipos de café', ['EXPRESSO','CAPUCHINO','PINGADO','COADO']],
+    ['Tipos de arroz', ['INTEGRAL','ARBÓRIO','BASMATI','PARBOILIZADO']],
+    ['Tipos de batata', ['FRITA','PALHA','RÚSTICA','SAUTÉ']] ],
+
+  [ ['Coisas de acampamento', ['BARRACA','LANTERNA','SACO DE DORMIR','FOGUEIRA']],
+    ['Coisas de piscina', ['BOIA','TOUCA','ÓCULOS','TRAMPOLIM']],
+    ['Brinquedos de parque', ['MONTANHA-RUSSA','RODA-GIGANTE','CARROSSEL','BATE-BATE']],
+    ['Coisas de festa infantil', ['PULA-PULA','PIÑATA','PESCARIA','ALGODÃO-DOCE']] ],
+
+  [ ['Os quatro elementos', ['FOGO','ÁGUA','TERRA','AR']],
+    ['Estados da matéria', ['SÓLIDO','LÍQUIDO','GASOSO','PLASMA']],
+    ['Partículas', ['ÁTOMO','ELÉTRON','PRÓTON','NÊUTRON']],
+    ['Forças da física', ['GRAVIDADE','ATRITO','EMPUXO','TENSÃO']] ],
+
+  [ ['Tipos de chapéu', ['BONÉ','BOINA','CARTOLA','SOMBRERO']],
+    ['Tipos de bolsa', ['MOCHILA','POCHETE','CARTEIRA','NECESSAIRE']],
+    ['Tipos de calça', ['JEANS','LEGGING','PANTALONA','CARGO']],
+    ['Tipos de casaco', ['JAQUETA','MOLETOM','BLAZER','PARKA']] ],
+
+  [ ['Coisas de padaria', ['SONHO','CROISSANT','ROSCA','BROA']],
+    ['Palavras para feliz', ['CONTENTE','RADIANTE','ALEGRE','EUFÓRICO']],
+    ['Palavras para cansado', ['EXAUSTO','ESGOTADO','MOÍDO','PREGADO']],
+    ['Coisas que acontecem dormindo', ['PESADELO','RONCO','SONAMBULISMO','BABA']] ],
+
+  [ ['Partes do celular', ['TELA','CÂMERA','BATERIA','CHIP']],
+    ['Coisas de teatro', ['PALCO','CORTINA','CAMARIM','PLATEIA']],
+    ['Cargos de empresa', ['CEO','GERENTE','ESTAGIÁRIO','SUPERVISOR']],
+    ['Seções de jornal', ['MANCHETE','EDITORIAL','CLASSIFICADOS','HORÓSCOPO']] ],
+
+  [ ['Animais de estimação', ['HAMSTER','CALOPSITA','PORQUINHO-DA-ÍNDIA','TARTARUGA']],
+    ['Animais do Ártico', ['URSO POLAR','MORSA','FOCA','RENA']],
+    ['Animais da Amazônia', ['BOTO','ARARA','SUCURI','PREGUIÇA']],
+    ['Pecados capitais', ['GULA','INVEJA','IRA','AVAREZA']] ],
+
+  [ ['Material escolar', ['MOCHILA','APONTADOR','COLA','TESOURA']],
+    ['Coisas da cama', ['TRAVESSEIRO','COLCHÃO','EDREDOM','FRONHA']],
+    ['Termos de xadrez', ['XEQUE','ROQUE','EMPATE','MATE']],
+    ['Dribles do futebol', ['CHAPÉU','CANETA','LENÇOL','ELÁSTICO']] ],
+
+  [ ['Partes do rosto', ['OLHO','BOCHECHA','SOBRANCELHA','LÁBIO']],
+    ['Coisas de churrasco', ['ESPETO','CARVÃO','GRELHA','SAL GROSSO']],
+    ['Coisas de obra', ['TIJOLO','CIMENTO','VIGA','ANDAIME']],
+    ['Bate-___', ['PAPO','BOCA','VOLTA','ESTACA']] ],
+
+  [ ['Instrumentos de medida', ['RÉGUA','TRENA','TERMÔMETRO','BALANÇA']],
+    ['Horóscopo chinês', ['RATO','DRAGÃO','MACACO','TIGRE']],
+    ['Moedas do mundo', ['PESO','RUPIA','FRANCO','YUAN']],
+    ['Signos', ['GÊMEOS','LIBRA','ESCORPIÃO','SAGITÁRIO']] ],
+
+  [ ['Coisas de correio', ['CARTA','SELO','ENVELOPE','ENCOMENDA']],
+    ['Coisas de banco', ['AGÊNCIA','BOLETO','EXTRATO','CHEQUE']],
+    ['Coisas de loja', ['VITRINE','PROVADOR','ETIQUETA','LIQUIDAÇÃO']],
+    ['Coisas de supermercado', ['CARRINHO','CESTA','CAIXA','GÔNDOLA']] ],
+
+  [ ['Expressões de surpresa', ['NOSSA','CARAMBA','EITA','CARACA']],
+    ['Risadas na internet', ['KKKK','HAHAHA','RSRS','HUEHUE']],
+    ['Abreviações de internet', ['VC','TB','BLZ','PQ']],
+    ['Onomatopeias', ['ATCHIM','CABUM','TOC-TOC','SPLASH']] ],
+
+  [ ['Pontos turísticos', ['CRISTO REDENTOR','PÃO DE AÇÚCAR','ELEVADOR LACERDA','MASP']],
+    ['Praias famosas', ['COPACABANA','IPANEMA','JERICOACOARA','PIPA']],
+    ['Cidades históricas', ['OURO PRETO','PARATY','OLINDA','TIRADENTES']],
+    ['Paraísos naturais', ['IGUAÇU','CHAPADA DIAMANTINA','LENÇÓIS MARANHENSES','BONITO']] ],
+
+  [ ['Equipamentos de futebol', ['CHUTEIRA','CANELEIRA','LUVA','APITO']],
+    ['Equipamentos de boxe', ['RINGUE','PROTETOR BUCAL','BANDAGEM','SACO DE PANCADA']],
+    ['Equipamentos de escalada', ['CORDA','MOSQUETÃO','CAPACETE','PICARETA']],
+    ['Equipamentos de mergulho', ['SNORKEL','NADADEIRA','CILINDRO','LASTRO']] ],
+
+  [ ['Coisas de mágico', ['CARTOLA','VARINHA','COELHO','BARALHO']],
+    ['Coisas de bruxa', ['VASSOURA','CALDEIRÃO','POÇÃO','FEITIÇO']],
+    ['Coisas de caubói', ['LAÇO','ESPORA','SALOON','XERIFE']],
+    ['Coisas de astronauta', ['TRAJE ESPACIAL','ESTAÇÃO ESPACIAL','GRAVIDADE ZERO','LUA']] ],
+
+  [ ['Coisas com asas', ['AVIÃO','ANJO','BORBOLETA','MOSCA']],
+    ['Coisas com rodinhas', ['SKATE','PATINETE','CARRINHO DE MÃO','MALA']],
+    ['Coisas com escamas', ['PEIXE','COBRA','JACARÉ','LAGARTIXA']],
+    ['Coisas com espinhos', ['CACTO','ROSA','OURIÇO','PORCO-ESPINHO']] ],
+
+  [ ['Profissões artísticas', ['ATOR','CANTOR','PINTOR','ESCULTOR']],
+    ['Profissões de TI', ['PROGRAMADOR','ANALISTA','DESIGNER','TESTER']],
+    ['Profissões do mar', ['PESCADOR','MARINHEIRO','SALVA-VIDAS','CAPITÃO']],
+    ['Profissões do campo', ['AGRÔNOMO','VETERINÁRIO','PEÃO','TRATORISTA']] ],
+
+  [ ['Sabores de suco', ['LARANJA','MARACUJÁ','ACEROLA','ABACAXI']],
+    ['Sabores de sorvete', ['FLOCOS','NAPOLITANO','PISTACHE','CREME']],
+    ['Sabores de pizza', ['MARGUERITA','PORTUGUESA','QUATRO QUEIJOS','MUÇARELA']],
+    ['Recheios de pastel', ['CARNE','PALMITO','CAMARÃO','FRANGO']] ],
+
+  [ ['Esportes americanos', ['BEISEBOL','FUTEBOL AMERICANO','HÓQUEI','LACROSSE']],
+    ['Termos de basquete', ['CESTA','LANCE LIVRE','TOCO','ASSISTÊNCIA']],
+    ['Termos de tênis', ['ACE','VOLEIO','SET','TIE-BREAK']],
+    ['Termos de vôlei', ['SAQUE','BLOQUEIO','CORTADA','MANCHETE']] ],
+
+  [ ['Monumentos famosos', ['TORRE EIFFEL','COLISEU','BIG BEN','TAJ MAHAL']],
+    ['Cidades italianas', ['ROMA','VENEZA','MILÃO','NÁPOLES']],
+    ['Cidades americanas', ['NOVA YORK','MIAMI','CHICAGO','LAS VEGAS']],
+    ['Cidades portuguesas', ['LISBOA','PORTO','BRAGA','COIMBRA']] ],
+
+  [ ['Coisas do céu', ['LUA','NUVEM','ARCO-ÍRIS','AURORA']],
+    ['Constelações', ['ÓRION','CRUZEIRO DO SUL','URSA MAIOR','CASSIOPEIA']],
+    ['Nacionalidades', ['FRANCESA','ALEMÃ','JAPONESA','ITALIANA']],
+    ['Tipos de chave', ['INGLESA','FENDA','ALLEN','ESTRELA']] ],
+
+  [ ['Coisas de Copa do Mundo', ['ÁLBUM','FIGURINHA','VUVUZELA','TAÇA']],
+    ['Coisas de Olimpíada', ['PIRA','MEDALHA','PÓDIO','ANÉIS']],
+    ['Coisas de Fórmula 1', ['PIT STOP','LARGADA','BOX','VOLTA RÁPIDA']],
+    ['Coisas do Oscar', ['TAPETE VERMELHO','ESTATUETA','INDICADOS','DISCURSO']] ],
+
+  [ ['Palavras vindas do inglês', ['FUTEBOL','SANDUÍCHE','BIFE','CLUBE']],
+    ['Palavras vindas do francês', ['ABAJUR','BALÉ','BUQUÊ','CROCHÊ']],
+    ['Palavras vindas do tupi', ['ABACAXI','JABUTI','PIPOCA','CAJU']],
+    ['Palavras vindas do árabe', ['ALFACE','AZEITE','ALMOFADA','AÇÚCAR']] ],
+
+  [ ['Medidas de distância', ['METRO','MILHA','LÉGUA','POLEGADA']],
+    ['Medidas de peso', ['QUILO','ARROBA','TONELADA','LIBRA']],
+    ['Medidas de volume', ['LITRO','GALÃO','BARRIL','PINTA']],
+    ['Medidas de informática', ['BYTE','MEGA','GIGA','TERA']] ],
+
+  [ ['Os sentidos', ['TATO','OLFATO','PALADAR','AUDIÇÃO']],
+    ['Sabores', ['DOCE','SALGADO','AZEDO','AMARGO']],
+    ['Temperaturas', ['GELADO','MORNO','QUENTE','FERVENDO']],
+    ['Texturas', ['ÁSPERO','LISO','MACIO','PEGAJOSO']] ],
+
+  [ ['Combustíveis', ['GASOLINA','ETANOL','DIESEL','GNV']],
+    ['Fontes de energia', ['SOLAR','EÓLICA','NUCLEAR','HIDRELÉTRICA']],
+    ['Coisas da parte elétrica', ['FIO','DISJUNTOR','TOMADA','INTERRUPTOR']],
+    ['Tipos de lâmpada', ['LED','FLUORESCENTE','HALÓGENA','INCANDESCENTE']] ],
+
+  [ ['Equipamento de banda de rock', ['GUITARRA','BATERIA','AMPLIFICADOR','PEDALEIRA']],
+    ['Tipos de show', ['ACÚSTICO','AO VIVO','TURNÊ','FESTIVAL']],
+    ['Coisas de orquestra', ['MAESTRO','BATUTA','PARTITURA','ESTANTE']],
+    ['Vozes de um coral', ['SOPRANO','CONTRALTO','TENOR','BAIXO']] ],
+
+  [ ['Partes da flor', ['PÉTALA','CAULE','PÓLEN','SÉPALA']],
+    ['Partes do vulcão', ['CRATERA','LAVA','MAGMA','CINZA']],
+    ['Partes da célula', ['MEMBRANA','CITOPLASMA','MITOCÔNDRIA','RIBOSSOMO']],
+    ['Camadas da Terra', ['CROSTA','MANTO','NÚCLEO','LITOSFERA']] ],
+
+  [ ['Bebidas de lanchonete', ['VITAMINA','MILK-SHAKE','REFRIGERANTE','SUCO']],
+    ['Cidades do interior paulista', ['CAMPINAS','SOROCABA','FRANCA','PIRACICABA']],
+    ['Capitais do Oriente Médio', ['DOHA','TEERÃ','BAGDÁ','AMÃ']],
+    ['Sanduíches', ['MISTO','BAURU','X-TUDO','BEIRUTE']] ],
+
+  [ ['Coisas de cabeleireiro', ['SECADOR','CHAPINHA','TESOURA','BABYLISS']],
+    ['Legumes e raízes', ['BATATA-DOCE','INHAME','NABO','RABANETE']],
+    ['Farinhas', ['TRIGO','MANDIOCA','ROSCA','AVEIA']],
+    ['Bolo de ___', ['CENOURA','FUBÁ','ROLO','POTE']] ],
+
+  [ ['Na fruteira', ['MAÇÃ','BANANA','LARANJA','MAMÃO']],
+    ['Na geladeira', ['LEITE','OVOS','MANTEIGA','IOGURTE']],
+    ['No freezer', ['GELO','SORVETE','PICOLÉ','HAMBÚRGUER']],
+    ['No armário da cozinha', ['ARROZ','MACARRÃO','ÓLEO','ENLATADO']] ],
+
+  [ ['Plataformas de live', ['TWITCH','YOUTUBE','TIKTOK','KICK']],
+    ['Formatos de arquivo', ['MP3','PDF','JPG','GIF']],
+    ['Formatos de vídeo', ['SHORTS','VLOG','UNBOXING','REACT']],
+    ['Coisas da internet', ['MEME','VIRAL','TREND','CANCELAMENTO']] ],
+
+  [ ['Coisas de banheiro', ['CHUVEIRO','PIA','ESPELHO','BANHEIRA']],
+    ['Primatas', ['GORILA','ORANGOTANGO','CHIMPANZÉ','BUGIO']],
+    ['Coisas de restaurante', ['CARDÁPIO','GORJETA','COUVERT','RESERVA']],
+    ['Pagar ___', ['MICO','PATO','PENITÊNCIA','CONTA']] ],
+
+  [ ['Coisas de abelha', ['COLMEIA','FAVO','ZANGÃO','RAINHA']],
+    ['Animais que hibernam', ['MARMOTA','MORCEGO','OURIÇO','ESQUILO']],
+    ['Tons de marrom', ['CARAMELO','CHOCOLATE','CAFÉ','TERRACOTA']],
+    ['Tipos de urso', ['PARDO','POLAR','PANDA','GRIZZLY']] ],
+
+  [ ['Sinônimos de vitória', ['TRIUNFO','CONQUISTA','ÊXITO','GLÓRIA']],
+    ['Sinônimos de fim', ['DESFECHO','TÉRMINO','CONCLUSÃO','ENCERRAMENTO']],
+    ['Sinônimos de enigma', ['CHARADA','MISTÉRIO','QUEBRA-CABEÇA','ADIVINHA']],
+    ['Sinônimos de ligação', ['CONEXÃO','VÍNCULO','ELO','LAÇO']] ],
+];
+
+/* ═══════════════ ESTADO ═══════════════ */
+const MAX_MISTAKES = 4;
+const EMOJI = ['🟨','🟩','🟦','🟪'];
+const LS_STATS = 'conexao_stats_v1';
+const LS_GAME  = 'conexao_game_v1';
+const LS_SEEN  = 'conexao_seen_v1';
+
+const $ = id => document.getElementById(id);
+const store = {
+  get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch { return d; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} }
+};
+
+let game = null;      // { id, order:[words], solved:[levels], mistakes, guesses:[[levels]], over, won }
+let selected = [];
+let busy = false;
+
+function shuffle(a) {
+  const arr = a.slice();
+  for (let i = arr.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [arr[i], arr[j]] = [arr[j], arr[i]]; }
+  return arr;
+}
+function levelOf(word) { return PUZZLES[game.id].findIndex(g => g[1].includes(word)); }
+
+function pickPuzzle() {
+  let seen = store.get(LS_SEEN, []);
+  let pool = PUZZLES.map((_, i) => i).filter(i => !seen.includes(i));
+  if (!pool.length) { seen = []; pool = PUZZLES.map((_, i) => i); }
+  const id = pool[Math.floor(Math.random() * pool.length)];
+  return id;
+}
+
+function newGame(id) {
+  if (id == null) id = pickPuzzle();
+  const words = PUZZLES[id].flatMap(g => g[1]);
+  game = { id, order: shuffle(words), solved: [], mistakes: 0, guesses: [], over: false, won: false, counted: false };
+  selected = [];
+  const seen = store.get(LS_SEEN, []).filter(x => x !== id);
+  seen.push(id);
+  store.set(LS_SEEN, seen.length >= PUZZLES.length ? [id] : seen);
+  saveGame();
+  history.replaceState(null, '', location.pathname + '?d=' + (id + 1));
+  render();
+}
+
+function saveGame() { store.set(LS_GAME, game); }
+
+/* ═══════════════ RENDER ═══════════════ */
+function tileClass(word) {
+  const len = Math.max(...word.split(/[\s-]/).map(p => p.length));
+  if (len > 10) return 'xs';
+  if (len > 8) return 'sm';
+  return '';
+}
+
+// diminui a fonte até a palavra caber inteira, sem quebrar no meio
+function fitTiles() {
+  document.querySelectorAll('.tile').forEach(t => {
+    t.style.fontSize = '';
+    let size = parseFloat(getComputedStyle(t).fontSize);
+    while ((t.scrollWidth > t.clientWidth || t.scrollHeight > t.clientHeight) && size > 7) {
+      size -= 0.5;
+      t.style.fontSize = size + 'px';
+    }
+  });
+}
+window.addEventListener('resize', fitTiles);
+document.fonts && document.fonts.ready.then(fitTiles);
+
+function render() {
+  $('game-sub').innerHTML = `Desafio <b>#${game.id + 1}</b> · forme 4 grupos de 4 palavras`;
+
+  // grupos resolvidos
+  const sa = $('solved-area');
+  sa.innerHTML = '';
+  game.solved.forEach(item => {
+    const lv = typeof item === 'object' ? item.l : item;
+    const missed = typeof item === 'object' && item.missed;
+    const [cat, words] = PUZZLES[game.id][lv];
+    const el = document.createElement('div');
+    el.className = `solved l${lv + 1}` + (missed ? ' missed' : '');
+    el.innerHTML = `<div class="cat"></div><div class="words"></div>`;
+    el.querySelector('.cat').textContent = cat;
+    el.querySelector('.words').textContent = words.join(', ');
+    sa.appendChild(el);
+  });
+
+  // grade
+  const grid = $('grid');
+  grid.innerHTML = '';
+  game.order.forEach(w => {
+    const b = document.createElement('button');
+    b.className = 'tile ' + tileClass(w) + (selected.includes(w) ? ' selected' : '');
+    b.textContent = w;
+    b.dataset.word = w;
+    b.addEventListener('click', () => toggle(w));
+    grid.appendChild(b);
+  });
+  grid.style.display = game.order.length ? '' : 'none';
+  fitTiles();
+
+  // vidas
+  const lives = $('lives');
+  lives.innerHTML = '';
+  for (let i = 0; i < MAX_MISTAKES; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i >= MAX_MISTAKES - game.mistakes ? ' used' : '');
+    lives.appendChild(d);
+  }
+
+  // histórico
+  $('history').innerHTML = game.guesses.map(g => `<div class="history-row">${g.map(l => EMOJI[l]).join('')}</div>`).join('');
+
+  $('controls').hidden = game.over;
+  $('controls-end').hidden = !game.over;
+  $('btn-submit').disabled = selected.length !== 4 || busy;
+  $('btn-clear').disabled = selected.length === 0 || busy;
+  renderStatsBar();
+}
+
+function toggle(w) {
+  if (game.over || busy) return;
+  const i = selected.indexOf(w);
+  if (i >= 0) selected.splice(i, 1);
+  else if (selected.length < 4) selected.push(w);
+  else return;
+  document.querySelectorAll('.tile').forEach(t => t.classList.toggle('selected', selected.includes(t.dataset.word)));
+  $('btn-submit').disabled = selected.length !== 4;
+  $('btn-clear').disabled = selected.length === 0;
+}
+
+function toast(msg, ms) {
+  const t = document.createElement('div');
+  t.className = 'toast';
+  t.textContent = msg;
+  $('toast-container').appendChild(t);
+  setTimeout(() => t.remove(), ms || 2700);
+}
+
+const wait = ms => new Promise(r => setTimeout(r, ms));
+
+/* ═══════════════ JOGADA ═══════════════ */
+async function submit() {
+  if (selected.length !== 4 || game.over || busy) return;
+  const levels = selected.map(levelOf);
+  const key = selected.slice().sort().join('|');
+  if (game.guesses.some(g => g.key === key)) { toast('Você já tentou esse grupo!'); return; }
+
+  busy = true;
+  $('btn-submit').disabled = true;
+
+  // pulinho nas peças selecionadas
+  const tiles = [...document.querySelectorAll('.tile.selected')];
+  for (const t of tiles) { t.classList.add('jump'); await wait(70); }
+  await wait(300);
+
+  const guessRow = levels.slice();
+  guessRow.key = key;
+  game.guesses.push(guessRow);
+  const counts = {};
+  levels.forEach(l => counts[l] = (counts[l] || 0) + 1);
+  const best = Math.max(...Object.values(counts));
+
+  if (best === 4) {
+    const lv = levels[0];
+    game.solved.push(lv);
+    game.order = game.order.filter(w => !selected.includes(w));
+    selected = [];
+    if (game.solved.length === 4) { game.over = true; game.won = true; }
+    finishTurn();
+    if (game.over) { await wait(500); endGame(); }
+  } else {
+    if (best === 3) toast('Falta só uma!');
+    tiles.forEach(t => { t.classList.remove('jump'); t.classList.add('shake'); });
+    await wait(450);
+    tiles.forEach(t => t.classList.remove('shake'));
+    game.mistakes++;
+    if (game.mistakes >= MAX_MISTAKES) {
+      game.over = true;
+      selected = [];
+      finishTurn();
+      await revealRemaining();
+      endGame();
+    } else {
+      finishTurn();
+    }
+  }
+}
+
+function finishTurn() {
+  busy = false;
+  // guarda 'key' das tentativas
+  game.guesses = game.guesses.map(g => { const r = g.slice(); r.key = g.key; return r; });
+  store.set(LS_GAME, { ...game, guesses: game.guesses.map(g => ({ l: g.slice(), key: g.key })) });
+  render();
+}
+
+async function revealRemaining() {
+  const remaining = [0,1,2,3].filter(l => !game.solved.some(s => (typeof s === 'object' ? s.l : s) === l));
+  for (const l of remaining) {
+    await wait(500);
+    game.solved.push({ l, missed: true });
+    const words = PUZZLES[game.id][l][1];
+    game.order = game.order.filter(w => !words.includes(w));
+    finishTurn();
+  }
+}
+
+/* ═══════════════ ESTATÍSTICAS ═══════════════ */
+function getStats() { return store.get(LS_STATS, { played: 0, wins: 0, streak: 0, best: 0, perfect: 0 }); }
+
+function endGame() {
+  if (!game.counted) {
+    const s = getStats();
+    s.played++;
+    if (game.won) {
+      s.wins++; s.streak++; s.best = Math.max(s.best, s.streak);
+      if (game.mistakes === 0) s.perfect++;
+    } else s.streak = 0;
+    store.set(LS_STATS, s);
+    game.counted = true;
+    finishTurn();
+    if (typeof gtag === 'function') gtag('event', 'conexao_fim', { desafio: game.id + 1, venceu: game.won, erros: game.mistakes });
+  }
+  showResult();
+}
+
+function statsHTML() {
+  const s = getStats();
+  const pct = s.played ? Math.round(100 * s.wins / s.played) : 0;
+  return [
+    [s.played, 'Jogos'], [pct + '%', 'Vitórias'], [s.streak, 'Sequência'], [s.best, 'Recorde']
+  ].map(([v, l]) => `<div class="rs-item"><div class="rs-value">${v}</div><div class="rs-label">${l}</div></div>`).join('');
+}
+
+function renderStatsBar() {
+  const s = getStats();
+  $('bar-wins').textContent = s.wins;
+  $('bar-streak').textContent = s.streak;
+  $('bar-perfect').textContent = s.perfect;
+  $('bar-winpct').textContent = (s.played ? Math.round(100 * s.wins / s.played) : 0) + '%';
+}
+
+function showResult() {
+  const perfect = game.won && game.mistakes === 0;
+  $('result-emoji').textContent = game.won ? (perfect ? '🏆' : '🎉') : '😵';
+  $('result-title').textContent = game.won ? (perfect ? 'Perfeito!' : 'Mandou bem!') : 'Não foi dessa vez';
+  $('result-msg').textContent = game.won
+    ? (perfect ? 'Nenhum erro. Respeita!' : `Você achou todos os grupos com ${game.mistakes} erro${game.mistakes > 1 ? 's' : ''}.`)
+    : 'Os grupos que faltaram foram revelados.';
+  $('result-grid').innerHTML = game.guesses.map(g => `<div>${g.map(l => EMOJI[l]).join('')}</div>`).join('');
+  $('result-stats').innerHTML = statsHTML();
+  openModal('modal-result');
+}
+
+function shareText() {
+  const head = `Conexão #${game.id + 1} — ${game.won ? 'consegui' : 'não consegui'}${game.won ? ` com ${game.mistakes} erro${game.mistakes === 1 ? '' : 's'}` : ''}`;
+  const rows = game.guesses.map(g => g.map(l => EMOJI[l]).join('')).join('\n');
+  return `${head}\n${rows}\n\nJoga o mesmo: https://ursusman.com/conexao/?d=${game.id + 1}`;
+}
+
+async function share() {
+  const text = shareText();
+  if (navigator.share && /Mobi|Android|iPhone/i.test(navigator.userAgent)) {
+    try { await navigator.share({ text }); return; } catch {}
+  }
+  try { await navigator.clipboard.writeText(text); toast('Resultado copiado!'); }
+  catch { toast('Não deu pra copiar 😕'); }
+}
+
+/* ═══════════════ MODAIS ═══════════════ */
+function openModal(id) { $(id).classList.add('open'); }
+function closeModal(id) { $(id).classList.remove('open'); }
+document.querySelectorAll('[data-close]').forEach(b => b.addEventListener('click', () => closeModal(b.dataset.close)));
+document.querySelectorAll('.modal-overlay').forEach(o => o.addEventListener('click', e => { if (e.target === o) closeModal(o.id); }));
+
+/* ═══════════════ EVENTOS ═══════════════ */
+$('btn-submit').addEventListener('click', submit);
+$('btn-clear').addEventListener('click', () => { selected = []; render(); });
+$('btn-shuffle').addEventListener('click', () => { game.order = shuffle(game.order); finishTurn(); });
+$('btn-again').addEventListener('click', () => newGame());
+$('btn-again-modal').addEventListener('click', () => { closeModal('modal-result'); newGame(); });
+$('btn-see-result').addEventListener('click', showResult);
+$('btn-share').addEventListener('click', share);
+$('btn-how').addEventListener('click', () => openModal('modal-how'));
+$('btn-stats').addEventListener('click', () => { $('stats-grid').innerHTML = statsHTML(); openModal('modal-stats'); });
+$('btn-reset-stats').addEventListener('click', () => {
+  if (confirm('Zerar todas as estatísticas?')) { store.set(LS_STATS, null); localStorage.removeItem(LS_STATS); $('stats-grid').innerHTML = statsHTML(); renderStatsBar(); }
+});
+$('btn-new').addEventListener('click', () => {
+  if (!game.over && game.guesses.length && !confirm('Começar outro desafio? O atual será abandonado.')) return;
+  if (!game.over && game.guesses.length && !game.counted) {
+    const s = getStats(); s.played++; s.streak = 0; store.set(LS_STATS, s);
+  }
+  newGame();
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter') submit();
+  if (e.key === 'Escape') document.querySelectorAll('.modal-overlay.open').forEach(o => closeModal(o.id));
+});
+
+/* ═══════════════ INÍCIO ═══════════════ */
+(function init() {
+  const param = parseInt(new URLSearchParams(location.search).get('d'), 10);
+  const linkId = (param >= 1 && param <= PUZZLES.length) ? param - 1 : null;
+  const saved = store.get(LS_GAME, null);
+  const savedOk = saved && PUZZLES[saved.id] && Array.isArray(saved.order);
+
+  if (savedOk && (linkId == null || linkId === saved.id)) {
+    game = saved;
+    game.guesses = (game.guesses || []).map(g => { const r = g.l.slice(); r.key = g.key; return r; });
+    history.replaceState(null, '', location.pathname + '?d=' + (game.id + 1));
+    render();
+    if (game.over) setTimeout(showResult, 300);
+  } else {
+    newGame(linkId);
+  }
+  if (!store.get('conexao_seen_how', false)) { openModal('modal-how'); store.set('conexao_seen_how', true); }
+})();
+</script>
+</body>
+</html>
