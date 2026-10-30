@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Copa de Charada — UrsusMan</title>
+  <meta name="robots" content="noindex" />
+  <meta name="theme-color" content="#060f1e" />
+  <link rel="icon" type="image/png" sizes="32x32" href="https://res.cloudinary.com/dtdomrtyp/image/upload/w_32,h_32,c_pad,b_transparent/v1781116238/UrsusMan_transparente_jnsn6c.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="estilo.css" />
+  <style>
+    #toast-container { top: auto; bottom: 24px; }
+    /* ── MONTAR CAMPEONATO ── */
+    #setup { max-width: 560px; margin: 0 auto; padding: 32px 18px 48px; display: flex; flex-direction: column; gap: 18px; }
+    #setup h1 { font-size: 26px; font-weight: 900; text-align: center; }
+    .setup-lede { text-align: center; color: var(--gray-mid); font-size: 14px; line-height: 1.6; }
+    .card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 18px; display: flex; flex-direction: column; gap: 14px; }
+    .row2 { display: grid; grid-template-columns: 1fr 140px; gap: 12px; }
+    .check { display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--gray-light); cursor: pointer; }
+    .check input { width: 18px; height: 18px; accent-color: var(--gold); }
+    .hint { font-size: 12px; color: var(--gray-mid); }
+    .hint b { color: var(--gold); }
+
+    /* ── CHAVE ── */
+    #bracket-view { padding: 14px 12px 30px; display: flex; flex-direction: column; align-items: center; gap: 10px; min-height: calc(100vh - 66px); }
+    .phrase { font-size: clamp(12px, 1.1vw, 16px); font-weight: 800; letter-spacing: .5px; text-transform: uppercase; text-align: center; color: var(--gray-light); min-height: 1em; }
+    .champ-area { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+    .trophy { font-size: clamp(44px, 5vw, 72px); line-height: 1; filter: drop-shadow(0 6px 18px rgba(245,200,66,.45)); }
+    .champ-label { font-size: 13px; font-weight: 800; letter-spacing: 3px; color: var(--gold); }
+    .champ-box { min-width: clamp(220px, 24vw, 360px); padding: 8px 18px; border-radius: 8px; background: var(--gold); color: #0d1f3c; font-size: clamp(18px, 2vw, 28px); font-weight: 900; text-align: center; text-transform: uppercase; min-height: 1.6em; }
+    .champ-box.empty { background: rgba(245,200,66,.15); border: 2px dashed rgba(245,200,66,.5); }
+    .bracket { display: grid; gap: clamp(6px, 1vw, 22px); align-items: stretch; width: 100%; max-width: 1700px; padding: 6px 4px; }
+    .col { display: flex; flex-direction: column; justify-content: space-around; align-items: center; gap: 10px; min-height: var(--col-h, 420px); min-width: 0; }
+    .col-title { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--blue-bright); text-align: center; font-weight: 700; margin-bottom: -4px; }
+    .match {
+      width: 100%; max-width: 210px; border-radius: 8px; cursor: pointer; position: relative;
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); padding: 4px; display: flex; flex-direction: column; gap: 4px;
+      transition: transform .15s, border-color .15s, box-shadow .15s;
+    }
+    .match:hover { transform: translateY(-2px); border-color: rgba(245,200,66,.6); }
+    .match.pending, .match.bye { cursor: default; opacity: .65; }
+    .match.pending:hover, .match.bye:hover { transform: none; border-color: rgba(255,255,255,0.1); }
+    .match.live { border-color: var(--live); box-shadow: 0 0 0 2px rgba(255,77,94,.35), 0 0 18px rgba(255,77,94,.35); }
+    .match.final { max-width: 250px; }
+    .bracket.big .m-slot { min-height: 1.7em; padding: 3px 7px; }
+    .bracket.big .match { gap: 3px; padding: 3px; }
+    .m-slot { display: flex; align-items: center; justify-content: space-between; gap: 6px; padding: 5px 8px; border-radius: 5px; background: #0f4f8f; font-size: clamp(11px, .95vw, 15px); font-weight: 800; text-transform: uppercase; min-height: 2em; }
+    .m-slot .nm { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .m-slot .sc { font-variant-numeric: tabular-nums; color: rgba(255,255,255,.75); flex: none; }
+    .m-slot.empty { background: rgba(15,79,143,.35); color: transparent; }
+    .m-slot.win { background: var(--gold); color: #0d1f3c; }
+    .m-slot.win .sc { color: #0d1f3c; }
+    .m-slot.lose { background: rgba(15,79,143,.45); color: rgba(255,255,255,.55); text-decoration: line-through; text-decoration-thickness: 2px; }
+    .m-tag { position: absolute; top: -9px; right: 6px; font-size: 9px; font-weight: 800; letter-spacing: 1px; padding: 1px 7px; border-radius: 99px; background: var(--live); color: #fff; animation: blink 1.4s infinite; }
+    .m-num { position: absolute; top: -9px; left: 6px; font-size: 9px; font-weight: 700; padding: 1px 6px; border-radius: 99px; background: #13284a; color: var(--gray-mid); border: 1px solid rgba(255,255,255,.12); }
+    @keyframes blink { 50% { opacity: .55; } }
+    .center-col { justify-content: center; align-items: center; gap: 12px; }
+    .final-label { font-size: 12px; font-weight: 900; letter-spacing: 3px; color: var(--gold); text-align: center; }
+    .copa-title { font-size: clamp(22px, 2.6vw, 40px); font-weight: 900; text-align: center; line-height: 1.1; color: var(--gold); text-transform: uppercase; letter-spacing: 1px; text-shadow: 0 2px 10px rgba(0,0,0,.5); margin-top: 4px; }
+    .meta-chip { font-size: 12px; color: var(--gray-mid); }
+    .meta-chip b { color: var(--gold); }
+
+    /* ── POP-UP DA PARTIDA ── */
+    #modal-match { padding: 14px; }
+    #modal-match .modal { max-width: 1180px; padding: 20px 22px 16px; }
+    .mm-head { text-align: center; margin-bottom: 12px; }
+    .mm-phase { font-size: 12px; letter-spacing: 3px; text-transform: uppercase; color: var(--blue-bright); font-weight: 700; }
+    .mm-title { font-size: 22px; font-weight: 900; }
+    .mm-grid { display: grid; grid-template-columns: 1fr minmax(170px, 230px) 1fr; gap: 18px; align-items: start; }
+    .pcard { display: flex; flex-direction: column; align-items: center; gap: 8px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 14px; transition: border-color .2s, box-shadow .2s; }
+    .pcard.leader { border-color: rgba(245,200,66,.5); }
+    .pcard.winner { border-color: var(--gold); box-shadow: 0 0 24px rgba(245,200,66,.35); }
+    .p-name { font-size: 24px; font-weight: 900; text-transform: uppercase; text-align: center; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .p-pts { font-size: 40px; font-weight: 900; color: var(--gold); line-height: 1; font-variant-numeric: tabular-nums; }
+    .p-pts small { font-size: 15px; color: var(--gray-mid); font-weight: 700; }
+    .bar { width: 100%; height: 10px; border-radius: 99px; background: rgba(255,255,255,0.08); overflow: hidden; }
+    .bar i { display: block; height: 100%; background: linear-gradient(90deg, var(--gold-dark), var(--gold)); border-radius: 99px; transition: width .5s ease; }
+    .chip { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 99px; background: rgba(255,255,255,0.08); color: var(--gray-light); }
+    .chip.on { background: rgba(76,175,130,.22); color: #8fe0b8; }
+    .chip.off { background: rgba(255,77,94,.18); color: #ffb3bb; }
+    .pcard .board { max-width: 300px; }
+    .pcard .cell { font-size: 24px; }
+    .p-round { min-height: 22px; font-size: 14px; font-weight: 700; text-align: center; }
+    .p-round.ok { color: #8fe0b8; } .p-round.miss { color: var(--danger); }
+    .center { display: flex; flex-direction: column; align-items: center; gap: 10px; padding-top: 10px; text-align: center; }
+    .vs { font-size: 26px; font-weight: 900; color: var(--gray-mid); }
+    .round-big { font-size: 13px; letter-spacing: 3px; text-transform: uppercase; color: var(--gray-mid); font-weight: 700; }
+    .round-big b { display: block; font-size: 40px; color: #fff; letter-spacing: 0; line-height: 1.1; }
+    .state-text { font-size: 14px; color: var(--gray-light); line-height: 1.4; }
+    .countdown { font-size: 34px; font-weight: 900; color: var(--gold); }
+    .hist { width: 100%; border-collapse: collapse; font-size: 12px; }
+    .hist th { color: var(--gray-mid); font-weight: 600; padding: 3px; }
+    .hist td { padding: 3px; border-top: 1px solid rgba(255,255,255,0.06); font-variant-numeric: tabular-nums; }
+    .hist td.w { color: #8fe0b8; font-weight: 700; }
+    .meta-line { font-size: 12px; color: var(--gray-mid); }
+    .meta-line b { color: var(--gold); }
+    .win-banner { grid-column: 1 / -1; text-align: center; padding: 12px; border-radius: 14px; background: linear-gradient(135deg, rgba(245,200,66,.25), rgba(245,200,66,.08)); border: 1px solid rgba(245,200,66,.6); }
+    .win-banner .t { font-size: 13px; letter-spacing: 3px; color: var(--gold); font-weight: 800; text-transform: uppercase; }
+    .win-banner .n { font-size: 30px; font-weight: 900; text-transform: uppercase; }
+    .ctrl { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.08); }
+    .code-box { width: 100%; text-align: center; margin-top: 10px; padding: 12px; border-radius: 12px; background: rgba(255,255,255,0.05); border: 1px dashed rgba(255,255,255,.2); }
+    .code-box .code { font-size: 36px; font-weight: 900; letter-spacing: 10px; color: var(--gold); }
+    .code-box .link { font-size: 12px; color: var(--gray-light); word-break: break-all; margin-top: 4px; }
+    .code-box .row { display: flex; gap: 8px; justify-content: center; margin-top: 8px; }
+
+    @media (max-width: 900px) {
+      .mm-grid { grid-template-columns: 1fr 1fr; }
+      .center { grid-column: 1 / -1; order: -1; flex-direction: row; flex-wrap: wrap; justify-content: center; padding: 0; }
+      .hist { display: none; }
+      .p-name { font-size: 18px; } .p-pts { font-size: 30px; } .pcard .cell { font-size: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-logo">
+    <a href="https://ursusman.com" title="Página inicial"><img src="https://res.cloudinary.com/dtdomrtyp/image/upload/v1781116238/UrsusMan_transparente_jnsn6c.png" alt="Ursusman" /></a>
+  </div>
+  <div class="header-actions">
+    <span class="meta-chip" id="hdr-meta"></span>
+    <button class="icon-btn" id="btn-how" title="Como funciona" aria-label="Como funciona">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.82 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+    </button>
+    <button class="icon-btn" id="btn-new" title="Novo campeonato" aria-label="Novo campeonato" hidden>
+      <svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 3v6h-6"/></svg>
+    </button>
+  </div>
+</header>
+<div id="toast-container"></div>
+
+<!-- ══════════ MONTAR CAMPEONATO ══════════ -->
+<section id="setup" hidden>
+  <h1>🏆 Montar campeonato</h1>
+  <p class="setup-lede">Coloque os competidores, defina a meta de pontos e a chave é montada sozinha. Cada partida ganha um código para você passar aos dois competidores.</p>
+  <div class="card">
+    <div>
+      <label class="field-label" for="f-title">Nome do campeonato</label>
+      <input class="field-input" id="f-title" maxlength="60" value="Copa de Charada UrsusMan" />
+    </div>
+    <div>
+      <label class="field-label" for="f-phrase">Frase de destaque (opcional, aparece no topo da chave)</label>
+      <input class="field-input" id="f-phrase" maxlength="90" placeholder="Ex.: Se atingirmos 5000 presentes teremos premiação para o campeão" />
+    </div>
+    <div class="row2">
+      <div>
+        <label class="field-label" for="f-names">Competidores (um por linha)</label>
+      </div>
+      <div>
+        <label class="field-label" for="f-target">Meta de pontos</label>
+      </div>
+    </div>
+    <div class="row2" style="margin-top:-10px">
+      <textarea class="field-input" id="f-names" placeholder="Beca&#10;Amanda&#10;Isa&#10;Tarnos&#10;…"></textarea>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <input class="field-input" id="f-target" type="number" min="10" max="999" value="30" style="text-align:center;font-weight:800;font-size:22px" />
+        <p class="hint">Pontos por rodada: 1ª <b>10</b> · 2ª <b>7</b> · 3ª <b>5</b> · 4ª <b>4</b> · 5ª <b>3</b> · 6ª <b>2</b> · errou <b>0</b></p>
+      </div>
+    </div>
+    <p class="hint" id="f-count">0 competidores</p>
+    <label class="check"><input type="checkbox" id="f-shuffle" checked /> Sortear a ordem da chave</label>
+    <button class="btn btn-gold btn-full" id="btn-build">Montar chave</button>
+  </div>
+</section>
+
+<!-- ══════════ CHAVE ══════════ -->
+<section id="bracket-view" hidden>
+  <div class="phrase" id="b-phrase"></div>
+  <div class="champ-area">
+    <div class="trophy">🏆</div>
+    <div class="champ-label">CAMPEÃO</div>
+    <div class="champ-box empty" id="b-champ">&nbsp;</div>
+  </div>
+  <div class="bracket" id="bracket"></div>
+  <div class="copa-title" id="b-title"></div>
+</section>
+
+<!-- ══════════ POP-UP DA PARTIDA ══════════ -->
+<div class="modal-overlay" id="modal-match">
+  <div class="modal">
+    <button class="modal-close" id="mm-close" aria-label="Fechar">&times;</button>
+    <div class="mm-head">
+      <div class="mm-phase" id="mm-phase"></div>
+      <div class="mm-title" id="mm-title"></div>
+      <div class="meta-line" id="mm-meta"></div>
+    </div>
+    <div class="mm-grid" id="mm-grid">
+      <div class="pcard" id="pc-0"></div>
+      <div class="center" id="mm-center"></div>
+      <div class="pcard" id="pc-1"></div>
+    </div>
+    <div class="code-box" id="code-box" hidden>
+      <div class="meta-line">Código da partida — passe só para os dois competidores</div>
+      <div class="code" id="code-val"></div>
+      <div class="link" id="code-link"></div>
+      <div class="row"><button class="btn btn-primary btn-sm" id="btn-copy-code">Copiar código</button><button class="btn btn-ghost btn-sm" id="btn-copy-link">Copiar link</button></div>
+    </div>
+    <div class="ctrl" id="mm-ctrl"></div>
+  </div>
+</div>
+
+<!-- COMO FUNCIONA -->
+<div class="modal-overlay" id="modal-how">
+  <div class="modal how">
+    <button class="modal-close" data-close="modal-how" aria-label="Fechar">&times;</button>
+    <h2>Como funciona</h2>
+    <p><strong>1.</strong> Monte o campeonato com os nomes e a meta. Vagas que sobrarem na chave viram passe direto (W.O.).</p>
+    <p><strong>2.</strong> Clique numa partida → <strong>Código da partida</strong>. Passe o código (ou o link) só para os dois competidores. Eles abrem <strong>ursusman.com/copa/jogar</strong>, digitam o código e escolhem o próprio nome.</p>
+    <p><strong>3.</strong> Quando os dois estiverem conectados, clique em <strong>Iniciar partida</strong>. Acompanhe ao vivo no pop-up — o vencedor avança sozinho na chave.</p>
+    <p><strong>Pontos por rodada</strong> (cada um com uma palavra diferente):</p>
+    <div class="pts-table"><div>1ª<b>10</b></div><div>2ª<b>7</b></div><div>3ª<b>5</b></div><div>4ª<b>4</b></div><div>5ª<b>3</b></div><div>6ª<b>2</b></div><div>errou<b>0</b></div></div>
+    <ul>
+      <li>Vence quem chegar na meta primeiro. Se os dois passarem na mesma rodada, vence quem tiver mais pontos; empate vai para rodada extra.</li>
+      <li>Uma partida por vez. Mantenha esta aba aberta durante a partida — ela é o juiz.</li>
+      <li>Fechou a aba sem querer? Abra de novo: a chave e a partida em andamento continuam de onde pararam, e os competidores reconectam sozinhos.</li>
+      <li>Alguém entrou no nome errado? Use <strong>Liberar vaga</strong>. Alguém não apareceu? Use <strong>W.O.</strong></li>
+    </ul>
+  </div>
+</div>
+
+<script src="https://unpkg.com/mqtt@5.10.1/dist/mqtt.min.js"></script>
+<script src="palavras.js"></script>
+<script src="comum.js"></script>
+<script>
+/* ═══════════════ CAMPEONATO (fica salvo neste navegador) ═══════════════ */
+const LS_KEY = 'copa_charada_v1';
+let T = null;               // campeonato
+let openId = null;          // partida aberta no pop-up
+let showCode = false;
+const H = { client: null, brokerIdx: 0, matchId: null, key: null, base: '', watchers: {} };
+
+function saveT() { store.set(LS_KEY, JSON.stringify(T)); }
+function loadT() { try { T = JSON.parse(store.get(LS_KEY, 'null')); } catch (e) { T = null; } }
+function M(id) { return T.matches.find(m => m.id === id); }
+function rounds() { return Math.log2(T.size); }
+function phaseName(r) {
+  const rem = rounds() - r;
+  return ({ 1: 'Final', 2: 'Semifinal', 3: 'Quartas de final', 4: 'Oitavas de final' })[rem] || 'Primeira fase';
+}
+function nextOf(m) {
+  if (m.r >= rounds() - 1) return null;
+  return { m: T.matches.find(x => x.r === m.r + 1 && x.i === (m.i >> 1)), side: m.i & 1 };
+}
+function shuffleArr(a) { const arr = a.slice(); for (let i = arr.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [arr[i], arr[j]] = [arr[j], arr[i]]; } return arr; }
+
+function buildTournament(names, target, title, phrase, doShuffle) {
+  let size = 2; while (size < names.length) size *= 2;
+  const list = doShuffle ? shuffleArr(names) : names.slice();
+  const pairs = size / 2, byes = size - list.length;
+  // espalha os W.O. pela chave (nunca W.O. contra W.O.)
+  const byePairs = new Set(); for (let j = 0; j < byes; j++) byePairs.add(Math.floor(j * pairs / byes));
+  const first = []; let k = 0;
+  for (let p = 0; p < pairs; p++) {
+    const a = list[k++] || null;
+    const b = byePairs.has(p) ? null : (list[k++] || null);
+    first.push([a, b]);
+  }
+  const matches = []; let num = 1;
+  const R = Math.log2(size);
+  for (let r = 0; r < R; r++) {
+    const n = size >> (r + 1);
+    for (let i = 0; i < n; i++) {
+      matches.push({ id: 'm' + r + '_' + i, r, i, num: 0, a: r === 0 ? first[i][0] : null, b: r === 0 ? first[i][1] : null,
+        code: randomId(6).toUpperCase(), status: 'pending', winner: null, totals: [0, 0], live: null });
+    }
+  }
+  T = { v: 1, title, phrase, target, size, matches, used: [], champion: null, created: Date.now() };
+  // numeração na ordem em que as partidas serão jogadas
+  T.matches.forEach(m => { if (!(m.r === 0 && (!m.a || !m.b))) m.num = num++; });
+  T.matches.filter(m => m.r === 0).forEach(m => {
+    if (m.a && m.b) m.status = 'ready';
+    else if (m.a || m.b) { m.status = 'bye'; m.winner = m.a ? 0 : 1; advance(m); }
+  });
+  saveT();
+}
+function advance(m) {
+  const nx = nextOf(m);
+  const name = m.winner === 0 ? m.a : m.b;
+  if (!nx) { T.champion = name; return; }
+  if (nx.side === 0) nx.m.a = name; else nx.m.b = name;
+  if (nx.m.a && nx.m.b && nx.m.status === 'pending') nx.m.status = 'ready';
+}
+
+/* ═══════════════ JUIZ DA PARTIDA ═══════════════ */
+function newLive() {
+  return {
+    phase: 'lobby', round: 0, words: ['', ''], startedAt: 0, nextAt: 0, winner: null, wo: false,
+    P: [0, 1].map(() => ({ id: null, connected: false, lastSeen: 0, guesses: [], done: false, pts: 0 })),
+    totals: [0, 0], history: []
+  };
+}
+function pickWord() {
+  const used = new Set(T.used);
+  let w, tries = 0;
+  do { w = normalizeWord(ANSWERS[Math.floor(Math.random() * ANSWERS.length)]); tries++; } while (used.has(w) && tries < 200);
+  T.used.push(w);
+  if (T.used.length > 1500) T.used = T.used.slice(-800);
+  return w;
+}
+function startRound(m) {
+  const L = m.live;
+  L.round++;
+  L.words = [pickWord(), pickWord()];
+  while (L.words[1] === L.words[0]) L.words[1] = pickWord();
+  L.P.forEach(p => { p.guesses = []; p.done = false; p.pts = 0; });
+  L.startedAt = Date.now(); L.nextAt = 0;
+  L.phase = 'playing';
+}
+function startMatch(m) {
+  if (!m.live || m.live.phase !== 'lobby') return;
+  m.status = 'live';
+  startRound(m);
+  changed(m);
+}
+function playerGuess(m, slot, raw) {
+  const L = m.live, p = L.P[slot];
+  if (L.phase !== 'playing') return { status: 'not_playing' };
+  if (p.done) return { status: 'done' };
+  const g = normalizeWord(raw || '');
+  if (!/^[A-Z]{5}$/.test(g)) return { status: 'length' };
+  if (!VALID_GUESSES.has(g)) return { status: 'invalid' };
+  p.guesses.push(evaluateGuess(g, L.words[slot]));
+  const solved = g === L.words[slot];
+  if (solved || p.guesses.length >= MAX_GUESSES) { p.done = true; p.pts = pointsFor(p.guesses.length, solved); }
+  if (L.P.every(x => x.done)) endRound(m);
+  return { status: 'ok' };
+}
+function endRound(m) {
+  const L = m.live;
+  L.P.forEach((p, s) => { L.totals[s] += p.pts; });
+  m.totals = L.totals.slice();
+  L.history.push({
+    round: L.round, words: L.words.slice(), pts: L.P.map(p => p.pts), tries: L.P.map(p => p.guesses.length),
+    solved: L.P.map(p => p.pts > 0)
+  });
+  const [a, b] = L.totals, t = T.target;
+  if ((a >= t || b >= t) && a !== b) return finishMatch(m, a > b ? 0 : 1, false);
+  L.phase = 'between';
+  L.nextAt = Date.now() + NEXT_ROUND_MS;
+}
+function finishMatch(m, slot, wo) {
+  const L = m.live || (m.live = newLive());
+  L.phase = 'finished'; L.winner = slot; L.wo = !!wo;
+  m.status = 'done'; m.winner = slot; m.totals = L.totals.slice();
+  advance(m);
+  changed(m);
+  toast('🏆 ' + (slot === 0 ? m.a : m.b) + ' venceu a partida!');
+}
+function undoMatch(m) {
+  const nx = nextOf(m);
+  if (nx && (nx.m.status === 'live' || nx.m.status === 'done')) return toast('A próxima partida já começou — não dá para anular.');
+  if (!confirm('Anular o resultado desta partida? Ela volta a ficar pronta para jogar.')) return;
+  if (nx) { if (nx.side === 0) nx.m.a = null; else nx.m.b = null; nx.m.status = 'pending'; }
+  else T.champion = null;
+  m.winner = null; m.status = 'ready'; m.totals = [0, 0]; m.live = newLive();
+  changed(m);
+}
+function viewFor(m, slot) {
+  const L = m.live, o = 1 - slot;
+  const last = L.history[L.history.length - 1] || null;
+  return {
+    title: T.title, phase: phaseName(m.r), num: m.num, target: T.target,
+    names: [m.a, m.b], me: slot, state: L.phase, round: L.round, totals: L.totals,
+    nextAt: L.nextAt, now: Date.now(), winner: L.winner, wo: L.wo,
+    mine: { guesses: L.P[slot].guesses, done: L.P[slot].done, pts: L.P[slot].pts },
+    opp: { guesses: L.P[o].guesses.map(g => g.map(c => ({ l: '', r: c.r }))), done: L.P[o].done, connected: L.P[o].connected },
+    last: last && L.phase !== 'playing' ? last : null
+  };
+}
+
+/* ═══════════════ REDE (a chave é o servidor da partida) ═══════════════ */
+async function ensureClient() {
+  if (H.client) return H.client;
+  for (let i = 0; i < BROKERS.length; i++) {
+    try {
+      H.client = await connectBroker(BROKERS[i], {});
+      H.brokerIdx = i;
+      H.client.on('message', onHostMessage);
+      H.client.on('connect', () => { if (H.matchId) { H.client.subscribe(H.base + 'h', { qos: 1 }); publishInfo(); } });
+      return H.client;
+    } catch (e) {}
+  }
+  return null;
+}
+async function activate(m) {
+  if (H.matchId === m.id) return true;
+  const c = await ensureClient();
+  if (!c) { toast('Não consegui conectar ao servidor. Verifique a internet.'); return false; }
+  if (H.matchId) {
+    const old = H.base;
+    c.publish(old + 'info', new Uint8Array(0), { qos: 1, retain: true });
+    c.unsubscribe(old + 'h');
+  }
+  const r = await deriveRoom(m.code);
+  Object.assign(H, { matchId: m.id, key: r.key, base: r.base, watchers: {} });
+  c.subscribe(r.base + 'h', { qos: 1 });
+  publishInfo();
+  if (!m.live) { m.live = newLive(); saveT(); }
+  return true;
+}
+function publishInfo() {
+  if (!H.client || !H.matchId) return;
+  seal(H.key, { t: 'info', at: Date.now() }).then(b => H.client.publish(H.base + 'info', b, { qos: 1, retain: true }));
+}
+function send(id, obj) {
+  if (!H.client) return;
+  const base = H.base;
+  seal(H.key, obj).then(b => H.client.publish(base + 'c/' + id, b, { qos: 1 }));
+}
+function slotOf(L, id) { return L.P.findIndex(p => p.id === id); }
+function lobbyMsg(m, id) {
+  const L = m.live;
+  return { t: 'lobby', title: T.title, phase: phaseName(m.r), num: m.num, names: [m.a, m.b], claimed: L.P.map(p => !!p.id), mine: slotOf(L, id), state: L.phase };
+}
+async function onHostMessage(topic, payload) {
+  if (topic !== H.base + 'h') return;
+  const msg = await open_(H.key, payload);
+  const m = H.matchId && M(H.matchId);
+  if (!msg || !m || !m.live || !msg.id) return;
+  const L = m.live, id = msg.id;
+  let s = slotOf(L, id);
+  if (s >= 0) { L.P[s].lastSeen = Date.now(); if (!L.P[s].connected && msg.t !== 'bye') { L.P[s].connected = true; changed(m); } }
+  else H.watchers[id] = Date.now();
+  switch (msg.t) {
+    case 'join':
+      send(id, lobbyMsg(m, id));
+      if (s >= 0) send(id, { t: 'state', v: viewFor(m, s) });
+      break;
+    case 'claim': {
+      const want = msg.slot === 1 ? 1 : 0;
+      if (m.status === 'done') { send(id, lobbyMsg(m, id)); break; }
+      if (s === -1 && !L.P[want].id) {
+        Object.assign(L.P[want], { id, connected: true, lastSeen: Date.now() });
+        delete H.watchers[id];
+        changed(m);
+        send(id, { t: 'state', v: viewFor(m, want) });
+      } else send(id, lobbyMsg(m, id));
+      break;
+    }
+    case 'guess':
+      if (s >= 0) {
+        const res = playerGuess(m, s, msg.word);
+        send(id, { t: 'guessRes', res: res.status, n: msg.n });
+        if (res.status === 'ok') changed(m);
+      }
+      break;
+    case 'bye':
+      if (s >= 0) { L.P[s].connected = false; changed(m); }
+      delete H.watchers[id];
+      break;
+  }
+}
+function broadcast(m) {
+  if (!m || H.matchId !== m.id || !m.live) return;
+  const L = m.live;
+  L.P.forEach((p, s) => { if (p.id && p.connected) send(p.id, { t: 'state', v: viewFor(m, s) }); });
+  Object.keys(H.watchers).forEach(id => send(id, lobbyMsg(m, id)));
+}
+function changed(m) {
+  saveT();
+  broadcast(m);
+  renderBracket();
+  if (openId === m.id) renderMatch();
+}
+setInterval(() => {
+  const m = H.matchId && M(H.matchId);
+  if (!m || !m.live) return;
+  const L = m.live, now = Date.now();
+  let dirty = false;
+  L.P.forEach(p => { if (p.id && p.connected && now - p.lastSeen > PLAYER_TIMEOUT_MS) { p.connected = false; dirty = true; } });
+  Object.keys(H.watchers).forEach(id => { if (now - H.watchers[id] > PLAYER_TIMEOUT_MS) delete H.watchers[id]; });
+  if (L.phase === 'between' && now >= L.nextAt) { startRound(m); dirty = true; }
+  if (dirty) changed(m); else broadcast(m);
+  if (openId === m.id) renderCenterClock();
+}, 1000);
+window.addEventListener('pagehide', () => { if (H.client && H.matchId) H.client.publish(H.base + 'info', new Uint8Array(0), { qos: 1, retain: true }); });
+
+/* ═══════════════ TELA DA CHAVE ═══════════════ */
+function slotEl(m, side) {
+  const name = side === 0 ? m.a : m.b;
+  const d = document.createElement('div');
+  let cls = 'm-slot';
+  if (!name) cls += ' empty';
+  if (m.winner === side && m.status === 'done') cls += ' win';
+  else if (m.winner === side && m.status === 'bye') cls += ' win';
+  else if (m.status === 'done') cls += ' lose';
+  d.className = cls;
+  const nm = document.createElement('span'); nm.className = 'nm';
+  nm.textContent = name || (m.status === 'bye' ? 'W.O.' : '—');
+  if (!name && m.status === 'bye') { d.classList.remove('empty'); d.style.color = 'rgba(255,255,255,.35)'; }
+  const sc = document.createElement('span'); sc.className = 'sc';
+  const live = m.status === 'live' || m.status === 'done';
+  sc.textContent = live && name ? m.totals[side] : '';
+  d.append(nm, sc);
+  return d;
+}
+function matchEl(m, isFinal) {
+  const el = document.createElement('div');
+  el.className = 'match ' + m.status + (isFinal ? ' final' : '');
+  el.dataset.id = m.id;
+  if (m.num) { const n = document.createElement('span'); n.className = 'm-num'; n.textContent = '#' + m.num; el.appendChild(n); }
+  if (m.status === 'live') { const t = document.createElement('span'); t.className = 'm-tag'; t.textContent = 'AO VIVO'; el.appendChild(t); }
+  el.append(slotEl(m, 0), slotEl(m, 1));
+  el.title = m.status === 'pending' ? 'Aguardando os vencedores das partidas anteriores' : m.status === 'bye' ? 'Passe direto (W.O.)' : 'Abrir partida';
+  el.addEventListener('click', () => { if (m.status !== 'pending' && m.status !== 'bye') openMatch(m.id); });
+  return el;
+}
+function renderBracket() {
+  if (!T) return;
+  $('b-phrase').textContent = T.phrase || '';
+  $('b-title').textContent = T.title;
+  $('hdr-meta').innerHTML = 'Meta: <b>' + T.target + ' pts</b>';
+  const cb = $('b-champ');
+  cb.textContent = T.champion || ' ';
+  cb.classList.toggle('empty', !T.champion);
+  const R = rounds(), br = $('bracket');
+  br.innerHTML = '';
+  const firstCount = T.size / 2;
+  const sideCount = Math.max(1, firstCount / 2);
+  br.style.setProperty('--col-h', Math.max(220, sideCount * (T.size >= 32 ? 76 : 86)) + 'px');
+  if (R === 1) {
+    br.style.gridTemplateColumns = 'auto';
+    const col = document.createElement('div'); col.className = 'col center-col';
+    const fl = document.createElement('div'); fl.className = 'final-label'; fl.textContent = 'FINAL';
+    col.append(fl, matchEl(T.matches[0], true)); br.appendChild(col);
+    return;
+  }
+  br.style.gridTemplateColumns = 'repeat(' + (2 * (R - 1) + 1) + ', minmax(0, 1fr))';
+  br.classList.toggle('big', T.size >= 32);
+  const cols = [];
+  for (let r = 0; r < R - 1; r++) {
+    const ms = T.matches.filter(m => m.r === r).sort((x, y) => x.i - y.i);
+    const half = ms.length / 2;
+    cols[r] = ms.slice(0, half);
+    cols[2 * (R - 1) - r] = ms.slice(half);
+  }
+  for (let c = 0; c < 2 * (R - 1) + 1; c++) {
+    const col = document.createElement('div');
+    if (c === R - 1) {
+      col.className = 'col center-col';
+      const fl = document.createElement('div'); fl.className = 'final-label'; fl.textContent = 'FINAL';
+      col.append(fl, matchEl(T.matches.find(m => m.r === R - 1), true));
+    } else {
+      col.className = 'col';
+      cols[c].forEach(m => col.appendChild(matchEl(m)));
+    }
+    br.appendChild(col);
+  }
+}
+
+/* ═══════════════ POP-UP DA PARTIDA ═══════════════ */
+async function openMatch(id) {
+  const m = M(id);
+  const busy = T.matches.find(x => x.status === 'live' && x.id !== id);
+  if ((m.status === 'ready' || m.status === 'live') && busy) {
+    toast('A partida #' + busy.num + ' ainda está em andamento. Termine ela primeiro.');
+    openId = busy.id; showCode = false; renderMatch(); $('modal-match').classList.add('open');
+    return;
+  }
+  openId = id; showCode = false;
+  if (m.status === 'ready' || m.status === 'live') await activate(m);
+  renderMatch();
+  $('modal-match').classList.add('open');
+}
+function closeMatch() { $('modal-match').classList.remove('open'); openId = null; }
+function playerLink(m) {
+  const u = new URL('jogar/', location.href);
+  u.search = '?c=' + m.code + (H.brokerIdx ? '&b=' + H.brokerIdx : '') + (PARAMS.get('broker') ? '&broker=' + encodeURIComponent(PARAMS.get('broker')) : '');
+  return u.toString();
+}
+function renderPlayer(m, s) {
+  const el = $('pc-' + s); el.innerHTML = '';
+  const L = m.live, p = L ? L.P[s] : null;
+  const name = s === 0 ? m.a : m.b;
+  const total = m.totals[s];
+  const lead = L && L.totals[s] > L.totals[1 - s];
+  el.className = 'pcard' + (m.winner === s && m.status === 'done' ? ' winner' : lead ? ' leader' : '');
+  const nm = document.createElement('div'); nm.className = 'p-name'; nm.textContent = name || '—';
+  const pts = document.createElement('div'); pts.className = 'p-pts'; pts.innerHTML = total + ' <small>/ ' + T.target + '</small>';
+  const bar = document.createElement('div'); bar.className = 'bar'; const bi = document.createElement('i'); bi.style.width = Math.min(100, total / T.target * 100) + '%'; bar.appendChild(bi);
+  const chip = document.createElement('span');
+  if (m.status === 'done') { chip.className = 'chip'; chip.textContent = m.winner === s ? '🏆 Venceu' : 'Eliminado'; }
+  else if (!p || !p.id) { chip.className = 'chip'; chip.textContent = 'Aguardando entrar…'; }
+  else { chip.className = 'chip ' + (p.connected ? 'on' : 'off'); chip.textContent = p.connected ? '● Conectado' : '● Desconectado'; }
+  const board = document.createElement('div'); board.className = 'board';
+  const prev = renderPlayer.prevRows && renderPlayer.prevRows[s];
+  const rows = p ? p.guesses.length : 0;
+  renderBoard(board, p ? p.guesses : [], { flipRow: prev != null && rows === prev + 1 ? rows - 1 : undefined });
+  renderPlayer.prevRows = renderPlayer.prevRows || [];
+  renderPlayer.prevRows[s] = rows;
+  const rd = document.createElement('div'); rd.className = 'p-round';
+  if (L && p && p.done && L.phase === 'playing') {
+    rd.className += p.pts ? ' ok' : ' miss';
+    rd.textContent = p.pts ? 'Acertou na ' + p.guesses.length + 'ª · +' + p.pts : 'Não acertou · +0';
+  } else if (L && L.phase !== 'playing' && L.history.length && m.status !== 'done' || (L && L.phase === 'finished' && L.history.length)) {
+    const h = L.history[L.history.length - 1];
+    rd.className += h.solved[s] ? ' ok' : ' miss';
+    rd.textContent = (h.solved[s] ? 'Acertou na ' + h.tries[s] + 'ª · +' + h.pts[s] : 'Não acertou · +0') + ' · ' + (ACCENTED[h.words[s]] || h.words[s]);
+  }
+  el.append(nm, pts, bar, chip, board, rd);
+}
+function renderCenterClock() {
+  const m = openId && M(openId); if (!m || !m.live) return;
+  const el = document.getElementById('cd'); if (!el) return;
+  const L = m.live;
+  if (L.phase === 'between') el.textContent = Math.max(0, Math.ceil((L.nextAt - Date.now()) / 1000)) + 's';
+}
+function renderMatch() {
+  const m = openId && M(openId); if (!m) return;
+  const L = m.live;
+  $('mm-phase').textContent = phaseName(m.r) + (m.num ? ' · Partida #' + m.num : '');
+  $('mm-title').textContent = (m.a || '—') + '  ×  ' + (m.b || '—');
+  $('mm-meta').innerHTML = 'Meta: <b>' + T.target + ' pontos</b> · 1ª 10 · 2ª 7 · 3ª 5 · 4ª 4 · 5ª 3 · 6ª 2';
+  renderPlayer(m, 0); renderPlayer(m, 1);
+
+  const c = $('mm-center'); c.innerHTML = '';
+  const grid = $('mm-grid');
+  grid.querySelectorAll('.win-banner').forEach(x => x.remove());
+  if (m.status === 'done') {
+    const wb = document.createElement('div'); wb.className = 'win-banner';
+    wb.innerHTML = '<div class="t">🏆 ' + (L && L.wo ? 'Venceu por W.O.' : 'Venceu a partida') + '</div>';
+    const n = document.createElement('div'); n.className = 'n'; n.textContent = (m.winner === 0 ? m.a : m.b) + ' · ' + m.totals[0] + ' × ' + m.totals[1];
+    wb.appendChild(n); grid.prepend(wb);
+  }
+  const rb = document.createElement('div'); rb.className = 'round-big';
+  rb.innerHTML = 'Rodada<b>' + (L && L.round ? L.round : '—') + '</b>';
+  const vs = document.createElement('div'); vs.className = 'vs'; vs.textContent = 'VS';
+  const st = document.createElement('div'); st.className = 'state-text';
+  if (!L || L.phase === 'lobby') {
+    const on = L ? L.P.filter(p => p.id && p.connected).length : 0;
+    st.textContent = on === 2 ? 'Os dois estão conectados. Pode iniciar!' : 'Passe o código para os competidores (' + on + '/2 conectados)';
+  } else if (L.phase === 'playing') st.textContent = 'Valendo! Cada um com a sua palavra.';
+  else if (L.phase === 'between') { st.innerHTML = 'Próxima rodada em'; }
+  else if (L.phase === 'finished') st.textContent = 'Partida encerrada.';
+  c.append(vs, rb, st);
+  if (L && L.phase === 'between') { const cd = document.createElement('div'); cd.className = 'countdown'; cd.id = 'cd'; c.appendChild(cd); }
+  if (L && L.history.length) {
+    const tb = document.createElement('table'); tb.className = 'hist';
+    const head = document.createElement('tr');
+    ['Rod.', m.a, m.b].forEach(t => { const th = document.createElement('th'); th.textContent = (t || '').slice(0, 10); head.appendChild(th); });
+    tb.appendChild(head);
+    L.history.forEach(h => {
+      const tr = document.createElement('tr');
+      const td0 = document.createElement('td'); td0.textContent = h.round; tr.appendChild(td0);
+      [0, 1].forEach(s => { const td = document.createElement('td'); td.textContent = '+' + h.pts[s]; if (h.pts[s] > h.pts[1 - s]) td.className = 'w'; tr.appendChild(td); });
+      tb.appendChild(tr);
+    });
+    c.appendChild(tb);
+  }
+  renderCenterClock();
+
+  // controles do organizador
+  const ctrl = $('mm-ctrl'); ctrl.innerHTML = '';
+  const btn = (txt, cls, fn, dis) => { const b = document.createElement('button'); b.className = 'btn btn-sm ' + cls; b.textContent = txt; b.disabled = !!dis; b.addEventListener('click', fn); ctrl.appendChild(b); return b; };
+  if (m.status !== 'done') {
+    btn(showCode ? 'Esconder código' : '🔑 Código da partida', 'btn-primary', () => { showCode = !showCode; renderMatch(); });
+    if (L && L.phase === 'lobby') {
+      const ready = L.P.every(p => p.id && p.connected);
+      btn('▶ Iniciar partida', 'btn-gold', () => startMatch(m), !ready);
+    }
+    if (L) [0, 1].forEach(s => { if (L.P[s].id) btn('Liberar vaga de ' + (s ? m.b : m.a), 'btn-ghost', () => { if (confirm('Liberar a vaga de ' + (s ? m.b : m.a) + '? Quem estiver nela sai e outra pessoa pode entrar.')) { send(L.P[s].id, { t: 'kicked' }); Object.assign(L.P[s], { id: null, connected: false }); changed(m); } }); });
+    [0, 1].forEach(s => btn('W.O. para ' + (s ? m.b : m.a), 'btn-danger', () => { if (confirm('Dar a vitória por W.O. para ' + (s ? m.b : m.a) + '?')) finishMatch(m, s, true); }));
+  } else {
+    btn('Anular resultado', 'btn-danger', () => undoMatch(m));
+  }
+  btn('Fechar', 'btn-ghost', closeMatch);
+  $('code-box').hidden = !(showCode && m.status !== 'done');
+  if (showCode) { $('code-val').textContent = m.code; $('code-link').textContent = playerLink(m); }
+}
+
+/* ═══════════════ MONTAGEM / EVENTOS ═══════════════ */
+function parseNames() {
+  const seen = new Set();
+  return $('f-names').value.split('\n').map(s => s.replace(/\s+/g, ' ').trim().slice(0, 18)).filter(s => {
+    if (!s) return false; const k = s.toUpperCase(); if (seen.has(k)) return false; seen.add(k); return true;
+  });
+}
+function updateCount() {
+  const n = parseNames().length;
+  let size = 2; while (size < n) size *= 2;
+  $('f-count').innerHTML = n + ' competidores' + (n >= 2 ? ' → chave de <b>' + size + '</b>' + (size > n ? ' (' + (size - n) + ' passe' + (size - n > 1 ? 's' : '') + ' direto por W.O.)' : '') : '') + (n > 32 ? ' — máximo 32' : '');
+}
+$('f-names').addEventListener('input', updateCount);
+$('btn-build').addEventListener('click', () => {
+  const names = parseNames();
+  if (names.length < 2) return toast('Coloque pelo menos 2 competidores');
+  if (names.length > 32) return toast('O máximo é 32 competidores');
+  const target = Math.max(10, Math.min(999, parseInt($('f-target').value, 10) || 30));
+  buildTournament(names, target, $('f-title').value.trim() || 'Copa de Charada UrsusMan', $('f-phrase').value.trim(), $('f-shuffle').checked);
+  show();
+});
+$('btn-new').addEventListener('click', () => {
+  if (!confirm('Começar um campeonato novo? A chave atual será apagada.')) return;
+  if (!confirm('Tem certeza? Não dá para desfazer.')) return;
+  if (H.client && H.matchId) H.client.publish(H.base + 'info', new Uint8Array(0), { qos: 1, retain: true });
+  H.matchId = null;
+  store.del(LS_KEY); T = null; closeMatch(); show();
+});
+$('mm-close').addEventListener('click', closeMatch);
+$('modal-match').addEventListener('click', e => { if (e.target.id === 'modal-match') closeMatch(); });
+$('btn-how').addEventListener('click', () => $('modal-how').classList.add('open'));
+document.querySelectorAll('[data-close]').forEach(b => b.addEventListener('click', () => $(b.dataset.close).classList.remove('open')));
+$('modal-how').addEventListener('click', e => { if (e.target.id === 'modal-how') $('modal-how').classList.remove('open'); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeMatch(); $('modal-how').classList.remove('open'); } });
+async function copy(text, msg) { try { await navigator.clipboard.writeText(text); toast(msg); } catch (e) { toast('Não deu para copiar'); } }
+$('btn-copy-code').addEventListener('click', () => { const m = M(openId); copy(m.code, 'Código copiado!'); });
+$('btn-copy-link').addEventListener('click', () => { const m = M(openId); copy(playerLink(m), 'Link copiado!'); });
+
+function show() {
+  $('setup').hidden = !!T; $('bracket-view').hidden = !T; $('btn-new').hidden = !T;
+  $('hdr-meta').innerHTML = '';
+  if (T) renderBracket(); else updateCount();
+}
+loadT();
+show();
+// partida em andamento quando a página foi fechada? retoma sozinha
+(async () => {
+  if (!T) return;
+  const live = T.matches.find(m => m.status === 'live' || (m.status === 'ready' && m.live && m.live.P.some(p => p.id)));
+  if (live) {
+    if (live.live) live.live.P.forEach(p => { p.connected = false; });
+    if (live.live && live.live.phase === 'between') live.live.nextAt = Date.now() + NEXT_ROUND_MS;
+    if (await activate(live)) { toast('Partida #' + live.num + ' retomada — os competidores reconectam sozinhos'); changed(live); }
+  }
+})();
+</script>
+</body>
+</html>
