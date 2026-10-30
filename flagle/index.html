@@ -1138,6 +1138,24 @@ function updateInfo() {
   updateStatsBar();
 }
 
+// Partida salva embaralhada: a resposta não fica legível na aba "Aplicativo" do Inspecionar
+const _OFK = 'u7#Rs!k2Qz@m9Lp';
+function ofuscar(obj) {
+  const s = unescape(encodeURIComponent(JSON.stringify(obj)));
+  let o = '';
+  for (let i = 0; i < s.length; i++) o += String.fromCharCode(s.charCodeAt(i) ^ _OFK.charCodeAt(i % _OFK.length));
+  return btoa(o);
+}
+function desofuscar(str) {
+  if (!str) return null;
+  try {
+    const b = atob(str);
+    let o = '';
+    for (let i = 0; i < b.length; i++) o += String.fromCharCode(b.charCodeAt(i) ^ _OFK.charCodeAt(i % _OFK.length));
+    return JSON.parse(decodeURIComponent(escape(o)));
+  } catch (e) { return null; }
+}
+
 // ── Estado / armazenamento ──────────────────────────────────────────────
 function saveState() {
   try {
@@ -1145,7 +1163,7 @@ function saveState() {
       stats: state.stats, hardMode: state.hardMode,
       colorBlind: state.colorBlind, reducedAnim: state.reducedAnim
     }));
-    localStorage.setItem('ursusBandeiraGame', JSON.stringify({
+    localStorage.setItem('ursusBandeiraPartida', ofuscar({
       sol: state.sol, guesses: state.guesses.map(g => g.code),
       gameOver: state.gameOver, won: state.won
     }));
@@ -1165,7 +1183,9 @@ function loadState() {
   // Igual ao Charada: ao recarregar, retoma a partida em andamento.
   // Partida terminada ou sem chutes → país novo.
   try {
-    const g = JSON.parse(localStorage.getItem('ursusBandeiraGame') || 'null');
+    const antigo = JSON.parse(localStorage.getItem('ursusBandeiraGame') || 'null');
+    localStorage.removeItem('ursusBandeiraGame');
+    const g = desofuscar(localStorage.getItem('ursusBandeiraPartida')) || antigo;
     if (g && BY_CODE[g.sol] && !g.gameOver && Array.isArray(g.guesses) &&
         g.guesses.length > 0 && g.guesses.length < MAX_TRIES && g.guesses.every(c => BY_CODE[c])) {
       state.sol = g.sol;
