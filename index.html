@@ -16,7 +16,7 @@
   <!-- ── SEO BÁSICO ── -->
   <title>UrsusMan — Site Oficial.</title>
   <meta name="description" content="Site oficial do UrsusMan. Streamer e criador de conteúdo. Confira os jogos, vídeos e redes sociais." />
-  <meta name="keywords" content="UrsusMan, ursusman oficial, streamer, TikTok, YouTube, Instagram, Twitch, charada, jogo de palavras" />
+  <meta name="keywords" content="UrsusMan, ursusman oficial, streamer, TikTok, YouTube, Instagram, Twitch, charada, conexão, jogo de palavras" />
   <meta name="author" content="UrsusMan" />
   <meta name="robots" content="index, follow" />
   <meta name="theme-color" content="#040d1a" />
@@ -509,8 +509,15 @@
     /* ── JOGOS ── */
     .games-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 14px;
+    }
+    /* 4º jogo sozinho na segunda linha, centralizado */
+    .games-grid > .game-card:nth-child(4):last-child { grid-column: 2; }
+    @media (max-width: 560px) {
+      .games-grid { gap: 10px; }
+      .games-grid .game-card { padding: 18px 8px; }
+      .games-grid .game-name { font-size: 13.5px; }
     }
     .game-card {
       background: var(--panel);
@@ -1055,6 +1062,10 @@
       </a>
       <a class="game-card active" href="flagle/">
         <div class="game-name">Flagle</div>
+        <span class="game-status" data-i18n="games.play">Jogar</span>
+      </a>
+      <a class="game-card active" href="conexao/">
+        <div class="game-name">Conexão</div>
         <span class="game-status" data-i18n="games.play">Jogar</span>
       </a>
     </div>
