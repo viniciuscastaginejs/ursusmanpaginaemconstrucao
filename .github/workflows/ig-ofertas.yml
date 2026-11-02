@@ -1,0 +1,40 @@
+name: Ofertas Instant Gaming
+
+# Atualiza ig/ofertas.json (seção de ofertas da página inicial).
+# A cada 3 horas, no minuto 23 (a IG pede para não buscar no minuto 0).
+on:
+  schedule:
+    - cron: '23 */3 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ig-ofertas
+  cancel-in-progress: false
+
+jobs:
+  atualizar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Buscar catálogo da Instant Gaming
+        run: node scripts/ig-ofertas.mjs
+
+      - name: Salvar se mudou
+        run: |
+          if git diff --quiet -- ig/ofertas.json && git ls-files --error-unmatch ig/ofertas.json >/dev/null 2>&1; then
+            echo "Nada mudou."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
+          git add ig/ofertas.json
+          git commit -m "Ofertas Instant Gaming atualizadas"
+          git push
