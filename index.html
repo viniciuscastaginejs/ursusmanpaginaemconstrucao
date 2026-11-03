@@ -539,6 +539,22 @@
       background: rgba(245, 200, 66, 0.1);
       border-color: rgba(245, 200, 66, 0.8);
     }
+    /* faixa "NOVO" em diagonal no canto superior esquerdo */
+    .game-card--novo { position: relative; overflow: hidden; }
+    .faixa-novo {
+      position: absolute; top: 14px; left: -34px; width: 120px;
+      transform: rotate(-45deg);
+      background: linear-gradient(90deg, #ff3dac, #ff9a1f);
+      color: #fff; font-family: 'Poppins', sans-serif; font-weight: 800;
+      font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase;
+      text-align: center; padding: 3px 0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.35);
+      pointer-events: none;
+    }
+    @media (max-width: 560px) {
+      .faixa-novo { top: 7px; left: -27px; width: 84px; font-size: 7.5px; letter-spacing: 1px; padding: 2px 0; }
+      .game-card--novo .game-name { padding-top: 14px; }
+    }
     .game-card.soon {
       opacity: 0.55;
       cursor: default;
@@ -595,6 +611,9 @@
       display: flex;
       justify-content: center;
     }
+    .feature-image-wrap2 > a { display: contents; }
+    .feature-image2 { cursor: pointer; transition: transform 0.2s; }
+    .feature-image2:hover { transform: translateY(-3px); }
     .feature-image2 {
       width: min(1020px, 200%);
       border-radius: 18px;
@@ -1119,6 +1138,11 @@
         <div class="game-name">Multi Conexão</div>
         <span class="game-status" data-i18n="games.play">Jogar</span>
       </a>
+      <a class="game-card active game-card--novo" href="toca/">
+        <span class="faixa-novo" data-i18n="games.new">Novo</span>
+        <div class="game-name">Põe Ordem na Toca!</div>
+        <span class="game-status" data-i18n="games.play">Jogar</span>
+      </a>
     </div>
     <p class="games-note" data-lang-only="en">The games are currently in Portuguese.</p>
   </section>
@@ -1157,9 +1181,11 @@
      
     </div>
     <div class="feature-image-wrap2">
+      <a href="https://bit.ly/3TTjcUG" target="_blank" rel="noopener" aria-label="Clique aqui e garanta seu desconto">
           <img class="feature-image2"
          src="https://res.cloudinary.com/dtdomrtyp/image/upload/v1785291091/YT_Integration_Banner_PT_fujnig.png"
          alt="UrsusMan" />
+      </a>
     </div>
     <a class="placeholder-note2" href="https://bit.ly/3TTjcUG" target="_blank" rel="noopener" data-i18n="partners.cta">Clique aqui e garanta seu desconto</a>
   </section>
@@ -1262,6 +1288,7 @@
       'games.eyebrow': 'Play now',
       'games.title': 'Games',
       'games.play': 'Play',
+      'games.new': 'New',
 
       'deals.eyebrow': 'Instant Gaming',
       'deals.title': 'Game deals',
