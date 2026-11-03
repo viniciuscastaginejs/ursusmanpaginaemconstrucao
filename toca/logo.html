@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<!-- Logo do quadro "Põe Ordem na Toca!" (desenhada em HTML/CSS, 1200x660) -->
+<html lang="pt-BR"><head><meta charset="utf-8">
+<title>Põe Ordem na Toca!</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@700&display=block" rel="stylesheet" />
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { width: 1200px; height: 660px; overflow: hidden; background: #12042e; font-family: 'Fredoka', sans-serif; font-weight: 700; }
+  .cena { position: relative; width: 1200px; height: 660px; overflow: hidden;
+    background:
+      radial-gradient(ellipse 50% 55% at 50% 45%, rgba(186,60,255,.55), transparent 70%),
+      radial-gradient(ellipse 30% 30% at 50% 45%, rgba(255,61,172,.35), transparent 70%),
+      linear-gradient(180deg, #2a0b68 0%, #160536 70%, #12042e 100%); }
+
+  /* painéis laterais de estúdio */
+  .painel { position: absolute; top: 60px; width: 210px; height: 470px; border-radius: 22px;
+    background: linear-gradient(180deg, rgba(77,124,255,.25), rgba(106,43,217,.15));
+    border: 3px solid rgba(201,168,255,.25); }
+  .painel.e { left: -60px; transform: perspective(600px) rotateY(35deg); }
+  .painel.d { right: -60px; transform: perspective(600px) rotateY(-35deg); }
+  .painel i { position: absolute; left: 30px; right: 30px; height: 8px; border-radius: 4px; }
+  .lampada { position: absolute; width: 12px; height: 12px; border-radius: 3px; }
+
+  /* a TOCA: arco de caverna com orelhinhas */
+  .toca { position: absolute; left: 50%; top: 58px; width: 700px; height: 560px; transform: translateX(-50%); }
+  .toca .orelha { position: absolute; top: 4px; width: 130px; height: 130px; border-radius: 50%;
+    background: radial-gradient(circle at 50% 55%, #2a0b5e 0 34%, #6a2bd9 36% 100%);
+    border: 5px solid #ff3dac; box-shadow: 0 0 28px #ff3dac, inset 0 0 18px rgba(255,61,172,.6); }
+  .toca .orelha.e { left: 72px; } .toca .orelha.d { right: 72px; }
+  .toca .arco { position: absolute; left: 0; right: 0; top: 50px; bottom: 90px; border-radius: 350px 350px 0 0;
+    background: radial-gradient(ellipse 60% 70% at 50% 75%, #0b0220 0%, #1d0648 55%, #3a1290 100%);
+    border: 6px solid #ff3dac; border-bottom: none; box-shadow: 0 0 40px #ff3dac, 0 0 90px rgba(186,60,255,.6), inset 0 0 60px rgba(255,61,172,.35); }
+  .toca .arco::before { content: ""; position: absolute; inset: 22px 22px 0; border-radius: 330px 330px 20px 20px;
+    border: 3px dashed rgba(201,168,255,.35); border-bottom: none; }
+
+  /* anel neon RETANGULAR com quadradinhos numerados */
+  .anel { position: absolute; left: 0; top: 0; width: 1200px; height: 660px; overflow: visible;
+    filter: drop-shadow(0 0 8px rgba(255,61,172,.9)) drop-shadow(0 0 18px rgba(34,211,255,.6)); }
+  .q { position: absolute; width: 50px; height: 50px; border-radius: 12px; display: grid; place-items: center;
+    color: #2a0b5e; font-size: 30px; border: 4px solid #fff; transform: translate(-50%,-50%);
+    box-shadow: 0 0 18px var(--c), 0 0 36px var(--c); background: var(--c); }
+
+  /* texto 3D */
+  .titulo { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -44%) rotate(-5deg); text-align: center; width: 1100px; }
+  .linha { display: block; line-height: .9; letter-spacing: 2px; white-space: nowrap;
+    background: linear-gradient(180deg, #ffffff 0%, #ffffff 45%, #f1e6ff 60%, #d9bfff 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+  .sombra { position: absolute; left: 0; right: 0; top: 0; z-index: -1; background: none !important; color: #5a1bc4 !important;
+    text-shadow: 0 2px 0 #5a1bc4, 0 4px 0 #5218b4, 0 6px 0 #4a15a4, 0 8px 0 #421394, 0 10px 0 #3a1184,
+      0 12px 0 #320f74, 0 14px 0 #2a0b5e, 0 22px 26px rgba(0,0,0,.6), 0 0 40px rgba(255,61,172,.7);
+    -webkit-text-stroke: 10px #3d0f8f; }
+  .bloco { position: relative; display: inline-block; isolation: isolate; }
+  .l1 { font-size: 112px; }
+  .l2 { font-size: 168px; margin-top: -6px; }
+  .l2 .toca-txt { background: linear-gradient(180deg, #fff 0%, #ffe1f3 50%, #ff8fd0 100%); -webkit-background-clip: text; background-clip: text; }
+
+  /* palco/chão */
+  .chao { position: absolute; left: 50%; bottom: -140px; width: 1300px; height: 260px; transform: translateX(-50%);
+    border-radius: 50%; border: 4px solid #ff9a1f; box-shadow: 0 0 40px #ff3dac, inset 0 0 60px rgba(106,43,217,.8);
+    background: radial-gradient(ellipse, rgba(106,43,217,.5), transparent 70%); }
+  .chao2 { position: absolute; left: 50%; bottom: -80px; width: 760px; height: 150px; transform: translateX(-50%);
+    border-radius: 50%; border: 3px solid #22d3ff; box-shadow: 0 0 30px #22d3ff; }
+  .feixe { position: absolute; bottom: 0; width: 8px; height: 90px; border-radius: 4px; filter: blur(1px); }
+</style></head>
+<body>
+<div class="cena" id="cena">
+  <div class="painel e"><i style="top:60px;background:#4d7cff;box-shadow:0 0 14px #4d7cff"></i><i style="top:150px;background:#ff3dac;box-shadow:0 0 14px #ff3dac"></i><i style="top:240px;background:#22d3ff;box-shadow:0 0 14px #22d3ff"></i><i style="top:330px;background:#ff9a1f;box-shadow:0 0 14px #ff9a1f"></i></div>
+  <div class="painel d"><i style="top:60px;background:#ff3dac;box-shadow:0 0 14px #ff3dac"></i><i style="top:150px;background:#39e46b;box-shadow:0 0 14px #39e46b"></i><i style="top:240px;background:#4d7cff;box-shadow:0 0 14px #4d7cff"></i><i style="top:330px;background:#ffd23f;box-shadow:0 0 14px #ffd23f"></i></div>
+  <div id="lampadas"></div>
+
+  <div class="toca"><div class="orelha e"></div><div class="orelha d"></div><div class="arco"></div></div>
+
+  <div class="chao"></div><div class="chao2"></div>
+  <div id="feixes"></div>
+
+  <svg class="anel" viewBox="0 0 1200 660"><defs><linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#ff9a1f"/><stop offset=".25" stop-color="#ff3dac"/><stop offset=".5" stop-color="#22d3ff"/><stop offset=".75" stop-color="#39e46b"/><stop offset="1" stop-color="#4d7cff"/></linearGradient></defs>
+  <rect x="120" y="165" width="960" height="330" rx="60" fill="none" stroke="url(#g)" stroke-width="6" transform="rotate(-5 600 330)"/></svg>
+  <div id="quadros"></div>
+
+  <div class="titulo">
+    <span class="bloco"><span class="linha l1 sombra" aria-hidden="true" id="s1"></span><span class="linha l1" id="t1"></span></span><br>
+    <span class="bloco"><span class="linha l2 sombra" aria-hidden="true" id="s2"></span><span class="linha l2" id="t2"></span></span>
+  </div>
+</div>
+<script>
+  const p = new URLSearchParams(location.search);
+  const l1 = p.get('l1') || 'PÕE ORDEM';
+  document.querySelectorAll('#s1,#t1').forEach(e => e.textContent = l1);
+  document.querySelectorAll('#s2').forEach(e => e.textContent = 'NA TOCA!');
+  document.getElementById('t2').innerHTML = 'NA <span class="toca-txt">TOCA!</span>';
+
+  // lâmpadas quadradas nas bordas
+  const L = document.getElementById('lampadas');
+  const cores = ['#ffd23f', '#ff3dac', '#22d3ff'];
+  for (let i = 0; i < 9; i++) for (const x of [168, 1020]) {
+    const d = document.createElement('div'); d.className = 'lampada';
+    const c = cores[i % 3]; d.style.cssText = `left:${x + (i % 2) * 4}px;top:${70 + i * 52}px;background:${c};box-shadow:0 0 12px ${c};opacity:${i % 2 ? .6 : 1}`;
+    L.appendChild(d);
+  }
+  // quadradinhos numerados sobre o anel (no lugar das bolinhas)
+  const Q = document.getElementById('quadros');
+  const cx = 600, cy = 345, w = 960, h = 330, a = -5 * Math.PI / 180;
+  const pts = [[-.36,-.5,'#ff3dac'],[-.12,-.5,'#ff9a1f'],[.12,-.5,'#22d3ff'],[.36,-.5,'#39e46b'],[.5,.1,'#4d7cff'],[0,.5,'#ffd23f']];
+  pts.forEach(([u,v,c],i) => {
+    let x = u*w, y = v*h; const xr = x*Math.cos(a) - y*Math.sin(a), yr = x*Math.sin(a) + y*Math.cos(a);
+    const d = document.createElement('div'); d.className = 'q'; d.textContent = i + 1;
+    d.style.cssText = `left:${cx+xr}px;top:${cy - 15 + yr}px;--c:${c};transform:translate(-50%,-50%) rotate(-5deg)`;
+    Q.appendChild(d);
+  });
+  const F = document.getElementById('feixes');
+  ['#ff9a1f','#ff3dac','#22d3ff','#39e46b','#4d7cff','#ff3dac','#ffd23f','#22d3ff','#ff9a1f'].forEach((c,i) => {
+    const d = document.createElement('div'); d.className = 'feixe';
+    d.style.cssText = `left:${340 + i*65}px;background:linear-gradient(0deg,${c},transparent);box-shadow:0 0 12px ${c};height:${50 + (i%3)*25}px`;
+    F.appendChild(d);
+  });
+</script>
+</body></html>
