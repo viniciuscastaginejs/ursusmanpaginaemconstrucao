@@ -803,8 +803,10 @@
     }
 
     /* ── OFERTAS INSTANT GAMING ── */
-    #ofertas[hidden] { display: none; }
+    .ig-group[hidden] { display: none; }
     .ig-group + .ig-group { margin-top: 30px; }
+    .ig-banner { margin-top: 22px; border-radius: 14px; overflow: hidden; }
+    .ig-banner:empty { display: none; }
     .ig-sub {
       display: flex; align-items: center; gap: 10px; margin: 22px 0 14px;
       font-family: 'Poppins', sans-serif; font-weight: 800; font-size: 17px; color: var(--ink);
@@ -1149,18 +1151,20 @@
 
   <!-- ══════════ OFERTAS INSTANT GAMING ══════════
        Os jogos vêm de ig/ofertas.json, atualizado sozinho pelo GitHub Actions
-       (.github/workflows/ig-ofertas.yml). Sem dados, a seção fica escondida. -->
-  <section class="section" id="ofertas" hidden>
+       (.github/workflows/ig-ofertas.yml). Sem dados, os cards ficam escondidos e
+       aparece só o banner dinâmico da IG (Partners Banners API, já com igr=ursusman). -->
+  <section class="section" id="ofertas">
     <div class="section-head">
       <p class="section-eyebrow" data-i18n="deals.eyebrow">Instant Gaming</p>
       <h2 class="section-title" data-i18n="deals.title">Ofertas de jogos</h2>
       <p class="section-lede" data-i18n="deals.lede">Os mais vendidos e os maiores descontos da Instant Gaming, atualizados todo dia. Key oficial e entrega na hora.</p>
     </div>
-    <div class="ig-group" id="ig-destaques-wrap">
+    <div class="ig-banner" aria-label="Ofertas da Instant Gaming"></div>
+    <div class="ig-group" id="ig-destaques-wrap" hidden>
       <h3 class="ig-sub"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.5 1.5s.9 3.1-.9 5.6c-1.2 1.6-3.1 2.6-3.1 5.4 0 1.4.7 2.5 1.6 3.1-.2-1.7.6-3 1.9-3.9.2 2 2.1 2.7 2.1 4.9 0 1.6-1.1 3-2.6 3.7 4.3-.4 7.5-3.6 7.5-8 0-5.6-4.6-8.1-6.5-10.8zM6.6 10.4C5.2 12 4.5 13.9 4.5 16c0 4 3.3 6.9 7.4 6.5-2.5-.8-3.9-2.9-3.9-5.4 0-2.6 1.5-4 1.5-4s-2-.7-2.9-2.7z"/></svg><span data-i18n="deals.top">Em destaque</span></h3>
       <div class="ig-grid" id="ig-destaques"></div>
     </div>
-    <div class="ig-group" id="ig-descontos-wrap">
+    <div class="ig-group" id="ig-descontos-wrap" hidden>
       <h3 class="ig-sub"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.4 11.6 12.4 2.6A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7c0 .5.2 1 .6 1.4l9 9a2 2 0 0 0 2.8 0l7-7a2 2 0 0 0 0-2.8zM6.5 8A1.5 1.5 0 1 1 6.5 5a1.5 1.5 0 0 1 0 3z"/></svg><span data-i18n="deals.off">Maiores descontos</span></h3>
       <div class="ig-grid" id="ig-descontos"></div>
     </div>
@@ -1737,10 +1741,20 @@
 
     function render() {
       if (!dados) return;
-      const a = fill('ig-destaques', dados.destaques);
-      const b = fill('ig-descontos', dados.descontos);
-      sec.hidden = !(a || b);
+      fill('ig-destaques', dados.destaques);
+      fill('ig-descontos', dados.descontos);
     }
+
+    // Banner dinâmico da IG: gerado e atualizado por eles, já com o link de parceiro
+    window.igBannerConfig = {
+      lang: (window.UrsusI18n && UrsusI18n.lang) === 'en' ? 'en' : 'br',
+      igr: IGR,
+      banners: ['ig-banner']
+    };
+    const loader = document.createElement('script');
+    loader.src = 'https://www.instant-gaming.com/api/banner/partner/loader.js';
+    loader.defer = true;
+    document.body.appendChild(loader);
 
     fetch('ig/ofertas.json', { cache: 'no-cache' })
       .then(r => r.ok ? r.json() : null)
