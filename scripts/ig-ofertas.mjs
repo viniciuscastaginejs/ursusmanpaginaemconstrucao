@@ -9,7 +9,54 @@ import { readFile, writeFile, mkdir } from 'node:fs/promises';
 const AFILIADO = 'ursusman';
 const QTD = 6;
 const SAIDA = new URL('../ig/ofertas.json', import.meta.url);
-const FEED = `https://www.instant-gaming.com/pt/exportCatalog/json/?igr=${AFILIADO}&currency=BRL&topseller=1`;
+// CSV primeiro (formato recomendado pela IG); JSON fica de reserva
+const FEEDS = ['csv', 'json'].map(f =>
+  `https://www.instant-gaming.com/pt/exportCatalog/${f}/?igr=${AFILIADO}&currency=BRL&topseller=1`);
+
+// Lê CSV com aspas; o separador (; , tab ou |) é detectado pela linha de cabeçalho
+function parseCSV(texto) {
+  texto = texto.replace(/^﻿/, '');
+  const nl = texto.search(/\r?\n/);
+  const cab = nl < 0 ? texto : texto.slice(0, nl);
+  const sep = [';', ',', '\t', '|'].map(s => [s, cab.split(s).length]).sort((a, b) => b[1] - a[1])[0][0];
+  const linhas = [];
+  let campo = '', linha = [], aspas = false;
+  for (let i = 0; i < texto.length; i++) {
+    const c = texto[i];
+    if (aspas) {
+      if (c === '"') { if (texto[i + 1] === '"') { campo += '"'; i++; } else aspas = false; }
+      else campo += c;
+    } else if (c === '"') aspas = true;
+    else if (c === sep) { linha.push(campo); campo = ''; }
+    else if (c === '\n' || c === '\r') {
+      if (c === '\r' && texto[i + 1] === '\n') i++;
+      linha.push(campo); campo = '';
+      if (linha.some(v => v !== '')) linhas.push(linha);
+      linha = [];
+    } else campo += c;
+  }
+  linha.push(campo);
+  if (linha.some(v => v !== '')) linhas.push(linha);
+  const [titulos, ...resto] = linhas;
+  if (!titulos) return [];
+  const chaves = titulos.map(t => t.trim().toLowerCase());
+  return resto.map(l => Object.fromEntries(chaves.map((k, i) => [k, (l[i] ?? '').trim()])));
+}
+
+async function baixar(url) {
+  const csv = url.includes('/csv/');
+  const res = await fetch(url, { headers: { 'User-Agent': 'IG-ExportCatalog-Fetcher', Accept: csv ? 'text/csv,*/*' : 'application/json' } });
+  const texto = await res.text();
+  if (!res.ok) throw new Error(`${csv ? 'CSV' : 'JSON'} respondeu ${res.status}: ${texto.slice(0, 120).trim()}`);
+  if (csv) {
+    const lista = parseCSV(texto);
+    if (!lista.length || !('name' in lista[0])) throw new Error(`CSV inesperado: ${texto.slice(0, 120).trim()}`);
+    return lista;
+  }
+  let dados;
+  try { dados = JSON.parse(texto); } catch { throw new Error(`Feed não é JSON: ${texto.slice(0, 120)}`); }
+  return Array.isArray(dados) ? dados : Object.values(dados.products || dados.data || dados);
+}
 
 // Itens que não são jogos (cartões pré-pagos, saldo, assinaturas)
 const NAO_JOGO = /gift ?card|cart[aã]o|wallet|saldo|prepaid|pr[ée]-?pago|points|pontos|v-?bucks|robux|credits|cr[ée]ditos|subscription|assinatura|membership|game pass|ps plus|playstation plus|xbox live|nintendo switch online|ea play|ubisoft\+/i;
@@ -48,12 +95,13 @@ function normaliza(p) {
 }
 
 async function main() {
-  const res = await fetch(FEED, { headers: { 'User-Agent': 'IG-ExportCatalog-Fetcher', Accept: 'application/json' } });
-  const texto = await res.text();
-  if (!res.ok) throw new Error(`Feed respondeu ${res.status}: ${texto.slice(0, 120)}`);
-  let dados;
-  try { dados = JSON.parse(texto); } catch { throw new Error(`Feed não é JSON: ${texto.slice(0, 120)}`); }
-  const lista = Array.isArray(dados) ? dados : Object.values(dados.products || dados.data || dados);
+  let lista = null;
+  const erros = [];
+  for (const url of FEEDS) {
+    try { lista = await baixar(url); console.log(`Feed OK: ${url.split('/exportCatalog/')[1].split('/')[0].toUpperCase()} (${lista.length} produtos)`); break; }
+    catch (e) { erros.push(e.message); console.warn(e.message); }
+  }
+  if (!lista) throw new Error(erros.join(' | '));
 
   const jogos = lista
     .filter(p => Number(p.stock) === 1)
