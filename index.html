@@ -1689,14 +1689,14 @@
     const IGR = 'ursusman';
     let dados = null;
 
-    const brl = v => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(v);
+    const brl = v => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: (dados && dados.moeda) || 'BRL' }).format(v);
     const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
     function link(url) {
       try {
         const u = new URL(url);
         if (!/(^|\.)instant-gaming\.com$/.test(u.hostname)) throw 0;
-        if ((window.UrsusI18n && UrsusI18n.lang) === 'en') u.pathname = u.pathname.replace(/^\/pt\//, '/en/');
+        if ((window.UrsusI18n && UrsusI18n.lang) === 'en') u.pathname = u.pathname.replace(/^\/(pt|br)\//, '/en/');
         u.searchParams.set('igr', IGR);
         return u.toString();
       } catch (e) { return 'https://www.instant-gaming.com/pt/?igr=' + IGR; }
