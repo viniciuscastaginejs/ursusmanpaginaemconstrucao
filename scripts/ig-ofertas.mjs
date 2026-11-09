@@ -9,9 +9,15 @@ import { readFile, writeFile, mkdir } from 'node:fs/promises';
 const AFILIADO = 'ursusman';
 const QTD = 6;
 const SAIDA = new URL('../ig/ofertas.json', import.meta.url);
-// CSV primeiro (formato recomendado pela IG); JSON fica de reserva
-const FEEDS = ['csv', 'json'].map(f =>
-  `https://www.instant-gaming.com/pt/exportCatalog/${f}/?igr=${AFILIADO}&currency=BRL&topseller=1`);
+// Link indicado pelo suporte da IG: /en/ + CSV. Tenta com preço em BRL e Top sellers;
+// se recusarem os parâmetros, usa o link exato (preço em EUR). /pt/ e JSON ficam de reserva.
+const BASE = 'https://www.instant-gaming.com';
+const FEEDS = [
+  { url: `${BASE}/en/exportCatalog/csv/?igr=${AFILIADO}&currency=BRL&topseller=1`, moeda: 'BRL' },
+  { url: `${BASE}/en/exportCatalog/csv/?igr=${AFILIADO}`, moeda: 'EUR' },
+  { url: `${BASE}/pt/exportCatalog/csv/?igr=${AFILIADO}&currency=BRL&topseller=1`, moeda: 'BRL' },
+  { url: `${BASE}/pt/exportCatalog/json/?igr=${AFILIADO}&currency=BRL&topseller=1`, moeda: 'BRL' },
+];
 
 // Lê CSV com aspas; o separador (; , tab ou |) é detectado pela linha de cabeçalho
 function parseCSV(texto) {
@@ -70,6 +76,7 @@ const num = v => {
 function linkAfiliado(url) {
   try {
     const u = new URL(url, 'https://www.instant-gaming.com');
+    u.pathname = u.pathname.replace(/^\/(en|pt|fr|de|es|it)\//, '/br/');
     u.searchParams.set('igr', AFILIADO);
     return u.toString();
   } catch { return `https://www.instant-gaming.com/pt/?igr=${AFILIADO}`; }
@@ -95,11 +102,15 @@ function normaliza(p) {
 }
 
 async function main() {
-  let lista = null;
+  let lista = null, moeda = 'BRL';
   const erros = [];
-  for (const url of FEEDS) {
-    try { lista = await baixar(url); console.log(`Feed OK: ${url.split('/exportCatalog/')[1].split('/')[0].toUpperCase()} (${lista.length} produtos)`); break; }
-    catch (e) { erros.push(e.message); console.warn(e.message); }
+  for (const feed of FEEDS) {
+    try {
+      lista = await baixar(feed.url);
+      moeda = feed.moeda;
+      console.log(`Feed OK: ${feed.url.replace(BASE, '')} (${lista.length} produtos, ${moeda})`);
+      break;
+    } catch (e) { erros.push(e.message); console.warn(`${feed.url.replace(BASE, '')} -> ${e.message}`); }
   }
   if (!lista) throw new Error(erros.join(' | '));
 
@@ -112,7 +123,7 @@ async function main() {
 
   const tops = jogos.filter(p => p.topseller);
   // Maiores descontos: entre os Top 200 (se houver), para não aparecer jogo desconhecido
-  const baseDesc = (tops.length >= QTD * 2 ? tops : jogos.filter(p => (p.retail || 0) >= 40))
+  const baseDesc = (tops.length >= QTD * 2 ? tops : jogos.filter(p => (p.retail || 0) >= (moeda === 'BRL' ? 40 : 8)))
     .filter(p => p.discount > 0);
   const descontos = [...baseDesc].sort((a, b) => b.discount - a.discount || (b.retail || 0) - (a.retail || 0)).slice(0, QTD);
   const usados = new Set(descontos.map(p => p.id));
@@ -127,6 +138,7 @@ async function main() {
   const limpa = ({ topseller, ...p }) => p;
   const novo = {
     atualizado: new Date().toISOString(),
+    moeda,
     destaques: destaques.map(limpa),
     descontos: descontos.map(limpa),
   };
@@ -134,7 +146,7 @@ async function main() {
   // Só reescreve se os jogos/preços mudaram (evita commit a cada execução)
   let antigo = null;
   try { antigo = JSON.parse(await readFile(SAIDA, 'utf8')); } catch {}
-  const chave = o => JSON.stringify([o?.destaques, o?.descontos]);
+  const chave = o => JSON.stringify([o?.moeda, o?.destaques, o?.descontos]);
   if (antigo && chave(antigo) === chave(novo)) { console.log('Sem mudanças.'); return; }
 
   await mkdir(new URL('.', SAIDA), { recursive: true });
