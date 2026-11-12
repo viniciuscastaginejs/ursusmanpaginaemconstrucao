@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sorteio Mensal de Key | UrsusMan</title>
+  <meta name="description" content="Todo mês uma key nova no canal UrsusMan: o jogo é revelado no dia 10 e o sorteio sai na última live do mês." />
+  <meta property="og:title" content="Sorteio Mensal de Key | UrsusMan" />
+  <meta property="og:description" content="Todo mês uma key nova. Jogo revelado no dia 10, sorteio na última live do mês." />
+  <link rel="icon" type="image/png" href="https://res.cloudinary.com/dtdomrtyp/image/upload/w_32,h_32,c_pad,b_transparent/v1781116238/UrsusMan_transparente_jnsn6c.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #040d1a;
+      --panel: rgba(74, 144, 226, 0.07);
+      --panel-border: rgba(74, 144, 226, 0.22);
+      --gold: #f5c842;
+      --gold-dark: #c9991a;
+      --blue-pale: #7ab8ff;
+      --ink: #eef3fb;
+      --ink-dim: rgba(238, 243, 251, 0.68);
+      --ink-faint: rgba(238, 243, 251, 0.38);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      min-height: 100vh;
+      font-family: 'Inter', sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(ellipse at 50% 20%, rgba(29, 78, 180, 0.22) 0%, transparent 70%),
+        radial-gradient(ellipse at 85% 85%, rgba(10, 30, 90, 0.35) 0%, transparent 60%),
+        var(--bg);
+      line-height: 1.65;
+    }
+    h1, h2, .display { font-family: 'Poppins', sans-serif; }
+    .wrap { max-width: 860px; margin: 0 auto; padding: 20px 16px 56px; }
+
+    header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; }
+    .brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); font-family: 'Poppins', sans-serif; font-weight: 700; }
+    .brand img { width: 46px; height: 46px; object-fit: contain; }
+    .voltar { font-size: 13px; color: var(--blue-pale); text-decoration: none; }
+    .voltar:hover { color: var(--gold); }
+
+    .kick { font-family: 'Poppins', sans-serif; font-size: 13px; font-weight: 700; color: var(--gold); letter-spacing: 3px; }
+    h1 { font-size: clamp(26px, 4.6vw, 38px); font-weight: 800; line-height: 1.15; margin: 6px 0 10px; }
+    .sub { color: var(--ink-dim); font-size: 16px; margin-bottom: 26px; }
+    .sub b { color: var(--gold); }
+
+    .patro { display: flex; align-items: center; justify-content: center; gap: 14px; flex-wrap: wrap; background: var(--panel); border: 1px solid var(--panel-border); border-radius: 14px; padding: 14px 18px; margin-bottom: 18px; }
+    .patro span { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--ink-faint); font-weight: 600; }
+    .patro a { display: inline-flex; transition: transform .15s; }
+    .patro a:hover { transform: scale(1.05); }
+    .patro img { height: 34px; width: auto; display: block; }
+    .jogo { display: flex; flex-direction: column; gap: 2px; background: rgba(245, 200, 66, 0.1); border: 2px solid var(--gold); border-radius: 16px; padding: 16px 20px; margin-bottom: 18px; }
+    .jogo .jl { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); font-weight: 600; }
+    .jogo .jn { font-family: 'Poppins', sans-serif; font-size: clamp(20px, 3.6vw, 28px); font-weight: 800; }
+    .resumo { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-bottom: 18px; }
+    .passo { background: var(--panel); border: 1px solid var(--panel-border); border-radius: 14px; padding: 18px 16px; }
+    .passo .n { width: 30px; height: 30px; border-radius: 50%; background: var(--gold); color: #1a1405; font-family: 'Poppins', sans-serif; font-weight: 800; display: flex; align-items: center; justify-content: center; margin-bottom: 10px; }
+    .passo h2 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+    .passo p { font-size: 13px; color: var(--ink-dim); margin-bottom: 12px; }
+    .btn { display: inline-block; background: var(--gold); color: #1a1405; text-decoration: none; font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 14px; border-radius: 9px; padding: 8px 14px; transition: transform .15s, background .15s; }
+    .btn:hover { transform: scale(1.04); background: #ffd75c; }
+    .btn.off { background: rgba(255,255,255,0.1); color: var(--ink-faint); pointer-events: none; }
+
+    .info { display: flex; flex-wrap: wrap; gap: 10px 24px; background: rgba(245, 200, 66, 0.08); border: 1px solid rgba(245, 200, 66, 0.35); border-radius: 14px; padding: 14px 18px; margin-bottom: 36px; font-size: 14px; }
+    .info b { color: var(--gold); font-weight: 600; }
+
+    .regras h2.t { font-size: 22px; font-weight: 800; margin-bottom: 14px; }
+    .regras ol.itens { list-style: none; counter-reset: r; }
+    .regras ol.itens > li { counter-increment: r; background: var(--panel); border: 1px solid var(--panel-border); border-radius: 12px; padding: 14px 16px 14px 54px; margin-bottom: 10px; position: relative; font-size: 14.5px; color: var(--ink-dim); }
+    .regras ol.itens > li::before { content: counter(r); position: absolute; left: 16px; top: 13px; width: 26px; height: 26px; border-radius: 50%; border: 1px solid var(--gold); color: var(--gold); font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 13px; display: flex; align-items: center; justify-content: center; }
+    .regras li strong { display: block; color: var(--ink); font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 15px; margin-bottom: 2px; }
+    .regras li ul { margin: 6px 0 4px 18px; }
+    .regras li a { color: var(--blue-pale); }
+    .val { color: var(--gold); font-weight: 600; }
+
+    .note { font-size: 12px; color: var(--ink-faint); margin-top: 22px; text-align: center; }
+    @media (max-width: 680px) { .resumo { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a class="brand" href="https://www.ursusman.com/">
+      <img src="https://res.cloudinary.com/dtdomrtyp/image/upload/v1781116238/UrsusMan_transparente_jnsn6c.png" alt="UrsusMan" />
+      UrsusMan
+    </a>
+    <a class="voltar" href="../">← Voltar ao site</a>
+  </header>
+
+  <div class="kick">SORTEIO MENSAL · <span data-k="mes"></span></div>
+  <h1>Todo mês uma key nova no canal UrsusMan</h1>
+  <p class="sub">O jogo é revelado <b>todo dia 10</b> e o vencedor sai <b>ao vivo na última live do mês</b>.</p>
+
+  <div class="jogo">
+    <span class="jl">Jogo deste mês</span>
+    <span class="jn" data-k="jogo"></span>
+  </div>
+
+  <div class="patro">
+    <span>Patrocínio</span>
+    <a href="https://www.instant-gaming.com/?igr=ursusman" target="_blank" rel="sponsored noopener" aria-label="Instant Gaming — loja parceira do UrsusMan">
+      <img src="https://www.instant-gaming.com/themes/igv2/images/logos/logo-instant-gaming.svg" alt="Instant Gaming" />
+    </a>
+  </div>
+
+  <div class="resumo">
+    <div class="passo">
+      <div class="n">1</div>
+      <h2>Inscreva-se</h2>
+      <p>Seja inscrito no canal UrsusMan no YouTube.</p>
+      <a class="btn" href="https://www.youtube.com/@ursusmanoficial?sub_confirmation=1" target="_blank" rel="noopener">Inscrever</a>
+    </div>
+    <div class="passo">
+      <div class="n">2</div>
+      <h2>Comente no vídeo</h2>
+      <p>Deixe um comentário no vídeo do sorteio do mês.</p>
+      <a class="btn" id="btn-video" href="#" target="_blank" rel="noopener">Ir para o vídeo</a>
+    </div>
+    <div class="passo">
+      <div class="n">3</div>
+      <h2>Entre no Discord</h2>
+      <p>O contato com o vencedor é feito por lá.</p>
+      <a class="btn" id="btn-discord" href="#" target="_blank" rel="noopener">Entrar no Discord</a>
+    </div>
+  </div>
+
+  <div class="info">
+    <span>Participações até: <b>o início da última live do mês</b></span>
+    <span>Sorteio ao vivo: <b data-k="live"></b></span>
+  </div>
+
+  <section class="regras" id="regras">
+    <h2 class="t">Regras do sorteio</h2>
+    <ol class="itens">
+      <li><strong>Organização</strong>Sorteio mensal e gratuito promovido por Gustavo Silva (Ursusman), dono do canal UrsusMan no YouTube (@ursusmanoficial), com patrocínio da <a href="https://www.instant-gaming.com/?igr=ursusman" target="_blank" rel="sponsored noopener">Instant Gaming</a>.</li>
+      <li><strong>Prêmio</strong>Todo mês, 1 (uma) key de um jogo para PC, ativável no Brasil. O jogo do mês é revelado no dia 10, no site e nas redes do canal. O prêmio não pode ser trocado por dinheiro, por outro jogo, nem transferido.</li>
+      <li><strong>Período</strong>Cada mês é um sorteio separado. As participações valem do dia 1 do mês até o início da última live do mês (horário de Brasília). Participações de um mês não valem para o mês seguinte: é preciso participar de novo.</li>
+      <li><strong>Quem pode participar</strong>Residentes no Brasil. Menores de 18 anos podem participar com autorização de um responsável legal, que pode ser solicitada na entrega do prêmio.</li>
+      <li><strong>Como participar</strong>São necessárias as três ações:
+        <ul>
+          <li>estar inscrito no canal UrsusMan no YouTube;</li>
+          <li>comentar no <a id="link-video" href="#" target="_blank" rel="noopener">vídeo do sorteio do mês</a>;</li>
+          <li>estar no servidor do Discord do UrsusMan.</li>
+        </ul>
+        Cada pessoa concorre uma única vez por mês. Comentários repetidos não aumentam as chances. A participação é gratuita e não exige nenhuma compra.</li>
+      <li><strong>Apuração</strong>O vencedor será sorteado aleatoriamente entre os comentários válidos, ao vivo na última live do mês (este mês: <span class="val" data-k="live"></span>), na Twitch (<a href="https://www.twitch.tv/ursusmanoficial" target="_blank" rel="noopener">twitch.tv/ursusmanoficial</a>). O sorteio fica gravado.</li>
+      <li><strong>Confirmação e entrega</strong>Depois do sorteio, confirmamos se o vencedor cumpre os requisitos do item 5. O vencedor tem 48 horas para responder ao contato no Discord. Sem resposta, ou se algum requisito não for cumprido, será feito um novo sorteio. A key é enviada por mensagem privada no Discord em até 7 dias após a confirmação.</li>
+      <li><strong>Desclassificação</strong>Contas falsas, perfis criados só para o sorteio, uso de bots ou qualquer tentativa de fraude levam à desclassificação.</li>
+      <li><strong>Dados</strong>Nome de usuário e comentários são usados apenas para realizar o sorteio e entrar em contato com o vencedor. O nome de usuário do vencedor pode ser divulgado na live e nas redes do canal.</li>
+      <li><strong>YouTube</strong>Este sorteio não é patrocinado, administrado nem associado ao YouTube ou ao Google. Ao participar, o participante isenta o YouTube de qualquer responsabilidade.</li>
+      <li><strong>Disposições gerais</strong>Ao participar, a pessoa concorda com este regulamento. Casos não previstos serão decididos pela organização.</li>
+    </ol>
+  </section>
+
+  <p class="note">Dúvidas? Chama no Discord do UrsusMan.</p>
+</div>
+
+<script>
+  /* ===== CONFIG DO SORTEIO — atualize todo mês ===== */
+  const SORTEIO = {
+    jogo:    'HumanitZ',   // nome do jogo do mês (preencha no dia 10)
+    live:    '',   // data da última live do mês, ex.: '28/11/2026, às 20h'
+    video:   '',   // link do vídeo do sorteio do mês no YouTube
+    discord: ''    // convite do Discord do UrsusMan
+  };
+
+  const MESES = ['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+  const hoje = new Date();
+  const auto = {
+    mes: MESES[hoje.getMonth()].toUpperCase() + ' ' + hoje.getFullYear(),
+    jogo: hoje.getDate() < 10 ? 'Revelado no dia 10 🔒' : 'Em breve'
+  };
+
+  document.querySelectorAll('[data-k]').forEach(el => {
+    el.textContent = SORTEIO[el.dataset.k] || auto[el.dataset.k] || 'a definir';
+  });
+  function link(id, url, textoOff) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    if (url) el.href = url;
+    else { el.removeAttribute('href'); el.classList.add('off'); if (textoOff) el.textContent = textoOff; }
+  }
+  link('btn-video', SORTEIO.video, 'Vídeo em breve');
+  link('link-video', SORTEIO.video);
+  link('btn-discord', SORTEIO.discord, 'Link em breve');
+</script>
+</body>
+</html>
