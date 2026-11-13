@@ -713,24 +713,6 @@
     @media (prefers-reduced-motion: reduce) {
       .logo, .bear, .title, .scroll-cue { animation: none; }
     }
-    /* ── SORTEIO ── */
-    .sorteio-card { display: flex; align-items: center; justify-content: space-between; gap: 18px; flex-wrap: wrap;
-      background: linear-gradient(135deg, rgba(245, 200, 66, 0.12), rgba(74, 144, 226, 0.08));
-      border: 1px solid rgba(245, 200, 66, 0.45); border-radius: 18px; padding: 22px 26px; }
-    .sorteio-card .s-kick { font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); }
-    .sorteio-card h2 { font-size: clamp(20px, 3.4vw, 26px); font-weight: 800; color: var(--ink); margin: 4px 0 6px; }
-    .sorteio-card p { font-size: 14px; color: var(--ink-dim); line-height: 1.6; }
-    .sorteio-btn { flex-shrink: 0; display: inline-block; background: var(--gold); color: #1a1405; text-decoration: none;
-      font-weight: 700; font-size: 15px; border-radius: 10px; padding: 12px 22px; transition: transform .15s, background .15s; }
-    .sorteio-btn:hover { transform: scale(1.04); background: #ffd75c; }
-    @media (max-width: 600px) { .sorteio-card { padding: 18px; } .sorteio-btn { width: 100%; text-align: center; } }
-
-    .sorteio-side { display: flex; flex-direction: column; align-items: center; gap: 12px; flex-shrink: 0; }
-    .sorteio-patro { display: flex; align-items: center; gap: 8px; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--ink-dim); }
-    .sorteio-patro a { display: inline-flex; transition: transform .15s; }
-    .sorteio-patro a:hover { transform: scale(1.05); }
-    .sorteio-patro img { height: 24px; width: auto; display: block; }
-    @media (max-width: 600px) { .sorteio-side { width: 100%; } }
     /* ── DESAFIO DO BIGODE ── */
     .dsf { display: grid; grid-template-columns: minmax(0, 1fr) 260px; gap: 28px; align-items: start; margin-top: 18px; }
     .dsf-sub { color: var(--ink-dim); font-size: 15px; margin-bottom: 20px; }
@@ -1005,23 +987,6 @@
   </div>
 </section>
 
-  <!-- ══════════ SORTEIO ══════════ -->
-  <section class="section" id="sorteio">
-    <div class="sorteio-card">
-      <div>
-        <p class="s-kick" data-i18n="srt.kick">Sorteio mensal</p>
-        <h2 data-i18n="srt.title">Todo mês uma key nova</h2>
-        <p data-i18n="srt.sub">O jogo é revelado todo dia 10 e o vencedor sai ao vivo na última live do mês. Se inscreva, comente no vídeo do sorteio e entre no Discord.</p>
-      </div>
-      <div class="sorteio-side">
-        <a class="sorteio-btn" href="sorteio/" data-i18n="srt.btn">Regras do sorteio</a>
-        <div class="sorteio-patro"><span data-i18n="srt.sponsor">Patrocínio</span>
-          <a href="https://www.instant-gaming.com/?igr=ursusman" target="_blank" rel="sponsored noopener" aria-label="Instant Gaming"><img src="https://www.instant-gaming.com/themes/igv2/images/logos/logo-instant-gaming.svg" alt="Instant Gaming" loading="lazy" /></a>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- ══════════ DESAFIO DO BIGODE ══════════ -->
   <section class="section" id="desafio">
     <div class="section-head">
@@ -1286,12 +1251,6 @@
       'live.offline': 'Follow on Twitch and turn on notifications to know when the stream starts.',
 
       'videos.title': 'Featured videos',
-
-      'srt.kick': 'Monthly giveaway',
-      'srt.title': 'A new game key every month',
-      'srt.sub': 'The game is revealed on the 10th of every month and the winner is drawn live on the last stream of the month. Open to residents of Brazil.',
-      'srt.btn': 'Giveaway rules',
-      'srt.sponsor': 'Sponsored by',
 
       'dsf.eyebrow': 'The mustache challenge',
       'dsf.title': 'Hit the goal and the beard comes off',
